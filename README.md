@@ -1,6 +1,6 @@
 # Starter React Webpack application
 
-A ready to use simple skeleton for develop frontend
+A simple skeleton ready to use for frontend development
 
 ## Instructions
 

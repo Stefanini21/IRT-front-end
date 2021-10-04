@@ -1,6 +1,9 @@
 import React, { useState } from "react";
 import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd";
 import uuid from "uuid/v4";
+import Admin from "./Admin";
+import Dev from "./Dev";
+import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 
 const itemsFromBackend = [
   { id: uuid(), content: "First task" },
@@ -69,7 +72,30 @@ const onDragEnd = (result, columns, setColumns) => {
 function App() {
   const [columns, setColumns] = useState(columnsFromBackend);
   return (
+    
     <div style={{ display: "flex", justifyContent: "center", height: "100%" }}>
+      {/* <Router>
+        <div>
+          <nav>
+            <ul>
+              <li><Link to="/login">Login</Link></li>
+              <li><Link to="/admin">Admin</Link></li>
+              <li><Link to="/dev">Dev</Link></li>
+            </ul>
+          </nav>
+          <Switch>
+            <Route path="/Login">
+              <Login />
+            </Route>
+            <Route path="/Admin">
+              <Admin />
+            </Route>
+            <Route path="/Dev">
+              <Dev />
+            </Route>
+          </Switch>
+        </div>
+      </Router> */}
       <DragDropContext
         onDragEnd={result => onDragEnd(result, columns, setColumns)}
       >

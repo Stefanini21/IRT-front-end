@@ -8,14 +8,14 @@ const Login = () => (
             <label>Username</label>
             <Input placeholder='enter username' />
             <label>Password</label>
-            <Input placeholder='password' />
+            <Input placeholder='enter password' />
         </Form.Field>
-        <h4><a href="https://">forgot password</a></h4>
         <Button.Group>
-            <Button positive>Login</Button>
+            <Button color='twitter'>Login</Button>
             <Button.Or />
             <Button>Registration</Button>
         </Button.Group>
+        <h4><a href="https://">forgot password</a></h4>
     </Form>
 )
 

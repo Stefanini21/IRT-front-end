@@ -10,11 +10,7 @@ const Login = () => (
             <label>Password</label>
             <Input placeholder='enter password' />
         </Form.Field>
-        <Button.Group>
-            <Button color='twitter'>Login</Button>
-            <Button.Or />
-            <Button>Registration</Button>
-        </Button.Group>
+        <Button primary>Login</Button>
         <h4><a href="https://">forgot password</a></h4>
     </Form>
 )

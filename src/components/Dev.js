@@ -13,7 +13,7 @@ const itemsFromBackend = [
 
 const columnsFromBackend = {
     [uuid()]: {
-        name: "To do",
+        name: "Backlog",
         items: itemsFromBackend
     },
     [uuid()]: {

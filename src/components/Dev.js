@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd";
 import uuid from "uuid/v4";
+import Footer from "./Footer";
 
 const itemsFromBackend = [
     { id: uuid(), content: "First task" },
@@ -146,6 +147,7 @@ function Dev() {
                     );
                 })}
             </DragDropContext>
+            <Footer />
         </div>
     )
 }

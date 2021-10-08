@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import Footer from "./Footer";
 
 export default class Admin extends Component {
     render() {

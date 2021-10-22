@@ -1,6 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import App from "./components/App.js";
+import 'bootstrap/dist/css/bootstrap.min.css';
+import Login from "./components/Login.js";
 
-ReactDOM.render(<App />, document.getElementById("root"));
+ReactDOM.render(<Login/>, document.getElementById("root"));
 

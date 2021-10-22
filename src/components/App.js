@@ -1,42 +1,49 @@
-import React from "react";
-import Login from "./Login"; import {
-  BrowserRouter as Router,
-  Switch,
-  Route,
-  Link
-} from "react-router-dom";
-import Admin from "./Admin";
-import Dev from "./Dev";
-import Footer from "./Footer";
+import React, { Component } from "react";
+import { connect } from "react-redux"
 
-function App() {
+class App extends Component {
+  // updateCounter(value) {
+  //   this.setState({ 
+  //     counter: this.state.counter + value 
+  //   });
+  // }
 
-  return (
-    <div style={{ width: "70%", height: "100%", margin: "0 auto" }}>
-      <Router>
+  render() {
+    console.log("APP", this.props)
+    return (
+      <div>
+        <h1>Counter <strong>{this.props.counter}</strong></h1>
+        <hr />
         <div>
-          <nav>
-            <ul>
-              <li><Link to="/login">Login</Link></li>
-              <li><Link to="/admin">Admin</Link></li>
-              <li><Link to="/dev">Dev</Link></li>
-            </ul>
-          </nav>
-          <Switch>
-            <Route exact path="/Login">
-              <Login />
-            </Route>
-            <Route exact path="/Admin">
-              <Admin />
-            </Route>
-            <Route exact path="/Dev">
-              <Dev />
-            </Route>
-          </Switch>
+          <button onClick={this.props.onAdd}>+ 1</button>
+          <button onClick={this.props.onSub}>- 1</button>  
+
+          <button onClick={() => this.props.onAddNumber(15)}>+ 15</button>
+          <button onClick={() => this.props.onAddNumber(-17)}>- 17</button>
         </div>
-      </Router>
-    </div>
-  );
+      </div>
+    );
+  }
 }
 
-export default App;
+function mapStateToProps(state) {
+  return {
+    counter: state.counter
+  }
+}
+
+function mapDispatchToProps(dispatch) {
+  return {
+    onAdd: () => dispatch({type: 'ADD'}),
+    onSub: () => dispatch({type: 'SUB'}),
+    onAddNumber: number => dispatch({type: 'ADD_NUMBER', payload: number})
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(App);
+
+
+
+
+
+

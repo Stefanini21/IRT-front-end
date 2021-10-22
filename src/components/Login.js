@@ -1,73 +1,52 @@
 import React, { Component } from 'react'
-import { Form, Input, Button } from 'semantic-ui-react'
-import { Container } from 'react-bootstrap'
-import {
-    BrowserRouter as Router,
-    Switch,
-    Route, Link
-} from "react-router-dom";
-import Login from "./Login";
+// import { Form, Input, Button } from 'semantic-ui-react'
+import { Container, Row, Col } from 'reactstrap';
+import { Button, Form, FormGroup, Label, Input, FormText } from 'reactstrap';
+import axios from 'axios'
+import User from "./User";
 import Admin from "./Admin";
-import Dev from "./Dev";
 
-class App extends Component {
+class Login extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            records: [],
-            username: "",
-            password: ""
+            email: "",
+            password: "",
+            currentUser: {},
+            authenticated: false
         }
-        // this.onFormSubmit = this.onFormSubmit.bind(this)
-        // this.handleUsername = this.handleUsername.bind(this)
-        // this.handlePassword = this.handlePassword.bind(this)
+        this.onFormSubmit = this.onFormSubmit.bind(this)
+        this.handleEmail = this.handleEmail.bind(this)
+        this.handlePassword = this.handlePassword.bind(this)
+        this.logout = this.logout.bind(this)
     }
 
-    // componentDidMount() {
-    //     fetch('http://89.28.31.132:8081/user/get')
-    //     .then(response => response.json())
-    //         .then(records => {
-    //             this.setState({
-    //                 records: records
-    //             })
-    //             console.log(this.state.records)
-    //         })
-    //         .catch(error => console.log(error))
-    // }
-
     onFormSubmit() {
-        alert('A username was submitted: ' + this.state.username);
-        alert('A password was submitted: ' + this.state.password);
+        let formData = {
+            email: this.state.email,
+            password: this.state.password
+        }
 
-        const formData = new FormData();
-        formData.append("username", this.state.username);
-        formData.append("password", this.state.password);
-
-        const options = {
-            method: 'POST',
-            body: formData
-        };
-
-        fetch('http://89.28.31.132:8081/user/get', {
-            mode: 'no-cors',
-            method: 'GET'
-        }).then(response => response.json())
-            .then(records => {
-                console.log(records)
-                // this.setState({
-                //     username: records.username,
-                //     password: records.password
-                // })
-                // console.log(this.state.username)
-                // console.log(this.state.password)
+        axios.post('http://89.28.31.132:8081/login/' + JSON.stringify(formData))
+            .then(response => {
+                console.log(response);
+                this.setState({
+                    currentUser: response.data,
+                    authenticated: true
+                });
+                // window.localStorage.setItem('currentUser', JSON.stringify(this.state.currentUser));
+            }).catch(() => {
+                this.setState({
+                    currentUser: {},
+                    authenticated: false
+                });
             })
-            .catch(error => console.log(error))
     };
 
-    handleUsername(e) {
+    handleEmail(e) {
         e.preventDefault()
-        this.setState({ username: e.target.value })
-        console.log(this.state.username)
+        this.setState({ email: e.target.value })
+        console.log(this.state.email)
     }
 
     handlePassword(e) {
@@ -77,31 +56,41 @@ class App extends Component {
         console.log(this.state.password)
     }
 
-    handleSubmit = (event) => {
-        event.preventDefault();
-        alert('The name you entered was: ${name}')
+    logout(tab) {
+        this.setState({
+            loggedIn: false
+        });
     }
 
+
     render() {
+        const currentUser = this.state.currentUser;
         return (
-            <div><h1>Login</h1>
-                <Container>
-                    {/* <Form style={{ margin: "0 auto", width: "30%", marginTop: "60px" }} onSubmit={this.onFormSubmit}> */}
-                    <Form style={{ margin: "0 auto", width: "30%", marginTop: "60px" }}>
-                    <h1>Login</h1>
-                    <Form.Field required>
-                        <label>Username</label>
-                        <Input placeholder='enter username' onChange={this.handleUsername} />
-                        <label>Password</label>
-                        <Input placeholder='enter password' onChange={this.handlePassword} />
-                    </Form.Field>
-                    <Button primary style={{ width: "100%" }} onFormSubmit={this.handleSubmit}>Login</Button>
-                    <h4><a href="https://">forgot password</a></h4>
-                </Form>
-                </Container>
+            <div>
+                {!this.state.authenticated ?
+                    <Container>
+                        <Row>
+                            <Col xs="4"></Col>
+                            <Col xs="4">
+                                <Form style={{marginTop: "20%"}}>
+                                    <FormGroup>
+                                        {/* <Label for="exampleEmail">Email</Label> */}
+                                        <Input type="email" name="email" placeholder="email" style={{margin: 10, marginBottom: 20}} onChange={this.handleEmail}/>
+                                    </FormGroup>
+                                    <FormGroup>
+                                        {/* <Label for="examplePassword">Password</Label> */}
+                                        <Input type="password" name="password" placeholder="password" style={{margin: 10}} onChange={this.handlePassword}/>
+                                    </FormGroup>
+                                    <Button style={{margin: 10}} onClick={this.onFormSubmit}>Login</Button>
+                                </Form>
+                            </Col>
+                            <Col xs="4"></Col>
+                        </Row>
+                    </Container>
+                    : currentUser.role === "ADMIN" ? <Admin currentUser={currentUser} /> : <User currentUser={currentUser} />}
             </div>
-        );
+        )
     }
 }
 
-export default App
+export default Login;

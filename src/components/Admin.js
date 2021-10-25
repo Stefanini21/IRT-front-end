@@ -29,8 +29,8 @@ class Admin extends Component {
         let table = document.querySelector(".table-users")
         let tbodyUsersTable = table.firstElementChild.nextElementSibling;
 
-        axios.get('http://89.28.31.132:8081/admin/users')
-            .then(response => {
+        axios.get('http://localhost:8080/api/users')
+        .then(response => {
                 console.log(response);
                 this.setState({
                     users: response.data

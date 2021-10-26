@@ -8,7 +8,7 @@ class Header extends Component {
             area: this.props.area,
             currentUser: this.props.currentUser
         }
-        this.logout = this.logout.bind(this);
+        this.logOut = this.logOut.bind(this);
     }
 
     componentDidMount() {
@@ -17,8 +17,8 @@ class Header extends Component {
         }
     }
 
-    logout() {
-        this.setState({ currentUser: ""}) 
+    logOut() {
+        this.props.logOut()
     }
 
     render() {
@@ -28,8 +28,8 @@ class Header extends Component {
                     <Row>
                         <Col>
                             <div style={{ display: '', justifyContent: 'center', paddingTop: '19px' }}>
-                                <h6 style={{ fontWeight: 400, display: 'inline-block' }}>logged as {this.state.currentUser.role}, (username: {this.state.currentUser.userName})</h6>
-                                {/* <Button className="float-end" style={{ backgroundColor: 'transparent', color: 'grey', marginTop: -9}} onClick={this.logout}>logout</Button> */}
+                                <h6 style={{ fontWeight: 400, display: 'inline-block' }}>logged as {this.state.currentUser.role}, (username: {this.state.currentUser.username})</h6>
+                                <Button className="float-end" style={{ backgroundColor: 'transparent', color: 'grey', marginTop: -9}} onClick={this.logOut}>logout</Button>
                             </div>
                         </Col>
                     </Row>

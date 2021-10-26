@@ -103,11 +103,8 @@ class Login extends Component {
               <Col xs="4"></Col>
             </Row>
           </Container>
-        ) : currentUser.role === "ADMIN" ? (
-          <Admin currentUser={currentUser} />
-        ) : (
-          <User currentUser={currentUser} />
-        )}
+        ) : currentUser.role === "ADMIN" ? (<Admin currentUser={currentUser} />) 
+        : (<User currentUser={currentUser} />)}
       </div>
     );
   }

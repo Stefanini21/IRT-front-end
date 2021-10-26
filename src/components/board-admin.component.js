@@ -2,26 +2,61 @@ import React, { Component } from "react";
 
 import UserService from "../services/user.service";
 import EventBus from "../common/EventBus";
+import DataTable from 'react-data-table-component';
+
+const columns = [
+  {
+    name: 'First Name',
+    selector: row => row.firstName,
+    sortable: true,
+  },
+  {
+    name: 'Last Name',
+    selector: row => row.lastName,
+    sortable: true,
+  },
+  {
+    name: 'Username',
+    selector: row => row.username,
+    sortable: true,
+  },
+  {
+    name: 'Role',
+    selector: row => row.role,
+    sortable: true,
+  },
+  {
+    name: 'Email',
+    selector: row => row.email,
+    sortable: true,
+  },
+  {
+    name: 'Specialty',
+    selector: row => row.specialty,
+    sortable: true,
+  },
+];
+
 
 export default class BoardAdmin extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      content: ""
+      users: []
     };
   }
 
   componentDidMount() {
-    UserService.getAdminBoard().then(
+    UserService.getUsers().then(
       response => {
         this.setState({
-          content: response.data
+          users: response.data
         });
       },
       error => {
         this.setState({
-          content:
+          users:
             (error.response &&
               error.response.data &&
               error.response.data.message) ||
@@ -40,7 +75,7 @@ export default class BoardAdmin extends Component {
     return (
       <div className="container">
         <header className="jumbotron">
-          <h3>{this.state.content}</h3>
+          <DataTable title={'Users'} columns={columns} data={this.state.users} pagination={true} />
         </header>
       </div>
     );

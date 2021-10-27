@@ -8,6 +8,7 @@ class UserService {
   getUsers() {
     return axios.get(API_URL, { headers: authHeader() });
   }
+
 }
 
 export default new UserService();

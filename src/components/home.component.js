@@ -6,14 +6,10 @@ import Image from 'react-image-resizer';
 export default class Home extends Component {
     constructor(props) {
         super(props);
-        //
-        // this.state = {
-        //   content: <img src={required('./homepage.png')} alt="Homephoto">
-        // };
+
     }
 
     componentDidMount() {
-
     }
 
 

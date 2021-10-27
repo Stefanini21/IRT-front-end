@@ -1,9 +1,9 @@
 import React, {Component} from "react";
-import {Link, Route, Switch} from "react-router-dom";
+import {connect} from "react-redux";
+import {Link, Route, Router, Switch} from "react-router-dom";
+
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./App.css";
-
-import AuthService from "./services/auth.service";
 
 import Login from "./components/login.component";
 import Register from "./components/register.component";
@@ -12,8 +12,13 @@ import Profile from "./components/profile.component";
 import BoardUser from "./components/board-user.component";
 import BoardAdmin from "./components/board-admin.component";
 
+import {logout} from "./actions/auth";
+import {clearMessage} from "./actions/message";
+
+import {history} from './helpers/history';
+
 import EventBus from "./common/EventBus";
-import AuthVerify from "./common/auth-verify";
+
 
 class App extends Component {
     constructor(props) {
@@ -24,15 +29,20 @@ class App extends Component {
             showAdminBoard: false,
             currentUser: undefined,
         };
+
+
+        history.listen((location) => {
+            props.dispatch(clearMessage()); // clear message when changing location
+        });
     }
 
     componentDidMount() {
-        const user = AuthService.getCurrentUser();
+        const user = this.props.user;
 
         if (user) {
             this.setState({
                 currentUser: user,
-                showAdminBoard: user.role === "ADMIN",
+                showAdminBoard: user.role.includes("ADMIN"),
             });
         }
 
@@ -46,7 +56,7 @@ class App extends Component {
     }
 
     logOut() {
-        AuthService.logout();
+        this.props.dispatch(logout());
         this.setState({
             showAdminBoard: false,
             currentUser: undefined,
@@ -57,8 +67,9 @@ class App extends Component {
         const {currentUser, showAdminBoard} = this.state;
 
         return (
-            <div>
-                <div className="header">
+            <Router history={history}>
+                <div>
+                    <div className="header">
                     <nav className="navbar navbar-expand navbar-dark">
                         <Link to={"/"} className="navbar-brand">
                             irt-react-client
@@ -80,9 +91,9 @@ class App extends Component {
 
                             {currentUser && (
                                 <li className="nav-item">
-                                  <Link to={"/user"} className="nav-link">
-                                    User
-                                  </Link>
+                                    <Link to={"/user"} className="nav-link">
+                                        User
+                                    </Link>
                                 </li>
                             )}
                         </div>
@@ -116,27 +127,33 @@ class App extends Component {
                             </div>
                         )}
                     </nav>
-                </div>
+                    </div>
 
-                <div className="container mt-3">
-                    <Switch>
-                        <Route exact path={["/", "/home"]} component={Home}/>
-                        <Route exact path="/login" component={Login}/>
-                        <Route exact path="/register" component={Register}/>
-                        <Route exact path="/profile" component={Profile}/>
-                        <Route path="/user" component={BoardUser}/>
-                        <Route path="/admin" component={BoardAdmin}/>
-                    </Switch>
-                </div>
+                    <div className="container mt-3">
+                        <Switch>
+                            <Route exact path={["/", "/home"]} component={Home}/>
+                            <Route exact path="/login" component={Login}/>
+                            <Route exact path="/register" component={Register}/>
+                            <Route exact path="/profile" component={Profile}/>
+                            <Route path="/user" component={BoardUser}/>
+                            <Route path="/admin" component={BoardAdmin}/>
+                        </Switch>
+                    </div>
 
-                <div className="footer">
-                    <p>This is some content in sticky footer</p>
+                    <div className="footer">
+                        <p>This is some content in sticky footer</p>
+                    </div>
                 </div>
-
-                <AuthVerify logOut={this.logOut}/>
-            </div>
+            </Router>
         );
     }
 }
 
-export default App;
+function mapStateToProps(state) {
+    const {user} = state.auth;
+    return {
+        user,
+    };
+}
+
+export default connect(mapStateToProps)(App);

@@ -4,6 +4,7 @@ import UserService from "../services/user.service";
 import EventBus from "../common/EventBus";
 import DataTable from 'react-data-table-component';
 
+
 const columns = [
   {
     name: 'First Name',
@@ -43,7 +44,8 @@ export default class BoardAdmin extends Component {
     super(props);
 
     this.state = {
-      users: []
+      users: [],
+      error: ""
     };
   }
 
@@ -56,7 +58,7 @@ export default class BoardAdmin extends Component {
       },
       error => {
         this.setState({
-          users:
+          error:
             (error.response &&
               error.response.data &&
               error.response.data.message) ||
@@ -73,11 +75,15 @@ export default class BoardAdmin extends Component {
 
   render() {
     return (
+
       <div className="container">
         <header className="jumbotron">
+          {this.state.error && <h3>{this.state.error}</h3>}
           <DataTable title={'Users'} columns={columns} data={this.state.users} pagination={true} />
         </header>
       </div>
+
+
     );
   }
 }

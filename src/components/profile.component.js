@@ -23,10 +23,19 @@ class Profile extends Component {
                     {currentUser.accessToken.substr(currentUser.accessToken.length - 20)}
                 </p>
                 <p>
-                    <strong>Id:</strong> {currentUser.id}
+                    <strong>First Name:</strong> {currentUser.firstName}
+                </p>
+                <p>
+                    <strong>Last Name:</strong> {currentUser.lastName}
                 </p>
                 <p>
                     <strong>Email:</strong> {currentUser.email}
+                </p>
+                <p>
+                    <strong>Specialty:</strong>
+                    <ul>
+                        {currentUser.specialty}
+                    </ul>
                 </p>
                 <p>
                     <strong>Role:</strong>
@@ -34,11 +43,7 @@ class Profile extends Component {
                         {currentUser.role}
                     </ul>
                 </p>
-                <strong>Authorities:</strong>
-                <ul>
-                    {currentUser.roles &&
-                    currentUser.roles.map((role, index) => <li key={index}>{role}</li>)}
-                </ul>
+
             </div>
         );
     }

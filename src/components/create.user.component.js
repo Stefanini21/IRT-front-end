@@ -1,11 +1,12 @@
-import React, {Component} from "react";
+import React, {Component, useState} from "react";
 import Form from "react-validation/build/form";
 import Input from "react-validation/build/input";
 import CheckButton from "react-validation/build/button";
 import {isEmail} from "validator";
-
+import UserService from "../services/user.service";
 import {connect} from "react-redux";
-import {register} from "../actions/auth";
+import {CREATE_USER_FAIL, CREATE_USER_SUCCESS, REGISTER_FAIL, REGISTER_SUCCESS, SET_MESSAGE} from "../actions/types";
+import {Button, Modal} from "react-bootstrap";
 
 
 
@@ -59,7 +60,7 @@ const vlastname = value => {
     }
 };
 
-const vgender = value => {
+const vspecialty = value => {
     if (value.length < 3 || value.length > 10) {
         return (
             <div className="alert alert-danger" role="alert">
@@ -79,14 +80,52 @@ const vpassword = (value) => {
     }
 };
 
-class Register extends Component {
+export const createUser = (username, firstname, lastname, specialty, role, email, password) => (dispatch) => {
+    return UserService.createUser(username, firstname, lastname, specialty, role, email, password)
+        .then((response) => {
+                dispatch({
+                    type: CREATE_USER_SUCCESS,
+                });
+
+                dispatch({
+                    type: SET_MESSAGE,
+                    payload: response.data.message,
+                });
+
+                return Promise.resolve();
+            },
+            (error) => {
+                const message =
+                    (error.response &&
+                        error.response.data &&
+                        error.response.data.message) ||
+                    error.message ||
+                    error.toString();
+
+                dispatch({
+                    type: CREATE_USER_FAIL,
+                });
+
+                dispatch({
+                    type: SET_MESSAGE,
+                    payload: message,
+                });
+
+                return Promise.reject();
+            }
+        );
+};
+
+class CreateUser extends Component {
+
     constructor(props) {
         super(props);
-        this.handleRegister = this.handleRegister.bind(this);
+        this.handleCreateUser = this.handleCreateUser.bind(this);
+        this.handleClose = this.handleClose.bind(this);
         this.onChangeUsername = this.onChangeUsername.bind(this);
         this.onChangeFirstName = this.onChangeFirstName.bind(this);
         this.onChangeLastName = this.onChangeLastName.bind(this);
-        this.onChangeGender = this.onChangeGender.bind(this);
+        this.onChangeSpecialty = this.onChangeSpecialty.bind(this);
         this.onChangeEmail = this.onChangeEmail.bind(this);
         this.onChangePassword = this.onChangePassword.bind(this);
 
@@ -94,13 +133,21 @@ class Register extends Component {
             username: "",
             firstname: "",
             lastname: "",
-            gender: "",
             email: "",
+            specialty: "",
             password: "",
-            authorities: ['SIMPLE_USER'],
+            role: "USER",
             successful: false,
-            message: ""
+            message: "",
+            show: true
         };
+    }
+
+
+    handleClose() {
+        this.setState({
+            show: false,
+        });
     }
 
     onChangeUsername(e) {
@@ -121,9 +168,9 @@ class Register extends Component {
         });
     }
 
-    onChangeGender(e) {
+    onChangeSpecialty(e) {
         this.setState({
-            gender: e.target.value
+            specialty: e.target.value
         });
     }
 
@@ -139,7 +186,7 @@ class Register extends Component {
         });
     }
 
-    handleRegister(e) {
+    handleCreateUser(e) {
         e.preventDefault();
 
         this.setState({
@@ -152,12 +199,12 @@ class Register extends Component {
         if (this.checkBtn.context._errors.length === 0) {
             this.props
                 .dispatch(
-                    register(
+                    createUser(
                         this.state.username,
                         this.state.firstname,
                         this.state.lastname,
-                        this.state.gender,
-                        this.state.authorities,
+                        this.state.specialty,
+                        this.state.role,
                         this.state.email,
                         this.state.password)
                 )
@@ -166,6 +213,7 @@ class Register extends Component {
                         message: this.state.username + ' successfully registered!',
                         successful: true
                     });
+                    this.props.handleClose();
                 })
                 .catch(() => {
                     this.setState({
@@ -174,6 +222,8 @@ class Register extends Component {
                 });
         }
     }
+
+
 
     render() {
         const {message} = this.props;
@@ -188,7 +238,7 @@ class Register extends Component {
                     />
 
                     <Form
-                        onSubmit={this.handleRegister}
+                        onSubmit={this.handleCreateUser}
                         ref={(c) => {
                             this.form = c;
                         }}
@@ -244,14 +294,14 @@ class Register extends Component {
                                 </div>
 
                                 <div className="form-group">
-                                    <label htmlFor="gender">Gender</label>
+                                    <label htmlFor="specialty">Specialty</label>
                                     <Input
                                         type="text"
                                         className="form-control"
-                                        name="gender"
-                                        value={this.state.gender}
-                                        onChange={this.onChangeGender}
-                                        validations={[required, vgender]}
+                                        name="specialty"
+                                        value={this.state.specialty}
+                                        onChange={this.onChangeSpecialty}
+                                        validations={[required, vspecialty]}
                                     />
                                 </div>
 
@@ -301,7 +351,7 @@ function mapStateToProps(state) {
     };
 }
 
-export default connect(mapStateToProps)(Register);
+export default connect(mapStateToProps)(CreateUser);
 
 
 

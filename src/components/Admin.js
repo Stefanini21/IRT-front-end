@@ -240,17 +240,17 @@ class Admin extends Component {
       },
       {
         name: "Veiw",
-        cell:(row)=><button className={"btn"} style={{backgroundColor: "#9CFF00"}} onClick={this.viewUser} id={row.id}>View</button>,
+        cell:(row)=><button className={"btn"} style={{backgroundColor: "#a8e2e2"}} onClick={this.viewUser} id={row.id}>View</button>,
         grow: 0.3
       },
       {
         name: "Edit",
-        cell:(row)=><button className={"btn"} style={{backgroundColor: "#009CFF"}} onClick={this.editUser} id={row.id}>Edit</button>,
+        cell:(row)=><button className={"btn"} style={{backgroundColor: "#2bc1c8"}} onClick={this.editUser} id={row.id}>Edit</button>,
         grow: 0.3
       },
       {
         name: "Delete",
-        cell:(row)=><button className={"btn"} style={{backgroundColor: "#FF009C", color: "white"}} onClick={this.deleteUser} id={row.id}>Delete</button>,
+        cell:(row)=><button className={"btn"} style={{backgroundColor: "#2ba0c8", color: "white"}} onClick={this.deleteUser} id={row.id}>Delete</button>,
         grow: 1
       },
     ];

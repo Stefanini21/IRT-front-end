@@ -163,7 +163,7 @@ class RegisterUserModal extends Component {
               <FormGroup style={{ paddingBottom: 10 }}>
                 <Label for="password">Password</Label>
                 <Input
-                  type="password"
+                  type="text"
                   name="password"
                   onChange={this.handlePassword}
                 />

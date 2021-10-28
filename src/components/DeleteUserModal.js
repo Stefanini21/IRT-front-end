@@ -45,7 +45,7 @@ class DeleteUserModal extends Component {
   }
 
   deleteUser() {
-    this.toggle()
+    this.toggle();
     return axios.delete("http://localhost:8080/api/users/" +
         JSON.stringify(this.props.currentUserId)
     )

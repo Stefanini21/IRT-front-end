@@ -1,7 +1,6 @@
 import React, { Component } from "react";
-// import { Form, Input, Button } from 'semantic-ui-react'
 import { Container, Row, Col } from "reactstrap";
-import { Button, Form, FormGroup, Label, Input, FormText } from "reactstrap";
+import { Button, Form, FormGroup, Input } from "reactstrap";
 import axios from "axios";
 import User from "./User";
 import Admin from "./Admin";
@@ -95,7 +94,7 @@ class Login extends Component {
                       onChange={this.handlePassword}
                     />
                   </FormGroup>
-                  <Button style={{ margin: 10 }} onClick={this.onFormSubmit}>
+                  <Button style={{ margin: 10, backgroundColor: "black" }} onClick={this.onFormSubmit}>
                     Login
                   </Button>
                 </Form>

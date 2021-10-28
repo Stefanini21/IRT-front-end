@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd";
-import { Button } from "reactstrap";
 import uuid from "uuid/v4";
 import Footer from "./Footer";
 import Header from "./Header";

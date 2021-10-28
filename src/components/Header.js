@@ -29,7 +29,7 @@ class Header extends Component {
                         <Col>
                             <div style={{ display: '', justifyContent: 'center', paddingTop: '19px' }}>
                                 <h6 style={{ fontWeight: 400, display: 'inline-block' }}>logged as {this.state.currentUser.role}, (username: {this.state.currentUser.username})</h6>
-                                <Button className="float-end" style={{ backgroundColor: 'transparent', color: 'grey', marginTop: -9}} onClick={this.logOut}>logout</Button>
+                                <Button className="float-end btn" style={{marginTop: -9}} onClick={this.logOut}>logout</Button>
                             </div>
                         </Col>
                     </Row>

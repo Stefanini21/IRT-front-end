@@ -50,7 +50,8 @@ class DeleteUserModal extends Component {
         JSON.stringify(this.props.currentUserId)
     )
     .then((response) => {
-      console.log(response)
+      console.log(response);
+      this.props.getAllUsers();
       });
   }
 

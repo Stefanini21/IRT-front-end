@@ -284,6 +284,7 @@ class Admin extends Component {
             <DeleteUserModal 
             showDeleteUserModal={showDeleteUserModal} 
             modalClose={this.deleteModalClose}
+            getAllUsers={this.getAllUsers}
             currentUserId={this.state.currentUserId}
             />}
             <Container style={{ marginTop: 20, overflowY: scroll }}>

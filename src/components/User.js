@@ -113,8 +113,8 @@ function User(props) {
                               ref={provided.innerRef}
                               style={{
                                 background: snapshot.isDraggingOver
-                                  ? "lightblue"
-                                  : "lightgrey",
+                                  ? "#2BC1C8"
+                                  : "#A8E2E2",
                                 padding: 20,
                                 width: 250,
                                 minHeight: 500,

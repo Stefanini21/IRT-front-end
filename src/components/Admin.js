@@ -277,6 +277,7 @@ class Admin extends Component {
             <EditUserModal 
             showEditUserModal={showEditUserModal} 
             modalClose={this.editModalClose}
+            getAllUsers={this.getAllUsers}
             currentUserId={this.state.currentUserId}
             />}
             {showDeleteUserModal === true && 

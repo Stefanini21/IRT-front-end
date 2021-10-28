@@ -88,7 +88,6 @@ class RegisterUserModal extends Component {
   }
 
   registerUser() {
-    console.log("will register user!")
     this.toggle();
     const firstName = this.state.firstName;
     const lastName = this.state.lastName;

@@ -174,7 +174,7 @@ class EditUserModal extends Component {
           isOpen={this.state.modal}
           toggle={this.props.showEditUserModal && this.toggle}
         >
-          <ModalHeader>Edit user with id: {this.props.currentUserId}
+          <ModalHeader><span style={{color: "#2b5d8a"}}>Edit user with id: {this.props.currentUserId}</span>
           <div style={{color: "grey", fontSize: 14, fontWeight: 300}}>Created date: {this.state.createdDate}</div>
           </ModalHeader>
           <ModalBody>
@@ -254,7 +254,7 @@ class EditUserModal extends Component {
             <Button color="dark" onClick={this.editUser} onClick={this.toggle}>
               Back
             </Button>
-            <Button style={{backgroundColor: "#009CFF"}} onClick={this.editUser}>
+            <Button style={{backgroundColor: "#3d85c6", color: "white"}} onClick={this.editUser}>
               Update
             </Button>
           </ModalFooter>

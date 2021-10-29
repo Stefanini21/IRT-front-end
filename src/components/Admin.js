@@ -20,6 +20,7 @@ import RegisterUserModal from './RegisterUserModal';
 import ViewUserModal from './ViewUserModal';
 import EditUserModal from './EditUserModal'
 import DeleteUserModal from './DeleteUserModal'
+import UserFilterModal from './UserFilterModal'
 
 const ticketColumns = [
     {
@@ -53,7 +54,7 @@ const ticketColumns = [
       sortable: true,
     },
     {
-      name: "Veiw",
+      name: "View",
       selector: (row) => row.specialty,
       sortable: false,
     },
@@ -77,14 +78,18 @@ class Admin extends Component {
       tickets: [],
       loggedIn: true,
       showRegisterUserModal: false,
+      showUserFilterModal: false,
       showViewUserModal: false,
       showEditUserModal: false,
       showDeleteUserModal: false,
       currentUserId: null
     };
+
     this.logOut = this.logOut.bind(this);
     this.registerUserModal = this.registerUserModal.bind(this);
     this.registerModalClose = this.registerModalClose.bind(this);
+    this.userFilterModal = this.userFilterModal.bind(this);
+    this.filterModalClose = this.filterModalClose.bind(this);
     this.viewUserModal = this.viewUserModal.bind(this);
     this.viewModalClose = this.viewModalClose.bind(this);
     this.deleteUserModal = this.deleteUserModal.bind(this);
@@ -100,6 +105,12 @@ class Admin extends Component {
   registerUserModal() {
     this.setState({
         showRegisterUserModal: !this.state.showRegisterUserModal
+    })
+  }
+
+  userFilterModal(){
+    this.setState({
+      showUserFilterModal: !this.state.showUserFilterModal
     })
   }
 
@@ -144,6 +155,21 @@ class Admin extends Component {
       });
   }
 
+  getFilteredUsers() {
+    axios
+        .get("http://localhost:8080/api/users/filter")
+        .then((response) => {
+          this.setState({
+            users: response.data,
+          });
+        })
+        .catch(() => {
+          this.setState({
+            users: []
+          });
+        });
+  }
+
   toggle(tab) {
     this.setState({
       activeTab: tab,
@@ -161,6 +187,12 @@ class Admin extends Component {
     this.setState({
         showRegisterUserModal: false
       });
+  }
+
+  filterModalClose() {
+    this.setState({
+      showUserFilterModal: false
+    });
   }
   
   viewModalClose() {
@@ -198,6 +230,7 @@ class Admin extends Component {
     let users = this.state.users;
     let tickets = this.state.tickets;
     let showRegisterUserModal = this.state.showRegisterUserModal;
+    let showUserFilterModal = this.state.showFilterUserModal;
     let showViewUserModal = this.state.showViewUserModal;
     let showEditUserModal = this.state.showEditUserModal;
     let showDeleteUserModal = this.state.showDeleteUserModal;
@@ -239,18 +272,18 @@ class Admin extends Component {
         sortable: true,
       },
       {
-        name: "Veiw",
-        cell:(row)=><button className={"btn"} style={{backgroundColor: "#9CFF00"}} onClick={this.viewUser} id={row.id}>View</button>,
+        name: "View",
+        cell:(row)=><button className={"btn"} style={{backgroundColor: "#6aa84f", color: "white"}} onClick={this.viewUser} id={row.id}>View</button>,
         grow: 0.3
       },
       {
         name: "Edit",
-        cell:(row)=><button className={"btn"} style={{backgroundColor: "#009CFF"}} onClick={this.editUser} id={row.id}>Edit</button>,
+        cell:(row)=><button className={"btn"} style={{backgroundColor: "#3d85c6", color: "white"}} onClick={this.editUser} id={row.id}>Edit</button>,
         grow: 0.3
       },
       {
         name: "Delete",
-        cell:(row)=><button className={"btn"} style={{backgroundColor: "#FF009C", color: "white"}} onClick={this.deleteUser} id={row.id}>Delete</button>,
+        cell:(row)=><button className={"btn"} style={{backgroundColor: "#e06666", color: "white"}} onClick={this.deleteUser} id={row.id}>Delete</button>,
         grow: 1
       },
     ];
@@ -265,6 +298,12 @@ class Admin extends Component {
             showRegUserModal={showRegisterUserModal} 
             modalClose={this.registerModalClose}
             getAllUsers={this.getAllUsers}
+            />}
+            {showUserFilterModal === true &&
+            <UserFilterModal
+                showUserFilterModal={showUserFilterModal}
+                modalClose={this.filterModalClose}
+                getAllUsers={this.getAllUsers}
             />}
             {showViewUserModal === true && 
             <ViewUserModal 
@@ -316,12 +355,19 @@ class Admin extends Component {
                       <Row>
                         <Col sm="12">
                           <Button
-                            className="float-end"
-                            color="dark"
-                            style={{ marginTop: 20, marginBottom: 20 }}
-                            onClick={this.registerUserModal}
+                              className="float-end"
+                              color="dark"
+                              style={{margin: 10}}
+                              onClick={this.registerUserModal}
                           >
-                            Register user
+                            New user
+                          </Button>
+                          <Button
+                            className="float-end"
+                            style={{margin: 10, backgroundColor: "#625e5e"}}
+                            onClick={this.userFilterModal}
+                          >
+                            Search
                           </Button>
                           <DataTable
                           className="dataTables_wrapper"
@@ -342,9 +388,15 @@ class Admin extends Component {
                           <Button
                             className="float-end"
                             color="dark"
-                            style={{ marginTop: 20, marginBottom: 20 }}
+                            style={{ margin: 10 }}
                           >
-                            Add Ticket
+                            New ticket
+                          </Button>
+                          <Button
+                              className="float-end"
+                              style={{margin: 10, backgroundColor: "#625e5e"}}
+                          >
+                            Search
                           </Button>
                           <DataTable
                             columns={ticketColumns}

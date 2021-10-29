@@ -91,7 +91,7 @@ class DeleteUserModal extends Component {
           isOpen={this.state.modal}
           toggle={this.props.showDeleteUserModal && this.toggle}
         >
-          <ModalHeader><span style={{color: "#FF009C"}}>Are you sure you want to delete the user with id: {this.props.currentUserId}?</span>
+          <ModalHeader><span style={{color: "#ad4b4b"}}>Delete User ID: {this.props.currentUserId}</span>
           <div style={{color: "grey", fontSize: 14, fontWeight: 300}}>Created date: {this.state.createdDate}</div></ModalHeader>
           <ModalBody>
           <Form>
@@ -158,7 +158,7 @@ class DeleteUserModal extends Component {
               No
             </Button>
             <Button
-              style={{backgroundColor: "#FF009C", color: "white"}}
+                style={{backgroundColor: "#e06666", color: "white"}}
               onClick={this.deleteUser}
             >
               Yes

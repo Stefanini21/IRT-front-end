@@ -1,13 +1,12 @@
-import React, {Component, useState} from "react";
+import React, {Component} from "react";
 import Form from "react-validation/build/form";
 import Input from "react-validation/build/input";
 import CheckButton from "react-validation/build/button";
 import {isEmail} from "validator";
 import UserService from "../services/user.service";
 import {connect} from "react-redux";
-import {CREATE_USER_FAIL, CREATE_USER_SUCCESS, REGISTER_FAIL, REGISTER_SUCCESS, SET_MESSAGE} from "../actions/types";
-import {Button, Modal} from "react-bootstrap";
-
+import {CREATE_USER_FAIL, CREATE_USER_SUCCESS, SET_MESSAGE} from "../actions/types";
+import {createUser} from "../actions/user";
 
 
 const required = (value) => {
@@ -78,42 +77,6 @@ const vpassword = (value) => {
             </div>
         );
     }
-};
-
-export const createUser = (username, firstname, lastname, specialty, role, email, password) => (dispatch) => {
-    return UserService.createUser(username, firstname, lastname, specialty, role, email, password)
-        .then((response) => {
-                dispatch({
-                    type: CREATE_USER_SUCCESS,
-                });
-
-                dispatch({
-                    type: SET_MESSAGE,
-                    payload: response.data.message,
-                });
-
-                return Promise.resolve();
-            },
-            (error) => {
-                const message =
-                    (error.response &&
-                        error.response.data &&
-                        error.response.data.message) ||
-                    error.message ||
-                    error.toString();
-
-                dispatch({
-                    type: CREATE_USER_FAIL,
-                });
-
-                dispatch({
-                    type: SET_MESSAGE,
-                    payload: message,
-                });
-
-                return Promise.reject();
-            }
-        );
 };
 
 class CreateUser extends Component {
@@ -213,7 +176,7 @@ class CreateUser extends Component {
                         message: this.state.username + ' successfully registered!',
                         successful: true
                     });
-                    this.props.handleClose();
+                    this.props.handleCloseCreateUserModal();
                 })
                 .catch(() => {
                     this.setState({
@@ -222,7 +185,6 @@ class CreateUser extends Component {
                 });
         }
     }
-
 
 
     render() {

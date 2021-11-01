@@ -3,9 +3,7 @@ import Form from "react-validation/build/form";
 import Input from "react-validation/build/input";
 import CheckButton from "react-validation/build/button";
 import {isEmail} from "validator";
-import UserService from "../services/user.service";
 import {connect} from "react-redux";
-import {CREATE_USER_FAIL, CREATE_USER_SUCCESS, SET_MESSAGE} from "../actions/types";
 import {createUser} from "../actions/user";
 
 

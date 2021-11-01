@@ -1,24 +1,13 @@
 import React, {Component} from "react";
-import {connect, Provider} from "react-redux";
-import {HashRouter as Router, Link, Route, Switch} from "react-router-dom";
+import {Provider} from "react-redux";
+import {HashRouter as Router, Route, Switch} from "react-router-dom";
 
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./App.css";
-
-import Login from "./components/login.component";
-import Register from "./components/create.user.component";
-import Home from "./components/home.component";
+import Home from "./components/home/home.component";
 import Profile from "./components/profile.component";
 import BoardUser from "./components/board-user.component";
 import BoardAdmin from "./components/board-admin.component";
-
-import {logout} from "./actions/auth";
-import {clearMessage} from "./actions/message";
-
-import {history} from './helpers/history';
-
-import EventBus from "./common/EventBus";
-import CreateUser from "./components/create.user.component";
 import {persistor, store} from "./store";
 import {PersistGate} from "redux-persist/integration/react";
 import Footer from "./components/footer/footer.component";

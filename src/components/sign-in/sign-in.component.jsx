@@ -1,9 +1,8 @@
-import React, { useState } from "react";
+import React, {useState} from "react";
 import {useDispatch} from "react-redux";
 import {authUser} from "../../redux/actions/auth";
 import Form from "react-validation/build/form";
 import Input from "react-validation/build/input";
-import CheckButton from "react-validation/build/button";
 
 const SignIn = () => {
     const dispatch = useDispatch();

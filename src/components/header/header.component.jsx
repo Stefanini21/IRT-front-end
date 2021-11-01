@@ -1,9 +1,8 @@
 import React from "react";
-import {Link} from "react-router-dom";
-import {useSelector, useDispatch} from "react-redux";
+import {Link, useHistory} from "react-router-dom";
+import {useDispatch, useSelector} from "react-redux";
 import {getUserLoaded} from "../../redux/selectors/auth";
 import {signOutUser} from "../../redux/actions/auth";
-import {useHistory} from "react-router-dom";
 
 
 const Header = () => {
@@ -42,11 +41,11 @@ const Header = () => {
                     {/*    </li>)}*/}
 
 
-                        <li className="nav-item">
-                            <Link to={"/user"} className="nav-link">
-                                User
-                            </Link>
-                        </li>
+                    <li className="nav-item">
+                        <Link to={"/user"} className="nav-link">
+                            User
+                        </Link>
+                    </li>
 
                 </div>
 

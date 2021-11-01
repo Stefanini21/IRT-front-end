@@ -5,22 +5,12 @@ import EventBus from "../common/EventBus";
 import DataTable from 'react-data-table-component';
 import {Button, Modal} from "react-bootstrap";
 import CreateUser from "./create.user.component";
-import {
-    CREATE_USER_FAIL,
-    CREATE_USER_SUCCESS,
-    DELETE_USER_FAIL,
-    DELETE_USER_SUCCESS,
-    SET_MESSAGE
-} from "../actions/types";
-import {createUser, deleteUser} from "../actions/user";
+import {deleteUser} from "../actions/user";
 import {connect} from "react-redux";
-import Profile from "./profile.component";
 import ViewUser from "./view.user.component";
 
 
-
 class BoardAdmin extends Component {
-
 
 
     constructor(props) {
@@ -41,8 +31,8 @@ class BoardAdmin extends Component {
             showViewUserModal: false,
             userIdToDelete: '',
             userNameToDelete: '',
-            userToView : [],
-            columns : [
+            userToView: [],
+            columns: [
                 {
                     name: 'First Name',
                     selector: row => row.firstName,
@@ -75,7 +65,8 @@ class BoardAdmin extends Component {
                 },
                 {
                     name: "View User",
-                    cell: (row) => <Button variant="success" onClick={() => this.handleShowViewUserModal(row)}>View</Button>,
+                    cell: (row) => <Button variant="success"
+                                           onClick={() => this.handleShowViewUserModal(row)}>View</Button>,
                     grow: 0.3
                 },
                 {
@@ -85,7 +76,8 @@ class BoardAdmin extends Component {
                 },
                 {
                     name: "Delete User",
-                    cell: (row) => <Button variant="danger" onClick={() => this.handleShowDeleteUserModal(row.id, row.username)}>Delete</Button>,
+                    cell: (row) => <Button variant="danger"
+                                           onClick={() => this.handleShowDeleteUserModal(row.id, row.username)}>Delete</Button>,
                     grow: 1
                 },
             ]
@@ -110,7 +102,7 @@ class BoardAdmin extends Component {
     handleShowViewUserModal(userToView) {
         this.setState({
             showViewUserModal: true,
-            userToView : userToView,
+            userToView: userToView,
         });
     }
 
@@ -152,8 +144,7 @@ class BoardAdmin extends Component {
                     successful: false,
                 });
             });
-        this.setState({
-        });
+        this.setState({});
         window.location.reload()
     }
 
@@ -232,7 +223,8 @@ class BoardAdmin extends Component {
                             Create User
                         </Button>
                     </div>
-                    <DataTable paginationPerPage={5} paginationRowsPerPageOptions={[5, 10, 15]} title={'Users'} columns={this.state.columns} data={this.state.users} pagination={true}/>
+                    <DataTable paginationPerPage={5} paginationRowsPerPageOptions={[5, 10, 15]} title={'Users'}
+                               columns={this.state.columns} data={this.state.users} pagination={true}/>
                 </header>
             </div>
 

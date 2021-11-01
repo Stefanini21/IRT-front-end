@@ -1,9 +1,4 @@
-import {
-    LOGIN_SUCCESS,
-    LOGIN_FAIL,
-    LOGOUT,
-    SET_MESSAGE,
-} from "./types";
+import {LOGIN_FAIL, LOGIN_SUCCESS, LOGOUT, SET_MESSAGE,} from "./types";
 
 import AuthService from "../services/auth.service";
 
@@ -12,7 +7,7 @@ export const login = (email, password) => (dispatch) => {
         (data) => {
             dispatch({
                 type: LOGIN_SUCCESS,
-                payload: { user: data },
+                payload: {user: data},
             });
 
             return Promise.resolve();

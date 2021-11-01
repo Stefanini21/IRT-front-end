@@ -1,5 +1,5 @@
-import React, { Component } from "react";
-import { history } from '../helpers/history';
+import React, {Component} from "react";
+import {history} from '../helpers/history';
 
 const parseJwt = (token) => {
     try {

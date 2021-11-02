@@ -1,4 +1,4 @@
-import {routes} from "../../components/config/routes";
+import {routes} from "../../config/routes";
 import {HttpService} from "../../services/httpService";
 
 export const authActions = {

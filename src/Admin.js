@@ -14,10 +14,10 @@ import classnames from "classnames";
 import axios from "axios";
 import Login from "./Login";
 import DataTable from "react-data-table-component";
-import RegisterUserModal from "./RegisterUserModal";
-import ViewUserModal from "./ViewUserModal";
-import EditUserModal from "./EditUserModal";
-import DeleteUserModal from "./DeleteUserModal";
+import RegisterUserModal from "./modals/RegisterUserModal";
+import ViewUserModal from "./modals/ViewUserModal";
+import EditUserModal from "./modals/EditUserModal";
+import DeleteUserModal from "./modals/DeleteUserModal";
 
 const ticketColumns = [
   {

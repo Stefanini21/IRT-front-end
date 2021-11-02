@@ -4,10 +4,10 @@ import { useDispatch, useSelector } from "react-redux";
 import { getUserLoaded } from "../redux/selectors/auth";
 import { signOutUser } from "../redux/actions/auth";
 import { Container, Row, Col, Button } from "reactstrap";
-import { HashRouter as Router, Route, Switch } from "react-router-dom";
-import Admin from "../components/Admin";
-import Login from "../components/Login";
-import User from "../components/User";
+// import { HashRouter as Router, Route, Switch } from "react-router-dom";
+// import Admin from "../components/Admin";
+// import Login from "../components/Login";
+// import User from "../components/User";
 
 const Header = () => {
   const currentUserLoaded = useSelector(getUserLoaded);

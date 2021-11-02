@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { authUser } from "../redux/actions/auth";
+import { authUser } from "./redux/actions/auth";
 import Form from "react-validation/build/form";
 import Input from "react-validation/build/input";
 import { Container, Row, Col, Button, FormGroup, Label } from "reactstrap";
@@ -41,6 +41,8 @@ const Login = () => {
 
     dispatch(authUser(formattedData));
     console.log(currentUserLoaded);
+    setUsername("");
+    setPassword("");
   };
 
   return (

@@ -1,19 +1,20 @@
 import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { authUser } from "./redux/actions/auth";
-import {getUserLoaded} from './redux/selectors/auth'
-import {getUserData} from './redux/selectors/auth'
+import {getUserLoaded, getUserData} from './redux/selectors/auth';
 import Form from "react-validation/build/form";
 import Input from "react-validation/build/input";
 import { Container, Row, Col, Button, FormGroup, Label } from "reactstrap";
 import User from "./User";
 import Admin from "./Admin";
+import { RoleService } from "./services/roleService";
 
 const Login = () => {
 
   const dispatch = useDispatch();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [role, setRole] = useState("");
 
   const currentUserLoaded = useSelector(getUserLoaded);
   const currentUserData = useSelector(getUserData);
@@ -44,13 +45,16 @@ const Login = () => {
   };
 
   // const role = currentUserData?.role;
-  const role = currentUserData !== null ? currentUserData.role : null;
+  // const role = currentUserData !== null ? currentUserData.role : null;
 
   // useEffect(() => {
-  //   role = userData.role;
+  //   if(currentUserLoaded) {
+  //     setRole(currentUserData.role);
+  //   }
   // }, [currentUserData])
 
-  console.log("Role: " + role)
+  console.log("RoleService.isAdmin():" + RoleService.isAdmin())
+  console.log("RoleService.isAdmin():" + RoleService.isAdmin())
 
   return (
     <div>
@@ -88,9 +92,9 @@ const Login = () => {
             <Col xs="4"></Col>
           </Row>
         </Container>
-      ) : role === "ADMIN" ? (
+      ) : RoleService.isAdmin() ? (
         <Admin />
-        ) : role === "USER" ? (
+        ) : RoleService.isUser() ? (
         <User />
       ) : <Login />}
     </div>

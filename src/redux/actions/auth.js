@@ -27,6 +27,6 @@ export const signOutUser = (history) => (dispatch) => {
             dispatch({
                 type: authActions.RECEIVE_USER_SIGNOUT
             });
-            history.push("/");
+            // history.push("/");
         })
 }

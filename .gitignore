@@ -3,3 +3,5 @@
 
 # Distribution 
 /dist
+
+.package-lock.json

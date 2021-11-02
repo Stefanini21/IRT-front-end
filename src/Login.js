@@ -1,6 +1,8 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { authUser } from "./redux/actions/auth";
+import {getUserLoaded} from './redux/selectors/auth'
+import {getUserData} from './redux/selectors/auth'
 import Form from "react-validation/build/form";
 import Input from "react-validation/build/input";
 import { Container, Row, Col, Button, FormGroup, Label } from "reactstrap";
@@ -8,16 +10,13 @@ import User from "./User";
 import Admin from "./Admin";
 
 const Login = () => {
-  const dispatch = useDispatch();
 
+  const dispatch = useDispatch();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const currentUserLoaded = useSelector(
-    (state) => state.auth.currentUserLoaded
-  );
-  const role = useSelector(
-    (state) => state.auth.role
-  );
+
+  const currentUserLoaded = useSelector(getUserLoaded);
+  const currentUserData = useSelector(getUserData);
 
   const required = (value) => {
     if (!value) {
@@ -40,10 +39,18 @@ const Login = () => {
     };
 
     dispatch(authUser(formattedData));
-    console.log(currentUserLoaded);
     setUsername("");
     setPassword("");
   };
+
+  // const role = currentUserData?.role;
+  const role = currentUserData !== null ? currentUserData.role : null;
+
+  // useEffect(() => {
+  //   role = userData.role;
+  // }, [currentUserData])
+
+  console.log("Role: " + role)
 
   return (
     <div>
@@ -83,9 +90,9 @@ const Login = () => {
         </Container>
       ) : role === "ADMIN" ? (
         <Admin />
-      ) : (
+        ) : role === "USER" ? (
         <User />
-      )}
+      ) : <Login />}
     </div>
   );
 };

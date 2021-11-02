@@ -1,9 +1,9 @@
 # Starter React Webpack application
 
-A simple skeleton ready to use for frontend development
+A simple base project for IRT-back-end
 
 ## Instructions
-* This is dev branch
+* This is victor branch
 * Clone the repo
 * Create new branch
 * Switch to new branch

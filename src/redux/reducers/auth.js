@@ -2,8 +2,7 @@ import { authActions } from "../actions/auth";
 
 const initialState = {
     userData: {},
-    currentUserLoaded: false,
-    role: ""
+    currentUserLoaded: false
 }
 
 export const auth = (state = initialState, action) => {
@@ -12,8 +11,7 @@ export const auth = (state = initialState, action) => {
             return {
                 ...state,
                 userData: action.payload,
-                currentUserLoaded: true,
-                role: action.payload.role
+                currentUserLoaded: true
             };
         case authActions.RECEIVE_USER_SIGNOUT:
             return {

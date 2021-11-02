@@ -1,8 +1,6 @@
 import React, { useState } from "react";
 import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd";
 import uuid from "uuid/v4";
-import Footer from "./Footer";
-import Header from "./Header";
 import Login from "./Login";
 
 const itemsFromBackend = [
@@ -80,8 +78,6 @@ function User(props) {
   return (
     <div>
       {loggedIn === true ? (
-        <div>
-          <Header currentUser={props.currentUser} logOut={logOut} />
           <div
             style={{
               display: "flex",
@@ -113,8 +109,8 @@ function User(props) {
                               ref={provided.innerRef}
                               style={{
                                 background: snapshot.isDraggingOver
-                                  ? "#2BC1C8"
-                                  : "#A8E2E2",
+                                  ? "rgb(212, 219, 226)"
+                                  : "rgb(225 231 237)",
                                 padding: 20,
                                 width: 250,
                                 minHeight: 500,
@@ -139,8 +135,8 @@ function User(props) {
                                             margin: "0 0 8px 0",
                                             minHeight: "50px",
                                             backgroundColor: snapshot.isDragging
-                                              ? "#263B4A"
-                                              : "#456C86",
+                                              ? "rgb(133 165 193)"
+                                              : "rgb(101 126 149)",
                                             color: "white",
                                             ...provided.draggableProps.style,
                                           }}
@@ -162,8 +158,6 @@ function User(props) {
                 );
               })}
             </DragDropContext>
-          </div>
-          <Footer />
         </div>
       ) : (
         <Login />

@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Button,
   Modal,
@@ -14,111 +14,89 @@ import axios from "axios";
 
 const API_URL = "http://localhost:8080/api/users/";
 
-class EditUserModal extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      createdDate: "",
-      firstName: "",
-      lastName: "",
-      userName: "",
-      email: "",
-      password: "",
-      role: "",
-      specialty: "",
-      modal: true,
-      currentUser: {},
-    };
-    this.toggle = this.toggle.bind(this);
-    this.getUser = this.getUser.bind(this);
-    this.editUser = this.editUser.bind(this);
-    this.handleFirstName = this.handleFirstName.bind(this);
-    this.handleLastName = this.handleLastName.bind(this);
-    this.handleUserName = this.handleUserName.bind(this);
-    this.handleEmail = this.handleEmail.bind(this);
-    this.handlePassword = this.handlePassword.bind(this);
-    this.handleRole = this.handleRole.bind(this);
-    this.handleSpecialty = this.handleSpecialty.bind(this);
+const EditUserModal = (props) => {
+      const [firstName, setFirstName] = useState("");
+      const [createdDate, setCreatedDate] = useState("");
+      const [lastName, setLastName] = useState("");
+      const [userName, setUserName] = useState("");
+      const [email, setEmail] = useState("");
+      const [password, setPassword] = useState("");
+      const [role, setRole] = useState("");
+      const [specialty, setSpecialty] = useState("");
+      const [modal, setModal] = useState(true);
+      const [currentUser, setCurrentUser] = useState({});
+      const id = props.currentUserId;
+
+  useEffect(() => {
+    getUser();
+  }, []);
+
+  const toggle = () =>{
+    setModal(!modal)
+    props.modalClose()
   }
 
-  componentDidMount() {
-    this.getUser();
-  }
-
-  toggle() {
-    this.setState({ modal: !this.state.modal });
-    this.props.modalClose();
-  }
-
-  handleFirstName(e) {
+  const handleFirstName = (e) => {
     e.preventDefault();
-    this.setState({ firstName: e.target.value });
-    console.log(this.state.firstName);
+    setFirstName(e.target.value);
+    console.log(firstName);
   }
 
-  handleLastName(e) {
+  const handleLastName = (e) => {
     e.preventDefault();
-    this.setState({ lastName: e.target.value });
-    console.log(this.state.lastName);
+    setLastName(e.target.value);
+    console.log(lastName);
   }
 
-  handleUserName(e) {
+  const handleUserName = (e) => {
     e.preventDefault();
-    this.setState({ userName: e.target.value });
-    console.log(this.state.userName);
+    setUserName(e.target.value);
+    console.log(userName);
   }
 
-  handleEmail(e) {
+
+  const handleEmail = (e) => {
     e.preventDefault();
-    this.setState({ email: e.target.value });
-    console.log(this.state.email);
+    setEmail(e.target.value);
+    console.log(email);
   }
 
-  handlePassword(e) {
+  const handlePassword = (e) => {
     e.preventDefault();
-    this.setState({ password: e.target.value });
-    console.log(this.state.password);
+    setPassword(e.target.value);
+    console.log(password);
   }
 
-  handleRole(e) {
+  const handleRole = (e) => {
     e.preventDefault();
-    this.setState({ role: e.target.value });
-    console.log(this.state.role);
+    setRole(e.target.value);
+    console.log(role);
   }
 
-  handleSpecialty(e) {
+  const handleSpecialty = (e) => {
     e.preventDefault();
-    this.setState({ specialty: e.target.value });
-    console.log(this.state.specialty);
+    setSpecialty(e.target.value);
+    console.log(specialty);
   }
 
-  editUser() {
-    this.toggle();
+  const editUser = () => {
+    toggle();
     console.log("will update user!")
-    this.toggle();
-    const id = this.props.currentUserId;
-    const firstName = this.state.firstName;
-    const lastName = this.state.lastName;
-    const userName = this.state.userName;
-    const email = this.state.email;
-    const password = this.state.password;
-    const role = this.state.role;
-    const specialty = this.state.specialty;
     if(firstName === "" || lastName === "" || userName === "" || email === "" || role === "" || 
     specialty === "") {
       return
     }
         console.log("after form edit ******************************* ");
 
-        console.log("id: " + this.props.currentUserId);
-        console.log("createdDate: " + this.state.createdDate);
-        console.log("firstName: " + this.state.firstName);
-        console.log("lastName: " + this.state.lastName);
-        console.log("userName: " + this.state.userName);
-        console.log("email: " + this.state.email);
-        console.log("password: " + this.state.password);
-        console.log("role: " + this.state.role);
-        console.log("specialty: " + this.state.specialty);
+        console.log("id: " + currentUserId);
+        console.log("createdDate: " + createdDate);
+        console.log("firstName: " + firstName);
+        console.log("lastName: " + lastName);
+        console.log("userName: " + userName);
+        console.log("email: " + email);
+        console.log("password: " + password);
+        console.log("role: " + role);
+        console.log("specialty: " + specialty);
 
         return axios
         .put(API_URL + "update/", {
@@ -137,45 +115,42 @@ class EditUserModal extends Component {
       });
   }
 
-  getUser() {
+  const getUser = () => {
     return axios
       .get(
         "http://localhost:8080/api/users/" +
-          JSON.stringify(this.props.currentUserId)
+          JSON.stringify(id)
       )
       .then((response) => {
-        this.setState({
-          currentUser: response.data,
-          createdDate: response.data.createdDate,
-          firstName: response.data.firstName,
-          lastName: response.data.lastName,
-          userName: response.data.username,
-          email: response.data.email,
-          password: response.data.password,
-          role: response.data.role,
-          specialty: response.data.specialty,
-        });
+          setCurrentUser(response.data),
+          setCreatedDate(response.data.createdDate),
+          setFirstName(response.data.firstName),
+          setLastName(response.data.lastName),
+          setUserName(response.data.username),
+          setEmail(response.data.email),
+          setPassword(response.data.password),
+          setRole(response.data.role),
+          setSpecialty(response.data.specialty),
         localStorage.setItem("user", response.data);
-        console.log("createdDate: " + this.state.createdDate);
-        console.log("firstName: " + this.state.firstName);
-        console.log("lastName: " + this.state.lastName);
-        console.log("userName: " + this.state.userName);
-        console.log("email: " + this.state.email);
-        console.log("password: " + this.state.password);
-        console.log("role: " + this.state.role);
-        console.log("specialty: " + this.state.specialty);
+        console.log("createdDate: " + createdDate);
+        console.log("firstName: " + firstName);
+        console.log("lastName: " + lastName);
+        console.log("userName: " + userName);
+        console.log("email: " + email);
+        console.log("password: " + password);
+        console.log("role: " + role);
+        console.log("specialty: " + specialty);
       });
   }
 
-  render() {
     return (
       <div>
         <Modal
-          isOpen={this.state.modal}
-          toggle={this.props.showEditUserModal && this.toggle}
+          isOpen={modal}
+          toggle={toggle}
         >
-          <ModalHeader>Edit user with id: {this.props.currentUserId}
-          <div style={{color: "grey", fontSize: 14, fontWeight: 300}}>Created date: {this.state.createdDate}</div>
+          <ModalHeader>Edit user with id: {id}
+          <div style={{color: "grey", fontSize: 14, fontWeight: 300}}>Created date: {createdDate}</div>
           </ModalHeader>
           <ModalBody>
             <Form>
@@ -184,8 +159,8 @@ class EditUserModal extends Component {
                 <Input
                   type="text"
                   name="firstName"
-                  onChange={this.handleFirstName}
-                  placeholder={this.state.firstName}
+                  onChange={handleFirstName}
+                  placeholder={firstName}
                 //   readOnly={true}
                 />
               </FormGroup>
@@ -194,8 +169,8 @@ class EditUserModal extends Component {
                 <Input
                   type="text"
                   name="lastName"
-                  onChange={this.handleLastName}
-                  placeholder={this.state.lastName}
+                  onChange={handleLastName}
+                  placeholder={lastName}
                 />
               </FormGroup>
               <FormGroup style={{ paddingBottom: 10 }}>
@@ -203,14 +178,14 @@ class EditUserModal extends Component {
                 <Input
                   type="text"
                   name="userName"
-                  onChange={this.handleUserName}
-                  placeholder={this.state.userName}
+                  onChange={handleUserName}
+                  placeholder={userName}
                 />
               </FormGroup>
               <FormGroup style={{ paddingBottom: 10 }}>
                 <Label for="email">Email</Label>
-                <Input type="email" name="email" onChange={this.handleEmail}
-                placeholder={this.state.email}
+                <Input type="email" name="email" onChange={handleEmail}
+                placeholder={email}
                  />
               </FormGroup>
               <FormGroup style={{ paddingBottom: 10 }}>
@@ -218,7 +193,7 @@ class EditUserModal extends Component {
                 <Input
                   type="text"
                   name="password"
-                  onChange={this.handlePassword}
+                  onChange={handlePassword}
                   placeholder=". . . . . . . . . ."
                 />
               </FormGroup>
@@ -227,8 +202,8 @@ class EditUserModal extends Component {
                 <Input
                   type="select"
                   name="roleSelect"
-                  onChange={this.handleRole}
-                  defaultValue = {this.state.role}
+                  onChange={handleRole}
+                  defaultValue = {role}
                 >
                   <option></option>
                   <option>ADMIN</option>
@@ -240,8 +215,8 @@ class EditUserModal extends Component {
                 <Input
                   type="select"
                   name="specialtySelect"
-                  onChange={this.handleSpecialty}
-                  defaultValue = {this.state.specialty}
+                  onChange={handleSpecialty}
+                  defaultValue = {specialty}
                 >
                   <option></option>
                   <option>FRONTEND</option>
@@ -251,17 +226,16 @@ class EditUserModal extends Component {
             </Form>
           </ModalBody>
           <ModalFooter>
-            <Button color="dark" onClick={this.editUser} onClick={this.toggle}>
+            <Button color="dark" onClick={editUser} onClick={toggle}>
               Back
             </Button>
-            <Button style={{backgroundColor: "#009CFF"}} onClick={this.editUser}>
+            <Button style={{backgroundColor: "#009CFF"}} onClick={editUser}>
               Update
             </Button>
           </ModalFooter>
         </Modal>
       </div>
     );
-  }
 }
 
 export default EditUserModal;

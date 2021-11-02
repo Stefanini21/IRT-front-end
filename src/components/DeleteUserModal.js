@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import {
-    ListGroup,
-    ListGroupItem,
+  ListGroup,
+  ListGroupItem,
   Button,
   Modal,
   ModalHeader,
@@ -10,7 +10,7 @@ import {
   Form,
   FormGroup,
   Label,
-  Input
+  Input,
 } from "reactstrap";
 import axios from "axios";
 
@@ -28,7 +28,7 @@ class DeleteUserModal extends Component {
       role: "",
       specialty: "",
       modal: true,
-      currentUserId: this.props.currentUserId
+      currentUserId: this.props.currentUserId,
     };
     this.toggle = this.toggle.bind(this);
     this.getUser = this.getUser.bind(this);
@@ -46,12 +46,14 @@ class DeleteUserModal extends Component {
 
   deleteUser() {
     this.toggle();
-    return axios.delete("http://localhost:8080/api/users/" +
-        JSON.stringify(this.props.currentUserId)
-    )
-    .then((response) => {
-      console.log(response);
-      this.props.getAllUsers();
+    return axios
+      .delete(
+        "http://localhost:8080/api/users/" +
+          JSON.stringify(this.props.currentUserId)
+      )
+      .then((response) => {
+        console.log(response);
+        this.props.getAllUsers();
       });
   }
 
@@ -90,12 +92,19 @@ class DeleteUserModal extends Component {
       <div>
         <Modal
           isOpen={this.state.modal}
-          toggle={this.props.showDeleteUserModal && this.toggle}
+          toggle={this.toggle}
         >
-          <ModalHeader><span style={{color: "#FF009C"}}>Are you sure you want to delete the user with id: {this.props.currentUserId}?</span>
-          <div style={{color: "grey", fontSize: 14, fontWeight: 300}}>Created date: {this.state.createdDate}</div></ModalHeader>
+          <ModalHeader>
+            <span style={{ color: "#FF009C" }}>
+              Are you sure you want to delete the user with id:{" "}
+              {this.props.currentUserId}?
+            </span>
+            <div style={{ color: "grey", fontSize: 14, fontWeight: 300 }}>
+              Created date: {this.state.createdDate}
+            </div>
+          </ModalHeader>
           <ModalBody>
-          <Form>
+            <Form>
               <FormGroup style={{ paddingBottom: 10 }}>
                 <Label for="firstName">First name</Label>
                 <Input
@@ -125,11 +134,12 @@ class DeleteUserModal extends Component {
               </FormGroup>
               <FormGroup style={{ paddingBottom: 10 }}>
                 <Label for="email">Email</Label>
-                <Input type="email"
+                <Input
+                  type="email"
                   name="email"
                   placeholder={this.state.email}
                   readOnly={true}
-                 />
+                />
               </FormGroup>
               <FormGroup style={{ paddingBottom: 10 }}>
                 <Label for="role">Role</Label>
@@ -152,14 +162,11 @@ class DeleteUserModal extends Component {
             </Form>
           </ModalBody>
           <ModalFooter>
-            <Button
-              color="dark"
-              onClick={this.toggle}
-            >
+            <Button color="dark" onClick={this.toggle}>
               No
             </Button>
             <Button
-              style={{backgroundColor: "#FF009C", color: "white"}}
+              style={{ backgroundColor: "#FF009C", color: "white" }}
               onClick={this.deleteUser}
             >
               Yes

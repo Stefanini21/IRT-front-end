@@ -82,7 +82,7 @@ class ViewUserModal extends Component {
       <div>
         <Modal
           isOpen={this.state.modal}
-          toggle={this.props.showViewUserModal && this.toggle}
+          toggle={this.toggle}
         >
           <ModalHeader>Info user with id: {this.props.currentUserId}
           <div style={{color: "grey", fontSize: 14, fontWeight: 300}}>Created date: {this.state.createdDate}</div></ModalHeader>

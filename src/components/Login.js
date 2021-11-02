@@ -1,112 +1,91 @@
-import React, { Component } from "react";
-import { Container, Row, Col } from "reactstrap";
-import { Button, Form, FormGroup, Input } from "reactstrap";
-import axios from "axios";
+import React, { useState } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { authUser } from "../redux/actions/auth";
+import Form from "react-validation/build/form";
+import Input from "react-validation/build/input";
+import { Container, Row, Col, Button, FormGroup, Label } from "reactstrap";
 import User from "./User";
 import Admin from "./Admin";
 
-const API_URL = "http://localhost:8080/api/auth/";
+const Login = () => {
+  const dispatch = useDispatch();
 
-class Login extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      userName: "",
-      password: "",
-      currentUser: {},
-      authenticated: false,
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const currentUserLoaded = useSelector(
+    (state) => state.auth.currentUserLoaded
+  );
+  const role = useSelector(
+    (state) => state.auth.role
+  );
+
+  const required = (value) => {
+    if (!value) {
+      return (
+        <div className="alert alert-danger" role="alert">
+          This field is required!
+        </div>
+      );
+    }
+  };
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    if((username === "" || username.length === 0) || (password === "" || password.length === 0)) {
+      return;
+    }
+    const formattedData = {
+      username: username,
+      password: password,
     };
-    this.onFormSubmit = this.onFormSubmit.bind(this);
-    this.handleUsername = this.handleUsername.bind(this);
-    this.handlePassword = this.handlePassword.bind(this);
-    this.logout = this.logout.bind(this);
-    this.login = this.login.bind(this);
-  }
 
-  onFormSubmit() {
-    const userName = this.state.userName;
-    const password = this.state.password;
+    dispatch(authUser(formattedData));
+    console.log(currentUserLoaded);
+  };
 
-    this.login(userName, password);
-  }
-
-  login(username, password) {
-    return axios
-      .post(API_URL + "login", {
-        username,
-        password
-      })
-      .then(response => {
-        console.log(response);
-        this.setState({
-            currentUser: response.data,
-            authenticated: true
-        });
-    });
-  }
-
-  handleUsername(e) {
-    e.preventDefault();
-    this.setState({ userName: e.target.value });
-    console.log(this.state.userName);
-  }
-
-  handlePassword(e) {
-    e.preventDefault();
-    var s = e.target.value;
-    this.setState({ password: s });
-    console.log(this.state.password);
-  }
-
-  logout(tab) {
-    this.setState({
-      loggedIn: false,
-    });
-  }
-
-  render() {
-    const currentUser = this.state.currentUser;
-    return (
-      <div>
-        {!this.state.authenticated ? (
-          <Container>
-            <Row>
-              <Col xs="4"></Col>
-              <Col xs="4">
-                <Form style={{ marginTop: "20%" }}>
-                  <FormGroup>
-                    {/* <Label for="exampleEmail">Email</Label> */}
-                    <Input
-                      type="text"
-                      name="userName"
-                      placeholder="userName"
-                      style={{ margin: 10, marginBottom: 20 }}
-                      onChange={this.handleUsername}
-                    />
-                  </FormGroup>
-                  <FormGroup>
-                    {/* <Label for="examplePassword">Password</Label> */}
-                    <Input
-                      type="password"
-                      name="password"
-                      placeholder="password"
-                      style={{ margin: 10 }}
-                      onChange={this.handlePassword}
-                    />
-                  </FormGroup>
-                  <Button style={{ margin: 10, backgroundColor: "black" }} onClick={this.onFormSubmit}>
-                    Login
-                  </Button>
-                </Form>
-              </Col>
-              <Col xs="4"></Col>
-            </Row>
-          </Container>
-        ) : currentUser.role === "ADMIN" ? (<Admin currentUser={currentUser} />) 
-        : (<User currentUser={currentUser} />)}
-      </div>
-    );
-  }
-}
+  return (
+    <div>
+      {!currentUserLoaded ? (
+        <Container>
+          <Row>
+            <Col xs="4"></Col>
+            <Col xs="4">
+              <Form style={{ marginTop: "20%" }} onSubmit={handleSubmit}>
+                <FormGroup>
+                  <Label for="userName">User name</Label>
+                  <Input
+                    type="text"
+                    name="userName"
+                    // placeholder="userName"
+                    style={{ margin: '10 0', marginBottom: 20, width: "100%" }}
+                    onChange={(e) => setUsername(e.target.value)}
+                    validations={[required]}
+                  />
+                  <Label for="examplePassword">Password</Label>
+                  <Input
+                    type="password"
+                    name="password"
+                    // placeholder="password"
+                    style={{ margin: '10 0', marginBottom: 20, width: '100%' }}
+                    onChange={(e) => setPassword(e.target.value)}
+                    validations={[required]}
+                  />
+                </FormGroup>
+                <Button style={{ margin: '10 0', backgroundColor: "black" }}>
+                  Login
+                </Button>
+              </Form>
+            </Col>
+            <Col xs="4"></Col>
+          </Row>
+        </Container>
+      ) : role === "ADMIN" ? (
+        <Admin />
+      ) : (
+        <User />
+      )}
+    </div>
+  );
+};
 
 export default Login;

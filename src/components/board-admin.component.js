@@ -235,11 +235,11 @@ class BoardAdmin extends Component {
 
 }
 
-function mapStateToProps(state) {
-    const {message} = state.message;
-    return {
-        message,
-    };
-}
+// function mapStateToProps(state) {
+//     const {message} = state.message;
+//     return {
+//         message,
+//     };
+// }
 
-export default connect(mapStateToProps)(BoardAdmin);
+export default BoardAdmin

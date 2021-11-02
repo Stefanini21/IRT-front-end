@@ -1,14 +1,13 @@
 import React, {useState} from "react";
-import {useDispatch} from "react-redux";
-import {authActions, authUser} from "../../redux/actions/auth";
+import {useDispatch, useSelector} from "react-redux";
+import {authUser} from "../../redux/actions/auth";
 import Form from "react-validation/build/form";
 import Input from "react-validation/build/input";
-import store from "../../store";
-import { HttpService } from "../../services/httpService";
-import { auth } from "../../redux/reducers/auth";
-import { useHistory } from "react-router-dom";
+import {useHistory} from "react-router-dom";
+import {getUserLoaded} from "../../redux/selectors/auth";
 
 const SignIn = () => {
+
     const dispatch = useDispatch();
     const history = useHistory();
 
@@ -35,7 +34,6 @@ const SignIn = () => {
 
         dispatch(authUser(formattedData));
 
-        
         history.push('/user');
     }
 
@@ -50,7 +48,7 @@ const SignIn = () => {
 
                 <Form
                     onSubmit={handleSubmit}
-                    
+
                     // ref={(c) => {
                     //     this.form = c;
                     // }}
@@ -96,13 +94,3 @@ const SignIn = () => {
 }
 
 export default SignIn;
-//  let user = JSON.parse(localStorage.getItem("user"));
-//  console.log(user);
-//  console.log(user.role);
-//  if (user.role == "ADMIN") {
-//    console.log("is-admin");
-//  } else if (user.role == "USER") {
-//    console.log("is-user");
-//  } else {
-//    console.log("not user, nor admin. Something is wrong!");
-//  }

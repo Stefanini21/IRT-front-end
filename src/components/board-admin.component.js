@@ -6,7 +6,6 @@ import DataTable from 'react-data-table-component';
 import {Button, Modal} from "react-bootstrap";
 import CreateUser from "./create.user.component";
 import {deleteUser} from "../actions/user";
-import {connect} from "react-redux";
 import ViewUser from "./view.user.component";
 
 

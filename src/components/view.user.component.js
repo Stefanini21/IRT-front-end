@@ -1,16 +1,25 @@
-import React, {Component} from "react";
+import React, {Component, useEffect} from "react";
 import {store} from "../store";
+import {useDispatch} from "react-redux";
+import {getUserById} from "../redux/actions/user";
+
 
 const ViewUser = () => {
 
     const state = store.getState();
     const userId = state.setUserId.userId;
+    const userById = state.setUserId.userById;
 
+    const dispatch = useDispatch();
     // console.log("userId" + userId)
     // console.log(state.setUserId.userId + "staaaaaate")
 
+    useEffect(() => {
+        dispatch(getUserById(userId))
+    }, [])
 
     return (
+        <div><h3>{userById}</h3></div>,
         <div><h3>{userId}</h3></div>
         // <div className="container">
         //     <header className="jumbotron">

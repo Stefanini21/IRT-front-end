@@ -1,7 +1,9 @@
 import { userActions } from "../actions/user";
+import UserService from "../../services/user.service";
 
 const initialState = {
-    userId: {}
+    userId: {},
+    userById: {}
 }
 
 export const setUserId = (state = initialState, action) => {
@@ -12,7 +14,16 @@ export const setUserId = (state = initialState, action) => {
                 ...state,
                 userId: action.payload
             };
+        case userActions.GET_USER_BY_ID:
+            console.log(action.payload + "this payload")
+            const userById = UserService.getUserById(action.payload)
+            console.log("bla bla bla " + userById)
+            return {
+                ...state,
+                userById: userById
+            };
         default:
             return state;
     }
 }
+

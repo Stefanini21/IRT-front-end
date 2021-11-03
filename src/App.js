@@ -6,7 +6,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "./App.css";
 import Home from "./components/home/home.component";
 import BoardUser from "./components/board-user.component";
-import BoardAdmin from "./components/board-admin.component";
+import BoardAdmin from "./components/admin/board-admin.component"
 import {persistor, store} from "./store";
 import {PersistGate} from "redux-persist/integration/react";
 import Footer from "./components/footer/footer.component";

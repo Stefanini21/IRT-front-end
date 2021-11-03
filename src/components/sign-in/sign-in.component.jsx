@@ -33,7 +33,7 @@ const SignIn = () => {
 
         dispatch(authUser(formattedData));
 
-        history.push('/user');
+        history.push('/home');
     }
 
     return (

@@ -36,6 +36,7 @@ const Header = () => {
         }
     }, [currentUserData])
 
+
     return (
         <div>
             <div className="header">

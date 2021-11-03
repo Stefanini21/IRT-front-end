@@ -7,6 +7,7 @@ import CreateUserModal from "../create.user.component";
 import ViewUser from "../view.user.component";
 import DataTable from "react-data-table-component";
 import {useDispatch} from "react-redux";
+import {setUserId} from "../../redux/actions/user";
 
 const BoardAdmin = () => {
 
@@ -20,6 +21,7 @@ const BoardAdmin = () => {
     const [userIdToDelete, setUserIdToDelete] = useState('');
     const [userNameToDelete, setUserNameToDelete] = useState('');
     const [userToView, setUserToView] = useState([]);
+    // const [userId, setUserId] = useState(null);
 
     const columns = [
         {
@@ -81,8 +83,10 @@ const BoardAdmin = () => {
     }
 
     const handleShowViewUserModal = (userToView) => {
+        // setUserId(userToView.id)
+        dispatch(setUserId(userToView.id))
         setShowViewUserModal(true)
-            setUserToView(userToView)
+        setUserToView(userToView)
     }
 
     const handleCloseViewUserModal = () => {

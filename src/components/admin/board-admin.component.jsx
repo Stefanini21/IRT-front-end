@@ -3,7 +3,7 @@ import {Button, Modal} from "react-bootstrap";
 import {deleteUser} from "../../actions/user";
 import UserService from "../../services/user.service";
 import EventBus from "../../common/EventBus";
-import CreateUser from "../create.user.component";
+import CreateUserModal from "../create.user.component";
 import ViewUser from "../view.user.component";
 import DataTable from "react-data-table-component";
 import {useDispatch} from "react-redux";
@@ -142,7 +142,7 @@ const BoardAdmin = () => {
                     <Modal.Title>Create User</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                    <CreateUser handleCloseCreateUserModal={handleCloseCreateUserModal}/>
+                    <CreateUserModal handleCloseCreateUserModal={handleCloseCreateUserModal}/>
                 </Modal.Body>
             </Modal>
 

@@ -3,9 +3,12 @@ import {useDispatch} from "react-redux";
 import {authUser} from "../../redux/actions/auth";
 import Form from "react-validation/build/form";
 import Input from "react-validation/build/input";
+import {useHistory} from "react-router-dom";
 
 const SignIn = () => {
+
     const dispatch = useDispatch();
+    const history = useHistory();
 
     const [login, setLogin] = useState("");
     const [password, setPassword] = useState("");
@@ -29,6 +32,8 @@ const SignIn = () => {
         }
 
         dispatch(authUser(formattedData));
+
+        history.push('/home');
     }
 
     return (
@@ -42,6 +47,7 @@ const SignIn = () => {
 
                 <Form
                     onSubmit={handleSubmit}
+
                     // ref={(c) => {
                     //     this.form = c;
                     // }}

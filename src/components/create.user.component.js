@@ -1,9 +1,9 @@
-import React, {Component} from "react";
+import React, {useState} from "react";
 import Form from "react-validation/build/form";
 import Input from "react-validation/build/input";
 import CheckButton from "react-validation/build/button";
 import {isEmail} from "validator";
-import {connect} from "react-redux";
+import {useDispatch} from "react-redux";
 import {createUser} from "../actions/user";
 
 
@@ -17,7 +17,7 @@ const required = (value) => {
     }
 };
 
-const email = (value) => {
+const vemail = (value) => {
     if (!isEmail(value)) {
         return (
             <div className="alert alert-danger" role="alert">
@@ -77,116 +77,110 @@ const vpassword = (value) => {
     }
 };
 
-class CreateUser extends Component {
+const CreateUserModal = (props) => {
 
-    constructor(props) {
-        super(props);
-        this.handleCreateUser = this.handleCreateUser.bind(this);
-        this.handleClose = this.handleClose.bind(this);
-        this.onChangeUsername = this.onChangeUsername.bind(this);
-        this.onChangeFirstName = this.onChangeFirstName.bind(this);
-        this.onChangeLastName = this.onChangeLastName.bind(this);
-        this.onChangeSpecialty = this.onChangeSpecialty.bind(this);
-        this.onChangeEmail = this.onChangeEmail.bind(this);
-        this.onChangePassword = this.onChangePassword.bind(this);
+    const dispatch = useDispatch();
 
-        this.state = {
-            username: "",
-            firstname: "",
-            lastname: "",
-            email: "",
-            specialty: "",
-            password: "",
-            role: "USER",
-            successful: false,
-            message: "",
-            show: true
-        };
+    const [username, setUsername] = useState("");
+    const [firstname, setFirstName] = useState("");
+    const [lastname, setLastName] = useState("");
+    const [email, setEmail] = useState("");
+    const [specialty, setSpecialty] = useState("");
+    const [password, setPassword] = useState("");
+    const [role, setRole] = useState("USER");
+    const [successful, setSuccessful] = useState(false);
+    const [message, setMessage] = useState("");
+    const [show, setShow] = useState(true);
+
+
+
+    // constructor(props) {
+    //     super(props);
+    //     this.handleCreateUser = this.handleCreateUser.bind(this);
+    //     this.handleClose = this.handleClose.bind(this);
+    //     this.onChangeUsername = this.onChangeUsername.bind(this);
+    //     this.onChangeFirstName = this.onChangeFirstName.bind(this);
+    //     this.onChangeLastName = this.onChangeLastName.bind(this);
+    //     this.onChangeSpecialty = this.onChangeSpecialty.bind(this);
+    //     this.onChangeEmail = this.onChangeEmail.bind(this);
+    //     this.onChangePassword = this.onChangePassword.bind(this);
+    //
+    //     this.state = {
+    //         username: "",
+    //         firstname: "",
+    //         lastname: "",
+    //         email: "",
+    //         specialty: "",
+    //         password: "",
+    //         role: "USER",
+    //         successful: false,
+    //         message: "",
+    //         show: true
+    //     };
+    // }
+
+
+    const handleClose = () => {
+            setShow(false)
     }
 
-
-    handleClose() {
-        this.setState({
-            show: false,
-        });
+    const onChangeUsername = (e) => {
+            setUsername(e.target.value)
     }
 
-    onChangeUsername(e) {
-        this.setState({
-            username: e.target.value,
-        });
+    const onChangeFirstName = (e) => {
+            setFirstName(e.target.value)
     }
 
-    onChangeFirstName(e) {
-        this.setState({
-            firstname: e.target.value
-        });
+    const onChangeLastName = (e) => {
+            setLastName(e.target.value)
     }
 
-    onChangeLastName(e) {
-        this.setState({
-            lastname: e.target.value
-        });
+    const onChangeSpecialty = (e) => {
+            setSpecialty(e.target.value)
     }
 
-    onChangeSpecialty(e) {
-        this.setState({
-            specialty: e.target.value
-        });
+    const onChangeEmail = (e) => {
+            setEmail(e.target.value)
     }
 
-    onChangeEmail(e) {
-        this.setState({
-            email: e.target.value,
-        });
+    const onChangePassword = (e) => {
+            setPassword(e.target.value)
     }
 
-    onChangePassword(e) {
-        this.setState({
-            password: e.target.value,
-        });
-    }
-
-    handleCreateUser(e) {
+    const handleCreateUser = (e) => {
         e.preventDefault();
 
-        this.setState({
-            message: "",
-            successful: false
-        });
+            setMessage("")
+            setSuccessful(false)
 
-        this.form.validateAll();
+        // this.form.validateAll();
 
-        if (this.checkBtn.context._errors.length === 0) {
-            this.props
-                .dispatch(
+        // if (this.checkBtn.context._errors.length === 0)
+        if (true)
+        {
+                dispatch(
                     createUser(
-                        this.state.username,
-                        this.state.firstname,
-                        this.state.lastname,
-                        this.state.specialty,
-                        this.state.role,
-                        this.state.email,
-                        this.state.password)
+                        username,
+                        firstname,
+                        lastname,
+                        specialty,
+                        role,
+                        email,
+                        password)
                 )
                 .then(() => {
-                    this.setState({
-                        message: this.state.username + ' successfully registered!',
-                        successful: true
-                    });
+                        setMessage(username + ' successfully registered!')
+                        setSuccessful(true)
+
                     this.props.handleCloseCreateUserModal();
                 })
                 .catch(() => {
-                    this.setState({
-                        successful: false,
-                    });
+                        setSuccessful(false)
                 });
         }
     }
 
-
-    render() {
-        const {message} = this.props;
 
         return (
             <div className="col-md-12">
@@ -198,12 +192,12 @@ class CreateUser extends Component {
                     />
 
                     <Form
-                        onSubmit={this.handleCreateUser}
-                        ref={(c) => {
-                            this.form = c;
-                        }}
-                    >
-                        {!this.state.successful && (
+                        onSubmit={handleCreateUser}
+                        // ref={(c) => {
+                        //     this.form = c;
+                        // }}
+                        >
+                        {!successful && (
                             <div>
                                 <div className="form-group">
                                     <label htmlFor="username">Username</label>
@@ -211,9 +205,9 @@ class CreateUser extends Component {
                                         type="text"
                                         className="form-control"
                                         name="username"
-                                        value={this.state.username}
-                                        onChange={this.onChangeUsername}
-                                        validations={[required, vusername]}
+                                        value={username}
+                                        onChange={onChangeUsername}
+                                        // validations={[required, vusername]}
                                     />
                                 </div>
 
@@ -223,9 +217,9 @@ class CreateUser extends Component {
                                         type="text"
                                         className="form-control"
                                         name="firstname"
-                                        value={this.state.firstname}
-                                        onChange={this.onChangeFirstName}
-                                        validations={[required, vfirstname]}
+                                        value={firstname}
+                                        onChange={onChangeFirstName}
+                                        // validations={[required, vfirstname]}
                                     />
                                 </div>
 
@@ -235,9 +229,9 @@ class CreateUser extends Component {
                                         type="text"
                                         className="form-control"
                                         name="lastname"
-                                        value={this.state.lastname}
-                                        onChange={this.onChangeLastName}
-                                        validations={[required, vlastname]}
+                                        value={lastname}
+                                        onChange={onChangeLastName}
+                                        // validations={[required, vlastname]}
                                     />
                                 </div>
 
@@ -247,9 +241,9 @@ class CreateUser extends Component {
                                         type="text"
                                         className="form-control"
                                         name="email"
-                                        value={this.state.email}
-                                        onChange={this.onChangeEmail}
-                                        validations={[required, email]}
+                                        value={email}
+                                        onChange={onChangeEmail}
+                                        // validations={[required, vemail]}
                                     />
                                 </div>
 
@@ -259,9 +253,9 @@ class CreateUser extends Component {
                                         type="text"
                                         className="form-control"
                                         name="specialty"
-                                        value={this.state.specialty}
-                                        onChange={this.onChangeSpecialty}
-                                        validations={[required, vspecialty]}
+                                        value={specialty}
+                                        onChange={onChangeSpecialty}
+                                        // validations={[required, vspecialty]}
                                     />
                                 </div>
 
@@ -271,9 +265,9 @@ class CreateUser extends Component {
                                         type="password"
                                         className="form-control"
                                         name="password"
-                                        value={this.state.password}
-                                        onChange={this.onChangePassword}
-                                        validations={[required, vpassword]}
+                                        value={password}
+                                        onChange={onChangePassword}
+                                        // validations={[required, vpassword]}
                                     />
                                 </div>
 
@@ -285,33 +279,27 @@ class CreateUser extends Component {
 
                         {message && (
                             <div className="form-group">
-                                <div className={this.state.successful ? "alert alert-success" : "alert alert-danger"}
+                                <div className={successful ? "alert alert-success" : "alert alert-danger"}
                                      role="alert">
                                     {message}
                                 </div>
                             </div>
                         )}
-                        <CheckButton
-                            style={{display: "none"}}
-                            ref={(c) => {
-                                this.checkBtn = c;
-                            }}
-                        />
+                        {/*<CheckButton*/}
+                        {/*    style={{display: "none"}}*/}
+                        {/*    ref={(c) => {*/}
+                        {/*        this.checkBtn = c;*/}
+                        {/*    }}*/}
+                        {/*/>*/}
                     </Form>
                 </div>
             </div>
         );
-    }
+
 }
 
-function mapStateToProps(state) {
-    const {message} = state.message;
-    return {
-        message,
-    };
-}
 
-export default connect(mapStateToProps)(CreateUser);
+export default CreateUserModal
 
 
 

@@ -49,11 +49,11 @@ class Profile extends Component {
     }
 }
 
-function mapStateToProps(state) {
-    const {user} = state.auth;
-    return {
-        user,
-    };
-}
+// function mapStateToProps(state) {
+//     const {user} = state.auth;
+//     return {
+//         user,
+//     };
+// }
 
-export default connect(mapStateToProps)(Profile);
+export default Profile;

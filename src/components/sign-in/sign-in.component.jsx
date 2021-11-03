@@ -1,10 +1,9 @@
 import React, {useState} from "react";
-import {useDispatch, useSelector} from "react-redux";
+import {useDispatch} from "react-redux";
 import {authUser} from "../../redux/actions/auth";
 import Form from "react-validation/build/form";
 import Input from "react-validation/build/input";
 import {useHistory} from "react-router-dom";
-import {getUserLoaded} from "../../redux/selectors/auth";
 
 const SignIn = () => {
 

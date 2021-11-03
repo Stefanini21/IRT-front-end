@@ -3,6 +3,7 @@ import {Link, useHistory} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
 import {getUserData, getUserLoaded} from "../../redux/selectors/auth"; // addUserData
 import {signOutUser} from "../../redux/actions/auth";
+import Profile from "../profile/profile.component";
 
 
 const Header = () => {
@@ -34,7 +35,6 @@ const Header = () => {
             console.log(role);
         }
     }, [currentUserData])
-
 
     return (
         <div>
@@ -77,6 +77,14 @@ const Header = () => {
                                 </Link>
                             </li>
                         }
+
+                        {currentUserLoaded && (
+                            <li className="nav-item">
+                                <Link to={"/profile"} className="nav-link">
+                                    Profile
+                                </Link>
+                            </li>
+                        )}
 
 
                     </div>

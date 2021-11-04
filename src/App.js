@@ -12,7 +12,7 @@ import {PersistGate} from "redux-persist/integration/react";
 import Footer from "./components/footer/footer.component";
 import Header from "./components/header/header.component";
 import SignIn from "./components/sign-in/sign-in.component";
-import Profile from "./components/profile/profile.component";
+// import Profile from "./components/profile/profile.component";
 
 
 export default class App extends Component {
@@ -29,7 +29,7 @@ export default class App extends Component {
                                 <Switch>
                                     <Route exact path={["/", "/home"]} component={Home}/>
                                     <Route exact path="/login" component={SignIn}/>
-                                    <Route exact path="/profile" component={Profile}/>
+                                    {/* <Route exact path="/profile" component={Profile}/> */}
                                     <Route path="/user" component={BoardUser}/>
                                     <Route path="/admin" component={BoardAdmin}/>
                                 </Switch>

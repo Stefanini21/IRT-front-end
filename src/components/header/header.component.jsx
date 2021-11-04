@@ -3,7 +3,7 @@ import {Link, useHistory} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
 import {getUserData, getUserLoaded} from "../../redux/selectors/auth"; // addUserData
 import {signOutUser} from "../../redux/actions/auth";
-import Profile from "../profile/profile.component";
+// import Profile from "../profile/profile.component";
 
 
 const Header = () => {

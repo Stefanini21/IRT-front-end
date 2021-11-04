@@ -68,7 +68,7 @@ async function request(url, method = "GET", requestParams, withoutResult = false
   const state = store.getState();
   const { userData } = state.auth;
   const token = userData?.accessToken;
-  const role = userData?.role; //role from state ???
+  // const role = userData?.role; //role from state ???
 
   if (token) {
     HEADERS["Authorization"] = "Bearer " + token;

@@ -26,6 +26,15 @@ class UserService {
       password
     }, { headers: authHeader() });
   }
+
+  getUserById(url, userId) {
+    return axios.get(url + JSON.stringify(userId),
+        { headers: authHeader() })
+        .then((response) => {
+          // console.log(response.data)
+          return response.data;
+        });
+  }
 }
 
 export default new UserService();

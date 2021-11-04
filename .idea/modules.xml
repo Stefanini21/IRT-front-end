@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/irt-react-client.iml" filepath="$PROJECT_DIR$/irt-react-client.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/IRT2-front-end.iml" filepath="$PROJECT_DIR$/.idea/IRT2-front-end.iml" />
     </modules>
   </component>
 </project>

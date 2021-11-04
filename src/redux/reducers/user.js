@@ -1,12 +1,11 @@
 import {userActions} from "../actions/user";
-import UserService from "../../services/user.service";
 
 const initialState = {
     userId: {},
     userById: {}
 }
 
-export const setUserId = (state = initialState, action) => {
+export const user = (state = initialState, action) => {
     switch (action.type) {
         case userActions.SET_USER_ID:
             console.log(action.payload + "actionpayload")

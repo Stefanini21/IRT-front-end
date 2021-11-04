@@ -52,18 +52,26 @@ const Header = () => {
                         </li>
 
                         {currentUserLoaded && currentUserData.role === "ADMIN" ?
+                            <>
                             <li className="nav-item">
                                 <Link to={"/admin"} className="nav-link">
-                                    Admin Board
+                                    User list
                                 </Link>
                             </li>
 
+                            <li className="nav-item">
+                                <Link to={"/tickets"} className="nav-link">
+                                    Ticket list
+                                </Link>
+                            </li>
+                            </>
                             :
                             <li className="nav-item">
                                 <Link to={"/home"} className="nav-link">
                                 </Link>
                             </li>
                         }
+
 
                         {currentUserLoaded && currentUserData.role === "USER" ?
                             <li className="nav-item">

@@ -7,9 +7,9 @@ import CreateUserModal from "../create.user.component";
 import ViewUser from "../view.user.component";
 import DataTable from "react-data-table-component";
 import {useDispatch} from "react-redux";
-import {setUserId} from "../../redux/actions/user";
+import {closeModal, setUserId} from "../../redux/actions/user";
 
-const BoardAdmin = () => {
+const UserList = () => {
 
     const dispatch = useDispatch();
 
@@ -21,7 +21,7 @@ const BoardAdmin = () => {
     const [userIdToDelete, setUserIdToDelete] = useState('');
     const [userNameToDelete, setUserNameToDelete] = useState('');
     const [userToView, setUserToView] = useState([]);
-    // const [userId, setUserId] = useState(null);
+
 
     const columns = [
         {
@@ -138,6 +138,9 @@ const BoardAdmin = () => {
         );
         }, [])
 
+    useEffect(() => {
+        dispatch(closeModal)
+    }, [handleCloseViewUserModal])
 
     return (
         <div>
@@ -197,4 +200,4 @@ const BoardAdmin = () => {
 
 }
 
-export default BoardAdmin
+export default UserList

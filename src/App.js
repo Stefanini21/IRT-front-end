@@ -6,7 +6,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "./App.css";
 import Home from "./components/home/home.component";
 import BoardUser from "./components/board-user.component";
-import BoardAdmin from "./components/admin/board-admin.component"
+import UserList from "./components/admin/board-admin.component"
 import {persistor, store} from "./store";
 import {PersistGate} from "redux-persist/integration/react";
 import Footer from "./components/footer/footer.component";
@@ -31,7 +31,8 @@ export default class App extends Component {
                                     <Route exact path="/login" component={SignIn}/>
                                     <Route exact path="/profile" component={Profile}/>
                                     <Route path="/user" component={BoardUser}/>
-                                    <Route path="/admin" component={BoardAdmin}/>
+                                    <Route path="/admin" component={UserList}/>
+                                    <Route path="/tickets" component={UserList}/>
                                 </Switch>
                             </div>
                             <Footer />

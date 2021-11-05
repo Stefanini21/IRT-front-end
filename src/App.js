@@ -14,6 +14,7 @@ import SignIn from "./components/sign-in/sign-in.component";
 import Profile from "./components/profile/profile.component";
 import AdminUserList from "./components/admin/board-admin-users.component";
 import AdminTicketList from "./components/admin/board-admin-tickets.component";
+import TicketList from "./components/admin/ticket-list.component";
 
 
 export default class App extends Component {
@@ -32,7 +33,7 @@ export default class App extends Component {
                                     <Route exact path="/login" component={SignIn}/>
                                     <Route exact path="/profile" component={Profile}/>
                                     <Route path="/admin/users" component={AdminUserList}/>
-                                    <Route path="/admin/tickets" component={AdminTicketList}/>
+                                    <Route path="/admin/tickets" component={TicketList}/>
                                     <Route path="/user" component={User}/>
                                 </Switch>
                             </div>

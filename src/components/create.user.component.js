@@ -93,33 +93,6 @@ const CreateUserModal = (props) => {
     const [show, setShow] = useState(true);
 
 
-
-    // constructor(props) {
-    //     super(props);
-    //     this.handleCreateUser = this.handleCreateUser.bind(this);
-    //     this.handleClose = this.handleClose.bind(this);
-    //     this.onChangeUsername = this.onChangeUsername.bind(this);
-    //     this.onChangeFirstName = this.onChangeFirstName.bind(this);
-    //     this.onChangeLastName = this.onChangeLastName.bind(this);
-    //     this.onChangeSpecialty = this.onChangeSpecialty.bind(this);
-    //     this.onChangeEmail = this.onChangeEmail.bind(this);
-    //     this.onChangePassword = this.onChangePassword.bind(this);
-    //
-    //     this.state = {
-    //         username: "",
-    //         firstname: "",
-    //         lastname: "",
-    //         email: "",
-    //         specialty: "",
-    //         password: "",
-    //         role: "USER",
-    //         successful: false,
-    //         message: "",
-    //         show: true
-    //     };
-    // }
-
-
     const handleClose = () => {
             setShow(false)
     }

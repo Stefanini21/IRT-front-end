@@ -1,21 +1,25 @@
 import {routes} from "../../config/routes";
 import {HttpService} from "../../services/httpService";
 
-export const authActions = {
+export const AuthActions = {
     RECEIVE_USER_AUTH: "RECEIVE_USER_AUTH",
     RECEIVE_USER_SIGNOUT: "RECEIVE_USER_SIGNOUT"
 }
 
-export const authUser = (userData) => (dispatch) => {
+export const authUser = (userData, history) => (dispatch) => {
     const url = routes.BASIC_URL + routes.BASIC_PATH + routes.AUTH_URL;
 
     return HttpService.post(url, userData)
         .then(response => {
-            return dispatch({
-                type: authActions.RECEIVE_USER_AUTH,
+            // console.log("response in then: " + response)
+            response !== 500 && dispatch({
+                type: AuthActions.RECEIVE_USER_AUTH,
                 payload: response
             })
-        })
+        });
+        // .catch(() => {
+        //     history.push("/login");
+        //   });
 }
 
 export const signOutUser = (history) => (dispatch) => {
@@ -24,8 +28,8 @@ export const signOutUser = (history) => (dispatch) => {
     return HttpService.postSignOut(url)
         .then(() => {
             dispatch({
-                type: authActions.RECEIVE_USER_SIGNOUT
+                type: AuthActions.RECEIVE_USER_SIGNOUT
             });
-            history.push("/home");
+            history.push("/login");
         })
 }

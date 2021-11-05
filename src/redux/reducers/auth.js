@@ -1,4 +1,4 @@
-import { authActions } from "../actions/auth";
+import { AuthActions } from "../actions/auth";
 
 const initialState = {
     userData: {},
@@ -7,13 +7,13 @@ const initialState = {
 
 export const auth = (state = initialState, action) => {
     switch (action.type) {
-        case authActions.RECEIVE_USER_AUTH:
+        case AuthActions.RECEIVE_USER_AUTH:
             return {
                 ...state,
                 userData: action.payload,
                 currentUserLoaded: true
             };
-        case authActions.RECEIVE_USER_SIGNOUT:
+        case AuthActions.RECEIVE_USER_SIGNOUT:
             return {
                 ...state,
                 userData: null,

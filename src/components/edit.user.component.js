@@ -90,7 +90,6 @@ const EditUserModal = (props) => {
     const [lastnameForm, setLastName] = useState("");
     const [emailForm, setEmail] = useState("");
     const [specialtyForm, setSpecialty] = useState("");
-    //const [passwordForm, setPassword] = useState(userById.password);
     const [roleForm, setRole] = useState("");
     const [successful, setSuccessful] = useState(false);
     const [message, setMessage] = useState("");

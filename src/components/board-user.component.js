@@ -1,18 +1,13 @@
-import React, {Component} from "react";
+import React from "react";
+import Kanban from "./kanban/kanban";
+import { Container, Row, Col } from "reactstrap";
 
-
-export default class BoardUser extends Component {
-
-    componentDidMount() {
-
-    }
-
-    render() {
-        return (
-            <div className="container">
-                <header className="jumbotron">
-                </header>
-            </div>
-        );
-    }
+function User(props) {
+  return (
+    <div style={{margin: "0 auto"}}>
+      <Kanban />
+    </div>
+  );
 }
+
+export default User;

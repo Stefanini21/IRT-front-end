@@ -10,7 +10,7 @@ import {useDispatch} from "react-redux";
 import {closeModal, setUserId} from "../../redux/actions/user";
 import EditUserModal from "../edit.user.component";
 
-const UserList = () => {
+const AdminUserList = () => {
 
     const dispatch = useDispatch();
 
@@ -153,7 +153,10 @@ const UserList = () => {
 
     useEffect(() => {
         dispatch(closeModal)
-    }, [handleCloseViewUserModal])
+    }, [])
+    // useEffect(() => {
+    //     dispatch(closeModal)
+    // }, [handleCloseViewUserModal])
 
     return (
         <div>
@@ -222,4 +225,4 @@ const UserList = () => {
 
 }
 
-export default UserList
+export default AdminUserList

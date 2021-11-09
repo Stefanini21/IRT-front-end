@@ -7,6 +7,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {createUser} from "../actions/user";
 import {getUserById, updateUserById} from "../redux/actions/user";
 import {selectUserById, selectUserId} from "../redux/selectors/user";
+import {selectUserUpdatedFlag} from "../redux/selectors/flag";
 
 
 const required = (value) => {
@@ -40,7 +41,7 @@ const vusername = (value) => {
 };
 
 const vfirstname = value => {
-    if (value.length < 3 || value.length > 20) {
+    if (value.length < 1 || value.length > 20) {
         return (
             <div className="alert alert-danger" role="alert">
                 The first name must be between 3 and 20 characters.
@@ -69,21 +70,13 @@ const vspecialty = value => {
     }
 };
 
-const vpassword = (value) => {
-    if (value.length < 6 || value.length > 40) {
-        return (
-            <div className="alert alert-danger" role="alert">
-                The password must be between 6 and 40 characters.
-            </div>
-        );
-    }
-};
 
 const EditUserModal = (props) => {
 
     const dispatch = useDispatch();
     const userId = useSelector(selectUserId);
     const userById = useSelector(selectUserById);
+    const userUpdateSuccess = useSelector(selectUserUpdatedFlag);
 
     const [usernameForm, setUsername] = useState("");
     const [firstnameForm, setFirstName] = useState("");
@@ -126,9 +119,6 @@ const EditUserModal = (props) => {
         setLastName(e.target.value)
     }
 
-    // const onChangePassword = (e) => {
-    //     setPassword(e.target.value)
-    // }
 
     const onChangeSpecialty = (e) => {
         setSpecialty(e.target.value)
@@ -150,7 +140,6 @@ const EditUserModal = (props) => {
             firstName: firstnameForm,
             lastName: lastnameForm,
             email: emailForm,
-            // password: passwordForm,
             specialty: specialtyForm,
             role: roleForm
         }
@@ -158,12 +147,6 @@ const EditUserModal = (props) => {
         dispatch(updateUserById(formattedData, userId))
             .then(() => {
                 setMessage(usernameForm + ' successfully updated!')
-                setSuccessful(true)
-
-                this.props.handleCloseCreateUserModal();
-            })
-            .catch(() => {
-                setSuccessful(false)
             });
     }
 
@@ -203,6 +186,7 @@ const EditUserModal = (props) => {
                                     name="firstname"
                                     value={firstnameForm}
                                     onChange={onChangeFirstName}
+                                    validations={[required, vfirstname]}
                                 />
                             </div>
 
@@ -214,6 +198,7 @@ const EditUserModal = (props) => {
                                     name="lastname"
                                     value={lastnameForm}
                                     onChange={onChangeLastName}
+                                    validations={[required, vlastname]}
                                 />
                             </div>
 
@@ -225,30 +210,36 @@ const EditUserModal = (props) => {
                                     name="email"
                                     value={emailForm}
                                     onChange={onChangeEmail}
+                                    validations={[required, vemail]}
                                 />
+                            </div>
+
+                            <div>
+                                <label htmlFor="specialty">Specialty</label>
+                                <select
+                                    className="form-control"
+                                    name="specialty"
+                                    defaultValue={specialtyForm}
+                                    value={specialtyForm}
+                                    onChange={onChangeSpecialty}>
+                                    <option value="N/A">N/A</option>
+                                    <option value="BACKEND">BACKEND</option>
+                                    <option value="FRONTEND">FRONTEND</option>
+                                </select>
+                                <br/>
                             </div>
 
                             {/*<div className="form-group">*/}
-                            {/*    <label htmlFor="password">Password</label>*/}
+                            {/*    <label htmlFor="specialty">Specialty</label>*/}
                             {/*    <Input*/}
                             {/*        type="text"*/}
                             {/*        className="form-control"*/}
-                            {/*        name="password"*/}
-                            {/*        value={passwordForm}*/}
-                            {/*        onChange={onChangePassword}*/}
+                            {/*        name="specialty"*/}
+                            {/*        value={specialtyForm}*/}
+                            {/*        onChange={onChangeSpecialty}*/}
+                            {/*        validations={[required, vspecialty]}*/}
                             {/*    />*/}
                             {/*</div>*/}
-
-                            <div className="form-group">
-                                <label htmlFor="specialty">Specialty</label>
-                                <Input
-                                    type="text"
-                                    className="form-control"
-                                    name="specialty"
-                                    value={specialtyForm}
-                                    onChange={onChangeSpecialty}
-                                />
-                            </div>
 
                             <div className="form-group">
                                 <button className="btn btn-primary btn-block">Update</button>
@@ -256,9 +247,9 @@ const EditUserModal = (props) => {
                         </div>
                     )}
 
-                    {message && (
+                    {userUpdateSuccess && (
                         <div className="form-group">
-                            <div className={successful ? "alert alert-success" : "alert alert-danger"}
+                            <div className="alert alert-success"
                                  role="alert">
                                 {message}
                             </div>

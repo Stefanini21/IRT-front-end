@@ -1,7 +1,8 @@
 import {userActions} from "../actions/user";
 
 const initialState = {
-    userDataLoaded: false
+    userDataLoaded: false,
+    userDataUpdated: false
 }
 
 export const flipFlag = (state = initialState, action) => {
@@ -11,6 +12,11 @@ export const flipFlag = (state = initialState, action) => {
                 ...state,
                 userDataLoaded: true
             };
+        case userActions.GET_USER_BY_ID:
+            return {
+                ...state,
+                userDataUpdated: true
+            }
         default:
             return state;
     }

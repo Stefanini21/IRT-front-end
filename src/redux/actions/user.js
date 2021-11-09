@@ -12,7 +12,6 @@ export const userActions = {
 }
 
 export const setUserId = (userId) => (dispatch) => {
-
     return dispatch({
         type: userActions.SET_USER_ID,
         payload: userId

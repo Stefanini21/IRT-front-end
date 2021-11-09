@@ -6,9 +6,10 @@ import EventBus from "../../common/EventBus";
 import CreateUserModal from "../create.user.component";
 import ViewUser from "../view.user.component";
 import DataTable from "react-data-table-component";
-import {useDispatch} from "react-redux";
-import {closeModal, setUserId} from "../../redux/actions/user";
+import {useDispatch, useSelector} from "react-redux";
+import {closeModal, getUserList, setUserId} from "../../redux/actions/user";
 import EditUserModal from "../edit.user.component";
+import {selectUserList} from "../../redux/selectors/user";
 
 const AdminUserList = () => {
 
@@ -24,6 +25,7 @@ const AdminUserList = () => {
     const [userNameToDelete, setUserNameToDelete] = useState('');
     const [userToView, setUserToView] = useState([]);
 
+    const userList = useSelector(selectUserList);
 
     const columns = [
         {
@@ -77,49 +79,49 @@ const AdminUserList = () => {
     ]
 
     const handleShowCreateUserModal = () => {
+
         setShowCreateUserModal(true)
     }
-
     const handleCloseCreateUserModal = () => {
+
         setShowCreateUserModal(false)
         window.location.reload()
     }
-
     const handleShowViewUserModal = (userToView) => {
+
         dispatch(setUserId(userToView.id))
         setShowViewUserModal(true)
         setUserToView(userToView)
     }
-
     const handleEditUserModal = (userToEdit) => {
+
         dispatch(setUserId(userToEdit.id))
         setShowEditUserModal(true)
         setUserToView(userToEdit)
     }
-
     const handleCloseViewUserModal = () => {
 
         setShowViewUserModal(false)
-    }
 
+    }
     const handleCloseEditUserModal = () => {
 
         setShowEditUserModal(false)
+        dispatch(getUserList())
     }
-
     const handleShowDeleteUserModal = (userId, username) => {
-        setUserIdToDelete(userId)
-            setUserNameToDelete(username)
-            setShowDeleteUserModal(true)
 
+        setUserIdToDelete(userId)
+        setUserNameToDelete(username)
+        setShowDeleteUserModal(true)
     }
 
     const handleCloseDeleteUserModal = () => {
 
         setShowDeleteUserModal(false)
-            window.location.reload()
-    }
 
+        window.location.reload()
+    }
     const handleDeleteUser = () => {
         dispatch(
                 deleteUser(userIdToDelete)
@@ -131,25 +133,34 @@ const AdminUserList = () => {
     }
 
     useEffect(() => {
-        UserService.getUsers().then(
-            response => {
-                    setUsers(response.data)
-            },
-            error => {
-                    setError(
-                        (error.response &&
-                            error.response.data &&
-                            error.response.data.message) ||
-                            error.message ||
-                            error.toString())
+        setUsers(userList)
+    }, [userList])
 
-                if (error.response && error.response.status === 401) {
-                    EventBus.dispatch("logout");
-                }
 
-            }
-        );
-        }, [])
+    useEffect(() =>{
+        dispatch(getUserList())
+    }, [])
+
+    // useEffect(() => {
+    //     UserService.getUsers().then(
+    //         response => {
+    //                 setUsers(userList)
+    //         },
+    //         error => {
+    //                 setError(
+    //                     (error.response &&
+    //                         error.response.data &&
+    //                         error.response.data.message) ||
+    //                         error.message ||
+    //                         error.toString())
+    //
+    //             if (error.response && error.response.status === 401) {
+    //                 EventBus.dispatch("logout");
+    //             }
+    //
+    //         }
+    //     );
+    //     }, [])
 
     useEffect(() => {
         dispatch(closeModal)

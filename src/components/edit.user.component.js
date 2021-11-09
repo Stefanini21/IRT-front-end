@@ -5,9 +5,10 @@ import CheckButton from "react-validation/build/button";
 import {isEmail} from "validator";
 import {useDispatch, useSelector} from "react-redux";
 import {createUser} from "../actions/user";
-import {getUserById, updateUserById} from "../redux/actions/user";
-import {selectUserById, selectUserId} from "../redux/selectors/user";
-import {selectUserUpdatedFlag} from "../redux/selectors/flag";
+import {getUserById, getUserList, updateUserById} from "../redux/actions/user";
+import {selectUserById, selectUserId, selectUserList} from "../redux/selectors/user";
+import {selectDuplicatedEntryFlag, selectUserUpdatedFlag} from "../redux/selectors/flag";
+import {resetEditUserFlags} from "../redux/actions/flag";
 
 
 const required = (value) => {
@@ -76,7 +77,9 @@ const EditUserModal = (props) => {
     const dispatch = useDispatch();
     const userId = useSelector(selectUserId);
     const userById = useSelector(selectUserById);
+    //const updatedUser = useSelector(updateUserById);
     const userUpdateSuccess = useSelector(selectUserUpdatedFlag);
+    const duplicatedEntryFlag = useSelector(selectDuplicatedEntryFlag);
 
     const [usernameForm, setUsername] = useState("");
     const [firstnameForm, setFirstName] = useState("");
@@ -89,6 +92,7 @@ const EditUserModal = (props) => {
     const [show, setShow] = useState(true);
 
     useEffect(() => {
+        dispatch(resetEditUserFlags())
         dispatch(getUserById(userId))
     }, [])
 
@@ -150,7 +154,6 @@ const EditUserModal = (props) => {
             });
     }
 
-
     return (
         <div className="col-md-12">
             <div className="card card-container">
@@ -164,85 +167,83 @@ const EditUserModal = (props) => {
                     onSubmit={handleSubmit}
 
                 >
-                    {!successful && (
+                    <div>
+                        <div className="form-group">
+                            <label htmlFor="username">Username</label>
+                            <Input
+                                type="text"
+                                className="form-control"
+                                name="username"
+                                value={usernameForm}
+                                onChange={onChangeUsername}
+                                // validations={[required, vusername]}
+                            />
+                        </div>
+
+
+
+                        <div className="form-group">
+                            <label htmlFor="firstname">First name</label>
+                            <Input
+                                type="text"
+                                className="form-control"
+                                name="firstname"
+                                value={firstnameForm}
+                                onChange={onChangeFirstName}
+                                validations={[required, vfirstname]}
+                            />
+                        </div>
+
+                        <div className="form-group">
+                            <label htmlFor="lastname">Last name</label>
+                            <Input
+                                type="text"
+                                className="form-control"
+                                name="lastname"
+                                value={lastnameForm}
+                                onChange={onChangeLastName}
+                                validations={[required, vlastname]}
+                            />
+                        </div>
+
+                        <div className="form-group">
+                            <label htmlFor="email">Email</label>
+                            <Input
+                                type="text"
+                                className="form-control"
+                                name="email"
+                                value={emailForm}
+                                onChange={onChangeEmail}
+                                validations={[required, vemail]}
+                            />
+                        </div>
+
                         <div>
-                            <div className="form-group">
-                                <label htmlFor="username">Username</label>
-                                <Input
-                                    type="text"
-                                    className="form-control"
-                                    name="username"
-                                    value={usernameForm}
-                                    onChange={onChangeUsername}
-                                    // validations={[required, vusername]}
-                                />
-                            </div>
+                            <label htmlFor="specialty">Specialty</label>
+                            <select
+                                className="form-control"
+                                name="specialty"
+                                defaultValue={specialtyForm}
+                                value={specialtyForm}
+                                onChange={onChangeSpecialty}>
+                                <option value="N/A">N/A</option>
+                                <option value="BACKEND">BACKEND</option>
+                                <option value="FRONTEND">FRONTEND</option>
+                            </select>
+                            <br/>
+                        </div>
 
-                            <div className="form-group">
-                                <label htmlFor="firstname">First name</label>
-                                <Input
-                                    type="text"
-                                    className="form-control"
-                                    name="firstname"
-                                    value={firstnameForm}
-                                    onChange={onChangeFirstName}
-                                    validations={[required, vfirstname]}
-                                />
-                            </div>
+                        <div className="form-group">
+                            <button className="btn btn-primary btn-block">Update</button>
+                        </div>
+                    </div>
 
-                            <div className="form-group">
-                                <label htmlFor="lastname">Last name</label>
-                                <Input
-                                    type="text"
-                                    className="form-control"
-                                    name="lastname"
-                                    value={lastnameForm}
-                                    onChange={onChangeLastName}
-                                    validations={[required, vlastname]}
-                                />
-                            </div>
 
-                            <div className="form-group">
-                                <label htmlFor="email">Email</label>
-                                <Input
-                                    type="text"
-                                    className="form-control"
-                                    name="email"
-                                    value={emailForm}
-                                    onChange={onChangeEmail}
-                                    validations={[required, vemail]}
-                                />
-                            </div>
-
-                            <div>
-                                <label htmlFor="specialty">Specialty</label>
-                                <select
-                                    className="form-control"
-                                    name="specialty"
-                                    defaultValue={specialtyForm}
-                                    value={specialtyForm}
-                                    onChange={onChangeSpecialty}>
-                                    <option value="N/A">N/A</option>
-                                    <option value="BACKEND">BACKEND</option>
-                                    <option value="FRONTEND">FRONTEND</option>
-                                </select>
-                                <br/>
-                            </div>
-
-                            {/*<div className="form-group">*/}
-                            {/*    <label htmlFor="specialty">Specialty</label>*/}
-                            {/*    <Input*/}
-                            {/*        type="text"*/}
-                            {/*        className="form-control"*/}
-                            {/*        name="specialty"*/}
-                            {/*        value={specialtyForm}*/}
-                            {/*        onChange={onChangeSpecialty}*/}
-                            {/*        validations={[required, vspecialty]}*/}
-                            {/*    />*/}
-                            {/*</div>*/}
-
-                            <div className="form-group">
-                                <button className="btn btn-primary btn-block">Update</button>
+                    {duplicatedEntryFlag && (
+                        <div className="form-group">
+                            <div className="alert alert-danger"
+                                 role="alert">
+                                Username or Email are already taken.
                             </div>
                         </div>
                     )}

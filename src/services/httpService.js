@@ -14,6 +14,15 @@ export class HttpService {
         }
     }
 
+    static async getAll(url) {
+        try {
+            return await request(url, "GET");
+        } catch (e) {
+            console.log("Error on GET request: ", e);
+            throw e;
+        }
+    }
+
     static async post(url, requestParams) {
         try {
             return await request(url, "POST", requestParams);

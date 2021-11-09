@@ -5,9 +5,10 @@ import {deleteUserById} from "../redux/actions/delete-user";
 import {selectUserId, selectUserById} from "../redux/selectors/user";
 
 
-export const DeleteUserModal = () => {
+const DeleteUserModal = () => {
 
     const userId = useSelector(selectUserId);
+    const userById = useSelector(selectUserById);
 
     const dispatch = useDispatch();
 
@@ -16,7 +17,13 @@ export const DeleteUserModal = () => {
         console.log( "dispatch(deleteUserById(userId))")
     }, [])
     return (
-        alert("User" + userId + "has been deleted!")
+        /*
+        <div className="jumbotron">
+            Are you sure you want to delete this <strong>{userById.username}</strong>?
+        </div>*/
+        <p>Hello</p>
     );
 
 }
+
+export default DeleteUserModal

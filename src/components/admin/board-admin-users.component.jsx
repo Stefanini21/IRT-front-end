@@ -109,15 +109,20 @@ const AdminUserList = () => {
     }
 
     const handleShowDeleteUserModal = (userId, username) => {
+        dispatch(setUserId(userId))
         setUserIdToDelete(userId)
         setUserNameToDelete(username)
         setShowDeleteUserModal(true)
+        console.log(userIdToDelete)
+        console.log(userNameToDelete)
+        console.log(showDeleteUserModal)
 
     }
 
     const handleCloseDeleteUserModal = () => {
         setShowDeleteUserModal(false)
-        window.location.reload()
+        console.log(showDeleteUserModal)
+        //window.location.reload()
     }
 
     const handleDeleteUser = () => {
@@ -196,7 +201,7 @@ const AdminUserList = () => {
                     <Modal.Title>Delete User</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                    Are you sure you want to delete this {userNameToDelete}?
+                    <DeleteUserModal handleCloseDeleteUserModal={handleCloseDeleteUserModal}/>
                 </Modal.Body>
                 <Modal.Footer>
                     <Button variant="secondary" onClick={handleCloseDeleteUserModal}>

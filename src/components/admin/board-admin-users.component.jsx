@@ -8,11 +8,7 @@ import ViewUser from "../view.user.component";
 import DataTable from "react-data-table-component";
 import {useDispatch} from "react-redux";
 import {closeModal, setUserId} from "../../redux/actions/user";
-<<<<<<< HEAD
-import {deleteUserById} from "../../redux/actions/delete-user";
-=======
 import EditUserModal from "../edit.user.component";
->>>>>>> 33991360642fb2e7862f5d249dd5fe0cfe60aef1
 
 const AdminUserList = () => {
 

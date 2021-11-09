@@ -3,7 +3,7 @@ import {Button, Modal} from "react-bootstrap";
 import {deleteUser} from "../../actions/user";
 import UserService from "../../services/user.service";
 import EventBus from "../../common/EventBus";
-import CreateUserModal from "../create.user.component";
+import CreateUserModal from "./create.user.component";
 import ViewUser from "../view.user.component";
 import DataTable from "react-data-table-component";
 import {useDispatch} from "react-redux";
@@ -83,7 +83,6 @@ const AdminUserList = () => {
     }
 
     const handleShowViewUserModal = (userToView) => {
-        // setUserId(userToView.id)
         dispatch(setUserId(userToView.id))
         setShowViewUserModal(true)
         setUserToView(userToView)
@@ -96,23 +95,23 @@ const AdminUserList = () => {
 
     const handleShowDeleteUserModal = (userId, username) => {
         setUserIdToDelete(userId)
-            setUserNameToDelete(username)
-            setShowDeleteUserModal(true)
+        setUserNameToDelete(username)
+        setShowDeleteUserModal(true)
 
     }
 
     const handleCloseDeleteUserModal = () => {
 
         setShowDeleteUserModal(false)
-            window.location.reload()
+        window.location.reload()
     }
 
     const handleDeleteUser = () => {
         dispatch(
-                deleteUser(userIdToDelete)
-            )
+            deleteUser(userIdToDelete)
+        )
             .then(() => {
-                    setShowDeleteUserModal(false)
+                setShowDeleteUserModal(false)
             })
         window.location.reload()
     }
@@ -120,15 +119,15 @@ const AdminUserList = () => {
     useEffect(() => {
         UserService.getUsers().then(
             response => {
-                    setUsers(response.data)
+                setUsers(response.data)
             },
             error => {
-                    setError(
-                        (error.response &&
-                            error.response.data &&
-                            error.response.data.message) ||
-                            error.message ||
-                            error.toString())
+                setError(
+                    (error.response &&
+                        error.response.data &&
+                        error.response.data.message) ||
+                    error.message ||
+                    error.toString())
 
                 if (error.response && error.response.status === 401) {
                     EventBus.dispatch("logout");
@@ -136,14 +135,11 @@ const AdminUserList = () => {
 
             }
         );
-        }, [])
+    }, [])
 
     useEffect(() => {
         dispatch(closeModal)
     }, [])
-    // useEffect(() => {
-    //     dispatch(closeModal)
-    // }, [handleCloseViewUserModal])
 
     return (
         <div>

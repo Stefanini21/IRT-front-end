@@ -1,10 +1,9 @@
 import React, {useState} from "react";
 import Form from "react-validation/build/form";
 import Input from "react-validation/build/input";
-import CheckButton from "react-validation/build/button";
 import {isEmail} from "validator";
 import {useDispatch} from "react-redux";
-import {createUser} from "../actions/user";
+import {createUser} from "../../redux/actions/user";
 
 
 const required = (value) => {
@@ -37,36 +36,6 @@ const vusername = (value) => {
     }
 };
 
-const vfirstname = value => {
-    if (value.length < 3 || value.length > 20) {
-        return (
-            <div className="alert alert-danger" role="alert">
-                The first name must be between 3 and 20 characters.
-            </div>
-        );
-    }
-};
-
-const vlastname = value => {
-    if (value.length < 3 || value.length > 20) {
-        return (
-            <div className="alert alert-danger" role="alert">
-                The last name must be between 3 and 20 characters.
-            </div>
-        );
-    }
-};
-
-const vspecialty = value => {
-    if (value.length < 3 || value.length > 10) {
-        return (
-            <div className="alert alert-danger" role="alert">
-                The gender must be between 3 and 10 characters.
-            </div>
-        );
-    }
-};
-
 const vpassword = (value) => {
     if (value.length < 6 || value.length > 40) {
         return (
@@ -77,7 +46,7 @@ const vpassword = (value) => {
     }
 };
 
-const CreateUserModal = (props) => {
+const CreateUserModal = () => {
 
     const dispatch = useDispatch();
 
@@ -90,38 +59,6 @@ const CreateUserModal = (props) => {
     const [role, setRole] = useState("USER");
     const [successful, setSuccessful] = useState(false);
     const [message, setMessage] = useState("");
-    const [show, setShow] = useState(true);
-
-
-    // constructor(props) {
-    //     super(props);
-    //     this.handleCreateUser = this.handleCreateUser.bind(this);
-    //     this.handleClose = this.handleClose.bind(this);
-    //     this.onChangeUsername = this.onChangeUsername.bind(this);
-    //     this.onChangeFirstName = this.onChangeFirstName.bind(this);
-    //     this.onChangeLastName = this.onChangeLastName.bind(this);
-    //     this.onChangeSpecialty = this.onChangeSpecialty.bind(this);
-    //     this.onChangeEmail = this.onChangeEmail.bind(this);
-    //     this.onChangePassword = this.onChangePassword.bind(this);
-    //
-    //     this.state = {
-    //         username: "",
-    //         firstname: "",
-    //         lastname: "",
-    //         email: "",
-    //         specialty: "",
-    //         password: "",
-    //         role: "USER",
-    //         successful: false,
-    //         message: "",
-    //         show: true
-    //     };
-    // }
-
-
-    const handleClose = () => {
-        setShow(false)
-    }
 
     const onChangeUsername = (e) => {
         setUsername(e.target.value)
@@ -150,33 +87,25 @@ const CreateUserModal = (props) => {
     const handleCreateUser = (e) => {
         e.preventDefault();
 
-        setMessage("")
-        setSuccessful(false)
-
-        // this.form.validateAll();
-
-        // if (this.checkBtn.context._errors.length === 0)
-        if (true) {
-            dispatch(
-                createUser(
-                    username,
-                    firstname,
-                    lastname,
-                    specialty,
-                    role,
-                    email,
-                    password)
-            )
-                .then(() => {
-                    setMessage(username + ' successfully registered!')
-                    setSuccessful(true)
-
-                    this.props.handleCloseCreateUserModal();
-                })
-                .catch(() => {
-                    setSuccessful(false)
-                });
+        const newUser = {
+            firstName: firstname,
+            lastName: lastname,
+            username: username,
+            email: email,
+            role: role,
+            specialty: specialty,
+            password: password
         }
+
+        dispatch(createUser(newUser))
+            .then(() => {
+                setMessage(username + ' successfully registered!')
+
+                this.props.handleCloseCreateUserModal();
+            })
+            .catch(() => {
+                setSuccessful(true)
+            });
     }
 
 
@@ -191,9 +120,6 @@ const CreateUserModal = (props) => {
 
                 <Form
                     onSubmit={handleCreateUser}
-                    // ref={(c) => {
-                    //     this.form = c;
-                    // }}
                 >
                     {!successful && (
                         <div>
@@ -217,7 +143,7 @@ const CreateUserModal = (props) => {
                                     name="firstname"
                                     value={firstname}
                                     onChange={onChangeFirstName}
-                                    validations={[required, vfirstname]}
+                                    validations={[required]}
                                 />
                             </div>
 
@@ -229,7 +155,7 @@ const CreateUserModal = (props) => {
                                     name="lastname"
                                     value={lastname}
                                     onChange={onChangeLastName}
-                                    validations={[required, vlastname]}
+                                    validations={[required]}
                                 />
                             </div>
 
@@ -247,18 +173,14 @@ const CreateUserModal = (props) => {
 
                             <div className="form-group">
                                 <label htmlFor="specialty">Specialty</label>
-                                <Input
-                                    type="text"
+                                <select
                                     className="form-control"
                                     name="specialty"
                                     value={specialty}
-                                    onChange={onChangeSpecialty}
-                                    validations={[required, vspecialty]}
-                                >
-                                    {/*<option></option>*/}
-                                    {/*<option>FRONTEND</option>*/}
-                                    {/*<option>BACKEND</option>*/}
-                                </Input>
+                                    onChange={onChangeSpecialty}>
+                                    <option value="BACKEND">BACKEND</option>
+                                    <option value="FRONTEND">FRONTEND</option>
+                                </select>
                             </div>
 
                             <div className="form-group">
@@ -287,12 +209,6 @@ const CreateUserModal = (props) => {
                             </div>
                         </div>
                     )}
-                    {/*<CheckButton*/}
-                    {/*    style={{display: "none"}}*/}
-                    {/*    ref={(c) => {*/}
-                    {/*        this.checkBtn = c;*/}
-                    {/*    }}*/}
-                    {/*/>*/}
                 </Form>
             </div>
         </div>

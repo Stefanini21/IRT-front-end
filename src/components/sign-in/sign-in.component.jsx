@@ -14,7 +14,6 @@ const SignIn = () => {
     const [login, setLogin] = useState("");
     const [password, setPassword] = useState("");
     const [message, setMessage] = useState("");
-    const [successful, setSuccessful] = useState(false);
 
     const required = (value) => {
         if (!value) {
@@ -29,9 +28,6 @@ const SignIn = () => {
     const handleSubmit = (event) => {
         event.preventDefault();
 
-        setMessage("")
-        setSuccessful(false)
-
         const formattedData = {
             email: login,
             password: password,
@@ -41,14 +37,13 @@ const SignIn = () => {
             authUser(formattedData)
         )
             .then(() => {
-                currentUserLoaded ? history.push("/home") : setMessage('Email or password are incorect')
+                currentUserLoaded ? history.push("/home") : setMessage('Email or password are incorrect!')
             });
 
     }
 
 
     useEffect(() => {
-        console.log("currentUserLoaded: " + currentUserLoaded);
         currentUserLoaded ? history.push("/home") : history.push("/login")
     }, [currentUserLoaded]);
 
@@ -63,7 +58,6 @@ const SignIn = () => {
 
                 <Form onSubmit={handleSubmit}>
 
-                    {!successful && (
                         <div>
                             <div className="form-group">
                                 <label htmlFor="email">Email</label>
@@ -95,11 +89,10 @@ const SignIn = () => {
                                 </button>
                             </div>
                         </div>
-                    )}
 
                     {message && (
                         <div className="form-group">
-                            <div className={successful ? "alert alert-success" : "alert alert-danger"}
+                            <div className={"alert alert-danger"}
                                  role="alert">
                                 {message}
                             </div>

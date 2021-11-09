@@ -2,7 +2,8 @@ import {userActions} from "../actions/user";
 
 const initialState = {
     userId: {},
-    userById: {}
+    userById: {},
+    updatedUser: {}
 }
 
 export const user = (state = initialState, action) => {
@@ -21,6 +22,11 @@ export const user = (state = initialState, action) => {
                 ...state,
                 userById: userById
             };
+        case userActions.UPDATE_USER_BY_ID:
+            return {
+                ...state,
+                updatedUser: action.payload
+            }
         default:
             return state;
     }

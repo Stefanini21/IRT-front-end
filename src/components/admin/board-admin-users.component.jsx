@@ -8,7 +8,11 @@ import ViewUser from "../view.user.component";
 import DataTable from "react-data-table-component";
 import {useDispatch} from "react-redux";
 import {closeModal, setUserId} from "../../redux/actions/user";
+<<<<<<< HEAD
 import {deleteUserById} from "../../redux/actions/delete-user";
+=======
+import EditUserModal from "../edit.user.component";
+>>>>>>> 33991360642fb2e7862f5d249dd5fe0cfe60aef1
 
 const AdminUserList = () => {
 
@@ -17,6 +21,7 @@ const AdminUserList = () => {
     const [showCreateUserModal, setShowCreateUserModal] = useState(false);
     const [showDeleteUserModal, setShowDeleteUserModal] = useState(false);
     const [showViewUserModal, setShowViewUserModal] = useState(false);
+    const [showEditUserModal, setShowEditUserModal] = useState(false);
     const [users, setUsers] = useState([]);
     const [error, setError] = useState("");
     const [userIdToDelete, setUserIdToDelete] = useState('');
@@ -63,7 +68,8 @@ const AdminUserList = () => {
         },
         {
             name: "Edit User",
-            cell: () => <Button variant="primary">Edit</Button>,
+            cell: (row) => <Button variant="primary"
+                                   onClick={() => handleEditUserModal(row)}>Edit</Button>,
             grow: 0.3
         },
         {
@@ -84,15 +90,25 @@ const AdminUserList = () => {
     }
 
     const handleShowViewUserModal = (userToView) => {
-        // setUserId(userToView.id)
         dispatch(setUserId(userToView.id))
         setShowViewUserModal(true)
         setUserToView(userToView)
     }
 
+    const handleEditUserModal = (userToEdit) => {
+        dispatch(setUserId(userToEdit.id))
+        setShowEditUserModal(true)
+        setUserToView(userToEdit)
+    }
+
     const handleCloseViewUserModal = () => {
 
         setShowViewUserModal(false)
+    }
+
+    const handleCloseEditUserModal = () => {
+
+        setShowEditUserModal(false)
     }
 
     const handleShowDeleteUserModal = (userId, username) => {
@@ -167,6 +183,15 @@ const AdminUserList = () => {
                         Close
                     </Button>
                 </Modal.Footer>
+            </Modal>
+
+            <Modal show={showEditUserModal} onHide={handleCloseEditUserModal}>
+                <Modal.Header closeButton>
+                    <Modal.Title>Edit User</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                    <EditUserModal handleCloseEditUserModal={handleCloseEditUserModal}/>
+                </Modal.Body>
             </Modal>
 
             <Modal show={showDeleteUserModal} onHide={handleCloseDeleteUserModal}>

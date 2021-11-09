@@ -7,7 +7,8 @@ export const userActions = {
     SET_USER_ID: "SET_USER_ID",
     // GET_USER_ID: "GET_USER_ID",
     GET_USER_BY_ID: "GET_USER_BY_ID",
-    CLOSE_MODAL: "CLOSE_MODAL"
+    CLOSE_MODAL: "CLOSE_MODAL",
+    UPDATE_USER_BY_ID: "UPDATE_USER_BY_ID"
 }
 
 export const setUserId = (userId) => (dispatch) => {
@@ -16,7 +17,6 @@ export const setUserId = (userId) => (dispatch) => {
         type: userActions.SET_USER_ID,
         payload: userId
     })
-
 }
 
 export const closeModal = () => (dispatch) => {
@@ -38,6 +38,8 @@ export const getUserById = (userId) => (dispatch) => {
             })
         })
 
+
+
     // return UserService.getUserById(url, userId)
     //     .then(response => {
     //         return dispatch ({
@@ -45,4 +47,17 @@ export const getUserById = (userId) => (dispatch) => {
     //             payload: response
     //         })
     //     })
+}
+
+export const updateUserById = (userData, userId) => (dispatch) => {
+    const url = routes.BASIC_URL + routes.BASIC_PATH + routes.USER_BY_ID + userId;
+
+    return HttpService.put(url, userData)
+        .then(response => {
+            return dispatch({
+                type: userActions.GET_USER_BY_ID,
+                payload: response
+            })
+        })
+
 }

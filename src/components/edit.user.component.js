@@ -128,6 +128,10 @@ const EditUserModal = (props) => {
         setSpecialty(e.target.value)
     }
 
+    const onChangeRole = (e) => {
+        setRole(e.target.value)
+    }
+
     const onChangeEmail = (e) => {
         setEmail(e.target.value)
     }
@@ -219,6 +223,20 @@ const EditUserModal = (props) => {
                         </div>
 
                         <div>
+                            <label htmlFor="role">Role</label>
+                            <select
+                                className="form-control"
+                                name="role"
+                                defaultValue={roleForm}
+                                value={roleForm}
+                                onChange={onChangeRole}>
+                                <option value="USER">User</option>
+                                <option value="DEVELOPER">Developer</option>
+                                <option value="ADMIN">Admin</option>
+                            </select>
+                        </div>
+
+                        <div>
                             <label htmlFor="specialty">Specialty</label>
                             <select
                                 className="form-control"
@@ -226,9 +244,9 @@ const EditUserModal = (props) => {
                                 defaultValue={specialtyForm}
                                 value={specialtyForm}
                                 onChange={onChangeSpecialty}>
-                                <option value="N/A">N/A</option>
-                                <option value="BACKEND">BACKEND</option>
-                                <option value="FRONTEND">FRONTEND</option>
+                                <option value="NONE"></option>
+                                <option value="BACKEND">BackEnd</option>
+                                <option value="FRONTEND">FrontEnd</option>
                             </select>
                             <br/>
                         </div>

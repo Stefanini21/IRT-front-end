@@ -15,11 +15,11 @@ export default class Home extends Component {
 
     render() {
         return (
-            <div className="centerimage">
+            <div className="centerimage" >
                 <Image
                     img src={homephoto} alt="homephoto" class="centerimage"
                     width={600}
-                    height={450}
+                    height={650}
                 />
             </div>
         );

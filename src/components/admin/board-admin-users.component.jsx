@@ -142,32 +142,9 @@ const AdminUserList = () => {
     }, [])
 
     // useEffect(() => {
-    //     UserService.getUsers().then(
-    //         response => {
-    //                 setUsers(userList)
-    //         },
-    //         error => {
-    //                 setError(
-    //                     (error.response &&
-    //                         error.response.data &&
-    //                         error.response.data.message) ||
-    //                         error.message ||
-    //                         error.toString())
-    //
-    //             if (error.response && error.response.status === 401) {
-    //                 EventBus.dispatch("logout");
-    //             }
-    //
-    //         }
-    //     );
-    //     }, [])
-
-    useEffect(() => {
-        dispatch(closeModal)
-    }, [])
-    // useEffect(() => {
     //     dispatch(closeModal)
-    // }, [handleCloseViewUserModal])
+    // }, [])
+
 
     return (
         <div>
@@ -227,7 +204,7 @@ const AdminUserList = () => {
                         Create User
                     </Button>
                 </div>
-                <DataTable paginationPerPage={5} paginationRowsPerPageOptions={[5, 10, 15]} title={'Users'}
+                <DataTable paginationPerPage={10} paginationRowsPerPageOptions={[10, 25, 50]} title={'Users'}
                            columns={columns} data={users} pagination={true}/>
             </header>
         </div>

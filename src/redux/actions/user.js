@@ -1,6 +1,4 @@
-import {authActions} from "./auth";
 import {routes} from "../../config/routes";
-import UserService from "../../services/user.service"
 import {HttpService} from "../../services/httpService";
 
 export const userActions = {
@@ -29,7 +27,7 @@ export const closeModal = () => (dispatch) => {
 export const getUserList = () => (dispatch) => {
     const url = routes.BASIC_URL + routes.BASIC_PATH + routes.USER_BY_ID
 
-    return HttpService.get(url,{})
+    return HttpService.get(url)
         .then(response => {
             return dispatch({
                 type: userActions.GET_USER_LIST,
@@ -50,16 +48,6 @@ export const getUserById = (userId) => (dispatch) => {
                 payload: response
             })
         })
-
-
-
-    // return UserService.getUserById(url, userId)
-    //     .then(response => {
-    //         return dispatch ({
-    //             type: userActions.GET_USER_BY_ID,
-    //             payload: response
-    //         })
-    //     })
 }
 
 export const updateUserById = (userData, userId) => (dispatch) => {
@@ -67,7 +55,7 @@ export const updateUserById = (userData, userId) => (dispatch) => {
 
     return HttpService.put(url, userData)
         .then(response => {
-            if (response === 500) {
+            if (response === 403) {
                 return dispatch({
                     type: userActions.RECEIVE_DUPLICATE_ENTRY
                 })
@@ -79,5 +67,4 @@ export const updateUserById = (userData, userId) => (dispatch) => {
                 })
             }
         })
-
 }

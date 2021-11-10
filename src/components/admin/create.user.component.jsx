@@ -56,7 +56,7 @@ const CreateUserModal = () => {
     const [lastname, setLastName] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
-    const [role, setRole] = useState("USER");
+    const [role, setRole] = useState("");
     const [message, setMessage] = useState("");
     const [specialtyForm, setSpecialty] = useState("");
     const duplicatedEntryFlag = useSelector(selectDuplicatedEntryFlag);
@@ -85,6 +85,10 @@ const CreateUserModal = () => {
 
     const onChangePassword = (e) => {
         setPassword(e.target.value)
+    }
+
+    const onChangeRole = (e) => {
+        setRole(e.target.value)
     }
 
 
@@ -185,6 +189,21 @@ const CreateUserModal = () => {
                                 <option></option>
                                 <option value="BACKEND">BACKEND</option>
                                 <option value="FRONTEND">FRONTEND</option>
+                            </select>
+                        </div>
+
+                        <div className="form-group">
+                            <label htmlFor="role">Role</label>
+                            <select
+                                className="form-control"
+                                name="role"
+                                defaultValue={role}
+                                value={role}
+                                onChange={onChangeRole}>
+                                validations={[required]}
+                                <option></option>
+                                <option value="USER">USER</option>
+                                <option value="ADMIN">ADMIN</option>
                             </select>
                         </div>
 

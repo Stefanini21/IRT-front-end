@@ -3,13 +3,9 @@ import {userActions} from "../actions/user";
 const initialState = {
     userId: {},
     userById: {},
-<<<<<<< HEAD
-    updatedUser: {},
-    isDeleted: false
-=======
     //updatedUser: {},
-    userList: {}
->>>>>>> 91378dc679fd477cdd0ce3e7d6f0893a59a8db83
+    userList: {},
+    isDeleted: false
 }
 
 export const user = (state = initialState, action) => {
@@ -36,15 +32,14 @@ export const user = (state = initialState, action) => {
             return {
                 ...state,
                 userList: userList
-            }
+            };
         case userActions.DELETE_USER_BY_ID:
             console.log(action.payload + "actionpayload for delete")
             return {
                 ...state,
-                //userId: action.payload,
-                //isDeleted: true
+                userId: action.payload,
+                isDeleted: true
             };
-
         default:
             return state;
     }

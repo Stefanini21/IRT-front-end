@@ -3,7 +3,8 @@ import {userActions} from "../actions/user";
 const initialState = {
     userId: {},
     userById: {},
-    updatedUser: {}
+    updatedUser: {},
+    isDeleted: false
 }
 
 export const user = (state = initialState, action) => {
@@ -27,6 +28,14 @@ export const user = (state = initialState, action) => {
                 ...state,
                 updatedUser: action.payload
             }
+        case userActions.DELETE_USER_BY_ID:
+            console.log(action.payload + "actionpayload for delete")
+            return {
+                ...state,
+                //userId: action.payload,
+                //isDeleted: true
+            };
+
         default:
             return state;
     }

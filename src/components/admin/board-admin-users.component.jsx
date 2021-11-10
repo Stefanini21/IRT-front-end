@@ -7,9 +7,8 @@ import DeleteUserModal from "../delete.user.component";
 import ViewUser from "../view.user.component";
 import DataTable from "react-data-table-component";
 import {useDispatch} from "react-redux";
-import {closeModal, setUserId} from "../../redux/actions/user";
+import {closeModal, setUserId, deleteUserById} from "../../redux/actions/user";
 import EditUserModal from "../edit.user.component";
-import {deleteUserById} from "../../redux/actions/delete-user";
 
 const AdminUserList = () => {
 
@@ -108,10 +107,10 @@ const AdminUserList = () => {
         setShowEditUserModal(false)
     }
 
-    const handleShowDeleteUserModal = (userId, username) => {
-        dispatch(setUserId(userId))
-        setUserIdToDelete(userId)
-        setUserNameToDelete(username)
+    const handleShowDeleteUserModal = (deleteId, deleteUsername) => {
+        //dispatch(setUserId(userId))
+        setUserIdToDelete(deleteId)
+        setUserNameToDelete(deleteUsername)
         setShowDeleteUserModal(true)
         console.log(userIdToDelete)
         console.log(userNameToDelete)
@@ -122,17 +121,26 @@ const AdminUserList = () => {
     const handleCloseDeleteUserModal = () => {
         setShowDeleteUserModal(false)
         console.log(showDeleteUserModal)
-        //window.location.reload()
     }
 
     const handleDeleteUser = () => {
-        dispatch(
-                deleteUserById(userIdToDelete)
-            )
-            .then(() => {
-                    setShowDeleteUserModal(false)
-            })
+        
+        console.log(userIdToDelete + "--999999999999999999999999999999999999")
+        dispatch(deleteUserById(userIdToDelete))
+        setShowDeleteUserModal(false)
+        console.log(showDeleteUserModal)    
     }
+
+    {/*const userId = useSelector(selectUserId);
+    const userById = useSelector(selectUserById);
+ 
+    const deleteUser = () => {
+        console.log(userId)
+        dispatch(deleteUserById(userId))
+            .then (() => {
+                props.handleCloseDeleteUserModal();
+            })
+    }*/}
 
     useEffect(() => {
         UserService.getUsers().then(
@@ -198,10 +206,13 @@ const AdminUserList = () => {
 
             <Modal show={showDeleteUserModal} onHide={handleCloseDeleteUserModal}>
                 <Modal.Header closeButton>
-                    <Modal.Title>Delete User</Modal.Title>
+                    <Modal.Title style={{ color: 'red' }}>Delete User</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                    <DeleteUserModal handleCloseDeleteUserModal={handleCloseDeleteUserModal}/>
+                    <div className="jumbotron">
+                        <h4 style={{ color: 'red' }}>Are you sure you want to delete this <strong>{userNameToDelete}</strong> ?</h4>
+                    </div>
+                    {/*<DeleteUserModal handleCloseDeleteUserModal={handleCloseDeleteUserModal}/>*/}
                 </Modal.Body>
                 <Modal.Footer>
                     <Button variant="secondary" onClick={handleCloseDeleteUserModal}>
@@ -210,7 +221,7 @@ const AdminUserList = () => {
                     <Button variant="primary" onClick={handleDeleteUser}>
                         Yes
                     </Button>
-                </Modal.Footer>
+                </Modal.Footer> 
             </Modal>
 
             <header className="jumbotron">

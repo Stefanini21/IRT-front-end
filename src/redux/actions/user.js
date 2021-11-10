@@ -8,7 +8,8 @@ export const userActions = {
     // GET_USER_ID: "GET_USER_ID",
     GET_USER_BY_ID: "GET_USER_BY_ID",
     CLOSE_MODAL: "CLOSE_MODAL",
-    UPDATE_USER_BY_ID: "UPDATE_USER_BY_ID"
+    UPDATE_USER_BY_ID: "UPDATE_USER_BY_ID",
+    DELETE_USER_BY_ID: "DELETE_USER_BY_ID"
 }
 
 export const setUserId = (userId) => (dispatch) => {
@@ -60,4 +61,27 @@ export const updateUserById = (userData, userId) => (dispatch) => {
             })
         })
 
+}
+
+/*export const deleteUserById = (userId) => async (dispatch) => {
+    const url = routes.BASIC_URL + routes.BASIC_PATH + routes.USER_BY_ID + userId;
+   
+    const response = await HttpService.delete(url, userId);
+    console.log(response + "response on delete");
+    return dispatch({
+        type: userActions.DELETE_USER_BY_ID,
+        payload: response
+    });
+}*/
+
+export const deleteUserById = (userId) => (dispatch) => {
+    const url = routes.BASIC_URL + routes.BASIC_PATH + routes.USER_BY_ID + userId;
+   
+    return HttpService.delete(url, userId)
+        .then(response => {
+            return dispatch({
+                type: userActions.DELETE_USER_BY_ID,
+                payload: response
+            })
+        })
 }

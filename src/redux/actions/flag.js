@@ -3,7 +3,6 @@ export const flagActions = {
 }
 
 export const resetEditUserFlags = () => (dispatch) => {
-    console.log("hueta")
     return dispatch({
         type: flagActions.RESET_EDIT_USER_FLAGS,
     })

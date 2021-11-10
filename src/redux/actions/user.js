@@ -1,6 +1,4 @@
-import {authActions} from "./auth";
 import {routes} from "../../config/routes";
-import UserService from "../../services/user.service"
 import {HttpService} from "../../services/httpService";
 
 export const userActions = {
@@ -9,11 +7,15 @@ export const userActions = {
     GET_USER_BY_ID: "GET_USER_BY_ID",
     CLOSE_MODAL: "CLOSE_MODAL",
     UPDATE_USER_BY_ID: "UPDATE_USER_BY_ID",
+<<<<<<< HEAD
     DELETE_USER_BY_ID: "DELETE_USER_BY_ID"
+=======
+    GET_USER_LIST: "GET_USER_LIST",
+    RECEIVE_DUPLICATE_ENTRY: "RECEIVE_DUPLICATE_ENTRY"
+>>>>>>> 91378dc679fd477cdd0ce3e7d6f0893a59a8db83
 }
 
 export const setUserId = (userId) => (dispatch) => {
-
     return dispatch({
         type: userActions.SET_USER_ID,
         payload: userId
@@ -22,8 +24,20 @@ export const setUserId = (userId) => (dispatch) => {
 
 export const closeModal = () => (dispatch) => {
     return dispatch({
-        type: userActions.CLOSE_MODAL
+        type: userActions.CLOSE_MODAL,
     })
+}
+
+export const getUserList = () => (dispatch) => {
+    const url = routes.BASIC_URL + routes.BASIC_PATH + routes.USER_BY_ID
+
+    return HttpService.get(url)
+        .then(response => {
+            return dispatch({
+                type: userActions.GET_USER_LIST,
+                payload: response
+            })
+        })
 }
 
 export const getUserById = (userId) => (dispatch) => {
@@ -38,16 +52,6 @@ export const getUserById = (userId) => (dispatch) => {
                 payload: response
             })
         })
-
-
-
-    // return UserService.getUserById(url, userId)
-    //     .then(response => {
-    //         return dispatch ({
-    //             type: userActions.GET_USER_BY_ID,
-    //             payload: response
-    //         })
-    //     })
 }
 
 export const updateUserById = (userData, userId) => (dispatch) => {
@@ -55,11 +59,19 @@ export const updateUserById = (userData, userId) => (dispatch) => {
 
     return HttpService.put(url, userData)
         .then(response => {
-            return dispatch({
-                type: userActions.GET_USER_BY_ID,
-                payload: response
-            })
+            if (response === 403) {
+                return dispatch({
+                    type: userActions.RECEIVE_DUPLICATE_ENTRY
+                })
+            }
+            else {
+                return dispatch({
+                    type: userActions.UPDATE_USER_BY_ID,
+                    payload: response
+                })
+            }
         })
+<<<<<<< HEAD
 
 }
 
@@ -84,4 +96,6 @@ export const deleteUserById = (userId) => (dispatch) => {
                 payload: response
             })
         })
+=======
+>>>>>>> 91378dc679fd477cdd0ce3e7d6f0893a59a8db83
 }

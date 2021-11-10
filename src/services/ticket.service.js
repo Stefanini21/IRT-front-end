@@ -32,12 +32,12 @@ class TicketService {
       {
         title,
         description,
-        ticket_priority: priority,
-        ticket_specialty: specialty,
-        ticket_status: status,
+        specialty: specialty,
+        priority: priority,
+        status: status,
         //creator_id: currentUserData.id,
-        developer_id: this.getDeveloperId(developer, ),
-        created_date: Date().toLocaleString() 
+        developer_id: this.getDeveloperId(developer),
+        created_date: Date().toLocaleString(),
       },
       { headers: authHeader() }
     );

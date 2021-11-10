@@ -1,11 +1,36 @@
 import React, { useState } from "react";
 import Form from "react-validation/build/form";
 import Input from "react-validation/build/input";
+import Select from "react-select";
 import CheckButton from "react-validation/build/button";
 import { useDispatch } from "react-redux";
 import { createTicket } from "../redux/actions/ticket";
 
 const CreateTicketModal = (props) => {
+
+
+  const statusOptions = [
+    { value: "BACKLOG", label: "Backlog" },
+    { value: "ASIGNED", label: "Assigned" },
+    { value: "FINISHED", label: "Finished" },
+    { value: "CLOSED", label: "Closed" }
+  ];
+
+  const specialtyOptions = [
+    { value: "FRONTEND", label: "Front-end" },
+    { value: "BACKEND", label: "Back-end" }
+  ];
+
+  const priorityOptions = [
+    { value: "LOW", label: "Low" },
+    { value: "MEDIUM", label: "Medium" },
+    { value: "HIGH", label: "High" }
+  ];
+
+
+
+
+
   const dispatch = useDispatch();
 
   const [title, setTitle] = useState("");
@@ -56,15 +81,19 @@ const CreateTicketModal = (props) => {
   };
 
   const onChangePriority = (e) => {
-    setPriority(e.target.value);
+    setPriority(e.value);
   };
 
   const onChangeSpecialty = (e) => {
-    setSpecialty(e.target.value);
+    console.log("into onChangeSpecialty");
+    console.log(e.value);
+    setSpecialty(e.value);
   };
 
   const onChangeStatus = (e) => {
-    setStatus(e.target.value);
+    console.log("into onChangeStatus")
+    console.log(e.value)
+    setStatus(e.value);
   };
 
   const onChangeDeveloper = (e) => {
@@ -137,33 +166,27 @@ const CreateTicketModal = (props) => {
 
               <div className="form-group">
                 <label htmlFor="priority">Priority</label>
-                <Input
+                <Select options={priorityOptions}
                   type="text"
-                  className="form-control"
                   name="priority"
-                  value={priority}
                   onChange={onChangePriority}
                 />
               </div>
 
               <div className="form-group">
                 <label htmlFor="specialty">Specialty</label>
-                <Input
+                <Select options={specialtyOptions}
                   type="text"
-                  className="form-control"
                   name="specialty"
-                  value={specialty}
                   onChange={onChangeSpecialty}
                 />
               </div>
 
               <div className="form-group">
                 <label htmlFor="status">Status</label>
-                <Input
+                <Select options={statusOptions}
                   type="text"
-                  className="form-control"
                   name="status"
-                  value={status}
                   onChange={onChangeStatus}
                 />
               </div>
@@ -181,7 +204,7 @@ const CreateTicketModal = (props) => {
               </div>
 
               <div className="form-group">
-                <button className="btn btn-primary btn-block">Sign Up</button>
+                <button className="btn btn-primary btn-block">Create ticket</button>
               </div>
             </div>
           )}

@@ -3,6 +3,7 @@ import storage from "redux-persist/lib/storage";
 import {auth} from "./auth";
 import {persistReducer} from "redux-persist";
 import {user} from "./user";
+import {flipFlag} from "./flag";
 
 
 const persistConfig = {
@@ -11,6 +12,6 @@ const persistConfig = {
     whitelist: [ "auth", "user" ]
 }
 
-const rootReducer = combineReducers({auth, user});
+const rootReducer = combineReducers({auth, user, flipFlag});
 
 export default persistReducer(persistConfig, rootReducer);

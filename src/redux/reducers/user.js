@@ -3,8 +3,13 @@ import {userActions} from "../actions/user";
 const initialState = {
     userId: {},
     userById: {},
+<<<<<<< HEAD
     updatedUser: {},
     isDeleted: false
+=======
+    //updatedUser: {},
+    userList: {}
+>>>>>>> 91378dc679fd477cdd0ce3e7d6f0893a59a8db83
 }
 
 export const user = (state = initialState, action) => {
@@ -15,18 +20,22 @@ export const user = (state = initialState, action) => {
                 ...state,
                 userId: action.payload
             };
+        // case userActions.UPDATE_USER_BY_ID:
+        //     return {
+        //         ...state,
+        //         updatedUser: action.payload
+        //     }
         case userActions.GET_USER_BY_ID:
-            console.log(action.payload + "this payload")
             const userById = action.payload
-            console.log("bla bla bla " + userById)
             return {
                 ...state,
                 userById: userById
             };
-        case userActions.UPDATE_USER_BY_ID:
+        case userActions.GET_USER_LIST:
+            const userList = action.payload
             return {
                 ...state,
-                updatedUser: action.payload
+                userList: userList
             }
         case userActions.DELETE_USER_BY_ID:
             console.log(action.payload + "actionpayload for delete")

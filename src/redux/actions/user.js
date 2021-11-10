@@ -7,15 +7,13 @@ export const userActions = {
     GET_USER_BY_ID: "GET_USER_BY_ID",
     CLOSE_MODAL: "CLOSE_MODAL",
     UPDATE_USER_BY_ID: "UPDATE_USER_BY_ID",
-<<<<<<< HEAD
-    DELETE_USER_BY_ID: "DELETE_USER_BY_ID"
-=======
     GET_USER_LIST: "GET_USER_LIST",
-    RECEIVE_DUPLICATE_ENTRY: "RECEIVE_DUPLICATE_ENTRY"
->>>>>>> 91378dc679fd477cdd0ce3e7d6f0893a59a8db83
+    RECEIVE_DUPLICATE_ENTRY: "RECEIVE_DUPLICATE_ENTRY",
+    DELETE_USER_BY_ID: "DELETE_USER_BY_ID"
 }
 
 export const setUserId = (userId) => (dispatch) => {
+
     return dispatch({
         type: userActions.SET_USER_ID,
         payload: userId
@@ -24,7 +22,7 @@ export const setUserId = (userId) => (dispatch) => {
 
 export const closeModal = () => (dispatch) => {
     return dispatch({
-        type: userActions.CLOSE_MODAL,
+        type: userActions.CLOSE_MODAL
     })
 }
 
@@ -71,24 +69,13 @@ export const updateUserById = (userData, userId) => (dispatch) => {
                 })
             }
         })
-<<<<<<< HEAD
-
 }
-
-/*export const deleteUserById = (userId) => async (dispatch) => {
-    const url = routes.BASIC_URL + routes.BASIC_PATH + routes.USER_BY_ID + userId;
-   
-    const response = await HttpService.delete(url, userId);
-    console.log(response + "response on delete");
-    return dispatch({
-        type: userActions.DELETE_USER_BY_ID,
-        payload: response
-    });
-}*/
 
 export const deleteUserById = (userId) => (dispatch) => {
     const url = routes.BASIC_URL + routes.BASIC_PATH + routes.USER_BY_ID + userId;
-   
+    console.log(userId + " this is userid")
+    console.log(url + " urlllll")
+
     return HttpService.delete(url, userId)
         .then(response => {
             return dispatch({
@@ -96,6 +83,4 @@ export const deleteUserById = (userId) => (dispatch) => {
                 payload: response
             })
         })
-=======
->>>>>>> 91378dc679fd477cdd0ce3e7d6f0893a59a8db83
 }

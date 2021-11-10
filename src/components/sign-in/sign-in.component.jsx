@@ -58,37 +58,37 @@ const SignIn = () => {
 
                 <Form onSubmit={handleSubmit}>
 
-                        <div>
-                            <div className="form-group">
-                                <label htmlFor="email">Email</label>
-                                <Input
-                                    type="text"
-                                    className="form-control"
-                                    name="email"
-                                    value={login}
-                                    onChange={(e) => setLogin(e.target.value)}
-                                    validations={[required]}
-                                />
-                            </div>
-
-                            <div className="form-group">
-                                <label htmlFor="password">Password</label>
-                                <Input
-                                    type="password"
-                                    className="form-control"
-                                    name="password"
-                                    value={password}
-                                    onChange={(e) => setPassword(e.target.value)}
-                                    validations={[required]}
-                                />
-                            </div>
-
-                            <div className="form-group">
-                                <button className="btn btn-primary btn-block">
-                                    <span>Login</span>
-                                </button>
-                            </div>
+                    <div>
+                        <div className="form-group">
+                            <label htmlFor="email">Email</label>
+                            <Input
+                                type="text"
+                                className="form-control"
+                                name="email"
+                                value={login}
+                                onChange={(e) => setLogin(e.target.value)}
+                                validations={[required]}
+                            />
                         </div>
+
+                        <div className="form-group">
+                            <label htmlFor="password">Password</label>
+                            <Input
+                                type="password"
+                                className="form-control"
+                                name="password"
+                                value={password}
+                                onChange={(e) => setPassword(e.target.value)}
+                                validations={[required]}
+                            />
+                        </div>
+
+                        <div className="form-group">
+                            <button className="btn btn-primary btn-block">
+                                <span>Login</span>
+                            </button>
+                        </div>
+                    </div>
 
                     {message && (
                         <div className="form-group">

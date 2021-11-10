@@ -152,7 +152,6 @@ const AdminTicketList = () => {
                     <CreateUserModal handleCloseCreateUserModal={handleCloseCreateUserModal}/>
                 </Modal.Body>
             </Modal>
-
             <Modal show={showViewUserModal} onHide={handleCloseViewUserModal}>
                 <Modal.Header closeButton>
                     <Modal.Title>View User</Modal.Title>
@@ -166,7 +165,6 @@ const AdminTicketList = () => {
                     </Button>
                 </Modal.Footer>
             </Modal>
-
             <Modal show={showDeleteUserModal} onHide={handleCloseDeleteUserModal}>
                 <Modal.Header closeButton>
                     <Modal.Title>Delete User</Modal.Title>
@@ -183,7 +181,6 @@ const AdminTicketList = () => {
                     </Button>
                 </Modal.Footer>
             </Modal>
-
             <header className="jumbotron">
                 {error && <h3>{error}</h3>}
                 <div style={{margin: 10}}>

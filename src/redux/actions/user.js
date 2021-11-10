@@ -8,7 +8,8 @@ export const userActions = {
     CLOSE_MODAL: "CLOSE_MODAL",
     CREATE_USER_SUCCESS: "CREATE_USER_SUCCESS",
     SET_MESSAGE: "SET_MESSAGE",
-    CREATE_USER_FAIL: "CREATE_USER_FAIL"
+    CREATE_USER_FAIL: "CREATE_USER_FAIL",
+    RECEIVE_DUPLICATE_ENTRY: "RECEIVE_DUPLICATE_ENTRY"
 }
 
 export const setUserId = (userId) => (dispatch) => {
@@ -47,10 +48,16 @@ export const createUser = (newUser) => (dispatch) => {
     return HttpService.post(url, newUser)
         .then((response) => {
 
-                return dispatch({
-                    type: userActions.CREATE_USER_SUCCESS,
-                    payload: response.data
-                })
+                if (response === 400 || response === 500 ) {
+                    return dispatch({
+                        type: userActions.RECEIVE_DUPLICATE_ENTRY
+                    })
+                } else {
+                    return dispatch({
+                        type: userActions.CREATE_USER_SUCCESS,
+                        payload: response.data
+                    })
+                }
             }
         );
 };

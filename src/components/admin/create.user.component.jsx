@@ -2,8 +2,9 @@ import React, {useState} from "react";
 import Form from "react-validation/build/form";
 import Input from "react-validation/build/input";
 import {isEmail} from "validator";
-import {useDispatch} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {createUser} from "../../redux/actions/user";
+import {selectDuplicatedEntryFlag, selectSuccessfulCreatedUserFlag} from "../../redux/selectors/flag";
 
 
 const required = (value) => {
@@ -54,11 +55,13 @@ const CreateUserModal = () => {
     const [firstname, setFirstName] = useState("");
     const [lastname, setLastName] = useState("");
     const [email, setEmail] = useState("");
-    const [specialty, setSpecialty] = useState("");
     const [password, setPassword] = useState("");
     const [role, setRole] = useState("USER");
-    const [successful, setSuccessful] = useState(false);
     const [message, setMessage] = useState("");
+    const [specialtyForm, setSpecialty] = useState("");
+    const duplicatedEntryFlag = useSelector(selectDuplicatedEntryFlag);
+    const successfulCreatedUser = useSelector(selectSuccessfulCreatedUserFlag);
+
 
     const onChangeUsername = (e) => {
         setUsername(e.target.value)
@@ -84,6 +87,7 @@ const CreateUserModal = () => {
         setPassword(e.target.value)
     }
 
+
     const handleCreateUser = (e) => {
         e.preventDefault();
 
@@ -93,19 +97,17 @@ const CreateUserModal = () => {
             username: username,
             email: email,
             role: role,
-            specialty: specialty,
+            specialty: specialtyForm,
             password: password
         }
 
         dispatch(createUser(newUser))
             .then(() => {
-                setMessage(username + ' successfully registered!')
 
-                this.props.handleCloseCreateUserModal();
+                setMessage(username + ' successfully registered!')
             })
-            .catch(() => {
-                setSuccessful(true)
-            });
+
+
     }
 
 
@@ -121,94 +123,107 @@ const CreateUserModal = () => {
                 <Form
                     onSubmit={handleCreateUser}
                 >
-                    {!successful && (
-                        <div>
-                            <div className="form-group">
-                                <label htmlFor="username">Username</label>
-                                <Input
-                                    type="text"
-                                    className="form-control"
-                                    name="username"
-                                    value={username}
-                                    onChange={onChangeUsername}
-                                    validations={[required, vusername]}
-                                />
-                            </div>
+                    {!successfulCreatedUser &&
+                    <div>
+                        <div className="form-group">
+                            <label htmlFor="username">Username</label>
+                            <Input
+                                type="text"
+                                className="form-control"
+                                name="username"
+                                value={username}
+                                onChange={onChangeUsername}
+                                validations={[required, vusername]}
+                            />
+                        </div>
 
-                            <div className="form-group">
-                                <label htmlFor="firstname">First name</label>
-                                <Input
-                                    type="text"
-                                    className="form-control"
-                                    name="firstname"
-                                    value={firstname}
-                                    onChange={onChangeFirstName}
-                                    validations={[required]}
-                                />
-                            </div>
+                        <div className="form-group">
+                            <label htmlFor="firstname">First name</label>
+                            <Input
+                                type="text"
+                                className="form-control"
+                                name="firstname"
+                                value={firstname}
+                                onChange={onChangeFirstName}
+                                validations={[required]}
+                            />
+                        </div>
 
-                            <div className="form-group">
-                                <label htmlFor="lastname">Last name</label>
-                                <Input
-                                    type="text"
-                                    className="form-control"
-                                    name="lastname"
-                                    value={lastname}
-                                    onChange={onChangeLastName}
-                                    validations={[required]}
-                                />
-                            </div>
+                        <div className="form-group">
+                            <label htmlFor="lastname">Last name</label>
+                            <Input
+                                type="text"
+                                className="form-control"
+                                name="lastname"
+                                value={lastname}
+                                onChange={onChangeLastName}
+                                validations={[required]}
+                            />
+                        </div>
 
-                            <div className="form-group">
-                                <label htmlFor="email">Email</label>
-                                <Input
-                                    type="text"
-                                    className="form-control"
-                                    name="email"
-                                    value={email}
-                                    onChange={onChangeEmail}
-                                    validations={[required, vemail]}
-                                />
-                            </div>
+                        <div className="form-group">
+                            <label htmlFor="email">Email</label>
+                            <Input
+                                type="text"
+                                className="form-control"
+                                name="email"
+                                value={email}
+                                onChange={onChangeEmail}
+                                validations={[required, vemail]}
+                            />
+                        </div>
 
-                            <div className="form-group">
-                                <label htmlFor="specialty">Specialty</label>
-                                <select
-                                    className="form-control"
-                                    name="specialty"
-                                    value={specialty}
-                                    onChange={onChangeSpecialty}>
-                                    <option value="BACKEND">BACKEND</option>
-                                    <option value="FRONTEND">FRONTEND</option>
-                                </select>
-                            </div>
+                        <div className="form-group">
+                            <label htmlFor="specialty">Specialty</label>
+                            <select
+                                className="form-control"
+                                name="specialty"
+                                defaultValue={specialtyForm}
+                                value={specialtyForm}
+                                onChange={onChangeSpecialty}>
+                                validations={[required]}
+                                <option></option>
+                                <option value="BACKEND">BACKEND</option>
+                                <option value="FRONTEND">FRONTEND</option>
+                            </select>
+                        </div>
 
-                            <div className="form-group">
-                                <label htmlFor="password">Password</label>
-                                <Input
-                                    type="password"
-                                    className="form-control"
-                                    name="password"
-                                    value={password}
-                                    onChange={onChangePassword}
-                                    validations={[required, vpassword]}
-                                />
-                            </div>
+                        <div className="form-group">
+                            <label htmlFor="password">Password</label>
+                            <Input
+                                type="password"
+                                className="form-control"
+                                name="password"
+                                value={password}
+                                onChange={onChangePassword}
+                                validations={[required, vpassword]}
+                            />
+                        </div>
 
-                            <div className="form-group">
-                                <button className="btn btn-primary btn-block">Sign Up</button>
+                        <div className="form-group">
+                            <button className="btn btn-primary btn-block">Sign Up</button>
+                        </div>
+                    </div>
+                    }
+
+                    {duplicatedEntryFlag && (
+                        <div className="form-group">
+                            <div className="alert alert-danger" role="alert">
+                                Username or Email are already taken.
                             </div>
                         </div>
                     )}
 
-                    {message && (
+                    {successfulCreatedUser && (
                         <div className="form-group">
-                            <div className={successful ? "alert alert-success" : "alert alert-danger"}
+                            <div className={"alert alert-success"}
                                  role="alert">
                                 {message}
                             </div>
                         </div>
                     )}
+
+
                 </Form>
             </div>
         </div>
@@ -218,6 +233,3 @@ const CreateUserModal = () => {
 
 
 export default CreateUserModal
-
-
-

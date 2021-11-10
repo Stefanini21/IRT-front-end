@@ -87,6 +87,7 @@ const AdminUserList = () => {
         setShowCreateUserModal(false)
         window.location.reload()
     }
+
     const handleShowViewUserModal = (userToView) => {
 
         dispatch(setUserId(userToView.id))
@@ -109,7 +110,7 @@ const AdminUserList = () => {
         setShowEditUserModal(false)
         dispatch(getUserList())
     }
-
+ 
     const handleShowDeleteUserModal = (deleteId, deleteUsername) => {
         //dispatch(setUserId(userId))
         setUserIdToDelete(deleteId)
@@ -119,18 +120,13 @@ const AdminUserList = () => {
         console.log(userNameToDelete)
         console.log(showDeleteUserModal)
 
-        setUserIdToDelete(userId)
-        setUserNameToDelete(username)
-        setShowDeleteUserModal(true)
     }
 
     const handleCloseDeleteUserModal = () => {
         setShowDeleteUserModal(false)
         console.log(showDeleteUserModal)
     }
-
-        window.location.reload()
-    }
+    
     const handleDeleteUser = () => {
         
         console.log(userIdToDelete + "--999999999999999999999999999999999999")

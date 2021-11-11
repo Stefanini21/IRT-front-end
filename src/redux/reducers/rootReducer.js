@@ -4,14 +4,16 @@ import {auth} from "./auth";
 import {persistReducer} from "redux-persist";
 import {user} from "./user";
 import {ticket} from "./ticket";
+import {message} from "./message";
+import {flipFlag} from "./flag";
 
 
 const persistConfig = {
     key: "root",
     storage,
-    whitelist: [ "auth", "user", "ticket" ]
+    whitelist: [ "auth", "user", "ticket", "message", "flipFlag" ]
 }
 
-const rootReducer = combineReducers({auth, user, ticket});
+const rootReducer = combineReducers({auth, user, ticket, message, flipFlag});
 
 export default persistReducer(persistConfig, rootReducer);

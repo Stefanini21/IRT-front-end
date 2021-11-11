@@ -3,13 +3,12 @@ import {Button, Modal} from "react-bootstrap";
 import {deleteUser} from "../../actions/user";
 import UserService from "../../services/userService";
 import EventBus from "../../common/EventBus";
-import CreateUserModal from "../create.user.component";
+import CreateUserModal from "./create.user.component";
 import ViewUser from "../view.user.component";
 import DataTable from "react-data-table-component";
 import {useDispatch, useSelector} from "react-redux";
-import {closeModal, setUserId} from "../../redux/actions/user";
+import {closeModal, getUserList, setUserId} from "../../redux/actions/user";
 import EditUserModal from "../edit.user.component";
-import {getUserList} from "../../redux/actions/user";
 import {selectUserList} from "../../redux/selectors/user";
 
 const AdminUserList = () => {
@@ -27,7 +26,6 @@ const AdminUserList = () => {
     const [userToView, setUserToView] = useState([]);
 
     const userList = useSelector(selectUserList);
-
 
     const columns = [
         {
@@ -81,55 +79,55 @@ const AdminUserList = () => {
     ]
 
     const handleShowCreateUserModal = () => {
+
         setShowCreateUserModal(true)
     }
-
     const handleCloseCreateUserModal = () => {
+
         setShowCreateUserModal(false)
         window.location.reload()
     }
-
     const handleShowViewUserModal = (userToView) => {
         dispatch(setUserId(userToView.id))
         setShowViewUserModal(true)
         setUserToView(userToView)
     }
-
     const handleEditUserModal = (userToEdit) => {
+
         dispatch(setUserId(userToEdit.id))
         setShowEditUserModal(true)
         setUserToView(userToEdit)
     }
-
     const handleCloseViewUserModal = () => {
-
         setShowViewUserModal(false)
-    }
 
+    }
     const handleCloseEditUserModal = () => {
 
         setShowEditUserModal(false)
+        dispatch(getUserList())
     }
-
     const handleShowDeleteUserModal = (userId, username) => {
         setUserIdToDelete(userId)
-            setUserNameToDelete(username)
-            setShowDeleteUserModal(true)
-
+        setUserNameToDelete(username)
+        setShowDeleteUserModal(true)
+        setUserIdToDelete(userId)
+        setUserNameToDelete(username)
+        setShowDeleteUserModal(true)
     }
 
     const handleCloseDeleteUserModal = () => {
 
         setShowDeleteUserModal(false)
-            window.location.reload()
+        window.location.reload()
     }
 
     const handleDeleteUser = () => {
         dispatch(
-                deleteUser(userIdToDelete)
-            )
+            deleteUser(userIdToDelete)
+        )
             .then(() => {
-                    setShowDeleteUserModal(false)
+                setShowDeleteUserModal(false)
             })
         window.location.reload()
     }
@@ -141,6 +139,37 @@ const AdminUserList = () => {
     useEffect(() => {
         dispatch(closeModal)
     }, [handleCloseViewUserModal])
+    useEffect(() => {
+    //     UserService.getUsers().then(
+    //         response => {
+    //             setUsers(response.data)
+    //         },
+    //         error => {
+    //             setError(
+    //                 (error.response &&
+    //                     error.response.data &&
+    //                     error.response.data.message) ||
+    //                 error.message ||
+    //                 error.toString())
+    //
+    //             if (error.response && error.response.status === 401) {
+    //                 EventBus.dispatch("logout");
+    //             }
+    //
+    //         }
+    //     );
+    // }, [])
+        setUsers(userList)
+    }, [userList])
+
+
+    useEffect(() =>{
+        dispatch(getUserList())
+    }, [])
+
+    // useEffect(() => {
+    //     dispatch(closeModal)
+    // }, [])
 
     return (
         <div>
@@ -200,8 +229,8 @@ const AdminUserList = () => {
                         Create User
                     </Button>
                 </div>
-                <DataTable paginationPerPage={5} paginationRowsPerPageOptions={[5, 10, 15]} title={'Users'}
-                           columns={columns} data={userList} pagination={true}/>
+                <DataTable paginationPerPage={10} paginationRowsPerPageOptions={[10, 25, 50]} title={'Users'}
+                           columns={columns} data={users} pagination={true}/>
             </header>
         </div>
 

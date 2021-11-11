@@ -85,3 +85,17 @@ export const createTicket =
             })
         })
   }
+
+  export const getAllUsersBySpecialty = (specialty) => (dispatch) => {
+    const url = routes.BASIC_URL + routes.BASIC_PATH + routes.USER_BY_ID + userId;
+    console.log(userId + " this is userid")
+    console.log(url + " urlllll")
+
+    return HttpService.get(url, userId)
+        .then(response => {
+            return dispatch({
+                type: userActions.GET_USER_BY_ID,
+                payload: response
+            })
+        })
+      }

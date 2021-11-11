@@ -38,7 +38,7 @@ const Header = () => {
       <div className="header">
         <nav className="navbar navbar-expand navbar-dark">
           <Link to={"/"} className="navbar-brand">
-            irt-react-client
+            Issue Reporting Tool
           </Link>
           <div className="navbar-nav mr-auto">
             {currentUserLoaded && currentUserData.role === "ADMIN" ? (

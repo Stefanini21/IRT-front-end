@@ -1,51 +1,61 @@
-// import axios from 'axios';
-// import authHeader from './auth-header';
+import axios from 'axios';
+import authHeader from './auth-header';
 
-// const API_URL = 'http://localhost:8080/api/users';
+const API_URL = 'http://localhost:8080/api/users';
 
-// const UserService = () => {
-//   const getUsers = () => {
-//     return axios.get(API_URL, { headers: authHeader() });
-//   }
 
-//   const deleteUser = (userId) => {
-//     return axios.delete(API_URL + "/" + userId, { headers: authHeader() });
-//   }
+class UserService {
 
-//   const createUser = (username, firstname, lastname, specialty, role, email, password) => {
-//     return axios.post(
-//       API_URL,
-//       {
-//         username,
-//         firstName: firstname,
-//         lastName: lastname,
-//         specialty,
-//         role,
-//         email,
-//         password,
-//       },
-//       { headers: authHeader() }
-//     );
-//   }
+    getUsers() {
+        return axios.get(API_URL, {headers: authHeader()});
+    }
 
-//   const getUserById = (url, userId) => {
-//     return axios
-//       .get(url + JSON.stringify(userId), { headers: authHeader() })
-//       .then((response) => {
-//         // console.log(response.data)
-//         return response.data;
-//       });
-//   }
+    getRoles() {
+        return axios.get(API_URL + "/roles", {headers: authHeader()});
+    }
 
-//   //getUserByUsername
-//   const getUserByUsername = (url, userName) => {
-//     return axios
-//       .get(url + JSON.stringify(userName), { headers: authHeader() })
-//       .then((response) => {
-//         // console.log(response.data)
-//         return response.data;
-//       });
-//   }
-// }
+    getSpecialties() {
+        return axios.get(API_URL + "/specialties", {headers: authHeader()});
+    }
 
-// export default UserService;
+    deleteUser(userId) {
+        return axios.delete(API_URL + "/" + userId, {headers: authHeader()});
+    }
+
+    createUser(username, firstname, lastname, specialty, role, email, password) {
+        return axios.post(
+            API_URL,
+            {
+                username,
+                firstName: firstname,
+                lastName: lastname,
+                specialty,
+                role,
+                email,
+                password,
+            },
+            {headers: authHeader()}
+        );
+    }
+
+    getUserById(url, userId) {
+        return axios
+            .get(url + JSON.stringify(userId), {headers: authHeader()})
+            .then((response) => {
+                // console.log(response.data)
+                return response.data;
+            });
+    }
+
+    //getUserByUsername
+    getUserByUsername(url, userName) {
+        return axios
+            .get(url + JSON.stringify(userName), {headers: authHeader()})
+            .then((response) => {
+                // console.log(response.data)
+                return response.data;
+            });
+    }
+}
+
+export default new UserService();

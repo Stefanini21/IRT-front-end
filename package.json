@@ -16,6 +16,7 @@
     "react-native-image-resizer": "^1.4.5",
     "react-router-dom": "^5.3.0",
     "react-scripts": "^4.0.3",
+    "react-select": "^5.2.1",
     "react-validation": "^3.0.7",
     "reactstrap": "^9.0.0",
     "redux": "^4.1.1",

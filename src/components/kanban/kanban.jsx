@@ -43,29 +43,29 @@ const KanbanBoard = (props) => {
   useEffect(() => {
     setProjects(tickets);
     setIsLoading(false);
-    tickets.forEach((element) => {
-      console.log("element.status: " + element.status);
-      switch (element.status) {
-        case "BACKLOG": {
-          element.project_stage = 1;
-          break;
-        }
-        case "ASIGNED": {
-          element.project_stage = 2;
-          break;
-        }
-        case "FINISHED": {
-          element.project_stage = 3;
-          break;
-        }
-        case "CLOSED": {
-          element.project_stage = 4;
-          break;
-        }
-        default:
-          element.project_stage = 1;
-      }
-    });
+    // tickets.forEach((element) => {
+    //   console.log("element.status: " + element.status);
+    //   switch (element.status) {
+    //     case "BACKLOG": {
+    //       element.project_stage = 1;
+    //       break;
+    //     }
+    //     case "ASIGNED": {
+    //       element.project_stage = 2;
+    //       break;
+    //     }
+    //     case "FINISHED": {
+    //       element.project_stage = 3;
+    //       break;
+    //     }
+    //     case "CLOSED": {
+    //       element.project_stage = 4;
+    //       break;
+    //     }
+    //     default:
+    //       element.project_stage = 1;
+    //   }
+    // });
   }, [setDraggedOverCol]);
 
   //this is called when a Kanban card is dragged over a column (called by column)

@@ -1,14 +1,11 @@
 import React, {useEffect, useState} from "react";
 import Form from "react-validation/build/form";
 import Input from "react-validation/build/input";
-import CheckButton from "react-validation/build/button";
 import {isEmail} from "validator";
 import {useDispatch, useSelector} from "react-redux";
-import {createUser} from "../actions/user";
-import {getUserById, getUserList, updateUserById} from "../redux/actions/user";
-import {selectUserById, selectUserId, selectUserList} from "../redux/selectors/user";
-import {selectDuplicatedEntryFlag, selectUserUpdatedFlag} from "../redux/selectors/flag";
-import {resetEditUserFlags} from "../redux/actions/flag";
+import {createUser} from "../../redux/actions/user";
+import {selectDuplicatedEntryFlag, selectSuccessfulCreatedUserFlag} from "../../redux/selectors/flag";
+import UserService from "../../services/user.service";
 
 
 const required = (value) => {
@@ -41,75 +38,34 @@ const vusername = (value) => {
     }
 };
 
-const vfirstname = value => {
-    if (value.length < 1 || value.length > 20) {
+const vpassword = (value) => {
+    if (value.length < 6 || value.length > 40) {
         return (
             <div className="alert alert-danger" role="alert">
-                The first name must be between 3 and 20 characters.
+                The password must be between 6 and 40 characters.
             </div>
         );
     }
 };
 
-const vlastname = value => {
-    if (value.length < 3 || value.length > 20) {
-        return (
-            <div className="alert alert-danger" role="alert">
-                The last name must be between 3 and 20 characters.
-            </div>
-        );
-    }
-};
-
-const vspecialty = value => {
-    if (value.length < 3 || value.length > 10) {
-        return (
-            <div className="alert alert-danger" role="alert">
-                The gender must be between 3 and 10 characters.
-            </div>
-        );
-    }
-};
-
-
-const EditUserModal = (props) => {
+const CreateUserModal = () => {
 
     const dispatch = useDispatch();
-    const userId = useSelector(selectUserId);
-    const userById = useSelector(selectUserById);
-    //const updatedUser = useSelector(updateUserById);
-    const userUpdateSuccess = useSelector(selectUserUpdatedFlag);
-    const duplicatedEntryFlag = useSelector(selectDuplicatedEntryFlag);
 
-    const [usernameForm, setUsername] = useState("");
-    const [firstnameForm, setFirstName] = useState("");
-    const [lastnameForm, setLastName] = useState("");
-    const [emailForm, setEmail] = useState("");
-    const [specialtyForm, setSpecialty] = useState("");
-    const [roleForm, setRole] = useState("");
-    const [successful, setSuccessful] = useState(false);
+    const [username, setUsername] = useState("");
+    const [firstname, setFirstName] = useState("");
+    const [lastname, setLastName] = useState("");
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
+    const [role, setRole] = useState("");
     const [message, setMessage] = useState("");
-    const [show, setShow] = useState(true);
+    const [specialtyForm, setSpecialty] = useState("");
+    const duplicatedEntryFlag = useSelector(selectDuplicatedEntryFlag);
+    const successfulCreatedUser = useSelector(selectSuccessfulCreatedUserFlag);
 
-    useEffect(() => {
-        dispatch(resetEditUserFlags())
-        dispatch(getUserById(userId))
-    }, [])
+    const [roles, setRoles] = useState([]);
+    const [specialties, setSpecialties] = useState([]);
 
-
-    useEffect(() => {
-        setUsername(userById.username);
-        setFirstName(userById.firstName);
-        setLastName(userById.lastName);
-        setEmail(userById.email);
-        setSpecialty(userById.specialty);
-        setRole(userById.role);
-
-    }, [userById])
-
-    const handleClose = () => {
-        setShow(false)
-    }
 
     const onChangeUsername = (e) => {
         setUsername(e.target.value)
@@ -123,40 +79,61 @@ const EditUserModal = (props) => {
         setLastName(e.target.value)
     }
 
-
     const onChangeSpecialty = (e) => {
         setSpecialty(e.target.value)
-    }
-
-    const onChangeRole = (e) => {
-        setRole(e.target.value)
     }
 
     const onChangeEmail = (e) => {
         setEmail(e.target.value)
     }
 
-    const handleSubmit = (e) => {
+    const onChangePassword = (e) => {
+        setPassword(e.target.value)
+    }
+
+    const onChangeRole = (e) => {
+        setRole(e.target.value)
+    }
+
+
+    const handleCreateUser = (e) => {
         e.preventDefault();
 
-        setMessage("")
-        setSuccessful(false)
-
-        const formattedData = {
-            id: userId,
-            username: usernameForm,
-            firstName: firstnameForm,
-            lastName: lastnameForm,
-            email: emailForm,
+        const newUser = {
+            firstName: firstname,
+            lastName: lastname,
+            username: username,
+            email: email,
+            role: role,
             specialty: specialtyForm,
-            role: roleForm
+            password: password
         }
 
-        dispatch(updateUserById(formattedData, userId))
+        dispatch(createUser(newUser))
             .then(() => {
-                setMessage(usernameForm + ' successfully updated!')
-            });
+
+                setMessage(username + ' successfully registered!')
+            })
+
+
     }
+
+
+    useEffect(() => {
+        UserService.getRoles().then(
+            response => {
+                setRoles(response.data)
+            },
+        );
+
+        UserService.getSpecialties().then(
+            response => {
+                setSpecialties(response.data)
+            },
+        );
+
+    }, [])
+
 
     return (
         <div className="col-md-12">
@@ -168,9 +145,9 @@ const EditUserModal = (props) => {
                 />
 
                 <Form
-                    onSubmit={handleSubmit}
-
+                    onSubmit={handleCreateUser}
                 >
+                    {!successfulCreatedUser &&
                     <div>
                         <div className="form-group">
                             <label htmlFor="username">Username</label>
@@ -178,13 +155,11 @@ const EditUserModal = (props) => {
                                 type="text"
                                 className="form-control"
                                 name="username"
-                                value={usernameForm}
+                                value={username}
                                 onChange={onChangeUsername}
-                                // validations={[required, vusername]}
+                                validations={[required, vusername]}
                             />
                         </div>
-
-
 
                         <div className="form-group">
                             <label htmlFor="firstname">First name</label>
@@ -192,9 +167,9 @@ const EditUserModal = (props) => {
                                 type="text"
                                 className="form-control"
                                 name="firstname"
-                                value={firstnameForm}
+                                value={firstname}
                                 onChange={onChangeFirstName}
-                                validations={[required, vfirstname]}
+                                validations={[required]}
                             />
                         </div>
 
@@ -204,9 +179,9 @@ const EditUserModal = (props) => {
                                 type="text"
                                 className="form-control"
                                 name="lastname"
-                                value={lastnameForm}
+                                value={lastname}
                                 onChange={onChangeLastName}
-                                validations={[required, vlastname]}
+                                validations={[required]}
                             />
                         </div>
 
@@ -216,27 +191,13 @@ const EditUserModal = (props) => {
                                 type="text"
                                 className="form-control"
                                 name="email"
-                                value={emailForm}
+                                value={email}
                                 onChange={onChangeEmail}
                                 validations={[required, vemail]}
                             />
                         </div>
 
-                        <div>
-                            <label htmlFor="role">Role</label>
-                            <select
-                                className="form-control"
-                                name="role"
-                                defaultValue={roleForm}
-                                value={roleForm}
-                                onChange={onChangeRole}>
-                                <option value="USER">User</option>
-                                <option value="DEVELOPER">Developer</option>
-                                <option value="ADMIN">Admin</option>
-                            </select>
-                        </div>
-
-                        <div>
+                        <div className="form-group">
                             <label htmlFor="specialty">Specialty</label>
                             <select
                                 className="form-control"
@@ -244,36 +205,64 @@ const EditUserModal = (props) => {
                                 defaultValue={specialtyForm}
                                 value={specialtyForm}
                                 onChange={onChangeSpecialty}>
-                                <option value="NONE"></option>
-                                <option value="BACKEND">BackEnd</option>
-                                <option value="FRONTEND">FrontEnd</option>
+                                validations={[required]}
+                                {specialties.map((specialty, i) =>
+                                    <option value={specialty}>{specialty}</option>
+                                )}
                             </select>
-                            <br/>
                         </div>
 
                         <div className="form-group">
-                            <button className="btn btn-primary btn-block">Update</button>
+                            <label htmlFor="role">Role</label>
+                            <select
+                                className="form-control"
+                                name="role"
+                                defaultValue={role}
+                                value={role}
+                                onChange={onChangeRole}>
+                                validations={[required]}
+                                {roles.map((role, i) =>
+                                    <option value={role}>{role}</option>
+                                )}
+                            </select>
+                        </div>
+
+                        <div className="form-group">
+                            <label htmlFor="password">Password</label>
+                            <Input
+                                type="password"
+                                className="form-control"
+                                name="password"
+                                value={password}
+                                onChange={onChangePassword}
+                                validations={[required, vpassword]}
+                            />
+                        </div>
+
+                        <div className="form-group">
+                            <button className="btn btn-primary btn-block">Sign Up</button>
                         </div>
                     </div>
-
+                    }
 
                     {duplicatedEntryFlag && (
                         <div className="form-group">
-                            <div className="alert alert-danger"
-                                 role="alert">
+                            <div className="alert alert-danger" role="alert">
                                 Username or Email are already taken.
                             </div>
                         </div>
                     )}
 
-                    {userUpdateSuccess && (
+                    {successfulCreatedUser && (
                         <div className="form-group">
-                            <div className="alert alert-success"
+                            <div className={"alert alert-success"}
                                  role="alert">
                                 {message}
                             </div>
                         </div>
                     )}
+
+
                 </Form>
             </div>
         </div>
@@ -282,4 +271,4 @@ const EditUserModal = (props) => {
 }
 
 
-export default EditUserModal
+export default CreateUserModal

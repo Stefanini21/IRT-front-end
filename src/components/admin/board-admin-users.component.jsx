@@ -141,9 +141,6 @@ const AdminUserList = () => {
         dispatch(getUserList())
     }, [])
 
-    // useEffect(() => {
-    //     dispatch(closeModal)
-    // }, [])
 
 
     return (
@@ -204,8 +201,13 @@ const AdminUserList = () => {
                         Create User
                     </Button>
                 </div>
-                <DataTable paginationPerPage={10} paginationRowsPerPageOptions={[10, 25, 50]} title={'Users'}
-                           columns={columns} data={users} pagination={true}/>
+                <DataTable
+                    paginationPerPage={10}
+                    paginationRowsPerPageOptions={[10, 25, 50]}
+                    title={'Users'}
+                    columns={columns}
+                    data={users}
+                    pagination={true}/>
             </header>
         </div>
 

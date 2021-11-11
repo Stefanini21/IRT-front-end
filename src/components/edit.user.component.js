@@ -1,10 +1,8 @@
 import React, {useEffect, useState} from "react";
 import Form from "react-validation/build/form";
 import Input from "react-validation/build/input";
-import CheckButton from "react-validation/build/button";
 import {isEmail} from "validator";
 import {useDispatch, useSelector} from "react-redux";
-import {createUser} from "../actions/user";
 import {getUserById, getUserList, updateUserById} from "../redux/actions/user";
 import {selectUserById, selectUserId, selectUserList} from "../redux/selectors/user";
 import {selectDuplicatedEntryFlag, selectUserUpdatedFlag} from "../redux/selectors/flag";
@@ -180,7 +178,7 @@ const EditUserModal = (props) => {
                                 name="username"
                                 value={usernameForm}
                                 onChange={onChangeUsername}
-                                // validations={[required, vusername]}
+                                validations={[required, vusername]}
                             />
                         </div>
 
@@ -244,9 +242,9 @@ const EditUserModal = (props) => {
                                 defaultValue={specialtyForm}
                                 value={specialtyForm}
                                 onChange={onChangeSpecialty}>
-                                <option value="NONE"></option>
-                                <option value="BACKEND">BackEnd</option>
-                                <option value="FRONTEND">FrontEnd</option>
+                                <option value="NONE">N/A</option>
+                                <option value="BACKEND">Back-End</option>
+                                <option value="FRONTEND">Front-End</option>
                             </select>
                             <br/>
                         </div>

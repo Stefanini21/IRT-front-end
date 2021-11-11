@@ -3,7 +3,7 @@ import {Button, Modal} from "react-bootstrap";
 import {deleteUser} from "../../actions/user";
 import UserService from "../../services/user.service";
 import EventBus from "../../common/EventBus";
-import CreateUserModal from "../create.user.component";
+import CreateUserModal from "./create.user.component";
 import ViewUser from "../view.user.component";
 import DataTable from "react-data-table-component";
 import {useDispatch, useSelector} from "react-redux";
@@ -88,7 +88,6 @@ const AdminUserList = () => {
         window.location.reload()
     }
     const handleShowViewUserModal = (userToView) => {
-
         dispatch(setUserId(userToView.id))
         setShowViewUserModal(true)
         setUserToView(userToView)
@@ -100,7 +99,6 @@ const AdminUserList = () => {
         setUserToView(userToEdit)
     }
     const handleCloseViewUserModal = () => {
-
         setShowViewUserModal(false)
 
     }
@@ -110,7 +108,9 @@ const AdminUserList = () => {
         dispatch(getUserList())
     }
     const handleShowDeleteUserModal = (userId, username) => {
-
+        setUserIdToDelete(userId)
+        setUserNameToDelete(username)
+        setShowDeleteUserModal(true)
         setUserIdToDelete(userId)
         setUserNameToDelete(username)
         setShowDeleteUserModal(true)
@@ -119,20 +119,39 @@ const AdminUserList = () => {
     const handleCloseDeleteUserModal = () => {
 
         setShowDeleteUserModal(false)
-
         window.location.reload()
     }
+
     const handleDeleteUser = () => {
         dispatch(
-                deleteUser(userIdToDelete)
-            )
+            deleteUser(userIdToDelete)
+        )
             .then(() => {
-                    setShowDeleteUserModal(false)
+                setShowDeleteUserModal(false)
             })
         window.location.reload()
     }
 
     useEffect(() => {
+    //     UserService.getUsers().then(
+    //         response => {
+    //             setUsers(response.data)
+    //         },
+    //         error => {
+    //             setError(
+    //                 (error.response &&
+    //                     error.response.data &&
+    //                     error.response.data.message) ||
+    //                 error.message ||
+    //                 error.toString())
+    //
+    //             if (error.response && error.response.status === 401) {
+    //                 EventBus.dispatch("logout");
+    //             }
+    //
+    //         }
+    //     );
+    // }, [])
         setUsers(userList)
     }, [userList])
 

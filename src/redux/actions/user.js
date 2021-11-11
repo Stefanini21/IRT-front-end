@@ -92,7 +92,6 @@ export const updateUserById = (userData, userId) => (dispatch) => {
                 })
             }
         })
-<<<<<<< HEAD
 }
 
 export const deleteUserById = (userId) => (dispatch) => {
@@ -108,6 +107,3 @@ export const deleteUserById = (userId) => (dispatch) => {
             })
         })
 }
-=======
-};
->>>>>>> b841e949708441f276c6635e2681da994b278e02

@@ -38,7 +38,6 @@ export const user = (state = initialState, action) => {
                 ...state,
                 userList: userList
             };
-<<<<<<< HEAD
         case userActions.DELETE_USER_BY_ID:
             console.log(action.payload + " action.payload for delete")
             return {
@@ -48,8 +47,6 @@ export const user = (state = initialState, action) => {
                 //userList: userList,
                 isDeleted: true
             };
-=======
->>>>>>> b841e949708441f276c6635e2681da994b278e02
         default:
             return state;
     }

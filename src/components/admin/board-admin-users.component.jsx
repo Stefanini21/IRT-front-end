@@ -2,12 +2,8 @@ import React, {useEffect, useState} from "react";
 import {Button, Modal} from "react-bootstrap";
 import UserService from "../../services/user.service";
 import EventBus from "../../common/EventBus";
-<<<<<<< HEAD
 import CreateUserModal from "../create.user.component";
 import DeleteUserModal from "../delete.user.component";
-=======
-import CreateUserModal from "./create.user.component";
->>>>>>> b841e949708441f276c6635e2681da994b278e02
 import ViewUser from "../view.user.component";
 import DataTable from "react-data-table-component";
 import {useDispatch, useSelector} from "react-redux";
@@ -93,6 +89,7 @@ const AdminUserList = () => {
     }
 
     const handleShowViewUserModal = (userToView) => {
+
         dispatch(setUserId(userToView.id))
         setShowViewUserModal(true)
         setUserToView(userToView)
@@ -104,6 +101,7 @@ const AdminUserList = () => {
         setUserToView(userToEdit)
     }
     const handleCloseViewUserModal = () => {
+
         setShowViewUserModal(false)
 
     }
@@ -112,20 +110,11 @@ const AdminUserList = () => {
         setShowEditUserModal(false)
         dispatch(getUserList())
     }
-<<<<<<< HEAD
- 
+
     const handleShowDeleteUserModal = (deleteId, deleteUsername) => {
         dispatch(setUserId(deleteId))
         setUserIdToDelete(deleteId)
         setUserNameToDelete(deleteUsername)
-=======
-    const handleShowDeleteUserModal = (userId, username) => {
-        setUserIdToDelete(userId)
-        setUserNameToDelete(username)
-        setShowDeleteUserModal(true)
-        setUserIdToDelete(userId)
-        setUserNameToDelete(username)
->>>>>>> b841e949708441f276c6635e2681da994b278e02
         setShowDeleteUserModal(true)
         console.log(userIdToDelete)
         console.log(userNameToDelete)
@@ -138,7 +127,6 @@ const AdminUserList = () => {
         console.log(userNameToDelete)
         console.log(showDeleteUserModal)
         setShowDeleteUserModal(false)
-<<<<<<< HEAD
         console.log(showDeleteUserModal)
     }
 
@@ -148,31 +136,7 @@ const AdminUserList = () => {
         dispatch(getUserList())
         setShowDeleteUserModal(false)
         console.log(showDeleteUserModal)    
-=======
-        window.location.reload()
     }
-
-    const handleDeleteUser = () => {
-        dispatch(
-            deleteUser(userIdToDelete)
-        )
-            .then(() => {
-                setShowDeleteUserModal(false)
-            })
-        window.location.reload()
->>>>>>> b841e949708441f276c6635e2681da994b278e02
-    }
-
-    {/*const userId = useSelector(selectUserId);
-    const userById = useSelector(selectUserById);
- 
-    const deleteUser = () => {
-        console.log(userId)
-        dispatch(deleteUserById(userId))
-            .then (() => {
-                props.handleCloseDeleteUserModal();
-            })
-    }*/}
 
     useEffect(() => {
     //     UserService.getUsers().then(

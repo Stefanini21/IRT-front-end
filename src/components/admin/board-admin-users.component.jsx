@@ -2,7 +2,7 @@ import React, {useEffect, useState} from "react";
 import {Button, Modal} from "react-bootstrap";
 import UserService from "../../services/user.service";
 import EventBus from "../../common/EventBus";
-import CreateUserModal from "../create.user.component";
+import CreateUserModal from "./create.user.component";
 import DeleteUserModal from "../delete.user.component";
 import ViewUser from "../view.user.component";
 import DataTable from "react-data-table-component";

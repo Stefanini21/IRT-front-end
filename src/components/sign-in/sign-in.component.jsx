@@ -11,7 +11,7 @@ const SignIn = () => {
   const history = useHistory();
   const currentUserLoaded = useSelector(getUserLoaded);
 
-  const [login, setLogin] = useState("");
+  const [email, setLEmail] = useState("");
   const [password, setPassword] = useState("");
 
   const required = (value) => {
@@ -28,10 +28,10 @@ const SignIn = () => {
     event.preventDefault();
 
     const formattedData = {
-      email: login,
+      email: email,
       password: password,
     };
-
+    console.log("formattedData: " + formattedData)
     dispatch(authUser(formattedData));
   };
 
@@ -62,8 +62,8 @@ const SignIn = () => {
               type="text"
               className="form-control"
               name="email"
-              value={login}
-              onChange={(e) => setLogin(e.target.value)}
+              value={email}
+              onChange={(e) => setLEmail(e.target.value)}
               validations={[required]}
             />
           </div>

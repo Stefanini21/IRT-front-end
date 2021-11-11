@@ -3,11 +3,18 @@ import {userActions} from "../actions/user";
 const initialState = {
     userId: {},
     userById: {},
-    updatedUser: {}
+    updatedUser: {},
+    userList: {}
 }
 
 export const user = (state = initialState, action) => {
     switch (action.type) {
+        case userActions.GET_USER_LIST:
+            const userList = action.payload
+            return {
+                ...state,
+                userList: userList
+            }
         case userActions.SET_USER_ID:
             console.log(action.payload + "actionpayload")
             return {

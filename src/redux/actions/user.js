@@ -1,63 +1,82 @@
-import {authActions} from "./auth";
-import {routes} from "../../config/routes";
-import UserService from "../../services/user.service"
-import {HttpService} from "../../services/httpService";
+import { authActions } from "./auth";
+import { routes } from "../../config/routes";
+// import UserService from "../../services/user.service";
+import { HttpService } from "../../services/httpService";
 
 export const userActions = {
-    SET_USER_ID: "SET_USER_ID",
-    // GET_USER_ID: "GET_USER_ID",
-    GET_USER_BY_ID: "GET_USER_BY_ID",
-    CLOSE_MODAL: "CLOSE_MODAL",
-    UPDATE_USER_BY_ID: "UPDATE_USER_BY_ID"
+  SET_USER_ID: "SET_USER_ID",
+  // GET_USER_ID: "GET_USER_ID",
+  GET_USER_BY_ID: "GET_USER_BY_ID",
+  CLOSE_MODAL: "CLOSE_MODAL",
+  UPDATE_USER_BY_ID: "UPDATE_USER_BY_ID",
+  GET_USER_LIST: "GET_USER_LIST",
+};
+
+export const getAllUsers = () => (dispatch) => {
+  const url = routes.BASIC_URL + routes.BASIC_PATH + routes.ALL_USERS;
+  return HttpService.get(url)
+  .then((response) => {
+      console.log(response);
+    return dispatch({
+      type: userActions.GET_ALL_USERS,
+      payload: response
+    });
+  });
+};
+
+export const getUserList = () => (dispatch) => {
+  const url = routes.BASIC_URL + routes.BASIC_PATH + routes.ALL_USERS
+
+  return HttpService.get(url,{})
+      .then(response => {
+          return dispatch({
+              type: userActions.GET_USER_LIST,
+              payload: response
+          })
+      })
 }
 
 export const setUserId = (userId) => (dispatch) => {
-
-    return dispatch({
-        type: userActions.SET_USER_ID,
-        payload: userId
-    })
-}
+  return dispatch({
+    type: userActions.SET_USER_ID,
+    payload: userId,
+  });
+};
 
 export const closeModal = () => (dispatch) => {
-    return dispatch({
-        type: userActions.CLOSE_MODAL
-    })
-}
+  return dispatch({
+    type: userActions.CLOSE_MODAL,
+  });
+};
 
 export const getUserById = (userId) => (dispatch) => {
-    const url = routes.BASIC_URL + routes.BASIC_PATH + routes.USER_BY_ID + userId;
-    console.log(userId + " this is userid")
-    console.log(url + " urlllll")
+  const url = routes.BASIC_URL + routes.BASIC_PATH + routes.USER_BY_ID + userId;
+  console.log(userId + " this is userid");
+  console.log(url + " urlllll");
 
-    return HttpService.get(url, userId)
-        .then(response => {
-            return dispatch({
-                type: userActions.GET_USER_BY_ID,
-                payload: response
-            })
-        })
+  return HttpService.get(url, userId).then((response) => {
+    return dispatch({
+      type: userActions.GET_USER_BY_ID,
+      payload: response,
+    });
+  });
 
-
-
-    // return UserService.getUserById(url, userId)
-    //     .then(response => {
-    //         return dispatch ({
-    //             type: userActions.GET_USER_BY_ID,
-    //             payload: response
-    //         })
-    //     })
-}
+  // return UserService.getUserById(url, userId)
+  //     .then(response => {
+  //         return dispatch ({
+  //             type: userActions.GET_USER_BY_ID,
+  //             payload: response
+  //         })
+  //     })
+};
 
 export const updateUserById = (userData, userId) => (dispatch) => {
-    const url = routes.BASIC_URL + routes.BASIC_PATH + routes.USER_BY_ID + userId;
+  const url = routes.BASIC_URL + routes.BASIC_PATH + routes.USER_BY_ID + userId;
 
-    return HttpService.put(url, userData)
-        .then(response => {
-            return dispatch({
-                type: userActions.GET_USER_BY_ID,
-                payload: response
-            })
-        })
-
-}
+  return HttpService.put(url, userData).then((response) => {
+    return dispatch({
+      type: userActions.GET_USER_BY_ID,
+      payload: response,
+    });
+  });
+};

@@ -3,6 +3,9 @@ export const routes = {
     BASIC_PATH: "api/",
     AUTH_URL: "auth/login",
     LOGOUT_URL: "auth/logout",
-    USER_BY_ID: "users/"
+    USER_BY_ID: "users/",
+    ALL_USERS: "users",
+    ALL_TICKETS: "tickets",
+    CHANGE_TICKET_STATUS: "tickets/"
 
 }

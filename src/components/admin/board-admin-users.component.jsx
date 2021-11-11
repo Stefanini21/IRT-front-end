@@ -6,8 +6,10 @@ import EventBus from "../../common/EventBus";
 import CreateUserModal from "./create.user.component";
 import ViewUser from "../view.user.component";
 import DataTable from "react-data-table-component";
-import {useDispatch} from "react-redux";
-import {closeModal, setUserId} from "../../redux/actions/user";
+import {useDispatch, useSelector} from "react-redux";
+import {closeModal, getUserList, setUserId} from "../../redux/actions/user";
+import EditUserModal from "../edit.user.component";
+import {selectUserList} from "../../redux/selectors/user";
 
 const AdminUserList = () => {
 
@@ -16,12 +18,14 @@ const AdminUserList = () => {
     const [showCreateUserModal, setShowCreateUserModal] = useState(false);
     const [showDeleteUserModal, setShowDeleteUserModal] = useState(false);
     const [showViewUserModal, setShowViewUserModal] = useState(false);
+    const [showEditUserModal, setShowEditUserModal] = useState(false);
     const [users, setUsers] = useState([]);
     const [error, setError] = useState("");
     const [userIdToDelete, setUserIdToDelete] = useState('');
     const [userNameToDelete, setUserNameToDelete] = useState('');
     const [userToView, setUserToView] = useState([]);
 
+    const userList = useSelector(selectUserList);
 
     const columns = [
         {
@@ -62,7 +66,8 @@ const AdminUserList = () => {
         },
         {
             name: "Edit User",
-            cell: () => <Button variant="primary">Edit</Button>,
+            cell: (row) => <Button variant="primary"
+                                   onClick={() => handleEditUserModal(row)}>Edit</Button>,
             grow: 0.3
         },
         {
@@ -74,29 +79,41 @@ const AdminUserList = () => {
     ]
 
     const handleShowCreateUserModal = () => {
+
         setShowCreateUserModal(true)
     }
-
     const handleCloseCreateUserModal = () => {
+
         setShowCreateUserModal(false)
         window.location.reload()
     }
-
     const handleShowViewUserModal = (userToView) => {
         dispatch(setUserId(userToView.id))
         setShowViewUserModal(true)
         setUserToView(userToView)
     }
+    const handleEditUserModal = (userToEdit) => {
 
+        dispatch(setUserId(userToEdit.id))
+        setShowEditUserModal(true)
+        setUserToView(userToEdit)
+    }
     const handleCloseViewUserModal = () => {
         setShowViewUserModal(false)
-    }
 
+    }
+    const handleCloseEditUserModal = () => {
+
+        setShowEditUserModal(false)
+        dispatch(getUserList())
+    }
     const handleShowDeleteUserModal = (userId, username) => {
         setUserIdToDelete(userId)
         setUserNameToDelete(username)
         setShowDeleteUserModal(true)
-
+        setUserIdToDelete(userId)
+        setUserNameToDelete(username)
+        setShowDeleteUserModal(true)
     }
 
     const handleCloseDeleteUserModal = () => {
@@ -116,29 +133,37 @@ const AdminUserList = () => {
     }
 
     useEffect(() => {
-        UserService.getUsers().then(
-            response => {
-                setUsers(response.data)
-            },
-            error => {
-                setError(
-                    (error.response &&
-                        error.response.data &&
-                        error.response.data.message) ||
-                    error.message ||
-                    error.toString())
+    //     UserService.getUsers().then(
+    //         response => {
+    //             setUsers(response.data)
+    //         },
+    //         error => {
+    //             setError(
+    //                 (error.response &&
+    //                     error.response.data &&
+    //                     error.response.data.message) ||
+    //                 error.message ||
+    //                 error.toString())
+    //
+    //             if (error.response && error.response.status === 401) {
+    //                 EventBus.dispatch("logout");
+    //             }
+    //
+    //         }
+    //     );
+    // }, [])
+        setUsers(userList)
+    }, [userList])
 
-                if (error.response && error.response.status === 401) {
-                    EventBus.dispatch("logout");
-                }
 
-            }
-        );
+    useEffect(() =>{
+        dispatch(getUserList())
     }, [])
 
-    useEffect(() => {
-        dispatch(closeModal)
-    }, [])
+    // useEffect(() => {
+    //     dispatch(closeModal)
+    // }, [])
+
 
     return (
         <div>
@@ -165,6 +190,15 @@ const AdminUserList = () => {
                 </Modal.Footer>
             </Modal>
 
+            <Modal show={showEditUserModal} onHide={handleCloseEditUserModal}>
+                <Modal.Header closeButton>
+                    <Modal.Title>Edit User</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                    <EditUserModal handleCloseEditUserModal={handleCloseEditUserModal}/>
+                </Modal.Body>
+            </Modal>
+
             <Modal show={showDeleteUserModal} onHide={handleCloseDeleteUserModal}>
                 <Modal.Header closeButton>
                     <Modal.Title>Delete User</Modal.Title>
@@ -189,7 +223,7 @@ const AdminUserList = () => {
                         Create User
                     </Button>
                 </div>
-                <DataTable paginationPerPage={5} paginationRowsPerPageOptions={[5, 10, 15]} title={'Users'}
+                <DataTable paginationPerPage={10} paginationRowsPerPageOptions={[10, 25, 50]} title={'Users'}
                            columns={columns} data={users} pagination={true}/>
             </header>
         </div>

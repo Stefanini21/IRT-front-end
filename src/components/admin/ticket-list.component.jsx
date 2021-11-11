@@ -34,8 +34,8 @@ const TicketList = () => {
       sortable: true,
     },
     {
-      name: "Speciality",
-      selector: (row) => row.speciality,
+      name: "Specialty",
+      selector: (row) => row.specialty,
       sortable: true,
     },
     {
@@ -44,12 +44,18 @@ const TicketList = () => {
       sortable: true,
     },
     {
+      name: "Status",
+      selector: (row) => row.status,
+      sortable: true,
+    },
+    {
       name: "Developer username",
       selector: (row) => row.email,
       sortable: true,
     },
+
     {
-      name: "View User",
+      name: "View Ticket",
       cell: (row) => (
         <Button variant="success" onClick={() => handleShowViewUserModal(row)}>
           View
@@ -58,12 +64,12 @@ const TicketList = () => {
       grow: 0.3,
     },
     {
-      name: "Edit User",
+      name: "Edit Ticket",
       cell: () => <Button variant="primary">Edit</Button>,
       grow: 0.3,
     },
     {
-      name: "Delete User",
+      name: "Delete Ticket",
       cell: (row) => (
         <Button
           variant="danger"

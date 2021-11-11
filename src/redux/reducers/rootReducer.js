@@ -10,7 +10,7 @@ import {flipFlag} from "./flag";
 const persistConfig = {
     key: "root",
     storage,
-    whitelist: [ "auth", "user", "message"]
+    whitelist: ["auth", "user", "message"]
 }
 
 const rootReducer = combineReducers({auth, user, message, flipFlag});

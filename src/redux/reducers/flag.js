@@ -3,6 +3,7 @@ import {flagActions} from "../actions/flag";
 
 const initialState = {
     userDataLoaded: false,
+    successfulCreated: false,
     userDataUpdated: false,
     isDuplicatedEntry: false
 }
@@ -13,6 +14,17 @@ export const flipFlag = (state = initialState, action) => {
             return {
                 ...state,
                 userDataLoaded: true
+            }
+        case userActions.RECEIVE_DUPLICATE_ENTRY:
+            return {
+                ...initialState,
+                isDuplicatedEntry: true
+            }
+
+        case userActions.CREATE_USER_SUCCESS:
+            return {
+                ...initialState,
+                successfulCreated: true
             };
         case userActions.UPDATE_USER_BY_ID:
             return {
@@ -24,11 +36,6 @@ export const flipFlag = (state = initialState, action) => {
                 ...state,
                 userDataUpdated: false,
                 isDuplicatedEntry: false
-            }
-        case userActions.RECEIVE_DUPLICATE_ENTRY:
-            return {
-                ...state,
-                isDuplicatedEntry: true
             }
         default:
             return state;

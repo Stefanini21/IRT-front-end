@@ -3,6 +3,7 @@ export const routes = {
     BASIC_PATH: "api/",
     AUTH_URL: "auth/login",
     LOGOUT_URL: "auth/logout",
-    USER_BY_ID: "users/"
+    USER_BY_ID: "users/",
+    CREATE_USER: "users/",
 
 }

@@ -89,7 +89,6 @@ const AdminUserList = () => {
     }
 
     const handleCloseViewUserModal = () => {
-
         setShowViewUserModal(false)
     }
 

@@ -4,6 +4,6 @@ export const routes = {
     AUTH_URL: "auth/login",
     LOGOUT_URL: "auth/logout",
     USER_BY_ID: "users/",
-    CREATE_USER: "users/"
+    CREATE_USER: "users/",
 
 }

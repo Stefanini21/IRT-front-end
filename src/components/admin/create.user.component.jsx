@@ -1,10 +1,11 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import Form from "react-validation/build/form";
 import Input from "react-validation/build/input";
 import {isEmail} from "validator";
 import {useDispatch, useSelector} from "react-redux";
 import {createUser} from "../../redux/actions/user";
 import {selectDuplicatedEntryFlag, selectSuccessfulCreatedUserFlag} from "../../redux/selectors/flag";
+import UserService from "../../services/user.service";
 
 
 const required = (value) => {
@@ -62,6 +63,9 @@ const CreateUserModal = () => {
     const duplicatedEntryFlag = useSelector(selectDuplicatedEntryFlag);
     const successfulCreatedUser = useSelector(selectSuccessfulCreatedUserFlag);
 
+    const [roles, setRoles] = useState([]);
+    const [specialties, setSpecialties] = useState([]);
+
 
     const onChangeUsername = (e) => {
         setUsername(e.target.value)
@@ -113,6 +117,22 @@ const CreateUserModal = () => {
 
 
     }
+
+
+    useEffect(() => {
+        UserService.getRoles().then(
+            response => {
+                setRoles(response.data)
+            },
+        );
+
+        UserService.getSpecialties().then(
+            response => {
+                setSpecialties(response.data)
+            },
+        );
+
+    }, [])
 
 
     return (
@@ -186,9 +206,9 @@ const CreateUserModal = () => {
                                 value={specialtyForm}
                                 onChange={onChangeSpecialty}>
                                 validations={[required]}
-                                <option></option>
-                                <option value="BACKEND">BACKEND</option>
-                                <option value="FRONTEND">FRONTEND</option>
+                                {specialties.map((specialty, i) =>
+                                    <option value={specialty}>{specialty}</option>
+                                )}
                             </select>
                         </div>
 
@@ -201,9 +221,9 @@ const CreateUserModal = () => {
                                 value={role}
                                 onChange={onChangeRole}>
                                 validations={[required]}
-                                <option></option>
-                                <option value="USER">USER</option>
-                                <option value="ADMIN">ADMIN</option>
+                                {roles.map((role, i) =>
+                                    <option value={role}>{role}</option>
+                                )}
                             </select>
                         </div>
 

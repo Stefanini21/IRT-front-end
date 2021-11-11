@@ -29,8 +29,6 @@ export const closeModal = () => (dispatch) => {
 
 export const getUserById = (userId) => (dispatch) => {
     const url = routes.BASIC_URL + routes.BASIC_PATH + routes.USER_BY_ID + userId;
-    console.log(userId + " this is userid")
-    console.log(url + " urlllll")
 
     return HttpService.get(url, userId)
         .then(response => {
@@ -61,3 +59,5 @@ export const createUser = (newUser) => (dispatch) => {
             }
         );
 };
+
+

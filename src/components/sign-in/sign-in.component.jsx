@@ -1,19 +1,19 @@
-import React, {useState, useEffect} from "react";
+import React, {useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {authUser} from "../../redux/actions/auth";
 import Form from "react-validation/build/form";
 import Input from "react-validation/build/input";
 import {useHistory} from "react-router-dom";
-import {getUserLoaded} from "../../redux/selectors/auth";
+import {getMessage} from "../../redux/selectors/message";
+
 
 const SignIn = () => {
     const dispatch = useDispatch();
     const history = useHistory();
-    const currentUserLoaded = useSelector(getUserLoaded);
+    const message = useSelector(getMessage)
 
     const [login, setLogin] = useState("");
     const [password, setPassword] = useState("");
-    const [message, setMessage] = useState("");
 
     const required = (value) => {
         if (!value) {
@@ -34,18 +34,9 @@ const SignIn = () => {
         };
 
         dispatch(
-            authUser(formattedData)
-        )
-            .then(() => {
-                currentUserLoaded ? history.push("/home") : setMessage('Email or password are incorrect!')
-            });
-
+            authUser(formattedData, history)
+        );
     }
-
-
-    useEffect(() => {
-        currentUserLoaded ? history.push("/home") : history.push("/login")
-    }, [currentUserLoaded]);
 
     return (
         <div className="col-md-12">

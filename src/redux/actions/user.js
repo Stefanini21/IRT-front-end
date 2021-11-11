@@ -73,10 +73,10 @@ export const updateUserById = (userData, userId) => (dispatch) => {
 
 export const deleteUserById = (userId) => (dispatch) => {
     const url = routes.BASIC_URL + routes.BASIC_PATH + routes.USER_BY_ID + userId;
-    console.log(userId + " this is userid")
-    console.log(url + " urlllll")
+    console.log(userId + " this is id inside delete function")
+    console.log(url + " this is url inside delete function")
 
-    return HttpService.delete(url, userId)
+    return HttpService.delete(url)
         .then(response => {
             return dispatch({
                 type: userActions.DELETE_USER_BY_ID,

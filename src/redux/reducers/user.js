@@ -34,10 +34,12 @@ export const user = (state = initialState, action) => {
                 userList: userList
             };
         case userActions.DELETE_USER_BY_ID:
-            console.log(action.payload + "actionpayload for delete")
+            console.log(action.payload + " action.payload for delete")
             return {
                 ...state,
-                userId: action.payload,
+                //userId: action.payload,
+                //userById: action.payload,
+                //userList: userList,
                 isDeleted: true
             };
         default:

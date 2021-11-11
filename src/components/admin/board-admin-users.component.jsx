@@ -7,7 +7,7 @@ import DeleteUserModal from "../delete.user.component";
 import ViewUser from "../view.user.component";
 import DataTable from "react-data-table-component";
 import {useDispatch, useSelector} from "react-redux";
-import {closeModal, getUserList, setUserId, deleteUserById} from "../../redux/actions/user";
+import {closeModal, getUserList, setUserId, deleteUserById, getUserById} from "../../redux/actions/user";
 import EditUserModal from "../edit.user.component";
 import {selectUserList} from "../../redux/selectors/user";
 
@@ -112,7 +112,7 @@ const AdminUserList = () => {
     }
  
     const handleShowDeleteUserModal = (deleteId, deleteUsername) => {
-        //dispatch(setUserId(userId))
+        dispatch(setUserId(deleteId))
         setUserIdToDelete(deleteId)
         setUserNameToDelete(deleteUsername)
         setShowDeleteUserModal(true)
@@ -123,14 +123,17 @@ const AdminUserList = () => {
     }
 
     const handleCloseDeleteUserModal = () => {
+        console.log(userIdToDelete)
+        console.log(userNameToDelete)
+        console.log(showDeleteUserModal)
         setShowDeleteUserModal(false)
         console.log(showDeleteUserModal)
     }
-    
+
     const handleDeleteUser = () => {
-        
-        console.log(userIdToDelete + "--999999999999999999999999999999999999")
+        console.log(userIdToDelete + " user with this id will be deleted")
         dispatch(deleteUserById(userIdToDelete))
+        dispatch(getUserList())
         setShowDeleteUserModal(false)
         console.log(showDeleteUserModal)    
     }
@@ -199,10 +202,12 @@ const AdminUserList = () => {
                     <Modal.Title style={{ color: 'red' }}>Delete User</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
+                    <>
                     <div className="jumbotron">
                         <h4 style={{ color: 'red' }}>Are you sure you want to delete this <strong>{userNameToDelete}</strong> ?</h4>
                     </div>
-                    {/*<DeleteUserModal handleCloseDeleteUserModal={handleCloseDeleteUserModal}/>*/}
+                    <DeleteUserModal />
+                    </>
                 </Modal.Body>
                 <Modal.Footer>
                     <Button variant="secondary" onClick={handleCloseDeleteUserModal}>

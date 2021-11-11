@@ -3,11 +3,10 @@ import Form from "react-validation/build/form";
 import Input from "react-validation/build/input";
 import {isEmail} from "validator";
 import {useDispatch, useSelector} from "react-redux";
-import {getUserById, getUserList, updateUserById} from "../redux/actions/user";
-import {selectUserById, selectUserId, selectUserList} from "../redux/selectors/user";
+import {getUserById, updateUserById} from "../redux/actions/user";
+import {selectUserById, selectUserId} from "../redux/selectors/user";
 import {selectDuplicatedEntryFlag, selectUserUpdatedFlag} from "../redux/selectors/flag";
 import {resetEditUserFlags} from "../redux/actions/flag";
-import {HttpService} from "../services/httpService";
 
 
 const required = (value) => {
@@ -60,15 +59,6 @@ const vlastname = value => {
     }
 };
 
-const vspecialty = value => {
-    if (value.length < 3 || value.length > 10) {
-        return (
-            <div className="alert alert-danger" role="alert">
-                The gender must be between 3 and 10 characters.
-            </div>
-        );
-    }
-};
 
 
 const EditUserModal = (props) => {
@@ -142,8 +132,6 @@ const EditUserModal = (props) => {
     const handleSubmit = (e) => {
         e.preventDefault();
 
-        setMessage("")
-        setSuccessful(false)
 
         const formattedData = {
             id: userId,
@@ -186,7 +174,6 @@ const EditUserModal = (props) => {
                                 validations={[required, vusername]}
                             />
                         </div>
-
 
 
                         <div className="form-group">

@@ -1,4 +1,4 @@
-import {SET_MESSAGE, CLEAR_MESSAGE} from "../actions/types";
+import {CLEAR_MESSAGE, SET_MESSAGE} from "../redux/actions/types";
 
 const initialState = {};
 

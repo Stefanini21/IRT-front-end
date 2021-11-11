@@ -1,7 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { Button, Modal } from "react-bootstrap";
+import { deleteUser } from "../../actions/user";
+import UserService from "../../services/user.service";
+import TicketService from "../../services/ticket.service";
 import EventBus from "../../common/EventBus";
 import CreateTicketModal from "../create.ticket.component";
+import ViewUser from "../view.user.component";
 import DataTable from "react-data-table-component";
 import {useDispatch, useSelector} from "react-redux";
 import {getTicketList, setTicketId} from "../../redux/actions/ticket";
@@ -10,53 +14,48 @@ import TicketService from "../../services/ticket.service";
 
 
 const TicketList = () => {
-
   const dispatch = useDispatch();
 
   const [showCreateTicketModal, setShowCreateTicketModal] = useState(false);
-  const [showDeleteTicketModal, setShowDeleteTicketModal] = useState(false);
-  const [showViewTicketModal, setShowViewTicketModal] = useState(false);
-  const [showEditTicketModal, setShowEditTicketModal] = useState(false);
-  const [tickets, setTickets] = useState([]);
+  const [showDeleteUserModal, setShowDeleteUserModal] = useState(false);
+  const [showViewUserModal, setShowViewUserModal] = useState(false);
+  const [users, setUsers] = useState([]);
   const [error, setError] = useState("");
   const [userIdToDelete, setUserIdToDelete] = useState("");
   const [userNameToDelete, setUserNameToDelete] = useState("");
-  const [ticketToView, setTicketToView] = useState([]);
+  const [userToView, setUserToView] = useState([]);
 
-  const ticketList = useSelector(selectTicketList);
-
-
-  const columns = [
-    {
-      name: "Title",
-      selector: (row) => row.title,
-      sortable: true,
-    },
-    {
-      name: "Description",
-      selector: (row) => row.description,
-      sortable: true,
-    },
-    {
-      name: "Specialty",
-      selector: (row) => row.specialty,
-      sortable: true,
-    },
-    {
-      name: "Priority",
-      selector: (row) => row.priority,
-      sortable: true,
-    },
-    {
-      name: "Status",
-      selector: (row) => row.status,
-      sortable: true,
-    },
-    {
-      name: "Developer username",
-      selector: (row) => row.email,
-      sortable: true,
-    },
+    const columns = [
+        {
+            name: "Title",
+            selector: (row) => row.title,
+            sortable: true,
+        },
+        {
+            name: "Description",
+            selector: (row) => row.description,
+            sortable: true,
+        },
+        {
+            name: "Specialty",
+            selector: (row) => row.specialty,
+            sortable: true,
+        },
+        {
+            name: "Priority",
+            selector: (row) => row.priority,
+            sortable: true,
+        },
+        {
+            name: "Status",
+            selector: (row) => row.status,
+            sortable: true,
+        },
+        {
+            name: "Developer username",
+            selector: (row) => row.email,
+            sortable: true,
+        },
 
     {
       name: "View Ticket",
@@ -109,6 +108,16 @@ const TicketList = () => {
     window.location.reload();
   };
 
+  const handleShowViewUserModal = (userToView) => {
+    // setUserId(userToView.id)
+    dispatch(setUserId(userToView.id));
+    setShowViewUserModal(true);
+    setUserToView(userToView);
+  };
+
+  const handleCloseViewUserModal = () => {
+    setShowViewUserModal(false);
+  };
 
   // useEffect(() => {
   //   TicketService.getTickets().then(

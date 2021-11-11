@@ -1,4 +1,4 @@
-import { store } from "../store";
+import {store} from "../store";
 
 const CREDENTIALS = {
     credentials: "same-origin"
@@ -21,7 +21,7 @@ export class HttpService {
             console.log("Error on POST request: ", e);
             throw e;
         }
-        
+
     }
 
     static async put(url, requestParams) {
@@ -61,38 +61,38 @@ export class HttpService {
 }
 
 async function request(url, method = "GET", requestParams, withoutResult = false) {
-  const config = {
-    body: undefined,
-    headers: undefined,
-    method,
-    CREDENTIALS,
-  };
+    const config = {
+        body: undefined,
+        headers: undefined,
+        method,
+        CREDENTIALS,
+    };
 
-  let HEADERS = {
-    "Content-Type": "application/json",
-    Accept: "application/json",
-  };
+    let HEADERS = {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+    };
 
-  const state = store.getState();
-  const { userData } = state.auth;
-  const token = userData?.accessToken;
-  // const role = userData?.role; //role from state ???
+    const state = store.getState();
+    const {userData} = state.auth;
+    const token = userData?.accessToken;
+    // const role = userData?.role; //role from state ???
 
-  if (token) {
-    HEADERS["Authorization"] = "Bearer " + token;
-  }
+    if (token) {
+        HEADERS["Authorization"] = "Bearer " + token;
+    }
 
-  config.headers = HEADERS;
+    config.headers = HEADERS;
 
-  if (method === "POST" || method === "PUT") {
-    config.body = JSON.stringify(requestParams);
-  }
+    if (method === "POST" || method === "PUT") {
+        config.body = JSON.stringify(requestParams);
+    }
 
-  const response = await fetch(url, config);
+    const response = await fetch(url, config);
 
-  if (!response.ok) {
-    return response.status;
-  } //flag
+    if (!response.ok) {
+        return response.status;
+    } //flag
 
-  return !withoutResult ? await response.json() : null;
+    return !withoutResult ? await response.json() : null;
 }

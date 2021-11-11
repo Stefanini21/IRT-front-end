@@ -1,13 +1,11 @@
 import React, {useEffect, useState} from "react";
 import {Button, Modal} from "react-bootstrap";
 import {deleteUser} from "../../actions/user";
-import UserService from "../../services/user.service";
-import EventBus from "../../common/EventBus";
 import CreateUserModal from "./create.user.component";
 import ViewUser from "../view.user.component";
 import DataTable from "react-data-table-component";
 import {useDispatch, useSelector} from "react-redux";
-import {closeModal, getUserList, setUserId} from "../../redux/actions/user";
+import {getUserList, setUserId} from "../../redux/actions/user";
 import EditUserModal from "../edit.user.component";
 import {selectUserList} from "../../redux/selectors/user";
 
@@ -133,30 +131,30 @@ const AdminUserList = () => {
     }
 
     useEffect(() => {
-    //     UserService.getUsers().then(
-    //         response => {
-    //             setUsers(response.data)
-    //         },
-    //         error => {
-    //             setError(
-    //                 (error.response &&
-    //                     error.response.data &&
-    //                     error.response.data.message) ||
-    //                 error.message ||
-    //                 error.toString())
-    //
-    //             if (error.response && error.response.status === 401) {
-    //                 EventBus.dispatch("logout");
-    //             }
-    //
-    //         }
-    //     );
-    // }, [])
+        //     UserService.getUsers().then(
+        //         response => {
+        //             setUsers(response.data)
+        //         },
+        //         error => {
+        //             setError(
+        //                 (error.response &&
+        //                     error.response.data &&
+        //                     error.response.data.message) ||
+        //                 error.message ||
+        //                 error.toString())
+        //
+        //             if (error.response && error.response.status === 401) {
+        //                 EventBus.dispatch("logout");
+        //             }
+        //
+        //         }
+        //     );
+        // }, [])
         setUsers(userList)
     }, [userList])
 
 
-    useEffect(() =>{
+    useEffect(() => {
         dispatch(getUserList())
     }, [])
 

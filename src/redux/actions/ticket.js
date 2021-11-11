@@ -1,13 +1,9 @@
 import TicketService from "../../services/ticket.service";
-import {routes} from "../../config/routes";
-import {HttpService} from "../../services/httpService";
-
 import {
   CREATE_TICKET_FAIL,
   CREATE_TICKET_SUCCESS,
   SET_MESSAGE
 } from "./types";
-import {userActions} from "./user";
 
 export const ticketActions = {
     SET_TICKET_ID: "SET_TICKET_ID",
@@ -16,50 +12,50 @@ export const ticketActions = {
 }
 
 export const createTicket =
-  (title, description, priority, specialty, status, developer) =>
-  (dispatch) => {
-    return TicketService.createTicket(
-      title,
-      description,
-      priority,
-      specialty,
-      status,
-      developer
-    ).then(
-      (response) => {
-        dispatch({
-          type: CREATE_TICKET_SUCCESS,
-          payload: response.data,
-        });
+    (title, description, priority, specialty, status, developer) =>
+        (dispatch) => {
+            return TicketService.createTicket(
+                title,
+                description,
+                priority,
+                specialty,
+                status,
+                developer
+            ).then(
+                (response) => {
+                    dispatch({
+                        type: CREATE_TICKET_SUCCESS,
+                        payload: response.data,
+                    });
 
-        dispatch({
-          type: SET_MESSAGE,
-          payload: response.data.message,
-        });
+                    dispatch({
+                        type: SET_MESSAGE,
+                        payload: response.data.message,
+                    });
 
-        return Promise.resolve();
-      },
-      (error) => {
-        const message =
-          (error.response &&
-            error.response.data &&
-            error.response.data.message) ||
-          error.message ||
-          error.toString();
+                    return Promise.resolve();
+                },
+                (error) => {
+                    const message =
+                        (error.response &&
+                            error.response.data &&
+                            error.response.data.message) ||
+                        error.message ||
+                        error.toString();
 
-        dispatch({
-          type: CREATE_TICKET_FAIL,
-        });
+                    dispatch({
+                        type: CREATE_TICKET_FAIL,
+                    });
 
-        dispatch({
-          type: SET_MESSAGE,
-          payload: message,
-        });
+                    dispatch({
+                        type: SET_MESSAGE,
+                        payload: message,
+                    });
 
-        return Promise.reject();
-      }
-    );
-  };
+                    return Promise.reject();
+                }
+            );
+        };
 
 export const setTicketId = (ticketId) => (dispatch) => {
     return dispatch({
@@ -104,4 +100,4 @@ export const getTicketList = () => (dispatch) => {
                 payload: response
             })
         })
-      }
+}

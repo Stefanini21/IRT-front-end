@@ -1,7 +1,7 @@
-import {SET_MESSAGE, CLEAR_MESSAGE} from "../actions/types";
+import {CLEAR_MESSAGE, SET_MESSAGE} from "../actions/types";
 
 
-const initialState = {msg : ""};
+const initialState = {msg: ""};
 
 export const message = (state = initialState, action) => {
     const {type, payload} = action;

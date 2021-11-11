@@ -7,6 +7,7 @@ import {getUserById, getUserList, updateUserById} from "../redux/actions/user";
 import {selectUserById, selectUserId, selectUserList} from "../redux/selectors/user";
 import {selectDuplicatedEntryFlag, selectUserUpdatedFlag} from "../redux/selectors/flag";
 import {resetEditUserFlags} from "../redux/actions/flag";
+import {HttpService} from "../services/httpService";
 
 
 const required = (value) => {
@@ -78,6 +79,7 @@ const EditUserModal = (props) => {
     //const updatedUser = useSelector(updateUserById);
     const userUpdateSuccess = useSelector(selectUserUpdatedFlag);
     const duplicatedEntryFlag = useSelector(selectDuplicatedEntryFlag);
+    const specialties = HttpService.getSpecialties();
 
     const [usernameForm, setUsername] = useState("");
     const [firstnameForm, setFirstName] = useState("");
@@ -88,6 +90,8 @@ const EditUserModal = (props) => {
     const [successful, setSuccessful] = useState(false);
     const [message, setMessage] = useState("");
     const [show, setShow] = useState(true);
+    //const [specialties, setSpecialties] = useState([]);
+
 
     useEffect(() => {
         dispatch(resetEditUserFlags())
@@ -102,6 +106,7 @@ const EditUserModal = (props) => {
         setEmail(userById.email);
         setSpecialty(userById.specialty);
         setRole(userById.role);
+        setSpecialties(response);
 
     }, [userById])
 
@@ -242,9 +247,9 @@ const EditUserModal = (props) => {
                                 defaultValue={specialtyForm}
                                 value={specialtyForm}
                                 onChange={onChangeSpecialty}>
-                                <option value="NONE">N/A</option>
-                                <option value="BACKEND">Back-End</option>
-                                <option value="FRONTEND">Front-End</option>
+                                {specialties.map((specialty, i) =>
+                                    <option value={specialty}>{specialty}</option>
+                                )}
                             </select>
                             <br/>
                         </div>

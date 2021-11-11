@@ -3,6 +3,7 @@ import storage from "redux-persist/lib/storage";
 import {auth} from "./auth";
 import {persistReducer} from "redux-persist";
 import {user} from "./user";
+import {ticket} from "./ticket";
 import {message} from "./message";
 import {flipFlag} from "./flag";
 

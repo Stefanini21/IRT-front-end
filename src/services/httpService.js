@@ -50,6 +50,14 @@ export class HttpService {
             throw e;
         }
     }
+
+    static async getSpecialties() {
+        try {
+            return await request("http://localhost:8080/api/users/specialties", "GET", {})
+        } catch (e) {
+            throw e;
+        }
+    }
 }
 
 async function request(url, method = "GET", requestParams, withoutResult = false) {

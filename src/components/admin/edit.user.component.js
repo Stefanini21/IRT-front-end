@@ -3,10 +3,10 @@ import Form from "react-validation/build/form";
 import Input from "react-validation/build/input";
 import {isEmail} from "validator";
 import {useDispatch, useSelector} from "react-redux";
-import {getUserById, updateUserById} from "../redux/actions/user";
-import {selectUserById, selectUserId} from "../redux/selectors/user";
-import {selectDuplicatedEntryFlag, selectUserUpdatedFlag} from "../redux/selectors/flag";
-import {resetEditUserFlags} from "../redux/actions/flag";
+import {getUserById, updateUserById} from "../../redux/actions/user";
+import {selectUserById, selectUserId} from "../../redux/selectors/user";
+import {selectDuplicatedEntryFlag, selectUserUpdatedFlag} from "../../redux/selectors/flag";
+import {resetEditUserFlags} from "../../redux/actions/flag";
 
 
 const required = (value) => {

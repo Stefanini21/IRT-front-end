@@ -3,7 +3,7 @@ import Form from "react-validation/build/form";
 import Input from "react-validation/build/input";
 import Select from "react-select";
 import {useDispatch} from "react-redux";
-import {createTicket} from "../redux/actions/ticket";
+import {createTicket} from "../../redux/actions/ticket";
 
 const CreateTicketModal = () => {
 

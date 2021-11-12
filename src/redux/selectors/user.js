@@ -5,6 +5,3 @@ export const selectUserById = (state) => state.user.userById;
 export const selectUserList = (state) => state.user.userList;
 
 
-
-
-

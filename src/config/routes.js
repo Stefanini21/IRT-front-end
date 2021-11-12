@@ -6,5 +6,7 @@ export const routes = {
     USER_BY_ID: "users/",
     TICKETS: "tickets/",
     CREATE_USER: "users/",
+    SPECIALTIES: "specialties",
+    ROLES: "roles"
 
 }

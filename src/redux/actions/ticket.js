@@ -1,4 +1,7 @@
 import TicketService from "../../services/ticket.service";
+import {HttpService} from "../../services/httpService";
+import {routes} from "../../config/routes";
+
 import {
   CREATE_TICKET_FAIL,
   CREATE_TICKET_SUCCESS,

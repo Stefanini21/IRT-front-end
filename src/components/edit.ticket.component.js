@@ -3,7 +3,7 @@ import Form from "react-validation/build/form";
 import Input from "react-validation/build/input";
 import {useDispatch, useSelector} from "react-redux";
 import {getUserById, getUserList, updateUserById} from "../redux/actions/user";
-import {selectUserById, selectUserId, selectUserList} from "../redux/selectors/user";
+import {selectSpecialties, selectUserById, selectUserId, selectUserList} from "../redux/selectors/user";
 import {selectDuplicatedEntryFlag, selectUserUpdatedFlag} from "../redux/selectors/flag";
 import {resetEditUserFlags} from "../redux/actions/flag";
 
@@ -77,6 +77,7 @@ const EditUserModal = (props) => {
     //const updatedUser = useSelector(updateUserById);
     const userUpdateSuccess = useSelector(selectUserUpdatedFlag);
     const duplicatedEntryFlag = useSelector(selectDuplicatedEntryFlag);
+    const specialties = useSelector(selectSpecialties);
 
     const [usernameForm, setUsername] = useState("");
     const [firstnameForm, setFirstName] = useState("");

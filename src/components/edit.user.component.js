@@ -3,8 +3,8 @@ import Form from "react-validation/build/form";
 import Input from "react-validation/build/input";
 import {isEmail} from "validator";
 import {useDispatch, useSelector} from "react-redux";
-import {getUserById, updateUserById} from "../redux/actions/user";
-import {selectUserById, selectUserId} from "../redux/selectors/user";
+import {getSpecialties, getRoles, getUserById, updateUserById, userActions} from "../redux/actions/user";
+import {selectSpecialties, selectRoles, selectUserById, selectUserId} from "../redux/selectors/user";
 import {selectDuplicatedEntryFlag, selectUserUpdatedFlag} from "../redux/selectors/flag";
 import {resetEditUserFlags} from "../redux/actions/flag";
 
@@ -69,7 +69,8 @@ const EditUserModal = (props) => {
     //const updatedUser = useSelector(updateUserById);
     const userUpdateSuccess = useSelector(selectUserUpdatedFlag);
     const duplicatedEntryFlag = useSelector(selectDuplicatedEntryFlag);
-    const specialties = HttpService.getSpecialties();
+    const specialties = useSelector(selectSpecialties);
+    const roles = useSelector(selectRoles);
 
     const [usernameForm, setUsername] = useState("");
     const [firstnameForm, setFirstName] = useState("");
@@ -80,12 +81,12 @@ const EditUserModal = (props) => {
     const [successful, setSuccessful] = useState(false);
     const [message, setMessage] = useState("");
     const [show, setShow] = useState(true);
-    //const [specialties, setSpecialties] = useState([]);
-
+    //const [specialties, setSpecialties] = useState("");
 
     useEffect(() => {
         dispatch(resetEditUserFlags())
         dispatch(getUserById(userId))
+
     }, [])
 
 
@@ -96,7 +97,8 @@ const EditUserModal = (props) => {
         setEmail(userById.email);
         setSpecialty(userById.specialty);
         setRole(userById.role);
-        setSpecialties(response);
+        dispatch(getSpecialties());
+        dispatch(getRoles());
 
     }, [userById])
 
@@ -114,6 +116,9 @@ const EditUserModal = (props) => {
 
     const onChangeLastName = (e) => {
         setLastName(e.target.value)
+        console.log("2222222222222222")
+        console.log(specialties)
+        console.log(roles)
     }
 
 
@@ -212,21 +217,22 @@ const EditUserModal = (props) => {
                             />
                         </div>
 
-                        <div>
+                        <div className="form-group">
                             <label htmlFor="role">Role</label>
                             <select
                                 className="form-control"
                                 name="role"
                                 defaultValue={roleForm}
                                 value={roleForm}
+                                validations={[required]}
                                 onChange={onChangeRole}>
-                                <option value="USER">User</option>
-                                <option value="DEVELOPER">Developer</option>
-                                <option value="ADMIN">Admin</option>
+                                {roles.map((r, i) =>
+                                    <option value={r}>{r}</option>
+                                )}
                             </select>
                         </div>
 
-                        <div>
+                        <div className="form-group">
                             <label htmlFor="specialty">Specialty</label>
                             <select
                                 className="form-control"
@@ -234,8 +240,9 @@ const EditUserModal = (props) => {
                                 defaultValue={specialtyForm}
                                 value={specialtyForm}
                                 onChange={onChangeSpecialty}>
-                                {specialties.map((specialty, i) =>
-                                    <option value={specialty}>{specialty}</option>
+                                validations={[required]}
+                                {specialties.map((s, i) =>
+                                    <option value={s}>{s}</option>
                                 )}
                             </select>
                             <br/>
@@ -268,7 +275,6 @@ const EditUserModal = (props) => {
             </div>
         </div>
     );
-
 }
 
 

@@ -10,20 +10,23 @@ import DataTable from "react-data-table-component";
 import {useDispatch, useSelector} from "react-redux";
 import {getTicketList, setTicketId} from "../../redux/actions/ticket";
 import {selectTicketList} from "../../redux/selectors/ticket";
-import TicketService from "../../services/ticket.service";
 
 
 const TicketList = () => {
+
   const dispatch = useDispatch();
 
-  const [showCreateTicketModal, setShowCreateTicketModal] = useState(false);
-  const [showDeleteUserModal, setShowDeleteUserModal] = useState(false);
-  const [showViewUserModal, setShowViewUserModal] = useState(false);
-  const [users, setUsers] = useState([]);
-  const [error, setError] = useState("");
-  const [userIdToDelete, setUserIdToDelete] = useState("");
-  const [userNameToDelete, setUserNameToDelete] = useState("");
-  const [userToView, setUserToView] = useState([]);
+    const [showCreateTicketModal, setShowCreateTicketModal] = useState(false);
+    const [showDeleteTicketModal, setShowDeleteTicketModal] = useState(false);
+    const [showViewTicketModal, setShowViewTicketModal] = useState(false);
+    const [showEditTicketModal, setShowEditTicketModal] = useState(false);
+    const [tickets, setTickets] = useState([]);
+    const [error, setError] = useState("");
+    const [userIdToDelete, setUserIdToDelete] = useState("");
+    const [userNameToDelete, setUserNameToDelete] = useState("");
+    const [ticketToView, setTicketToView] = useState([]);
+
+    const ticketList = useSelector(selectTicketList);
 
     const columns = [
         {
@@ -60,7 +63,7 @@ const TicketList = () => {
     {
       name: "View Ticket",
       cell: (row) => (
-        <Button variant="success" onClick={() => handleShowViewUserModal(row)}>
+        <Button variant="success" onClick={() => handleShowViewTicketModal(row)}>
           View
         </Button>
       ),
@@ -108,15 +111,15 @@ const TicketList = () => {
     window.location.reload();
   };
 
-  const handleShowViewUserModal = (userToView) => {
-    // setUserId(userToView.id)
-    dispatch(setUserId(userToView.id));
-    setShowViewUserModal(true);
-    setUserToView(userToView);
+  const handleShowViewTicketModal = (userToView) => {
+    // setUserId(ticketToView.id)
+    dispatch(setTicketId(ticketToView.id));
+    setShowViewTicketModal(true);
+    setTicketToView(ticketToView);
   };
 
-  const handleCloseViewUserModal = () => {
-    setShowViewUserModal(false);
+  const handleCloseViewTicketModal = () => {
+    setShowViewTicketModal(false);
   };
 
   // useEffect(() => {

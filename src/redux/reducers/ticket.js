@@ -22,7 +22,7 @@ export const ticket = (state = initialState, action) => {
             return {
                 ...state,
                 ticketList: action.payload
-            }
+            };
         default:
             return state;
     }

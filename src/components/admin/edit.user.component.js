@@ -1,14 +1,12 @@
 import React, {useEffect, useState} from "react";
 import Form from "react-validation/build/form";
 import Input from "react-validation/build/input";
-import CheckButton from "react-validation/build/button";
 import {isEmail} from "validator";
 import {useDispatch, useSelector} from "react-redux";
-import {createUser} from "../actions/user";
-import {getUserById, getUserList, updateUserById} from "../redux/actions/user";
-import {selectUserById, selectUserId, selectUserList} from "../redux/selectors/user";
-import {selectDuplicatedEntryFlag, selectUserUpdatedFlag} from "../redux/selectors/flag";
-import {resetEditUserFlags} from "../redux/actions/flag";
+import {getUserById, updateUserById} from "../../redux/actions/user";
+import {selectUserById, selectUserId} from "../../redux/selectors/user";
+import {selectDuplicatedEntryFlag, selectUserUpdatedFlag} from "../../redux/selectors/flag";
+import {resetEditUserFlags} from "../../redux/actions/flag";
 
 
 const required = (value) => {
@@ -31,15 +29,6 @@ const vemail = (value) => {
     }
 };
 
-const vusername = (value) => {
-    if (value.length < 3 || value.length > 20) {
-        return (
-            <div className="alert alert-danger" role="alert">
-                The username must be between 3 and 20 characters.
-            </div>
-        );
-    }
-};
 
 const vfirstname = value => {
     if (value.length < 1 || value.length > 20) {
@@ -61,15 +50,6 @@ const vlastname = value => {
     }
 };
 
-const vspecialty = value => {
-    if (value.length < 3 || value.length > 10) {
-        return (
-            <div className="alert alert-danger" role="alert">
-                The gender must be between 3 and 10 characters.
-            </div>
-        );
-    }
-};
 
 
 const EditUserModal = (props) => {
@@ -77,7 +57,6 @@ const EditUserModal = (props) => {
     const dispatch = useDispatch();
     const userId = useSelector(selectUserId);
     const userById = useSelector(selectUserById);
-    //const updatedUser = useSelector(updateUserById);
     const userUpdateSuccess = useSelector(selectUserUpdatedFlag);
     const duplicatedEntryFlag = useSelector(selectDuplicatedEntryFlag);
 
@@ -87,9 +66,7 @@ const EditUserModal = (props) => {
     const [emailForm, setEmail] = useState("");
     const [specialtyForm, setSpecialty] = useState("");
     const [roleForm, setRole] = useState("");
-    const [successful, setSuccessful] = useState(false);
     const [message, setMessage] = useState("");
-    const [show, setShow] = useState(true);
 
     useEffect(() => {
         dispatch(resetEditUserFlags())
@@ -106,10 +83,6 @@ const EditUserModal = (props) => {
         setRole(userById.role);
 
     }, [userById])
-
-    const handleClose = () => {
-        setShow(false)
-    }
 
     const onChangeUsername = (e) => {
         setUsername(e.target.value)
@@ -139,8 +112,6 @@ const EditUserModal = (props) => {
     const handleSubmit = (e) => {
         e.preventDefault();
 
-        setMessage("")
-        setSuccessful(false)
 
         const formattedData = {
             id: userId,
@@ -180,10 +151,9 @@ const EditUserModal = (props) => {
                                 name="username"
                                 value={usernameForm}
                                 onChange={onChangeUsername}
-                                // validations={[required, vusername]}
+                                validations={[required]}
                             />
                         </div>
-
 
 
                         <div className="form-group">

@@ -1,6 +1,6 @@
 import {routes} from "../../config/routes";
 import {HttpService} from "../../services/httpService";
-import {CREATE_USER_FAIL, CREATE_USER_SUCCESS, SET_MESSAGE} from "../../actions/types";
+import {CREATE_USER_FAIL, CREATE_USER_SUCCESS, SET_MESSAGE} from "./types";
 
 export const userActions = {
     SET_USER_ID: "SET_USER_ID",
@@ -58,7 +58,7 @@ export const createUser = (newUser) => (dispatch) => {
     return HttpService.post(url, newUser)
         .then((response) => {
 
-                if (response === 400 || response === 500 ) {
+                if (response === 400 || response === 500) {
                     return dispatch({
                         type: userActions.RECEIVE_DUPLICATE_ENTRY
                     })
@@ -82,8 +82,7 @@ export const updateUserById = (userData, userId) => (dispatch) => {
                 return dispatch({
                     type: userActions.RECEIVE_DUPLICATE_ENTRY
                 })
-            }
-            else {
+            } else {
                 return dispatch({
                     type: userActions.UPDATE_USER_BY_ID,
                     payload: response

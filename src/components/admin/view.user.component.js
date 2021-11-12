@@ -1,7 +1,8 @@
 import React, {useEffect} from "react";
 import {useDispatch, useSelector} from "react-redux";
-import {getUserById} from "../redux/actions/user";
-import {selectUserById, selectUserId} from "../redux/selectors/user";
+import {getUserById} from "../../redux/actions/user";
+import {selectUserById, selectUserId} from "../../redux/selectors/user";
+import {Badge} from "react-bootstrap";
 
 
 const ViewUser = () => {
@@ -33,10 +34,16 @@ const ViewUser = () => {
                 <strong>Email : </strong> {userById.email}
             </p>
             <p>
-                <strong>Specialty : </strong> {userById.specialty}
+                <strong>Specialty : </strong>
+                <Badge bg="dark" text="light">
+                    {userById.specialty}
+                </Badge>
             </p>
             <p>
-                <strong>Role : </strong> {userById.role}
+                <strong>Role : </strong>
+                <Badge bg="success" text="light">
+                    {userById.role}
+                </Badge>
             </p>
         </div>
     );

@@ -4,7 +4,6 @@ import {deleteUser} from "../../actions/user";
 import UserService from "../../services/user.service";
 import EventBus from "../../common/EventBus";
 import CreateUserModal from "./create.user.component";
-import DeleteUserModal from "../delete.user.component";
 import ViewUser from "../view.user.component";
 import DataTable from "react-data-table-component";
 import {useDispatch, useSelector} from "react-redux";
@@ -113,7 +112,7 @@ const AdminUserList = () => {
     }
 
     const handleShowDeleteUserModal = (deleteId, deleteUsername) => {
-        dispatch(setUserId(deleteId))
+        //dispatch(setUserId(deleteId))
         setUserIdToDelete(deleteId)
         setUserNameToDelete(deleteUsername)
         setShowDeleteUserModal(true)
@@ -134,9 +133,12 @@ const AdminUserList = () => {
     const handleDeleteUser = () => {
         console.log(userIdToDelete + " user with this id will be deleted")
         dispatch(deleteUserById(userIdToDelete))
-        dispatch(getUserList())
+        .then(() => {
+        //    setShowDeleteUserModal(false)
+        //})
+        dispatch(getUserList())})
         setShowDeleteUserModal(false)
-        console.log(showDeleteUserModal)    
+        //console.log(showDeleteUserModal)    
     }
 
     useEffect(() => {
@@ -211,12 +213,9 @@ const AdminUserList = () => {
                     <Modal.Title style={{ color: 'red' }}>Delete User</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                    <>
                     <div className="jumbotron">
                         <h4 style={{ color: 'red' }}>Are you sure you want to delete this <strong>{userNameToDelete}</strong> ?</h4>
                     </div>
-                    <DeleteUserModal />
-                    </>
                 </Modal.Body>
                 <Modal.Footer>
                     <Button variant="secondary" onClick={handleCloseDeleteUserModal}>

@@ -33,9 +33,9 @@ export class HttpService {
         }
     }
 
-    static async delete(url) {
+    static async delete(url, requestParams) {
         try {
-            return await request(url, "DELETE", {}, true);
+            return await request(url, "DELETE", requestParams, true);
         } catch (e) {
             console.log("Error on DELETE request: ", e);
             throw e;

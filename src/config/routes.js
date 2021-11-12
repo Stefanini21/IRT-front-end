@@ -7,7 +7,7 @@ export const routes = {
     TICKETS: "tickets/",
     CREATE_USER: "users/",
     SPECIALTIES: "specialties",
-    ROLES: "roles"
+    ROLES: "roles",
     TICKET_BY_ID: "tickets/"
 
 }

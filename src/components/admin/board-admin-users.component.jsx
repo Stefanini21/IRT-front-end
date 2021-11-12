@@ -6,7 +6,7 @@ import ViewUser from "./view.user.component";
 import DataTable from "react-data-table-component";
 import {useDispatch, useSelector} from "react-redux";
 import {getUserList, setUserId, getSpecialties} from "../../redux/actions/user";
-import EditUserModal from "../edit.user.component";
+import EditUserModal from "./edit.user.component";
 import {selectUserList} from "../../redux/selectors/user";
 
 const AdminUserList = () => {

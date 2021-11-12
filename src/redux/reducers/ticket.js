@@ -2,26 +2,29 @@ import {ticketActions} from "../actions/ticket";
 
 const initialState = {
     ticketId: {},
-    ticketById: {}
+    ticketById: {},
+    ticketList: {}
 }
 
 export const ticket = (state = initialState, action) => {
     switch (action.type) {
-
-        case ticketActions.GET_TICKET_BY_ID:
-            const ticketById = action.payload
-            return {
-                ...state,
-                ticketById: ticketById
-            };
         case ticketActions.SET_TICKET_ID:
-            const ticketId = action.payload
             return {
                 ...state,
-                ticketId: ticketId
+                ticketId: action.payload
             };
-
+        case ticketActions.GET_TICKET_BY_ID:
+            return {
+                ...state,
+                ticketById: action.payload
+            };
+        case ticketActions.GET_TICKET_LIST:
+            return {
+                ...state,
+                ticketList: action.payload
+            };
         default:
             return state;
     }
 }
+

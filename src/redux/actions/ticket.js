@@ -1,34 +1,16 @@
 import TicketService from "../../services/ticket.service";
-import {CREATE_TICKET_FAIL, CREATE_TICKET_SUCCESS, SET_MESSAGE} from "./types";
-import {routes} from "../../config/routes";
 import {HttpService} from "../../services/httpService";
+import {routes} from "../../config/routes";
+import {CREATE_TICKET_FAIL, CREATE_TICKET_SUCCESS, SET_MESSAGE} from "./types";
 import {userActions} from "./user";
 
 
 export const ticketActions = {
     SET_TICKET_ID: "SET_TICKET_ID",
     GET_TICKET_BY_ID: "GET_TICKET_BY_ID",
-
+    GET_TICKET_LIST: "GET_TICKET_LIST"
 }
 
-export const setTicketId = (ticketId) => (dispatch) => {
-    return dispatch({
-        type: ticketActions.SET_TICKET_ID,
-        payload: ticketId
-    })
-}
-
-export const getTicketById = (ticketId) => (dispatch) => {
-    const url = routes.BASIC_URL + routes.BASIC_PATH + routes.TICKET_BY_ID + ticketId;
-
-    return HttpService.get(url, ticketId)
-        .then(response => {
-            return dispatch({
-                type: ticketActions.GET_TICKET_BY_ID,
-                payload: response
-            })
-        })
-}
 
 export const createTicket =
     (title, description, priority, specialty, status, developer) =>
@@ -76,7 +58,38 @@ export const createTicket =
             );
         };
 
-export const getAllUsersBySpecialty = (specialty) => (dispatch) => {
+export const setTicketId = (ticketId) => (dispatch) => {
+    return dispatch({
+        type: ticketActions.SET_TICKET_ID,
+        payload: ticketId
+    })
+}
+
+export const getTicketById = (ticketId) => (dispatch) => {
+    const url = routes.BASIC_URL + routes.BASIC_PATH + routes.TICKETS + ticketId;
+
+    return HttpService.get(url, ticketId)
+        .then(response => {
+            return dispatch({
+                type: ticketActions.GET_TICKET_BY_ID,
+                payload: response
+            })
+        })
+}
+
+export const getTicketList = () => (dispatch) => {
+    const url = routes.BASIC_URL + routes.BASIC_PATH + routes.TICKETS
+
+    return HttpService.get(url)
+        .then(response => {
+            return dispatch({
+                type: ticketActions.GET_TICKET_LIST,
+                payload: response
+            })
+        })
+}
+
+  export const getAllUsersBySpecialty = (specialty) => (dispatch) => {
     const url = routes.BASIC_URL + routes.BASIC_PATH + routes.USER_BY_ID + userId;
     console.log(userId + " this is userid")
     console.log(url + " urlllll")

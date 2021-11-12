@@ -11,7 +11,33 @@ export const userActions = {
     CREATE_USER_FAIL: "CREATE_USER_FAIL",
     UPDATE_USER_BY_ID: "UPDATE_USER_BY_ID",
     GET_USER_LIST: "GET_USER_LIST",
-    RECEIVE_DUPLICATE_ENTRY: "RECEIVE_DUPLICATE_ENTRY"
+    RECEIVE_DUPLICATE_ENTRY: "RECEIVE_DUPLICATE_ENTRY",
+    GET_SPECIALTIES: "GET_SPECIALTIES",
+    GET_ROLES: "GET_ROLES"
+}
+
+export const getSpecialties = () => (dispatch) => {
+    const url = routes.BASIC_URL + routes.BASIC_PATH + routes.USER_BY_ID + routes.SPECIALTIES
+
+    return HttpService.get(url)
+        .then(response => {
+            return dispatch({
+                type: userActions.GET_SPECIALTIES,
+                payload: response
+            })
+        })
+}
+
+export const getRoles = () => (dispatch) => {
+    const url = routes.BASIC_URL + routes.BASIC_PATH + routes.USER_BY_ID + routes.ROLES
+
+    return HttpService.get(url)
+        .then(response => {
+            return dispatch({
+                type: userActions.GET_ROLES,
+                payload: response
+            })
+        })
 }
 
 export const setUserId = (userId) => (dispatch) => {

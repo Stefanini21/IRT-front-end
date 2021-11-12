@@ -1,12 +1,11 @@
 import React, {useEffect, useState} from "react";
 import Form from "react-validation/build/form";
 import Input from "react-validation/build/input";
-import {isEmail} from "validator";
 import {useDispatch, useSelector} from "react-redux";
-import {getSpecialties, getRoles, getUserById, updateUserById, userActions} from "../../redux/actions/user";
-import {selectSpecialties, selectRoles, selectUserById, selectUserId} from "../../redux/selectors/user";
-import {selectDuplicatedEntryFlag, selectUserUpdatedFlag} from "../../redux/selectors/flag";
-import {resetEditUserFlags} from "../../redux/actions/flag";
+import {getUserById, getUserList, updateUserById} from "../redux/actions/user";
+import {selectSpecialties, selectUserById, selectUserId, selectUserList} from "../redux/selectors/user";
+import {selectDuplicatedEntryFlag, selectUserUpdatedFlag} from "../redux/selectors/flag";
+import {resetEditUserFlags} from "../redux/actions/flag";
 
 
 const required = (value) => {
@@ -59,6 +58,15 @@ const vlastname = value => {
     }
 };
 
+const vspecialty = value => {
+    if (value.length < 3 || value.length > 10) {
+        return (
+            <div className="alert alert-danger" role="alert">
+                The gender must be between 3 and 10 characters.
+            </div>
+        );
+    }
+};
 
 
 const EditUserModal = (props) => {
@@ -66,10 +74,10 @@ const EditUserModal = (props) => {
     const dispatch = useDispatch();
     const userId = useSelector(selectUserId);
     const userById = useSelector(selectUserById);
+    //const updatedUser = useSelector(updateUserById);
     const userUpdateSuccess = useSelector(selectUserUpdatedFlag);
     const duplicatedEntryFlag = useSelector(selectDuplicatedEntryFlag);
     const specialties = useSelector(selectSpecialties);
-    const roles = useSelector(selectRoles);
 
     const [usernameForm, setUsername] = useState("");
     const [firstnameForm, setFirstName] = useState("");
@@ -94,8 +102,6 @@ const EditUserModal = (props) => {
         setEmail(userById.email);
         setSpecialty(userById.specialty);
         setRole(userById.role);
-        dispatch(getSpecialties());
-        dispatch(getRoles());
 
     }, [userById])
 
@@ -131,6 +137,8 @@ const EditUserModal = (props) => {
     const handleSubmit = (e) => {
         e.preventDefault();
 
+        setMessage("")
+        setSuccessful(false)
 
         const formattedData = {
             id: userId,
@@ -151,11 +159,6 @@ const EditUserModal = (props) => {
     return (
         <div className="col-md-12">
             <div className="card card-container">
-                <img
-                    src="//ssl.gstatic.com/accounts/ui/avatar_2x.png"
-                    alt="profile-img"
-                    className="profile-img-card"
-                />
 
                 <Form
                     onSubmit={handleSubmit}
@@ -163,70 +166,47 @@ const EditUserModal = (props) => {
                 >
                     <div>
                         <div className="form-group">
-                            <label htmlFor="username">Username</label>
+                            <label htmlFor="title">Title</label>
                             <Input
                                 type="text"
                                 className="form-control"
-                                name="username"
-                                value={usernameForm}
-                                onChange={onChangeUsername}
-                                validations={[required, vusername]}
+                                name="title"
+                                value={titleForm}
+                                onChange={onChangeTitle}
+                                validations={[required, vtitle]}
                             />
                         </div>
 
 
+
                         <div className="form-group">
-                            <label htmlFor="firstname">First name</label>
+                            <label htmlFor="description">Description</label>
                             <Input
                                 type="text"
                                 className="form-control"
-                                name="firstname"
-                                value={firstnameForm}
-                                onChange={onChangeFirstName}
-                                validations={[required, vfirstname]}
+                                name="description"
+                                value={descriptionForm}
+                                onChange={onChangeDescription}
+                                validations={[required, vdescription]}
                             />
                         </div>
 
-                        <div className="form-group">
-                            <label htmlFor="lastname">Last name</label>
-                            <Input
-                                type="text"
-                                className="form-control"
-                                name="lastname"
-                                value={lastnameForm}
-                                onChange={onChangeLastName}
-                                validations={[required, vlastname]}
-                            />
-                        </div>
-
-                        <div className="form-group">
-                            <label htmlFor="email">Email</label>
-                            <Input
-                                type="text"
-                                className="form-control"
-                                name="email"
-                                value={emailForm}
-                                onChange={onChangeEmail}
-                                validations={[required, vemail]}
-                            />
-                        </div>
-
-                        <div className="form-group">
-                            <label htmlFor="role">Role</label>
+                        <div>
+                            <label htmlFor="priority">Priority</label>
                             <select
                                 className="form-control"
-                                name="role"
-                                defaultValue={roleForm}
-                                value={roleForm}
-                                validations={[required]}
-                                onChange={onChangeRole}>
-                                {roles.map((r, i) =>
-                                    <option value={r}>{r}</option>
-                                )}
+                                name="priority"
+                                defaultValue={priorityForm}
+                                value={priorityForm}
+                                onChange={onChangePriority}>
+                                <option value="LOW">Low</option>
+                                <option value="MEDIUM">Medium</option>
+                                <option value="HIGH">High</option>
                             </select>
+                            <br/>
                         </div>
 
-                        <div className="form-group">
+                        <div>
                             <label htmlFor="specialty">Specialty</label>
                             <select
                                 className="form-control"
@@ -234,12 +214,25 @@ const EditUserModal = (props) => {
                                 defaultValue={specialtyForm}
                                 value={specialtyForm}
                                 onChange={onChangeSpecialty}>
-                                validations={[required]}
-                                {specialties.map((s, i) =>
-                                    <option value={s}>{s}</option>
-                                )}
+                                <option value="BACKEND">Back-End</option>
+                                <option value="FRONTEND">Front-End</option>
                             </select>
                             <br/>
+                        </div>
+
+                        <div>
+                            <label htmlFor="status">Status</label>
+                            <select
+                                className="form-control"
+                                name="status"
+                                defaultValue={statusForm}
+                                value={statusForm}
+                                onChange={onChangeStatus}>
+                                <option value="BACKLOG">Backlog</option>
+                                <option value="ASIGNED">Assigned</option>
+                                <option value="FINISHED">Finished</option>
+                                <option value="CLOSED">Closed</option>
+                            </select>
                         </div>
 
                         <div className="form-group">

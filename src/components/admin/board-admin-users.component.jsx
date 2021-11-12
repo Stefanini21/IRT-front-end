@@ -5,7 +5,7 @@ import CreateUserModal from "./create.user.component";
 import ViewUser from "./view.user.component";
 import DataTable from "react-data-table-component";
 import {useDispatch, useSelector} from "react-redux";
-import {getUserList, setUserId} from "../../redux/actions/user";
+import {getUserList, setUserId, getSpecialties} from "../../redux/actions/user";
 import EditUserModal from "./edit.user.component";
 import {selectUserList} from "../../redux/selectors/user";
 
@@ -222,8 +222,13 @@ const AdminUserList = () => {
                         Create User
                     </Button>
                 </div>
-                <DataTable paginationPerPage={10} paginationRowsPerPageOptions={[10, 25, 50]} title={'Users'}
-                           columns={columns} data={users} pagination={true}/>
+                <DataTable
+                    paginationPerPage={10}
+                    paginationRowsPerPageOptions={[10, 25, 50]}
+                    title={'Users'}
+                    columns={columns}
+                    data={users}
+                    pagination={true}/>
             </header>
         </div>
 

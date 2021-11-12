@@ -2,7 +2,7 @@ import React, {useEffect, useState} from "react";
 import {Button, Modal} from "react-bootstrap";
 import {deleteUser} from "../../actions/user";
 import CreateUserModal from "./create.user.component";
-import ViewUser from "../view.user.component";
+import ViewUser from "./view.user.component";
 import DataTable from "react-data-table-component";
 import {useDispatch, useSelector} from "react-redux";
 import {getUserList, setUserId, getSpecialties} from "../../redux/actions/user";
@@ -58,7 +58,8 @@ const AdminUserList = () => {
         },
         {
             name: "View User",
-            cell: (row) => <Button variant="success"
+            cell: (row) =>
+                <Button variant="success"
                                    onClick={() => handleShowViewUserModal(row)}>View</Button>,
             grow: 0.3
         },
@@ -158,6 +159,9 @@ const AdminUserList = () => {
         dispatch(getUserList())
     }, [])
 
+    // useEffect(() => {
+    //     dispatch(closeModal)
+    // }, [])
 
 
     return (

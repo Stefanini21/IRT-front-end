@@ -1,17 +1,40 @@
 import TicketService from "../../services/ticket.service";
 import {HttpService} from "../../services/httpService";
 import {routes} from "../../config/routes";
+import {CREATE_TICKET_FAIL, CREATE_TICKET_SUCCESS, SET_MESSAGE} from "./types";
+import {routes} from "../../config/routes";
+import {HttpService} from "../../services/httpService";
+import {userActions} from "./user";
 
-import {
-  CREATE_TICKET_FAIL,
-  CREATE_TICKET_SUCCESS,
-  SET_MESSAGE
-} from "./types";
 
 export const ticketActions = {
     SET_TICKET_ID: "SET_TICKET_ID",
     GET_TICKET_BY_ID: "GET_TICKET_BY_ID",
     GET_TICKET_LIST: "GET_TICKET_LIST"
+}
+export const ticketActions = {
+    SET_TICKET_ID: "SET_TICKET_ID",
+    GET_TICKET_BY_ID: "GET_TICKET_BY_ID",
+
+}
+
+export const setTicketId = (ticketId) => (dispatch) => {
+    return dispatch({
+        type: ticketActions.SET_TICKET_ID,
+        payload: ticketId
+    })
+}
+
+export const getTicketById = (ticketId) => (dispatch) => {
+    const url = routes.BASIC_URL + routes.BASIC_PATH + routes.TICKET_BY_ID + ticketId;
+
+    return HttpService.get(url, ticketId)
+        .then(response => {
+            return dispatch({
+                type: ticketActions.GET_TICKET_BY_ID,
+                payload: response
+            })
+        })
 }
 
 export const createTicket =

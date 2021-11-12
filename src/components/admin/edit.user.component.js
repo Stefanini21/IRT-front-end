@@ -7,6 +7,10 @@ import {getSpecialties, getRoles, getUserById, updateUserById, userActions} from
 import {selectSpecialties, selectRoles, selectUserById, selectUserId} from "../redux/selectors/user";
 import {selectDuplicatedEntryFlag, selectUserUpdatedFlag} from "../redux/selectors/flag";
 import {resetEditUserFlags} from "../redux/actions/flag";
+import {getUserById, updateUserById} from "../../redux/actions/user";
+import {selectUserById, selectUserId} from "../../redux/selectors/user";
+import {selectDuplicatedEntryFlag, selectUserUpdatedFlag} from "../../redux/selectors/flag";
+import {resetEditUserFlags} from "../../redux/actions/flag";
 
 
 const required = (value) => {
@@ -66,7 +70,6 @@ const EditUserModal = (props) => {
     const dispatch = useDispatch();
     const userId = useSelector(selectUserId);
     const userById = useSelector(selectUserById);
-    //const updatedUser = useSelector(updateUserById);
     const userUpdateSuccess = useSelector(selectUserUpdatedFlag);
     const duplicatedEntryFlag = useSelector(selectDuplicatedEntryFlag);
     const specialties = useSelector(selectSpecialties);
@@ -81,12 +84,10 @@ const EditUserModal = (props) => {
     const [successful, setSuccessful] = useState(false);
     const [message, setMessage] = useState("");
     const [show, setShow] = useState(true);
-    //const [specialties, setSpecialties] = useState("");
 
     useEffect(() => {
         dispatch(resetEditUserFlags())
         dispatch(getUserById(userId))
-
     }, [])
 
 
@@ -116,9 +117,6 @@ const EditUserModal = (props) => {
 
     const onChangeLastName = (e) => {
         setLastName(e.target.value)
-        console.log("2222222222222222")
-        console.log(specialties)
-        console.log(roles)
     }
 
 
@@ -275,6 +273,7 @@ const EditUserModal = (props) => {
             </div>
         </div>
     );
+
 }
 
 

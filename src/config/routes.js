@@ -8,5 +8,6 @@ export const routes = {
     CREATE_USER: "users/",
     SPECIALTIES: "specialties",
     ROLES: "roles"
+    TICKET_BY_ID: "tickets/"
 
 }

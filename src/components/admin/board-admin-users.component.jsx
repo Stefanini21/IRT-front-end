@@ -1,5 +1,6 @@
 import React, {useEffect, useState} from "react";
 import {Button, Modal} from "react-bootstrap";
+import {deleteUser} from "../../actions/user";
 import UserService from "../../services/user.service";
 import EventBus from "../../common/EventBus";
 import CreateUserModal from "./create.user.component";

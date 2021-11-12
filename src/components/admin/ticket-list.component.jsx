@@ -14,12 +14,12 @@ const TicketList = () => {
   const dispatch = useDispatch();
 
   const [showCreateTicketModal, setShowCreateTicketModal] = useState(false);
-  const [showDeleteUserModal, setShowDeleteUserModal] = useState(false);
+  const [showDeleteTicketModal, setShowDeleteTicketModal] = useState(false);
   const [showViewUserModal, setShowViewUserModal] = useState(false);
   const [users, setUsers] = useState([]);
   const [error, setError] = useState("");
-  const [userIdToDelete, setUserIdToDelete] = useState("");
-  const [userNameToDelete, setUserNameToDelete] = useState("");
+  const [ticketIdToDelete, setTicketIdToDelete] = useState("");
+  const [ticketTitleToDelete, setTicketTitleToDelete] = useState("");
   const [userToView, setUserToView] = useState([]);
 
   const columns = [
@@ -70,16 +70,9 @@ const TicketList = () => {
     },
     {
       name: "Delete Ticket",
-      cell: (row) => (
-        <Button
-          variant="danger"
-          onClick={() => handleShowDeleteUserModal(row.id, row.username)}
-        >
-          Delete
-        </Button>
-      ),
-      grow: 1,
-    },
+      cell: (row) => <Button variant="danger" onClick={() => handleShowDeleteTicketModal(row.id, row.title)}>Delete</Button>,
+      grow: 1
+    }
   ];
 
   const handleShowCreateTicketModal = () => {
@@ -102,22 +95,21 @@ const TicketList = () => {
     setShowViewUserModal(false);
   };
 
-  const handleShowDeleteUserModal = (userId, username) => {
-    setUserIdToDelete(userId);
-    setUserNameToDelete(username);
-    setShowDeleteUserModal(true);
+  const handleShowDeleteTicketModal = (ticketId, ticketTitle) => {
+    setTicketIdToDelete(ticketId);
+    setTicketTitleToDelete(ticketTitle);
+    setShowDeleteTicketModal(true);
+  };
+  
+  const handleCloseDeleteTicketModal = () => {
+    setShowDeleteTicketModal(false);
   };
 
-  const handleCloseDeleteUserModal = () => {
-    setShowDeleteUserModal(false);
-    window.location.reload();
-  };
-
-  const handleDeleteUser = () => {
-    dispatch(deleteUser(userIdToDelete)).then(() => {
-      setShowDeleteUserModal(false);
-    });
-    window.location.reload();
+  const handleDeleteTicket = () => {
+    dispatch(deleteTicket(ticketIdToDelete))
+    .then(() => {
+      dispatch(getTicketList())})
+    setShowDeleteTicketModal(false)
   };
 
   useEffect(() => {
@@ -172,18 +164,20 @@ const TicketList = () => {
         </Modal.Footer>
       </Modal>
 
-      <Modal show={showDeleteUserModal} onHide={handleCloseDeleteUserModal}>
+      <Modal show={showDeleteTicketModal} onHide={handleCloseDeleteTicketModal}>
         <Modal.Header closeButton>
-          <Modal.Title>Delete User</Modal.Title>
+          <Modal.Title style={{ color: 'red' }}>Delete Ticket</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          Are you sure you want to delete this {userNameToDelete}?
+          <div className="jumbotron">
+            <h4 style={{ color: 'red' }}>Are you sure you want to delete this <strong>{ticketTitleToDelete}</strong>?</h4>
+          </div>
         </Modal.Body>
         <Modal.Footer>
-          <Button variant="secondary" onClick={handleCloseDeleteUserModal}>
+          <Button variant="secondary" onClick={handleCloseDeleteTicketModal}>
             No
           </Button>
-          <Button variant="primary" onClick={handleDeleteUser}>
+          <Button variant="primary" onClick={handleDeleteTicket}>
             Yes
           </Button>
         </Modal.Footer>

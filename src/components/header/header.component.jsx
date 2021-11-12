@@ -36,9 +36,9 @@ const Header = () => {
   return (
     <div>
       <div className="header">
-        <nav className="navbar navbar-expand navbar-dark">
+        <nav className="navbar navbar-expand navbar-dark" style={{color: "#324ab2"}}>
           <Link to={"/"} className="navbar-brand">
-            Issue Reporting Tool
+            irt-react-client
           </Link>
           <div className="navbar-nav mr-auto">
             {currentUserLoaded && currentUserData.role === "ADMIN" ? (

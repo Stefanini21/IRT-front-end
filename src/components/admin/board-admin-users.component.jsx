@@ -19,7 +19,7 @@ const AdminUserList = () => {
     const [showDeleteUserModal, setShowDeleteUserModal] = useState(false);
     const [showViewUserModal, setShowViewUserModal] = useState(false);
     const [showEditUserModal, setShowEditUserModal] = useState(false);
-    // const [users, setUsers] = useState([]);
+    const [users, setUsers] = useState([]);
     const [error, setError] = useState("");
     const [userIdToDelete, setUserIdToDelete] = useState('');
     const [userNameToDelete, setUserNameToDelete] = useState('');

@@ -73,11 +73,12 @@ export const createTicket =
         })
   }
 
-  export const changeTicketStatus = (ticket) => (dispatch) => {
+  export const changeTicketStatus = (id, status) => (dispatch) => {
     const url = routes.BASIC_URL + routes.BASIC_PATH + routes.CHANGE_TICKET_STATUS
     console.log("url: " + url);
     console.log("in action status: " + status);
-    return HttpService.put(url, ticket)
+    console.log("in action id: " + id);
+    return HttpService.put(url + id + "/" + status, {})
         .then(response => {
             return dispatch({
                 type: ticketActions.CHANGE_TICKET_STATUS,

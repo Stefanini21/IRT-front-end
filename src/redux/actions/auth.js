@@ -1,7 +1,5 @@
 import {routes} from "../../config/routes";
 import {HttpService} from "../../services/httpService";
-import AuthService from "../../services/auth.service";
-import {LOGIN_FAIL, LOGIN_SUCCESS, SET_MESSAGE} from "../../actions/types";
 
 export const AuthActions = {
     RECEIVE_USER_AUTH: "RECEIVE_USER_AUTH",
@@ -9,31 +7,19 @@ export const AuthActions = {
 }
 
 export const authUser = (userData, history) => (dispatch) => {
-    AuthService.login(userData.email, userData.password)
-        .then((data) => {
-                dispatch({
-                    type: AuthActions.RECEIVE_USER_AUTH,
-                    payload: data,
-                });
-                history.push("/home");
-                return Promise.resolve();
-            },
-            (error) => {
-                const message =
-                    (error.response &&
-                        error.response.data &&
-                        error.response.data.message) ||
-                    error.message ||
-                    error.toString();
+    const url = routes.BASIC_URL + routes.BASIC_PATH + routes.AUTH_URL;
 
-                dispatch({
-                    type: SET_MESSAGE,
-                    payload: message,
-                });
-
-                return Promise.reject();
-            }
-        );
+    return HttpService.post(url, userData)
+        .then(response => {
+            // console.log("response in then: " + response)
+            response !== 500 && dispatch({
+                type: AuthActions.RECEIVE_USER_AUTH,
+                payload: response
+            });
+        });
+        // .catch(() => {
+        //     history.push("/login");
+        //   });
 }
 
 export const signOutUser = (history) => (dispatch) => {

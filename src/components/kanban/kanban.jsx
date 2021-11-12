@@ -43,29 +43,29 @@ const KanbanBoard = (props) => {
   useEffect(() => {
     setProjects(tickets);
     setIsLoading(false);
-    // tickets.forEach((element) => {
-    //   console.log("element.status: " + element.status);
-    //   switch (element.status) {
-    //     case "BACKLOG": {
-    //       element.project_stage = 1;
-    //       break;
-    //     }
-    //     case "ASIGNED": {
-    //       element.project_stage = 2;
-    //       break;
-    //     }
-    //     case "FINISHED": {
-    //       element.project_stage = 3;
-    //       break;
-    //     }
-    //     case "CLOSED": {
-    //       element.project_stage = 4;
-    //       break;
-    //     }
-    //     default:
-    //       element.project_stage = 1;
-    //   }
-    // });
+    tickets.forEach((element) => {
+      console.log("element.status: " + element.status);
+      switch (element.status) {
+        case "BACKLOG": {
+          element.project_stage = 1;
+          break;
+        }
+        case "ASIGNED": {
+          element.project_stage = 2;
+          break;
+        }
+        case "FINISHED": {
+          element.project_stage = 3;
+          break;
+        }
+        case "CLOSED": {
+          element.project_stage = 4;
+          break;
+        }
+        default:
+          element.project_stage = 1;
+      }
+    });
   }, [setDraggedOverCol]);
 
   //this is called when a Kanban card is dragged over a column (called by column)
@@ -113,52 +113,32 @@ const KanbanBoard = (props) => {
     // console.log("e: " + e);
     // console.log("currentUserData.role: " + currentUserData.role);
     const dOc = updatedProjects.find((projectObject) => {
-      // if (
-      //   currentUserData.role === "ADMIN" &&
-      //   (draggedOverCol === 1 || draggedOverCol === 4) &&
-      //   project.project_stage === 3
-      // ) {
-      //   projectObject.author === currentUserData.author;
-      //   alert("This is ADMIN!");
-      //   return projectObject.title === project.title;
-      // } else if (
-      //   (currentUserData.role === "USER" &&
-      //     project.project_stage === 1 &&
-      //     draggedOverCol === 2 &&
-      //     project.developer === currentUserData.username) ||
-      //   (currentUserData.role === "USER" &&
-      //     project.project_stage === 2 &&
-      //     draggedOverCol === 3)
-      // ) {
-      //   if (projectObject.developer === "") {
-      //     projectObject.developer === currentUserData.developer;
-      //   }
-      //   alert("This is USER!");
-      //   return projectObject.title === project.title;
-      // }
-      return projectObject.title === project.title;
+      if (
+        currentUserData.role === "ADMIN" &&
+        (draggedOverCol === 1 || draggedOverCol === 4) &&
+        project.project_stage === 3
+      ) {
+        return projectObject.title === project.title;
+      } 
+      else if (
+        (currentUserData.role === "USER" &&
+          project.project_stage === 1 &&
+          draggedOverCol === 2) ||
+        (currentUserData.role === "USER" &&
+          project.project_stage === 2 &&
+          draggedOverCol === 3)
+      ) {
+        if (projectObject.developer === "") {
+          projectObject.developer === currentUserData.developer;
+        }
+        return projectObject.title === project.title;
+      } else {
+        setDraggedOverCol(project.project_stage)
+      }
     });
     if (dOc !== undefined) {
-      // console.log("status: " + status);
-      // console.log("project.id: " + project.id);
-      const ticket = {
-        id: project.id,
-        createdDate: project.createdDate,
-        title: project.title,
-        description: project.description,
-        specialty: project.specialty,
-        priority: project.priority,
-        status: status,
-        author: project.author,
-        developer: project.developer,
-        creator: project.creator,
-      };
-      // console.log("ticket: " + ticket);
-      dispatch(changeTicketStatus(ticket));
+      dispatch(changeTicketStatus(project.id, status));
       dOc.project_stage = draggedOverCol;
-      console.log(
-        "in the en handleOnDragEnd dOc.project_stage: " + dOc.project_stage
-      );
       setProjects(updatedProjects);
     }
   };
@@ -202,7 +182,7 @@ const KanbanColumn = (props) => {
       return (
         <KanbanCard
           project={project}
-          key={project.title}
+          key={project.id}
           onDragEnd={props.onDragEnd}
         />
       );
@@ -219,7 +199,7 @@ const KanbanColumn = (props) => {
     width: "25%",
     // minHeight: 500,
     textAlign: "center",
-    backgroundColor: mouseIsHovering ? "#969292" : "#b1b1b1",
+    backgroundColor: mouseIsHovering ? "#ffa500" : "#b1b1b1",
   };
 
   return (
@@ -234,7 +214,7 @@ const KanbanColumn = (props) => {
       }}
     >
       <h5 style={{ backgroundColor: "#324ab2", padding: 5, color: "white" }}>
-        {props.title} ({props.projects.length})
+        {props.title} <span style={{fontWeight: 300, fontSize: "1rem"}}>({props.projects.length})</span>
       </h5>
       {generateKanbanCards()}
     </div>
@@ -251,8 +231,6 @@ const KanbanCard = (props) => {
      const username = userById.username;
      return username;
   }
-  
-  console.log("userById: " + userById);
 
   const changeCollapse = () => {
     setCollapsed(!collapsed);
@@ -268,8 +246,9 @@ const KanbanCard = (props) => {
   const priority = props.project.priority;
   const specialty = props.project.specialty;
   const shortSpecialty = specialty === "FRONTEND" ? "F" : "B";
-  const author = props.project.author;
+  const author = props.project.creator;
   const developer = props.project.developer;
+  console.log('========================')
   console.log("priority: " + priority);
   console.log("specialty: " + specialty);
   console.log("author: " + author);
@@ -287,26 +266,26 @@ const KanbanCard = (props) => {
         <div
           style={{
             // color: "brown",
-            backgroundColor: "orange",
+            backgroundColor: "yellow",
           }}
         >
           <h6
             style={{
-              fontSize: "0.7rem",
+              fontSize: "0.8rem",
               margin: 0,
               padding: 3,
             }}
           >
-            author: {props.project.creator}
+            author: {author}
           </h6>
         </div>
         <div
           style={{
             // color: "brown",
-            backgroundColor: "yellow",
+            backgroundColor: "orange",
           }}
         >
-          {props.project.developer !== "" && (
+          {developer !== "" && (
             <h6
               style={{
                 fontSize: "0.8rem",
@@ -314,7 +293,7 @@ const KanbanCard = (props) => {
                 padding: 3,
               }}
             >
-              developer: {props.project.developer}
+              developer: {developer}
             </h6>
           )}
         </div>
@@ -325,16 +304,16 @@ const KanbanCard = (props) => {
             position: "absolute",
             backgroundColor:
               priority === "LOW"
-                ? "#f4bbff"
+                ? "#FFA8CF"
                 : priority === "MEDIUM"
-                ? "#ff77ff"
-                : "#ff0090",
-            width: 25,
-            height: 25,
+                ? "#FC57A0"
+                : "#FF0070",
+            width: 30,
+            height: 30,
             borderRadius: "50%",
-            top: -35,
+            top: -37,
             left: 5,
-            border: "2px solid white",
+            border: "3px solid white",
           }}
         >
           <h6
@@ -342,7 +321,8 @@ const KanbanCard = (props) => {
               paddingTop: 3,
               marginBottom: 4,
               color: "white",
-              fontSize: "0.7rem",
+              fontSize: "0.9rem",
+              fontWeight: 600
             }}
           >
             <strong>{props.project.id} </strong>
@@ -350,28 +330,29 @@ const KanbanCard = (props) => {
         </div>
         <div
           style={{
-            width: 40,
-            height: 40,
+            width: 43,
+            height: 43,
             backgroundColor: "#324ab2",
-            top: -40,
+            top: -43,
             position: "absolute",
             right: 0,
+            border: "4px solid white"
           }}
         >
           <span
             style={{
               color: "white",
               fontWeight: 700,
-              fontSize: "1.5rem",
+              fontSize: "1.4rem",
               margin: 0,
-              paddingLeft: 3,
+              paddingLeft: 2,
               right: 0,
             }}
           >
             {shortSpecialty}
           </span>
         </div>
-        <div style={{ display: "inline-block" }}>
+        <div style={{ display: "inline-block"}}>
           <h6 style={{ paddingTop: 6, marginBottom: 2 }}>
             {props.project.title}
           </h6>

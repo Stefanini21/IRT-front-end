@@ -2,6 +2,8 @@ import React from "react";
 import {useSelector} from "react-redux";
 import {Redirect} from "react-router-dom";
 import {getUserData, getUserLoaded} from "../../redux/selectors/auth";
+import ChangePasswordForm from "./change-password.component";
+import * as types from "../../redux/actions/types";
 
 const Profile = () => {
 
@@ -11,6 +13,20 @@ const Profile = () => {
 
     if (!currentUserLoaded) {
         return <Redirect to="/login"/>;
+    }
+
+    const handleChangePassword =(formData) => {
+        const {currentPassword, newPassword, newPasswordRepeated} = formData;
+
+       dispatch({
+            type: types.CHANGE_PASSWORD__REQUESTED,
+            payload: {
+                userId: pageState.auth.id,
+                currentPassword,
+                newPassword,
+                newPasswordRepeated,
+            }
+        });
     }
 
     return (
@@ -40,7 +56,13 @@ const Profile = () => {
             <p>
                 <strong>Role : </strong> {currentUserData.role}
             </p>
+
+            <div>
+                <ChangePasswordForm  onSubmit={handleChangePassword} />
+            </div>
         </div>
+
+
     );
 }
 

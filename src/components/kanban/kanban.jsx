@@ -4,9 +4,11 @@ import { useDispatch, useSelector } from "react-redux";
 import { getUserData } from "../../redux/selectors/auth";
 import { selectTicketList } from "../../redux/selectors/ticket";
 import { changeTicketStatus } from "../../redux/actions/ticket";
+import { closeTicket } from "../../redux/actions/ticket";
 import { getUserById } from "../../redux/actions/user";
 import { selectUserById } from "../../redux/selectors/user";
 import { getTicketList } from "../../redux/actions/ticket";
+import autoMergeLevel1 from "redux-persist/es/stateReconciler/autoMergeLevel1";
 
 const Kanban = () => {
   const dispatch = useDispatch();
@@ -17,7 +19,7 @@ const Kanban = () => {
   }, []);
 
   return (
-    <div style={{paddingTop: "5px"}}>
+    <div style={{ paddingTop: "5px" }}>
       <h3>Ticket-board</h3>
       <KanbanBoard />
     </div>
@@ -100,10 +102,6 @@ const KanbanBoard = (props) => {
     }
   };
 
-  useEffect(() => {
-    console.log("draggedOverCol: " + draggedOverCol);
-  }, [setDraggedOverCol]);
-
   //this is called when a Kanban card dropped over a column (called by card)
 
   const handleOnDragEnd = (e, project) => {
@@ -117,37 +115,46 @@ const KanbanBoard = (props) => {
     // console.log("e: " + e);
     // console.log("currentUserData.role: " + currentUserData.role);
     const dOc = updatedProjects.find((projectObject) => {
-      if(currentUserData.username === project.developer || currentUserData.username === project.creator) {
+      if (
+        currentUserData.username === project.developer ||
+        currentUserData.username === project.creator
+      ) {
         if (
-        currentUserData.role === "ADMIN" &&
-        (draggedOverCol === 1 || draggedOverCol === 4) &&
-        project.project_stage === 3
-      ) {
-        return projectObject.title === project.title;
-      } 
-      else if (
-        (currentUserData.role === "USER" &&
-          project.project_stage === 1 &&
-          draggedOverCol === 2) ||
-        (currentUserData.role === "USER" &&
-          project.project_stage === 2 &&
-          draggedOverCol === 3)
-      ) {
-        if (projectObject.developer === "") {
-          projectObject.developer === currentUserData.developer;
+          currentUserData.role === "ADMIN" &&
+          project.project_stage === 3 &&
+          draggedOverCol === 1
+
+          // && currentUserData.creator === project.author
+        ) {
+          return projectObject.title === project.title;
+        } else if (
+          currentUserData.role === "ADMIN" &&
+          project.project_stage === 3 &&
+          draggedOverCol === 4
+        ) {
+          return projectObject.title === project.title;
+        } else if (
+          (currentUserData.role === "USER" &&
+            project.project_stage === 1 &&
+            draggedOverCol === 2) ||
+          (currentUserData.role === "USER" &&
+            project.project_stage === 2 &&
+            draggedOverCol === 3)
+          // && currentUserData.developer === project.developer
+        ) {
+          if (projectObject.developer === "" && currentUserData.developer !== null) {
+            projectObject.developer === currentUserData.developer;
+          }
+          return projectObject.title === project.title;
         }
-        return projectObject.title === project.title;
-      } else {
-        setDraggedOverCol(project.project_stage)
       }
-      }
-      
     });
     if (dOc !== undefined) {
       dispatch(changeTicketStatus(project.id, status));
       dOc.project_stage = draggedOverCol;
       setProjects(updatedProjects);
     }
+    // setDraggedOverCol(project.project_stage);
   };
 
   return (
@@ -200,14 +207,15 @@ const KanbanColumn = (props) => {
   const columnStyle = {
     display: "inline-block",
     verticalAlign: "top",
-    marginBottom: "5px",
-    paddingLeft: "5px",
-    paddingTop: "5px",
-    paddingRight: "5px",
-    width: "25%",
+    marginBottom: "2px",
+    margin: 3,
+    paddingLeft: "3px",
+    paddingTop: "3px",
+    paddingRight: "3px",
+    width: "24%",
     // minHeight: 500,
     textAlign: "center",
-    backgroundColor: mouseIsHovering ? "#ffa500" : "#b1b1b1",
+    backgroundColor: mouseIsHovering ? "orange" : "#b1b1b1",
   };
 
   return (
@@ -221,8 +229,19 @@ const KanbanColumn = (props) => {
         setMouseIsHovering(false);
       }}
     >
-      <h5 style={{ backgroundColor: "#324ab2", padding: 5, color: "white" }}>
-        {props.title} <span style={{fontWeight: 300, fontSize: "1rem"}}>({props.projects.length})</span>
+      <h5
+        style={{
+          backgroundColor: "#0C0032",
+          padding: 8,
+          color: "white",
+          margin: 0,
+          marginBottom: 5,
+        }}
+      >
+        {props.title}{" "}
+        <span style={{ fontWeight: 300, fontSize: "1rem" }}>
+          ({props.projects.length})
+        </span>
       </h5>
       {generateKanbanCards()}
     </div>
@@ -236,20 +255,20 @@ const KanbanCard = (props) => {
 
   const userNameByUserId = (id) => {
     dispatch(getUserById(id));
-     const username = userById.username;
-     return username;
-  }
+    const username = userById.username;
+    return username;
+  };
 
   const changeCollapse = () => {
-    setCollapsed(!collapsed);
+    setCollapsed(!collapsed); //to do animated collapse
   };
 
   const cardStyle = {
     backgroundColor: "#f9f7f7",
-    paddingLeft: "0px",
-    paddingBottom: "5px",
-    marginLeft: "0px",
-    marginBottom: "5px",
+    paddingLeft: 0,
+    marginLeft: 0,
+    margin: 4,
+    marginBottom: 8,
   };
   const priority = props.project.priority;
   const specialty = props.project.specialty;
@@ -262,6 +281,21 @@ const KanbanCard = (props) => {
   // console.log("author: " + author);
   // console.log("developer: " + developer);
 
+  const descriptionStyle = {
+    menu: {
+      overflow: "hidden",
+      width: "auto",
+      transition: "width 350ms ease-out, 350ms ease-out",
+    },
+
+    menuCollapsed: {
+      overflow: "hidden",
+      width: 0,
+      height: 0,
+      transition: "width 350ms ease-out, height 350ms ease-out",
+    },
+  };
+
   return (
     <div
       style={cardStyle}
@@ -270,11 +304,51 @@ const KanbanCard = (props) => {
         props.onDragEnd(e, props.project);
       }}
     >
+      <div
+        style={{
+          backgroundColor: "#190061",
+          margin: "0 auto",
+          top: -37,
+          left: 5,
+        }}
+      >
+        <div style={{display: "flex", justifyContent: "space-between" }}>
+          <div>
+            <h6
+              style={{
+                color: "white",
+                fontSize: "0.8rem",
+                fontWeight: 600,
+                margin: "5px 0 0 0",
+                padding: "3px 0 5px 12px",
+                textAlign: "left",
+                justifyContent: "space-evenly"
+              }}
+            >
+              <strong>id: {props.project.id}</strong>
+            </h6>
+          </div>
+          <div>
+            <h6
+              style={{
+                color: "white",
+                fontSize: "0.8rem",
+                fontWeight: 600,
+                margin: "5px 0 0 0",
+                padding: "3px 6px 5px 0",
+                textAlign: "right",
+              }}
+            >
+              <strong>Created date: {props.project.createdDate}</strong>
+            </h6>
+          </div>
+        </div>
+      </div>
       <div>
         <div
           style={{
             // color: "brown",
-            backgroundColor: "yellow",
+            backgroundColor: "#97ACED",
           }}
         >
           <h6
@@ -282,6 +356,11 @@ const KanbanCard = (props) => {
               fontSize: "0.8rem",
               margin: 0,
               padding: 3,
+              paddingLeft: 5,
+              textAlign: "left",
+              fontWeight: 700,
+              borderTop: "5px solid white",
+              borderLeft: "5px solid white",
             }}
           >
             author: {author}
@@ -290,15 +369,18 @@ const KanbanCard = (props) => {
         <div
           style={{
             // color: "brown",
-            backgroundColor: "orange",
+            backgroundColor: "#D5DDF8",
           }}
         >
           {developer !== "" && (
             <h6
               style={{
                 fontSize: "0.8rem",
-                margin: 0,
+                paddingLeft: 5,
+                textAlign: "left",
                 padding: 3,
+                fontWeight: 700,
+                borderLeft: "5px solid white",
               }}
             >
               developer: {developer}
@@ -309,49 +391,26 @@ const KanbanCard = (props) => {
       <div style={{ position: "relative" }}>
         <div
           style={{
-            position: "absolute",
+            width: 50,
+            height: 50,
             backgroundColor:
               priority === "LOW"
-                ? "#FFA8CF"
+                ? "#5C7DE3"
                 : priority === "MEDIUM"
-                ? "#FC57A0"
-                : "#FF0070",
-            width: 30,
-            height: 30,
-            borderRadius: "50%",
-            top: -37,
-            left: 5,
-            border: "3px solid white",
-          }}
-        >
-          <h6
-            style={{
-              paddingTop: 3,
-              marginBottom: 4,
-              color: "white",
-              fontSize: "0.9rem",
-              fontWeight: 600
-            }}
-          >
-            <strong>{props.project.id} </strong>
-          </h6>
-        </div>
-        <div
-          style={{
-            width: 43,
-            height: 43,
-            backgroundColor: "#324ab2",
-            top: -43,
+                ? "#0035D3"
+                : "#190061",
+            top: -54,
             position: "absolute",
             right: 0,
-            border: "4px solid white"
+            border: "4px solid white",
+            borderLeft: "none",
           }}
         >
           <span
             style={{
               color: "white",
               fontWeight: 700,
-              fontSize: "1.4rem",
+              fontSize: "1.6rem",
               margin: 0,
               paddingLeft: 2,
               right: 0,
@@ -360,24 +419,37 @@ const KanbanCard = (props) => {
             {shortSpecialty}
           </span>
         </div>
-        <div style={{ display: "inline-block"}}>
-          <h6 style={{ paddingTop: 6, marginBottom: 2 }}>
-            {props.project.title}
-          </h6>
+        <div style={{ display: "inline-block" }}>
+          <h6 style={{ fontWeight: 700 }}>{props.project.title}</h6>
         </div>
       </div>
-      {collapsed ? null : (
-        <div style={{ fontSize: "0.8rem", paddingTop: 5 }}>
+      <div
+        style={
+          collapsed ? descriptionStyle.menuCollapsed : descriptionStyle.menu
+        }
+      >
+        <div
+          style={{ fontSize: "0.8rem", padding: 7, scrollMarginBottom: true, minHeight: 50, height: "auto", overflow: "auto" }}
+        >
           {props.project.description}
         </div>
-      )}
+      </div>
       <div
-        style={{ width: "100%" }}
+        style={{
+          width: "100%",
+          backgroundColor: "#d5ddf8",
+          color: "#190061",
+          paddingTop: 4,
+          paddingBottom: 3
+        }}
         onClick={changeCollapse}
       >
-        {collapsed
-          ? String.fromCharCode("9660")
-          : String.fromCharCode("9650")}
+        {props.project.createdDate !== props.project.closedDate ? (
+          <h6 style={{ fontSize: "0.8rem", marginBottom: 0 }}>
+            Closed date: {props.project.closedDate}
+          </h6>
+        ) : null}
+        {collapsed ? String.fromCharCode("9660") : String.fromCharCode("9650")}
       </div>
     </div>
   );

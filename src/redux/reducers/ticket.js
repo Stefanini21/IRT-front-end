@@ -1,8 +1,5 @@
-import { ticketActions } from "../actions/ticket";
-
 const initialState = {
-  ticketList: {},
-  isChangedTicketStatus: false
+  ticketList: {}
 };
 
 export const ticket = (state = initialState, action) => {
@@ -11,11 +8,12 @@ export const ticket = (state = initialState, action) => {
       return {
         ...state,
         ticketList: action.payload,
+        isTicketChanged: false
       };
     case "CHANGE_TICKET_STATUS":
       return {
         ...state,
-        isChangedTicketStatus: true
+        ticketList: action.payload,
       };
     default:
       return state;

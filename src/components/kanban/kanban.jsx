@@ -6,14 +6,18 @@ import { selectTicketList } from "../../redux/selectors/ticket";
 import { changeTicketStatus } from "../../redux/actions/ticket";
 import { getUserById } from "../../redux/actions/user";
 import { selectUserById } from "../../redux/selectors/user";
+import { getTicketList } from "../../redux/actions/ticket";
 
 const Kanban = () => {
-  const style = {
-    paddingTop: "5px",
-  };
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(getTicketList());
+    // setUsers(userList)
+  }, []);
 
   return (
-    <div style={style}>
+    <div style={{paddingTop: "5px"}}>
       <h3>Ticket-board</h3>
       <KanbanBoard />
     </div>
@@ -113,7 +117,8 @@ const KanbanBoard = (props) => {
     // console.log("e: " + e);
     // console.log("currentUserData.role: " + currentUserData.role);
     const dOc = updatedProjects.find((projectObject) => {
-      if (
+      if(currentUserData.username === project.developer || currentUserData.username === project.creator) {
+        if (
         currentUserData.role === "ADMIN" &&
         (draggedOverCol === 1 || draggedOverCol === 4) &&
         project.project_stage === 3
@@ -135,6 +140,8 @@ const KanbanBoard = (props) => {
       } else {
         setDraggedOverCol(project.project_stage)
       }
+      }
+      
     });
     if (dOc !== undefined) {
       dispatch(changeTicketStatus(project.id, status));
@@ -157,6 +164,7 @@ const KanbanBoard = (props) => {
             onDragEnd={handleOnDragEnd}
             key={column.stage}
             userData={userData}
+            currentUserData={currentUserData}
           />
         );
       })}
@@ -248,11 +256,11 @@ const KanbanCard = (props) => {
   const shortSpecialty = specialty === "FRONTEND" ? "F" : "B";
   const author = props.project.creator;
   const developer = props.project.developer;
-  console.log('========================')
-  console.log("priority: " + priority);
-  console.log("specialty: " + specialty);
-  console.log("author: " + author);
-  console.log("developer: " + developer);
+  // console.log('========================')
+  // console.log("priority: " + priority);
+  // console.log("specialty: " + specialty);
+  // console.log("author: " + author);
+  // console.log("developer: " + developer);
 
   return (
     <div

@@ -17,9 +17,6 @@ export const authUser = (userData, history) => (dispatch) => {
                 payload: response
             });
         });
-        // .catch(() => {
-        //     history.push("/login");
-        //   });
 }
 
 export const signOutUser = (history) => (dispatch) => {

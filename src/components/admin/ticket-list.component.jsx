@@ -31,7 +31,7 @@ const TicketList = () => {
     {
       name: "Description",
       selector: (row) => row.description,
-      sortable: true,
+      sortable: true
     },
     {
       name: "Specialty",

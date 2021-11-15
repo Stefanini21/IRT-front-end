@@ -5,6 +5,11 @@ import {
   CREATE_TICKET_FAIL,
   CREATE_TICKET_SUCCESS,
   SET_MESSAGE,
+  CHANGE_TICKET_STATUS,
+  SET_TICKET_ID,
+  GET_TICKET_BY_ID,
+  GET_ALL_TICKETS,
+  GET_USER_BY_ID
 } from "./types";
 import { userActions } from "./user";
 
@@ -56,7 +61,7 @@ export const createTicket =
 
 export const setTicketId = (ticketId) => (dispatch) => {
   return dispatch({
-    type: ticketActions.SET_TICKET_ID,
+    type: SET_TICKET_ID,
     payload: ticketId,
   });
 };
@@ -66,7 +71,7 @@ export const getTicketById = (ticketId) => (dispatch) => {
 
   return HttpService.get(url, ticketId).then((response) => {
     return dispatch({
-      type: ticketActions.GET_TICKET_BY_ID,
+      type: GET_TICKET_BY_ID,
       payload: response,
     });
   });
@@ -91,7 +96,7 @@ export const getTicketList = () => (dispatch) => {
   return HttpService.get(url, {}).then((response) => {
     console.log("response: " + response);
     return dispatch({
-      type: "GET_ALL_TICKETS",
+      type: GET_ALL_TICKETS,
       payload: response,
     });
   });
@@ -106,7 +111,7 @@ export const changeTicketStatus = (id, status) => (dispatch) => {
   return HttpService.put(url + id + "/" + status, {}).then((response) => {
     console.log("in action changeTicketStatus response: " + response.status);
     return dispatch({
-      type: ticketActions.CHANGE_TICKET_STATUS,
+      type: CHANGE_TICKET_STATUS,
       payload: response,
     });
   });
@@ -119,7 +124,7 @@ export const getAllUsersBySpecialty = (specialty) => (dispatch) => {
 
   return HttpService.get(url, userId).then((response) => {
     return dispatch({
-      type: userActions.GET_USER_BY_ID,
+      type: GET_USER_BY_ID,
       payload: response,
     });
   });

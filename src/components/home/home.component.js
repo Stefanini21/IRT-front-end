@@ -1,6 +1,6 @@
 import React, {Component} from "react";
 import "./css/home.component.css";
-import homephoto from "./homepage.png";
+// import homephoto from "./homepage";
 import Image from 'react-image-resizer';
 
 export default class Home extends Component {
@@ -17,9 +17,9 @@ export default class Home extends Component {
         return (
             <div className="centerimage">
                 <Image
-                    img src={homephoto} alt="homephoto" class="centerimage"
-                    width={600}
-                    height={650}
+                    // img src={homephoto} alt="homephoto" class="centerimage"
+                    // width={600}
+                    // height={650}
                 />
             </div>
         );

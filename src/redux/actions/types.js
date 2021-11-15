@@ -24,3 +24,4 @@ export const CHANGE_TICKET_STATUS = "CHANGE_TICKET_STATUS";
 export const SET_TICKET_ID = "SET_TICKET_ID";
 export const GET_TICKET_BY_ID = "GET_TICKET_BY_ID";
 export const GET_TICKET_LIST = "GET_TICKET_LIST";
+export const GET_USER_BY_ID = "GET_USER_BY_ID";

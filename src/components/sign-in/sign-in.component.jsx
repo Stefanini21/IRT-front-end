@@ -5,6 +5,7 @@ import Form from "react-validation/build/form";
 import Input from "react-validation/build/input";
 import {useHistory} from "react-router-dom";
 import {getMessage} from "../../redux/selectors/message";
+import {Link} from "react-router-dom";
 
 
 const SignIn = () => {
@@ -91,6 +92,11 @@ const SignIn = () => {
                     )}
 
                 </Form>
+
+                <Link to="/forgot/password" className="float-right text-danger">
+                    Forgot Password
+                </Link>
+
             </div>
         </div>
     );

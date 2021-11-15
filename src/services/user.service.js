@@ -22,6 +22,14 @@ class UserService {
         return axios.delete(API_URL + "/" + userId, {headers: authHeader()});
     }
 
+    changePassword(userId, newPassword, newPasswordConfirmation) {
+        return axios
+            .post(API_URL + "/" + userId + "/change-password", {
+                newPassword,
+                newPasswordConfirmation
+            }, {headers: authHeader()});
+    }
+
     createUser(username, firstname, lastname, specialty, role, email, password) {
         return axios.post(
             API_URL,

@@ -1,32 +1,49 @@
-import React from "react";
-import {useSelector} from "react-redux";
+import React, {useState} from "react";
+import {useDispatch, useSelector} from "react-redux";
 import {Redirect} from "react-router-dom";
 import {getUserData, getUserLoaded} from "../../redux/selectors/auth";
-import ChangePasswordForm from "./change-password.component";
-import * as types from "../../redux/actions/types";
+import {Button} from "react-bootstrap";
+import Form from "react-validation/build/form";
+import Input from "react-validation/build/input";
+import {getMessage} from "../../redux/selectors/message";
+import {changePassword} from "../../redux/actions/user";
 
 const Profile = () => {
 
     const currentUserLoaded = useSelector(getUserLoaded);
-
     const currentUserData = useSelector(getUserData);
+    const message = useSelector(getMessage)
+    const dispatch = useDispatch();
+
+    const [newPassword, setNewPassword] = useState("");
+    const [newPasswordConfirmation, setNewPasswordConfirmation] = useState("");
 
     if (!currentUserLoaded) {
         return <Redirect to="/login"/>;
     }
 
-    const handleChangePassword =(formData) => {
-        const {currentPassword, newPassword, newPasswordRepeated} = formData;
+    const required = (value) => {
+        if (!value) {
+            return (
+                <div className="alert alert-danger" role="alert">
+                    This field is required!
+                </div>
+            );
+        }
+    };
 
-       dispatch({
-            type: types.CHANGE_PASSWORD__REQUESTED,
-            payload: {
-                userId: pageState.auth.id,
-                currentPassword,
-                newPassword,
-                newPasswordRepeated,
-            }
-        });
+    const handleChangePassword = (event) => {
+        event.preventDefault();
+
+        const formattedData = {
+            userId: currentUserData.id,
+            newPassword: newPassword,
+            newPasswordConfirmation: newPasswordConfirmation,
+        };
+
+        dispatch(
+            changePassword(formattedData, history)
+        );
     }
 
     return (
@@ -58,7 +75,49 @@ const Profile = () => {
             </p>
 
             <div>
-                <ChangePasswordForm  onSubmit={handleChangePassword} />
+                <Form onSubmit={handleChangePassword}>
+
+                    <div className="form-group">
+                        <label htmlFor="newPassword">New Password</label>
+                        <Input
+                            type="password"
+                            className="form-control"
+                            name="newPassword"
+                            value={newPassword}
+                            onChange={(e) => setNewPassword(e.target.value)}
+                            validations={[required]}
+                        />
+                    </div>
+
+                    <div className="form-group">
+                        <label htmlFor="newPasswordConfirmation">Confirm New Password</label>
+                        <Input
+                            type="password"
+                            className="form-control"
+                            name="newPasswordConfirmation"
+                            value={newPasswordConfirmation}
+                            onChange={(e) => setNewPasswordConfirmation(e.target.value)}
+                            validations={[required]}
+                        />
+                    </div>
+
+                    <Button type="submit"
+                            size="lg"
+                            block
+                            color="success"
+                    >
+                        Change Password
+                    </Button>
+
+                    {message && (
+                        <div className="form-group">
+                            <div className={"alert alert-danger"}
+                                 role="alert">
+                                {message}
+                            </div>
+                        </div>
+                    )}
+                </Form>
             </div>
         </div>
 

@@ -1,6 +1,8 @@
 import {routes} from "../../config/routes";
 import {HttpService} from "../../services/httpService";
-import {CREATE_USER_FAIL, CREATE_USER_SUCCESS, SET_MESSAGE} from "./types";
+import {CLEAR_MESSAGE, CREATE_USER_FAIL, CREATE_USER_SUCCESS, SET_MESSAGE} from "./types";
+import UserService from "../../services/user.service";
+import {AuthActions} from "./auth";
 
 export const userActions = {
     SET_USER_ID: "SET_USER_ID",
@@ -37,6 +39,46 @@ export const getUserList = () => (dispatch) => {
                 payload: response
             })
         })
+}
+
+
+export const changePassword = (passwordData, history) => (dispatch) => {
+    UserService.changePassword(passwordData.userId, passwordData.newPassword, passwordData.newPasswordConfirmation)
+        .then((data) => {
+                dispatch({
+                    type: AuthActions.CHANGE_PASSWORD,
+                    payload: data,
+                });
+                dispatch({
+                    type: SET_MESSAGE,
+                    payload: 'Successfully changed password!',
+                });
+                dispatch({
+                    type: CLEAR_MESSAGE,
+                });
+                return Promise.resolve();
+            },
+            (error) => {
+                const message =
+                    (error.response &&
+                        error.response.data &&
+                        error.response.data.message) ||
+                    error.message ||
+                    error.toString();
+
+                dispatch({
+                    type: SET_MESSAGE,
+                    payload: message,
+                });
+
+                dispatch({
+                    type: CLEAR_MESSAGE,
+                });
+
+
+                return Promise.reject();
+            }
+        );
 }
 
 export const getUserById = (userId) => (dispatch) => {

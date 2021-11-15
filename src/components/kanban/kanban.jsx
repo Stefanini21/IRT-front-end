@@ -308,8 +308,8 @@ const KanbanCard = (props) => {
     },
   };
 
-  const openComments = () => {
-    alert("Comments!!");
+  const openComments = (id) => {
+    alert("Comments for ticket with id: " + id + "!!");
   };
 
   const changeBackgroundOnMouseHover = (e) => {
@@ -456,8 +456,8 @@ const KanbanCard = (props) => {
         <div style={{ fontSize: "0.8rem", padding: "0 7px 7px 7px" }}>
           {props.project.description}
         </div>
-        {/* {props.currentUserData !== null ? props.currentUserData.username === props.project.developer 
-        || props.currentUserData.username === props.project.creator ?  */}
+        {props.currentUserData !== null ? ((props.currentUserData.username === props.project.developer 
+        || props.currentUserData.username === props.project.creator) ? 
         <h6
               style={{
                 fontSize: "0.7rem",
@@ -467,13 +467,13 @@ const KanbanCard = (props) => {
                 width: "100%",
                 cursor: "pointer",
               }}
-              onClick={openComments}
+              onClick={() => openComments(props.project.id)}
               onMouseOver={changeBackgroundOnMouseHover}
               onMouseLeave={changeBackgroundOnMouseLeave}
             >
               Comments
             </h6> 
-            {/* : null} */}
+            : null) : null}
       </div>
       <div
         style={{

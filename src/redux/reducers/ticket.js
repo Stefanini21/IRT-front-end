@@ -1,4 +1,4 @@
-import { ticketActions } from "../actions/ticket";
+import { CHANGE_TICKET_STATUS, GET_ALL_TICKETS, SET_TICKET_ID, GET_TICKET_BY_ID, GET_TICKET_LIST } from "../actions/types";
 
 const initialState = {
   ticketId: {},
@@ -8,28 +8,28 @@ const initialState = {
 
 export const ticket = (state = initialState, action) => {
   switch (action.type) {
-    case ticketActions.SET_TICKET_ID:
+    case SET_TICKET_ID:
       return {
         ...state,
         ticketId: action.payload,
       };
-    case ticketActions.GET_TICKET_BY_ID:
+    case GET_TICKET_BY_ID:
       return {
         ...state,
         ticketById: action.payload,
       };
-    case ticketActions.GET_TICKET_LIST:
+    case GET_TICKET_LIST:
       return {
         ...state,
         ticketList: action.payload,
       };
-    case "GET_ALL_TICKETS":
+    case GET_ALL_TICKETS:
       return {
         ...state,
         ticketList: action.payload,
         isTicketChanged: false,
       };
-    case "CHANGE_TICKET_STATUS":
+    case CHANGE_TICKET_STATUS:
       return {
         ...state,
         ticketList: action.payload,

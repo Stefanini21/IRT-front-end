@@ -34,12 +34,6 @@ export const user = (state = initialState, action) => {
                 ...state,
                 createdUser: action.payload
             };
-        case userActions.GET_USER_LIST:
-            const userList = action.payload
-            return {
-                ...state,
-                userList: userList
-            };
         case userActions.GET_SPECIALTIES:
             return {
                 ...state,

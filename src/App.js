@@ -25,7 +25,7 @@ export default class App extends Component {
             <Provider store={store}>
                 <Router>
                     <PersistGate persistor={persistor}>
-                        <div>
+                        <div style={{margin: 0}}>
                             <Header />
                             <div className="container mt-3">
                                 <Switch>

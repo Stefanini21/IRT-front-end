@@ -36,7 +36,7 @@ const Header = () => {
   return (
     <div>
       <div className="header">
-        <nav className="navbar navbar-expand navbar-dark" style={{color: "#324ab2"}}>
+        <nav className="navbar" style={{color: "#d5ddf8", backgroundColor: "#0c0032"}}>
           <Link to={"/"} className="navbar-brand">
             irt-react-client
           </Link>
@@ -97,7 +97,7 @@ const Header = () => {
           {currentUserLoaded ? (
             <div className="navbar-nav ml-auto">
               <button
-                className="btn btn-primary btn-block"
+                className="btn btn-outline-primary"
                 onClick={handleLogOut}
               >
                 <span>Logout</span>

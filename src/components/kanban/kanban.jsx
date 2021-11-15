@@ -1,4 +1,4 @@
-import { width } from "dom-helpers";
+import { style, width } from "dom-helpers";
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getUserData } from "../../redux/selectors/auth";
@@ -142,7 +142,10 @@ const KanbanBoard = (props) => {
             draggedOverCol === 3)
           // && currentUserData.developer === project.developer
         ) {
-          if (projectObject.developer === "" && currentUserData.developer !== null) {
+          if (
+            projectObject.developer === "" &&
+            currentUserData.developer !== null
+          ) {
             projectObject.developer === currentUserData.developer;
           }
           return projectObject.title === project.title;
@@ -199,6 +202,7 @@ const KanbanColumn = (props) => {
           project={project}
           key={project.id}
           onDragEnd={props.onDragEnd}
+          currentUserData={props.currentUserData}
         />
       );
     });
@@ -223,10 +227,16 @@ const KanbanColumn = (props) => {
       style={columnStyle}
       onDragEnter={(e) => {
         setMouseIsHovering(true);
+        setTimeout(() => {
+          setMouseIsHovering(false);
+        }, 900);
+
         props.onDragEnter(e, props.stage);
       }}
       onDragExit={(e) => {
-        setMouseIsHovering(false);
+        setTimeout(() => {
+          setMouseIsHovering(false);
+        }, 1200);
       }}
     >
       <h5
@@ -283,17 +293,32 @@ const KanbanCard = (props) => {
 
   const descriptionStyle = {
     menu: {
-      overflow: "hidden",
+      // overflow: "hidden",
       width: "auto",
-      transition: "width 350ms ease-out, 350ms ease-out",
+      padding: 7,
+      transition: "250ms ease-in, 250ms ease-out",
+      fontSize: "0.9rem",
     },
 
     menuCollapsed: {
       overflow: "hidden",
-      width: 0,
       height: 0,
-      transition: "width 350ms ease-out, height 350ms ease-out",
+      transition: "250ms ease-in, 250ms ease-out",
+      fontSize: "0.9rem",
     },
+  };
+
+  const openComments = () => {
+    alert("Comments!!");
+  };
+
+  const changeBackgroundOnMouseHover = (e) => {
+    const latColor = e.target.style.background;
+    e.target.style.background = "#BFC6DF";
+  };
+
+  const changeBackgroundOnMouseLeave = (e) => {
+    e.target.style.background = "#D5DDF8";
   };
 
   return (
@@ -312,7 +337,7 @@ const KanbanCard = (props) => {
           left: 5,
         }}
       >
-        <div style={{display: "flex", justifyContent: "space-between" }}>
+        <div style={{ display: "flex", justifyContent: "space-between" }}>
           <div>
             <h6
               style={{
@@ -320,9 +345,9 @@ const KanbanCard = (props) => {
                 fontSize: "0.8rem",
                 fontWeight: 600,
                 margin: "5px 0 0 0",
-                padding: "3px 0 5px 12px",
+                padding: "3px 0 5px 6px",
                 textAlign: "left",
-                justifyContent: "space-evenly"
+                justifyContent: "space-evenly",
               }}
             >
               <strong>id: {props.project.id}</strong>
@@ -332,7 +357,7 @@ const KanbanCard = (props) => {
             <h6
               style={{
                 color: "white",
-                fontSize: "0.8rem",
+                fontSize: "0.7rem",
                 fontWeight: 600,
                 margin: "5px 0 0 0",
                 padding: "3px 6px 5px 0",
@@ -420,7 +445,7 @@ const KanbanCard = (props) => {
           </span>
         </div>
         <div style={{ display: "inline-block" }}>
-          <h6 style={{ fontWeight: 700 }}>{props.project.title}</h6>
+          <h6 style={{ fontWeight: 500, margin: 4 }}>{props.project.title}</h6>
         </div>
       </div>
       <div
@@ -428,26 +453,46 @@ const KanbanCard = (props) => {
           collapsed ? descriptionStyle.menuCollapsed : descriptionStyle.menu
         }
       >
-        <div
-          style={{ fontSize: "0.8rem", padding: 7, scrollMarginBottom: true, minHeight: 50, height: "auto", overflow: "auto" }}
-        >
+        <div style={{ fontSize: "0.8rem", padding: "0 7px 7px 7px" }}>
           {props.project.description}
         </div>
+        {/* {props.currentUserData !== null ? props.currentUserData.username === props.project.developer 
+        || props.currentUserData.username === props.project.creator ?  */}
+        <h6
+              style={{
+                fontSize: "0.7rem",
+                marginBottom: -2,
+                backgroundColor: "#d5ddf8",
+                padding: 3,
+                width: "100%",
+                cursor: "pointer",
+              }}
+              onClick={openComments}
+              onMouseOver={changeBackgroundOnMouseHover}
+              onMouseLeave={changeBackgroundOnMouseLeave}
+            >
+              Comments
+            </h6> 
+            {/* : null} */}
       </div>
       <div
         style={{
           width: "100%",
-          backgroundColor: "#d5ddf8",
+          backgroundColor: "#97aced",
           color: "#190061",
           paddingTop: 4,
-          paddingBottom: 3
+          paddingBottom: 3,
         }}
         onClick={changeCollapse}
       >
         {props.project.createdDate !== props.project.closedDate ? (
-          <h6 style={{ fontSize: "0.8rem", marginBottom: 0 }}>
-            Closed date: {props.project.closedDate}
-          </h6>
+          <div>
+            <h6
+              style={{ fontSize: "0.7rem", marginBottom: 0, cursor: "pointer" }}
+            >
+              Closed date: {props.project.closedDate}
+            </h6>
+          </div>
         ) : null}
         {collapsed ? String.fromCharCode("9660") : String.fromCharCode("9650")}
       </div>

@@ -106,7 +106,7 @@ const TicketList = () => {
   };
 
   const handleDeleteTicket = () => {
-    dispatch(deleteTicket(ticketIdToDelete))
+    dispatch(deleteTicketById(ticketIdToDelete))
     .then(() => {
       dispatch(getTicketList())})
     setShowDeleteTicketModal(false)

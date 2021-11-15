@@ -1,21 +1,16 @@
-import { style, width } from "dom-helpers";
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getUserData } from "../../redux/selectors/auth";
 import { selectTicketList } from "../../redux/selectors/ticket";
-import { changeTicketStatus } from "../../redux/actions/ticket";
-import { closeTicket } from "../../redux/actions/ticket";
+import { changeTicketStatus, closeTicket, getTicketList } from "../../redux/actions/ticket";
 import { getUserById } from "../../redux/actions/user";
 import { selectUserById } from "../../redux/selectors/user";
-import { getTicketList } from "../../redux/actions/ticket";
-import autoMergeLevel1 from "redux-persist/es/stateReconciler/autoMergeLevel1";
 
 const Kanban = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(getTicketList());
-    // setUsers(userList)
   }, []);
 
   return (
@@ -35,16 +30,13 @@ const KanbanBoard = (props) => {
   const tickets = useSelector(selectTicketList);
   const [status, setStatus] = useState("");
   const dispatch = useDispatch();
-  // const userById = useSelector(selectUserById);
 
   const columns = [
     { name: "BackLog", stage: 1 },
-    { name: "Asigned", stage: 2 },
+    { name: "Assigned", stage: 2 },
     { name: "Finished", stage: 3 },
     { name: "Closed", stage: 4 },
   ];
-
-  // console.log("props.tickets: " + props.tickets)
 
   useEffect(() => {
     setProjects(tickets);
@@ -124,7 +116,7 @@ const KanbanBoard = (props) => {
           project.project_stage === 3 &&
           draggedOverCol === 1
 
-          // && currentUserData.creator === project.author
+          && currentUserData.creator === project.author
         ) {
           return projectObject.title === project.title;
         } else if (
@@ -132,6 +124,7 @@ const KanbanBoard = (props) => {
           project.project_stage === 3 &&
           draggedOverCol === 4
         ) {
+          dispatch(closeTicket(project.id));
           return projectObject.title === project.title;
         } else if (
           (currentUserData.role === "USER" &&
@@ -157,7 +150,7 @@ const KanbanBoard = (props) => {
       dOc.project_stage = draggedOverCol;
       setProjects(updatedProjects);
     }
-    // setDraggedOverCol(project.project_stage);
+    setDraggedOverCol(project.project_stage);
   };
 
   return (
@@ -280,11 +273,13 @@ const KanbanCard = (props) => {
     margin: 4,
     marginBottom: 8,
   };
+  const project = props.project;
   const priority = props.project.priority;
   const specialty = props.project.specialty;
   const shortSpecialty = specialty === "FRONTEND" ? "F" : "B";
   const author = props.project.creator;
   const developer = props.project.developer;
+  const currentUserData = props.currentUserData;
   // console.log('========================')
   // console.log("priority: " + priority);
   // console.log("specialty: " + specialty);
@@ -297,14 +292,14 @@ const KanbanCard = (props) => {
       width: "auto",
       padding: 7,
       transition: "250ms ease-in, 250ms ease-out",
-      fontSize: "0.9rem",
+      fontSize: "0.9rem"
     },
 
     menuCollapsed: {
       overflow: "hidden",
       height: 0,
       transition: "250ms ease-in, 250ms ease-out",
-      fontSize: "0.9rem",
+      fontSize: "0.9rem"
     },
   };
 
@@ -326,7 +321,7 @@ const KanbanCard = (props) => {
       style={cardStyle}
       draggable={true}
       onDragEnd={(e) => {
-        props.onDragEnd(e, props.project);
+        props.onDragEnd(e, project);
       }}
     >
       <div
@@ -350,7 +345,7 @@ const KanbanCard = (props) => {
                 justifyContent: "space-evenly",
               }}
             >
-              <strong>id: {props.project.id}</strong>
+              <strong>id: {project.id}</strong>
             </h6>
           </div>
           <div>
@@ -364,7 +359,7 @@ const KanbanCard = (props) => {
                 textAlign: "right",
               }}
             >
-              <strong>Created date: {props.project.createdDate}</strong>
+              <strong>Created date: {project.createdDate}</strong>
             </h6>
           </div>
         </div>
@@ -374,14 +369,23 @@ const KanbanCard = (props) => {
           style={{
             // color: "brown",
             backgroundColor: "#97ACED",
+            position: "relative"
           }}
         >
+          {currentUserData !== null && currentUserData.username === project.creator ? <div>
+          <div style={{width: 8, height: 8, backgroundColor: "orange", display: "inline-block", position: "absolute", left: 10, top: 12, borderRadius: "100%"}}></div>
+          </div> : 
+          <div style={{width: 8, height: 8, backgroundColor: "#6e5dbd", display: "inline-block", position: "absolute", left: 10, top: 12, borderRadius: "100%"}}></div>}
+          {currentUserData !== null && currentUserData.username === project.developer ? <div>
+          <div style={{width: 8, height: 8, backgroundColor: "orange", display: "inline-block", position: "absolute", left: 10, top: 33, borderRadius: "100%"}}></div>
+          </div> :
+          <div style={{width: 8, height: 8, backgroundColor: "#6e5dbd", display: "inline-block", position: "absolute", left: 10, top: 33, borderRadius: "100%"}}></div>}
           <h6
             style={{
               fontSize: "0.8rem",
               margin: 0,
               padding: 3,
-              paddingLeft: 5,
+              paddingLeft: 17,
               textAlign: "left",
               fontWeight: 700,
               borderTop: "5px solid white",
@@ -401,9 +405,9 @@ const KanbanCard = (props) => {
             <h6
               style={{
                 fontSize: "0.8rem",
-                paddingLeft: 5,
                 textAlign: "left",
                 padding: 3,
+                paddingLeft: 17,
                 fontWeight: 700,
                 borderLeft: "5px solid white",
               }}
@@ -444,8 +448,8 @@ const KanbanCard = (props) => {
             {shortSpecialty}
           </span>
         </div>
-        <div style={{ display: "inline-block" }}>
-          <h6 style={{ fontWeight: 500, margin: 4 }}>{props.project.title}</h6>
+        <div style={{ display: "inline-block", margin: 0, padding: 0 }}>
+          <h6 style={{ fontWeight: 500, margin: 0, marginBottom: 6 }}>{project.title}</h6>
         </div>
       </div>
       <div
@@ -456,24 +460,24 @@ const KanbanCard = (props) => {
         <div style={{ fontSize: "0.8rem", padding: "0 7px 7px 7px" }}>
           {props.project.description}
         </div>
-        {props.currentUserData !== null ? ((props.currentUserData.username === props.project.developer 
-        || props.currentUserData.username === props.project.creator) ? 
+        {currentUserData !== null ? currentUserData.username === project.developer 
+        || currentUserData.username === project.creator ? 
         <h6
               style={{
                 fontSize: "0.7rem",
                 marginBottom: -2,
                 backgroundColor: "#d5ddf8",
-                padding: 3,
+                padding: "6px 0 8px",
                 width: "100%",
                 cursor: "pointer",
               }}
-              onClick={() => openComments(props.project.id)}
+              onClick={() => openComments(project.id)}
               onMouseOver={changeBackgroundOnMouseHover}
               onMouseLeave={changeBackgroundOnMouseLeave}
             >
               Comments
             </h6> 
-            : null) : null}
+            : null : null}
       </div>
       <div
         style={{
@@ -485,12 +489,12 @@ const KanbanCard = (props) => {
         }}
         onClick={changeCollapse}
       >
-        {props.project.createdDate !== props.project.closedDate ? (
+        {project.createdDate < project.closedDate ? (
           <div>
             <h6
               style={{ fontSize: "0.7rem", marginBottom: 0, cursor: "pointer" }}
             >
-              Closed date: {props.project.closedDate}
+              Closed date: {project.closedDate}
             </h6>
           </div>
         ) : null}

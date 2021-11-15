@@ -92,9 +92,9 @@ const TicketList = () => {
     setTicketToView(ticketToEdit)
   }
 
-  const handleCloseEditTicketModal = () => {
+  const handleShowDeleteTicketModal = () => {
 
-    setShowEditTicketModal(false)
+    setShowEditTicketModal(true)
     dispatch(getTicketList())
   };
 

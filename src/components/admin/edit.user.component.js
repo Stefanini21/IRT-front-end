@@ -213,7 +213,7 @@ const EditUserModal = (props) => {
 
                         <div className="form-group">
                             <label htmlFor="role">Role</label>
-                            <select
+                            {/* <select
                                 className="form-control"
                                 name="role"
                                 defaultValue={roleForm}
@@ -223,12 +223,12 @@ const EditUserModal = (props) => {
                                 {roles.map((r, i) =>
                                     <option value={r}>{r}</option>
                                 )}
-                            </select>
+                            </select> */}
                         </div>
 
                         <div className="form-group">
                             <label htmlFor="specialty">Specialty</label>
-                            <select
+                            {/* <select
                                 className="form-control"
                                 name="specialty"
                                 defaultValue={specialtyForm}
@@ -238,7 +238,7 @@ const EditUserModal = (props) => {
                                 {specialties.map((s, i) =>
                                     <option value={s}>{s}</option>
                                 )}
-                            </select>
+                            </select> */}
                             <br/>
                         </div>
 

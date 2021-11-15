@@ -11,28 +11,27 @@ export const ticket = (state = initialState, action) => {
     case SET_TICKET_ID:
       return {
         ...state,
-        ticketId: action.payload,
+        ticketId: action.payload
       };
     case GET_TICKET_BY_ID:
       return {
         ...state,
-        ticketById: action.payload,
+        ticketById: action.payload
       };
-    case GET_TICKET_LIST:
-      return {
-        ...state,
-        ticketList: action.payload,
-      };
+    // case GET_TICKET_LIST:
+    //   return {
+    //     ...state,
+    //     ticketList: action.payload,
+    //   };
     case GET_ALL_TICKETS:
       return {
         ...state,
-        ticketList: action.payload,
-        isTicketChanged: false,
+        ticketList: action.payload
       };
     case CHANGE_TICKET_STATUS:
       return {
         ...state,
-        ticketList: action.payload,
+        ticketList: action.payload
       };
     default:
       return state;

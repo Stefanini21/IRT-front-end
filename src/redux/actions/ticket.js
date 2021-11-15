@@ -9,9 +9,9 @@ import {
   SET_TICKET_ID,
   GET_TICKET_BY_ID,
   GET_ALL_TICKETS,
-  GET_USER_BY_ID
+  GET_USER_BY_ID,
+  CLOSE_TICKET
 } from "./types";
-import { userActions } from "./user";
 
 export const createTicket =
   (title, description, priority, specialty, status, developer) =>
@@ -77,6 +77,17 @@ export const getTicketById = (ticketId) => (dispatch) => {
   });
 };
 
+export const closeTicket = (ticketId) => (dispatch) => {
+    const url = routes.BASIC_URL + routes.BASIC_PATH + routes.TICKETS + ticketId;
+
+    return HttpService.put(url, {}).then((response) => {
+      return dispatch({
+        type: CLOSE_TICKET,
+        payload: response
+      });
+    });
+  };
+
 // export const getTicketList = () => (dispatch) => {
 //     const url = routes.BASIC_URL + routes.BASIC_PATH + routes.TICKETS
 
@@ -105,9 +116,6 @@ export const getTicketList = () => (dispatch) => {
 export const changeTicketStatus = (id, status) => (dispatch) => {
   const url =
     routes.BASIC_URL + routes.BASIC_PATH + routes.CHANGE_TICKET_STATUS;
-  // console.log("url: " + url);
-  // console.log("in action status: " + status);
-  // console.log("in action id: " + id);
   return HttpService.put(url + id + "/" + status, {}).then((response) => {
     console.log("in action changeTicketStatus response: " + response.status);
     return dispatch({

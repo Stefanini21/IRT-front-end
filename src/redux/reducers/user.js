@@ -5,7 +5,9 @@ const initialState = {
     userById: {},
     updatedUser: {},
     createdUser: {},
-    userList: {}
+    userList: {},
+    specialties: {},
+    roles: {}
 }
 
 export const user = (state = initialState, action) => {
@@ -21,11 +23,6 @@ export const user = (state = initialState, action) => {
                 ...state,
                 userId: action.payload
             };
-        // case userActions.UPDATE_USER_BY_ID:
-        //     return {
-        //         ...state,
-        //         updatedUser: action.payload
-        //     }
         case userActions.GET_USER_BY_ID:
             const userById = action.payload
             return {
@@ -36,6 +33,22 @@ export const user = (state = initialState, action) => {
             return {
                 ...state,
                 createdUser: action.payload
+            };
+        case userActions.GET_USER_LIST:
+            const userList = action.payload
+            return {
+                ...state,
+                userList: userList
+            };
+        case userActions.GET_SPECIALTIES:
+            return {
+                ...state,
+                specialties: action.payload
+            };
+        case userActions.GET_ROLES:
+            return {
+                ...state,
+                roles: action.payload
             };
         default:
             return state;

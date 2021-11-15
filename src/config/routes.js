@@ -7,6 +7,11 @@ export const routes = {
     ALL_USERS: "users",
     ALL_TICKETS: "tickets",
     CHANGE_TICKET_STATUS: "tickets/",
-    CREATE_USER: "users/"
+    CREATE_USER: "users/",
+    TICKETS: "tickets/",
+    CREATE_USER: "users/",
+    SPECIALTIES: "specialties",
+    ROLES: "roles",
+    TICKET_BY_ID: "tickets/"
 
 }

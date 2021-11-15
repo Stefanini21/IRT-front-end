@@ -1,4 +1,4 @@
-import { AuthActions } from "../actions/auth";
+import {AuthActions} from "../actions/auth";
 
 const initialState = {
     userData: {},

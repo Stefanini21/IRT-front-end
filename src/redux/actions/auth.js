@@ -1,5 +1,7 @@
 import {routes} from "../../config/routes";
 import {HttpService} from "../../services/httpService";
+import AuthService from "../../services/auth.service";
+import {SET_MESSAGE} from "./types";
 
 export const AuthActions = {
     RECEIVE_USER_AUTH: "RECEIVE_USER_AUTH",

@@ -1,14 +1,12 @@
 import React, {useEffect, useState} from "react";
 import {Button, Modal} from "react-bootstrap";
 import {deleteUser} from "../../actions/user";
-import UserService from "../../services/userService";
-import EventBus from "../../common/EventBus";
 import CreateUserModal from "./create.user.component";
-import ViewUser from "../view.user.component";
+import ViewUser from "./view.user.component";
 import DataTable from "react-data-table-component";
 import {useDispatch, useSelector} from "react-redux";
-import {closeModal, getUserList, setUserId} from "../../redux/actions/user";
-import EditUserModal from "../edit.user.component";
+import {getUserList, setUserId, getSpecialties} from "../../redux/actions/user";
+import EditUserModal from "./edit.user.component";
 import {selectUserList} from "../../redux/selectors/user";
 
 const AdminUserList = () => {
@@ -60,7 +58,8 @@ const AdminUserList = () => {
         },
         {
             name: "View User",
-            cell: (row) => <Button variant="success"
+            cell: (row) =>
+                <Button variant="success"
                                    onClick={() => handleShowViewUserModal(row)}>View</Button>,
             grow: 0.3
         },
@@ -140,30 +139,30 @@ const AdminUserList = () => {
         dispatch(closeModal)
     }, [handleCloseViewUserModal])
     useEffect(() => {
-    //     UserService.getUsers().then(
-    //         response => {
-    //             setUsers(response.data)
-    //         },
-    //         error => {
-    //             setError(
-    //                 (error.response &&
-    //                     error.response.data &&
-    //                     error.response.data.message) ||
-    //                 error.message ||
-    //                 error.toString())
-    //
-    //             if (error.response && error.response.status === 401) {
-    //                 EventBus.dispatch("logout");
-    //             }
-    //
-    //         }
-    //     );
-    // }, [])
+        //     UserService.getUsers().then(
+        //         response => {
+        //             setUsers(response.data)
+        //         },
+        //         error => {
+        //             setError(
+        //                 (error.response &&
+        //                     error.response.data &&
+        //                     error.response.data.message) ||
+        //                 error.message ||
+        //                 error.toString())
+        //
+        //             if (error.response && error.response.status === 401) {
+        //                 EventBus.dispatch("logout");
+        //             }
+        //
+        //         }
+        //     );
+        // }, [])
         setUsers(userList)
     }, [userList])
 
 
-    useEffect(() =>{
+    useEffect(() => {
         dispatch(getUserList())
     }, [])
 
@@ -229,8 +228,13 @@ const AdminUserList = () => {
                         Create User
                     </Button>
                 </div>
-                <DataTable paginationPerPage={10} paginationRowsPerPageOptions={[10, 25, 50]} title={'Users'}
-                           columns={columns} data={users} pagination={true}/>
+                <DataTable
+                    paginationPerPage={10}
+                    paginationRowsPerPageOptions={[10, 25, 50]}
+                    title={'Users'}
+                    columns={columns}
+                    data={users}
+                    pagination={true}/>
             </header>
         </div>
 

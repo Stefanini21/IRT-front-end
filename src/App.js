@@ -13,7 +13,6 @@ import Header from "./components/header/header.component";
 import SignIn from "./components/sign-in/sign-in.component";
 import Profile from "./components/profile/profile.component";
 import AdminUserList from "./components/admin/board-admin-users.component";
-import AdminTicketList from "./components/admin/board-admin-tickets.component";
 import TicketList from "./components/admin/ticket-list.component";
 
 
@@ -38,7 +37,7 @@ export default class App extends Component {
                                     <Route path="/user" component={User}/>
                                 </Switch>
                             </div>
-                            <Footer />
+                            <Footer/>
                         </div>
                     </PersistGate>
                 </Router>

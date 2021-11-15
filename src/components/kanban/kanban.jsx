@@ -39,7 +39,7 @@ const KanbanBoard = (props) => {
 
   const columns = [
     { name: "BackLog", stage: 1 },
-    { name: "Asigned", stage: 2 },
+    { name: "Assigned", stage: 2 },
     { name: "Finished", stage: 3 },
     { name: "Closed", stage: 4 },
   ];
@@ -56,7 +56,7 @@ const KanbanBoard = (props) => {
           element.project_stage = 1;
           break;
         }
-        case "ASIGNED": {
+        case "ASSIGNED": {
           element.project_stage = 2;
           break;
         }
@@ -87,7 +87,7 @@ const KanbanBoard = (props) => {
         break;
       case 2:
         console.log("case 2 draggedOverCol: " + stageValue);
-        setStatus("ASIGNED");
+        setStatus("ASSIGNED");
         break;
       case 3:
         console.log("case 3 draggedOverCol: " + stageValue);

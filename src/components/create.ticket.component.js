@@ -11,7 +11,7 @@ const CreateTicketModal = (props) => {
 
   const statusOptions = [
     { value: "BACKLOG", label: "Backlog" },
-    { value: "ASIGNED", label: "Assigned" },
+    { value: "ASSIGNED", label: "Assigned" },
     { value: "FINISHED", label: "Finished" },
     { value: "CLOSED", label: "Closed" }
   ];

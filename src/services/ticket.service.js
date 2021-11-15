@@ -17,33 +17,26 @@ class TicketService {
     return axios.get(API_URL, { headers: authHeader() });
   }
 
-  getDeveloperId(developers_username) {
-      let url = "http://localhost:8080/api/users/"
-      return UserService.getUserByUsername(url, developers_username);
-  }
-
   deleteTicket(ticketId) {
     return axios.delete(API_URL + "/" + ticketId, { headers: authHeader() });
   }
 
-  createTicket(title, description, priority, specialty, status, developer) {
+  createTicket(title, description, priority, specialty, status, admin_id, developer) {
     return axios.post(
-      API_URL,
+      API_URL + "/" + admin_id + "/" + developer,
       {
         title,
         description,
         specialty: specialty,
         priority: priority,
         status: status,
-        //creator_id: currentUserData.id,
-        developer_id: this.getDeveloperId(developer),
-        created_date: Date().toLocaleString(),
+        created_date: Date().toLocaleString()
       },
       { headers: authHeader() }
     );
   }
 
-  getUTicketById(url, ticketId) {
+  getTicketById(url, ticketId) {
     return axios
       .get(url + JSON.stringify(ticketId), { headers: authHeader() })
       .then((response) => {

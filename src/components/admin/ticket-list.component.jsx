@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Button, Modal } from "react-bootstrap";
 import { deleteUser } from "../../actions/user";
-import UserService from "../../services/user.service";
 import TicketService from "../../services/ticket.service";
 import EventBus from "../../common/EventBus";
 import CreateTicketModal from "../create.ticket.component";
@@ -9,6 +8,8 @@ import ViewUser from "../view.user.component";
 import DataTable from "react-data-table-component";
 import { useDispatch } from "react-redux";
 import { closeModal, setUserId } from "../../redux/actions/user";
+import UserService from "../../services/user.service";
+import { user } from "../../redux/reducers/user";
 
 const TicketList = () => {
   const dispatch = useDispatch();
@@ -49,8 +50,20 @@ const TicketList = () => {
       sortable: true,
     },
     {
-      name: "Developer username",
-      selector: (row) => row.email,
+      name: "Developer",
+      selector: (row) => {
+        const user = UserService.getUserById(row.developer_id)
+        console.log(user)
+        return user.username
+
+      },
+      sortable: true,
+    },
+    {
+      name: "Creator",
+      selector: (row) => {
+        (UserService.getUserById(row.creator_id)).username
+      },
       sortable: true,
     },
 
@@ -121,6 +134,7 @@ const TicketList = () => {
   };
 
   useEffect(() => {
+    
     TicketService.getTickets().then(
       (response) => {
         setUsers(response.data);

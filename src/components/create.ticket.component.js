@@ -3,10 +3,19 @@ import Form from "react-validation/build/form";
 import Input from "react-validation/build/input";
 import Select from "react-select";
 import CheckButton from "react-validation/build/button";
-import { useDispatch } from "react-redux";
-import { createTicket } from "../redux/actions/ticket";
+import { useDispatch, useSelector } from "react-redux";
+import { createTicket, getAllUsersBySpecialty } from "../redux/actions/ticket";
+import { getUserListBySpecialty } from "../redux/selectors/ticket";
+import { getUserData } from "../redux/selectors/auth";
 
 const CreateTicketModal = (props) => {
+
+  const admin = useSelector(getUserData);
+  const admin_id = admin.id;
+
+  const userListBySpecialty = useSelector(getUserListBySpecialty);
+
+  const usersListBySpecialtyUsernames = [];
 
 
   const statusOptions = [
@@ -42,31 +51,8 @@ const CreateTicketModal = (props) => {
   const [successful, setSuccessful] = useState(false);
   const [message, setMessage] = useState("");
   const [show, setShow] = useState(true);
+  const [developerOptions, setDeveloperOptions] = useState({});
 
-  // constructor(props) {
-  //     super(props);
-  //     this.handleCreateUser = this.handleCreateUser.bind(this);
-  //     this.handleClose = this.handleClose.bind(this);
-  //     this.onChangeUsername = this.onChangeUsername.bind(this);
-  //     this.onChangeFirstName = this.onChangeFirstName.bind(this);
-  //     this.onChangeLastName = this.onChangeLastName.bind(this);
-  //     this.onChangeSpecialty = this.onChangeSpecialty.bind(this);
-  //     this.onChangeEmail = this.onChangeEmail.bind(this);
-  //     this.onChangePassword = this.onChangePassword.bind(this);
-  //
-  //     this.state = {
-  //         username: "",
-  //         firstname: "",
-  //         lastname: "",
-  //         email: "",
-  //         specialty: "",
-  //         password: "",
-  //         role: "USER",
-  //         successful: false,
-  //         message: "",
-  //         show: true
-  //     };
-  // }
 
   const handleClose = () => {
     setShow(false);
@@ -85,9 +71,20 @@ const CreateTicketModal = (props) => {
   };
 
   const onChangeSpecialty = (e) => {
-    console.log("into onChangeSpecialty");
-    console.log(e.value);
+    console.log("into onChangeSpecialty, e.value:");
     setSpecialty(e.value);
+
+    dispatch(getAllUsersBySpecialty(e.value));
+
+    userListBySpecialty.forEach(function (element) {
+      usersListBySpecialtyUsernames.push({
+        label: element.username,
+        value: element.id,
+      });
+    });
+
+    setDeveloperOptions(usersListBySpecialtyUsernames);
+
   };
 
   const onChangeStatus = (e) => {
@@ -97,7 +94,7 @@ const CreateTicketModal = (props) => {
   };
 
   const onChangeDeveloper = (e) => {
-    setDeveloper(e.target.value);
+    setDeveloper(e.value);
   };
 
   const handleCreateTicket = (e) => {
@@ -110,9 +107,15 @@ const CreateTicketModal = (props) => {
 
     // if (this.checkBtn.context._errors.length === 0)
     if (true) {
-      dispatch(
-        createTicket(title, description, priority, specialty, status, developer)
-      )
+
+  const newTicket = {
+    title: title,
+    description: description,
+    priority: priority,
+    status: status
+  };
+
+      dispatch(createTicket(newTicket, admin_id, developer))
         .then(() => {
           setMessage(title + "ticket successfully registered!");
           setSuccessful(true);
@@ -166,7 +169,8 @@ const CreateTicketModal = (props) => {
 
               <div className="form-group">
                 <label htmlFor="priority">Priority</label>
-                <Select options={priorityOptions}
+                <Select
+                  options={priorityOptions}
                   type="text"
                   name="priority"
                   onChange={onChangePriority}
@@ -175,7 +179,8 @@ const CreateTicketModal = (props) => {
 
               <div className="form-group">
                 <label htmlFor="specialty">Specialty</label>
-                <Select options={specialtyOptions}
+                <Select
+                  options={specialtyOptions}
                   type="text"
                   name="specialty"
                   onChange={onChangeSpecialty}
@@ -184,7 +189,8 @@ const CreateTicketModal = (props) => {
 
               <div className="form-group">
                 <label htmlFor="status">Status</label>
-                <Select options={statusOptions}
+                <Select
+                  options={statusOptions}
                   type="text"
                   name="status"
                   onChange={onChangeStatus}
@@ -193,18 +199,19 @@ const CreateTicketModal = (props) => {
 
               <div className="form-group">
                 <label htmlFor="developer">Developer</label>
-                <Input
+                <Select
+                  options={developerOptions}
                   type="text"
-                  className="form-control"
                   name="developer"
-                  value={developer}
                   onChange={onChangeDeveloper}
                   // validations={[required, vpassword]}
                 />
               </div>
 
               <div className="form-group">
-                <button className="btn btn-primary btn-block">Create ticket</button>
+                <button className="btn btn-primary btn-block">
+                  Create ticket
+                </button>
               </div>
             </div>
           )}

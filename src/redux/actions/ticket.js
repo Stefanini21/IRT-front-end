@@ -78,17 +78,6 @@ export const getTicketById = (ticketId) => (dispatch) => {
   });
 };
 
-// export const closeTicket = (ticketId) => (dispatch) => {
-//     const url = routes.BASIC_URL + routes.BASIC_PATH + routes.TICKETS + ticketId;
-
-//     return HttpService.put(url, {}).then((response) => {
-//       return dispatch({
-//         type: CLOSE_TICKET,
-//         payload: response
-//       });
-//     });
-//   };
-
 export const getTicketList = () => (dispatch) => {
     const url = routes.BASIC_URL + routes.BASIC_PATH + routes.TICKETS
 

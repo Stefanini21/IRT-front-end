@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getUserData } from "../../redux/selectors/auth";
 import { selectTicketList } from "../../redux/selectors/ticket";
-import { changeTicketStatus, closeTicket, getTicketListForKanban, getTicketList } from "../../redux/actions/ticket";
+import { changeTicketStatus, getTicketListForKanban} from "../../redux/actions/ticket";
 import { getUserById } from "../../redux/actions/user";
 import { selectUserById } from "../../redux/selectors/user";
 
@@ -10,7 +10,7 @@ const Kanban = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(getTicketList());
+    dispatch(getTicketListForKanban());
   }, []);
 
   return (

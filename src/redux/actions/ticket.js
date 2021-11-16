@@ -8,9 +8,9 @@ import {userActions} from "./user";
 export const ticketActions = {
     SET_TICKET_ID: "SET_TICKET_ID",
     GET_TICKET_BY_ID: "GET_TICKET_BY_ID",
-    GET_TICKET_LIST: "GET_TICKET_LIST"
+    GET_TICKET_LIST: "GET_TICKET_LIST",
+    DELETE_TICKET_BY_ID: "DELETE_TICKET_BY_ID"
 }
-
 
 export const createTicket =
     (title, description, priority, specialty, status, developer) =>
@@ -98,6 +98,21 @@ export const getTicketList = () => (dispatch) => {
         .then(response => {
             return dispatch({
                 type: userActions.GET_USER_BY_ID,
+                payload: response
+            })
+        })
+}
+
+export const deleteTicketById = (ticketId) => (dispatch) => {
+    const url = routes.BASIC_URL + routes.BASIC_PATH + routes.TICKET_BY_ID + ticketId;
+
+    console.log(ticketId + " this is id inside delete function")
+    console.log(url + " this is url inside delete function")
+
+    return HttpService.delete(url)
+        .then(response => {
+            return dispatch({
+                type: ticketActions.DELETE_TICKET_BY_ID,
                 payload: response
             })
         })

@@ -166,11 +166,11 @@ const TicketList = () => {
 
       <Modal show={showDeleteTicketModal} onHide={handleCloseDeleteTicketModal}>
         <Modal.Header closeButton>
-          <Modal.Title style={{ color: 'red' }}>Delete Ticket</Modal.Title>
+          <Modal.Title>Delete Ticket</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <div className="jumbotron">
-            <h4 style={{ color: 'red' }}>Are you sure you want to delete this <strong>{ticketTitleToDelete}</strong>?</h4>
+            <h4>Are you sure you want to delete: <strong>{ticketTitleToDelete}</strong>?</h4>
           </div>
         </Modal.Body>
         <Modal.Footer>

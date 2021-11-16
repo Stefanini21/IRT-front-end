@@ -184,11 +184,11 @@ const AdminUserList = () => {
 
             <Modal show={showDeleteUserModal} onHide={handleCloseDeleteUserModal}>
                 <Modal.Header closeButton>
-                    <Modal.Title style={{ color: 'red' }}>Delete User</Modal.Title>
+                    <Modal.Title>Delete User</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
                     <div className="jumbotron">
-                        <h4 style={{ color: 'red' }}>Are you sure you want to delete this <strong>{userNameToDelete}</strong> ?</h4>
+                        <h4>Are you sure you want to delete: <strong>{userNameToDelete}</strong> ?</h4>
                     </div>
                 </Modal.Body>
                 <Modal.Footer>

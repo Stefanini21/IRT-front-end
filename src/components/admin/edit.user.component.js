@@ -9,10 +9,11 @@ import {
     selectRoles,
     selectUserById,
     selectUserId,
-    selectRolesFetching
+    selectRolesFetching, selectSpecialtiesFetching
 } from "../../redux/selectors/user";
 import {selectDuplicatedEntryFlag, selectUserUpdatedFlag} from "../../redux/selectors/flag";
 import {resetEditUserFlags} from "../../redux/actions/flag";
+import Loader from "react-loader-spinner";
 
 
 const required = (value) => {
@@ -76,7 +77,9 @@ const EditUserModal = (props) => {
     const duplicatedEntryFlag = useSelector(selectDuplicatedEntryFlag);
     const specialties = useSelector(selectSpecialties);
     const roles = useSelector(selectRoles);
-    const rolesFetched = useSelector(selectRolesFetching)
+    const rolesFetching = useSelector(selectRolesFetching)
+    const specialtiesFetching = useSelector(selectSpecialtiesFetching)
+
 
     const [usernameForm, setUsername] = useState("");
     const [firstnameForm, setFirstName] = useState("");
@@ -87,10 +90,16 @@ const EditUserModal = (props) => {
     const [successful, setSuccessful] = useState(false);
     const [message, setMessage] = useState("");
     const [show, setShow] = useState(true);
+    const [loadingRoles, setLoadingRoles] = useState(true);
+    const [loadingSpecialties, setLoadingSpecialties] = useState(true);
+
+
 
     useEffect(() => {
         dispatch(resetEditUserFlags())
         dispatch(getUserById(userId))
+        dispatch(getSpecialties());
+        dispatch(getRoles());
     }, [])
 
 
@@ -101,9 +110,8 @@ const EditUserModal = (props) => {
         setEmail(userById.email);
         setSpecialty(userById.specialty);
         setRole(userById.role);
-        dispatch(getSpecialties());
-        dispatch(getRoles());
-
+        setLoadingRoles(rolesFetching);
+        setLoadingSpecialties(specialtiesFetching);
     }, [userById])
 
     const handleClose = () => {
@@ -155,8 +163,18 @@ const EditUserModal = (props) => {
             });
     }
 
-    return (
-        <div className="col-md-12">
+    return <>
+    { loadingRoles && loadingSpecialties
+            ?
+                <Loader className="loader-spinner"
+                    type="TailSpin"
+                    color="#4e83b9"
+                    height={50}
+                    width={50}
+                />
+            :
+
+        (<div className="col-md-12">
             <div className="card card-container">
                 <img
                     src="//ssl.gstatic.com/accounts/ui/avatar_2x.png"
@@ -219,35 +237,37 @@ const EditUserModal = (props) => {
                         </div>
 
                         <div className="form-group">
-                            <label htmlFor="role">Role</label>
-                            <select
-                                className="form-control"
-                                name="role"
-                                defaultValue={roleForm}
-                                value={roleForm}
-                                validations={[required]}
-                                onChange={onChangeRole}>
-                                {roles.map((r, i) =>
-                                    <option value={r}>{r}</option>
-                                )}
-                            </select>
-                        </div>
+                                <label htmlFor="role">Role</label>
+                                <select
+                                    className="form-control"
+                                    name="role"
+                                    defaultValue={roleForm}
+                                    value={roleForm}
+                                    validations={[required]}
+                                    onChange={onChangeRole}>
+                                    {roles.map((r, i) =>
+                                        <option value={r}>{r}</option>
+                                    )}
+                                </select>
+                            </div>
 
-                        <div className="form-group">
-                            <label htmlFor="specialty">Specialty</label>
-                            <select
-                                className="form-control"
-                                name="specialty"
-                                defaultValue={specialtyForm}
-                                value={specialtyForm}
-                                onChange={onChangeSpecialty}>
-                                validations={[required]}
-                                {specialties.map((s, i) =>
-                                    <option value={s}>{s}</option>
-                                )}
-                            </select>
-                            <br/>
-                        </div>
+
+                            <div className="form-group">
+                                <label htmlFor="specialty">Specialty</label>
+                                <select
+                                    className="form-control"
+                                    name="specialty"
+                                    defaultValue={specialtyForm}
+                                    value={specialtyForm}
+                                    onChange={onChangeSpecialty}>
+                                    validations={[required]}
+                                    {specialties.map((s, i) =>
+                                        <option value={s}>{s}</option>
+                                    )}
+                                </select>
+                                <br/>
+                            </div>
+
 
                         <div className="form-group">
                             <button className="primary_button btn-block">Update</button>
@@ -275,9 +295,9 @@ const EditUserModal = (props) => {
                 </Form>
             </div>
         </div>
-    );
-
+    )} </>
 }
+
 
 
 export default EditUserModal

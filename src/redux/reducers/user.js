@@ -8,6 +8,7 @@ const initialState = {
     isDeleted: false,
     userList: {},
     specialties: {},
+    specialtiesFetching: true,
     roles: {},
     rolesFetching: true,
     isFetching: true,
@@ -50,7 +51,8 @@ export const user = (state = initialState, action) => {
         case userActions.GET_SPECIALTIES:
             return {
                 ...state,
-                specialties: action.payload
+                specialties: action.payload,
+                specialtiesFetching: false
             };
         case userActions.GET_ROLES:
             return {

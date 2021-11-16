@@ -4,7 +4,7 @@ label {
 }
 
 .card-container.card {
-  max-width: 350px !important;
+  max-width: 380px !important;
   padding: 40px 40px;
   border-radius: 0px;
   border: 0px;
@@ -23,7 +23,8 @@ label {
 
 .col-md-12 {
   padding-left: 0;
-  padding-right: 0;
+  padding-right: 0px;
+
 }
 
 .profile-img-card {

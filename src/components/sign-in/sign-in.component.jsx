@@ -38,8 +38,8 @@ const SignIn = () => {
         );
     }
 
-    return (
-        <div className="col-md-12">
+    return (<div style={{display: 'flex',  justifyContent:'center', alignItems:'center'}}>
+
             <div className="card card-container">
                 <img
                     src="//ssl.gstatic.com/accounts/ui/avatar_2x.png"

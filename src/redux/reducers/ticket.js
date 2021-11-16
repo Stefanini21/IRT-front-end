@@ -4,6 +4,7 @@ const initialState = {
     ticketId: {},
     ticketById: {},
     ticketList: {},
+    isFetching: true,
     isDeleted: false
 }
 
@@ -15,15 +16,15 @@ export const ticket = (state = initialState, action) => {
                 ticketId: action.payload
             };
         case ticketActions.GET_TICKET_BY_ID:
-        const ticketById = action.payload    
-        return {
+            return {
                 ...state,
-                ticketById: ticketById
+                ticketById: action.payload
             };
         case ticketActions.GET_TICKET_LIST:
             return {
                 ...state,
-                ticketList: action.payload
+                ticketList: action.payload,
+                isFetching: false
             };
         case ticketActions.DELETE_TICKET_BY_ID:
             return {

@@ -7,7 +7,8 @@ import DataTable from "react-data-table-component";
 import {useDispatch, useSelector} from "react-redux";
 import {getUserList, setUserId, getSpecialties, deleteUserById} from "../../redux/actions/user";
 import EditUserModal from "./edit.user.component";
-import {selectUserList} from "../../redux/selectors/user";
+import {selectUserList, selectIsFetching} from "../../redux/selectors/user";
+import Loader from "react-loader-spinner";
 
 const AdminUserList = () => {
 
@@ -22,8 +23,10 @@ const AdminUserList = () => {
     const [userIdToDelete, setUserIdToDelete] = useState('');
     const [userNameToDelete, setUserNameToDelete] = useState('');
     const [userToView, setUserToView] = useState([]);
+    const [loading, setLoading] = useState(true);
 
     const userList = useSelector(selectUserList);
+    const fetching = useSelector(selectIsFetching);
 
     const columns = [
         {
@@ -59,19 +62,19 @@ const AdminUserList = () => {
         {
             name: "View User",
             cell: (row) =>
-                <Button variant="success"
+                <Button variant="outline-secondary"
                                    onClick={() => handleShowViewUserModal(row)}>View</Button>,
             grow: 0.3
         },
         {
             name: "Edit User",
-            cell: (row) => <Button variant="primary"
+            cell: (row) => <Button variant="outline-secondary"
                                    onClick={() => handleEditUserModal(row)}>Edit</Button>,
             grow: 0.3
         },
         {
             name: "Delete User",
-            cell: (row) => <Button variant="danger"
+            cell: (row) => <Button variant="outline-secondary"
                                    onClick={() => handleShowDeleteUserModal(row.id, row.username)}>Delete</Button>,
             grow: 1
         },
@@ -88,7 +91,6 @@ const AdminUserList = () => {
     }
 
     const handleShowViewUserModal = (userToView) => {
-
         dispatch(setUserId(userToView.id))
         setShowViewUserModal(true)
         setUserToView(userToView)
@@ -100,7 +102,6 @@ const AdminUserList = () => {
         setUserToView(userToEdit)
     }
     const handleCloseViewUserModal = () => {
-
         setShowViewUserModal(false)
 
     }
@@ -137,27 +138,54 @@ const AdminUserList = () => {
         //})
         dispatch(getUserList())})
         setShowDeleteUserModal(false)
-        //console.log(showDeleteUserModal)    
+        //console.log(showDeleteUserModal)
     }
 
     useEffect(() => {
+        //     UserService.getUsers().then(
+        //         response => {
+        //             setUsers(response.data)
+        //         },
+        //         error => {
+        //             setError(
+        //                 (error.response &&
+        //                     error.response.data &&
+        //                     error.response.data.message) ||
+        //                 error.message ||
+        //                 error.toString())
+        //
+        //             if (error.response && error.response.status === 401) {
+        //                 EventBus.dispatch("logout");
+        //             }
+        //
+        //         }
+        //     );
+        // }, [])
         setUsers(userList)
+        setLoading(fetching)
     }, [userList])
+
 
     useEffect(() => {
         dispatch(getUserList())
     }, [])
 
-    return (
-        <div>
-            <Modal show={showCreateUserModal} onHide={handleCloseCreateUserModal}>
-                <Modal.Header closeButton>
-                    <Modal.Title>Create User</Modal.Title>
-                </Modal.Header>
-                <Modal.Body>
-                    <CreateUserModal handleCloseCreateUserModal={handleCloseCreateUserModal}/>
-                </Modal.Body>
-            </Modal>
+    return <>
+        {loading ?  <Loader className="loader-spinner"
+                            type="TailSpin"
+                            color="#4f677f"
+                            height={50}
+                            width={50}
+            /> :
+            (<div>
+                    <Modal show={showCreateUserModal} onHide={handleCloseCreateUserModal}>
+                        <Modal.Header closeButton>
+                            <Modal.Title>Create User</Modal.Title>
+                        </Modal.Header>
+                        <Modal.Body>
+                            <CreateUserModal handleCloseCreateUserModal={handleCloseCreateUserModal}/>
+                        </Modal.Body>
+                    </Modal>
 
             <Modal show={showViewUserModal} onHide={handleCloseViewUserModal}>
                 <Modal.Header closeButton>
@@ -198,28 +226,27 @@ const AdminUserList = () => {
                     <Button variant="primary" onClick={handleDeleteUser}>
                         Yes
                     </Button>
-                </Modal.Footer> 
+                </Modal.Footer>
             </Modal>
 
-            <header className="jumbotron">
-                {error && <h3>{error}</h3>}
-                <div style={{margin: 10}}>
-                    <Button variant="primary" onClick={handleShowCreateUserModal}>
-                        Create User
-                    </Button>
-                </div>
-                <DataTable
-                    paginationPerPage={10}
-                    paginationRowsPerPageOptions={[10, 25, 50]}
-                    title={'Users'}
-                    columns={columns}
-                    data={users}
-                    pagination={true}/>
-            </header>
-        </div>
+                    <header className="jumbotron">
+                        {error && <h3>{error}</h3>}
+                        <div style={{margin: 10}}>
+                            <Button className="button_create" variant="dark" onClick={handleShowCreateUserModal}>
+                                Create User
+                            </Button>
+                        </div>
+                        <DataTable
+                            paginationPerPage={10}
+                            paginationRowsPerPageOptions={[10, 25, 50]}
+                            title={'Users'}
+                            columns={columns}
+                            data={users}
+                            pagination={true}/>
+                    </header>
+                </div>)
+        }</>
 
-    );
-    
 }
 
 export default AdminUserList

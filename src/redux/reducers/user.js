@@ -7,7 +7,8 @@ const initialState = {
     isDeleted: false,
     userList: {},
     specialties: {},
-    roles: {}
+    roles: {},
+    isFetching: true
 }
 
 export const user = (state = initialState, action) => {
@@ -32,7 +33,17 @@ export const user = (state = initialState, action) => {
             const userList = action.payload
             return {
                 ...state,
-                userList: userList
+                userList: userList,
+                isFetching: false
+            };
+        case userActions.DELETE_USER_BY_ID:
+            console.log(action.payload + " action.payload for delete")
+            return {
+                ...state,
+                //userId: action.payload,
+                //userById: action.payload,
+                //userList: userList,
+                isDeleted: true
             };
         case userActions.DELETE_USER_BY_ID:
             console.log(action.payload + " action.payload for delete")

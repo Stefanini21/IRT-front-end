@@ -90,7 +90,8 @@ const Header = () => {
                     {currentUserLoaded ? (
                         <div className="navbar-nav ml-auto">
                             <button
-                                className="btn btn-primary btn-block"
+                                className="btn btn-primary btn-block button_login"
+
                                 onClick={handleLogOut}
                             >
                                 <span>Logout</span>

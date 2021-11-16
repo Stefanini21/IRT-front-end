@@ -105,7 +105,7 @@ export const getTicketList = () => (dispatch) => {
 
 export const deleteTicketById = (ticketId) => (dispatch) => {
     const url = routes.BASIC_URL + routes.BASIC_PATH + routes.TICKET_BY_ID + ticketId;
-    
+
     console.log(ticketId + " this is id inside delete function")
     console.log(url + " this is url inside delete function")
 

@@ -108,7 +108,7 @@ const TicketList = () => {
   };
 
 
-  const handleShowViewTicketModal = (userToView) => {
+  const handleShowViewTicketModal = (ticketToView) => {
     // setUserId(ticketToView.id)
     dispatch(setTicketId(ticketToView.id));
     setShowViewTicketModal(true);

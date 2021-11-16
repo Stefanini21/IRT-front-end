@@ -218,8 +218,9 @@ const EditUserModal = (props) => {
                                 name="role"
                                 defaultValue={roleForm}
                                 value={roleForm}
-                                validations={[required]}
+                                
                                 onChange={onChangeRole}>
+                                    validations={[required]}
                                 {roles.map((r, i) =>
                                     <option value={r}>{r}</option>
                                 )}

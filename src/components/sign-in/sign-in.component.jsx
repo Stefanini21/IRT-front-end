@@ -75,7 +75,7 @@ const SignIn = () => {
                         </div>
 
                         <div className="form-group">
-                            <button className="btn btn-primary btn-block">
+                            <button className="primary_button btn-block">
                                 <span>Login</span>
                             </button>
                         </div>

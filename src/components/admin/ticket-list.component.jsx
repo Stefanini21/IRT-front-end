@@ -167,9 +167,9 @@ const TicketList = () => {
           <ViewTicket currentTicket={ticketToView} />
         </Modal.Body>
         <Modal.Footer>
-          <Button variant="secondary" onClick={handleCloseViewTicketModal}>
+          <button variant="tertiary_button" onClick={handleCloseViewTicketModal}>
             Close
-          </Button>
+          </button>
         </Modal.Footer>
       </Modal>
 
@@ -179,25 +179,25 @@ const TicketList = () => {
         </Modal.Header>
         <Modal.Body>
           <div className="jumbotron">
-            <h4>Are you sure you want to delete: <strong>{ticketTitleToDelete}</strong>?</h4>
+            <h4>Delete: <strong>{ticketTitleToDelete}</strong>?</h4>
           </div>
         </Modal.Body>
         <Modal.Footer>
-          <Button variant="secondary" onClick={handleCloseDeleteTicketModal}>
+          <button variant="tertiary_button" onClick={handleCloseDeleteTicketModal}>
             No
-          </Button>
-          <Button variant="primary" onClick={handleDeleteTicket}>
+          </button>
+          <button className="secondary_button" onClick={handleDeleteTicket}>
             Yes
-          </Button>
+          </button>
         </Modal.Footer>
       </Modal>
 
             <header className="jumbotron">
                 {error && <h3>{error}</h3>}
                 <div style={{ margin: 10 }}>
-                    <Button className="button_create" variant="dark" onClick={handleShowCreateTicketModal}>
+                    <button className="primary_button" onClick={handleShowCreateTicketModal}>
                         Create Ticket
-                    </Button>
+                    </button>
                 </div>
                 <DataTable
                     paginationPerPage={10}

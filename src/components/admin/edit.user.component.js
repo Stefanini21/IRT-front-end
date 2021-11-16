@@ -243,7 +243,7 @@ const EditUserModal = (props) => {
                         </div>
 
                         <div className="form-group">
-                            <button className="btn btn-primary btn-block">Update</button>
+                            <button className="primary_button btn-block">Update</button>
                         </div>
                     </div>
 

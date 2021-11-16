@@ -90,7 +90,7 @@ const Header = () => {
                     {currentUserLoaded ? (
                         <div className="navbar-nav ml-auto">
                             <button
-                                className="btn btn-primary btn-block button_login"
+                                className="primary_button btn-block"
 
                                 onClick={handleLogOut}
                             >
@@ -100,7 +100,7 @@ const Header = () => {
                     ) : (
                         <div className="navbar-nav ml-auto">
                             <button
-                                className="btn btn-primary btn-block"
+                                className="primary_button btn-block"
                                 onClick={handleLogIn}
                             >
                                 <span>Login</span>

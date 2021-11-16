@@ -157,7 +157,7 @@ const CreateTicketModal = () => {
                             </div>
 
                             <div className="form-group">
-                                <button className="btn btn-primary btn-block">Create ticket</button>
+                                <button className="primary_button btn-block">Create ticket</button>
                             </div>
                         </div>
                     )}

@@ -6,7 +6,7 @@ import CreateUserModal from "./create.user.component";
 import ViewUser from "./view.user.component";
 import DataTable from "react-data-table-component";
 import {useDispatch, useSelector} from "react-redux";
-import {getUserList, setUserId, getSpecialties} from "../../redux/actions/user";
+import {getUserList, setUserId, getSpecialties, deleteUserById} from "../../redux/actions/user";
 import EditUserModal from "./edit.user.component";
 import {selectUserList, selectIsFetching} from "../../redux/selectors/user";
 
@@ -89,7 +89,9 @@ const AdminUserList = () => {
         setShowCreateUserModal(false)
         window.location.reload()
     }
+
     const handleShowViewUserModal = (userToView) => {
+
         dispatch(setUserId(userToView.id))
         setShowViewUserModal(true)
         setUserToView(userToView)
@@ -101,6 +103,7 @@ const AdminUserList = () => {
         setUserToView(userToEdit)
     }
     const handleCloseViewUserModal = () => {
+
         setShowViewUserModal(false)
 
     }
@@ -109,36 +112,41 @@ const AdminUserList = () => {
         setShowEditUserModal(false)
         dispatch(getUserList())
     }
-    const handleShowDeleteUserModal = (userId, username) => {
-        setUserIdToDelete(userId)
-        setUserNameToDelete(username)
+
+    const handleShowDeleteUserModal = (deleteId, deleteUsername) => {
+        //dispatch(setUserId(deleteId))
+        setUserIdToDelete(deleteId)
+        setUserNameToDelete(deleteUsername)
         setShowDeleteUserModal(true)
-        setUserIdToDelete(userId)
-        setUserNameToDelete(username)
-        setShowDeleteUserModal(true)
+        console.log(userIdToDelete)
+        console.log(userNameToDelete)
+        console.log(showDeleteUserModal)
+
     }
 
     const handleCloseDeleteUserModal = () => {
-
+        console.log(userIdToDelete)
+        console.log(userNameToDelete)
+        console.log(showDeleteUserModal)
         setShowDeleteUserModal(false)
-        window.location.reload()
+        console.log(showDeleteUserModal)
     }
 
     const handleDeleteUser = () => {
-        dispatch(
-            deleteUser(userIdToDelete)
-        )
-            .then(() => {
-                setShowDeleteUserModal(false)
-            })
-        window.location.reload()
+        console.log(userIdToDelete + " user with this id will be deleted")
+        dispatch(deleteUserById(userIdToDelete))
+        .then(() => {
+        //    setShowDeleteUserModal(false)
+        //})
+        dispatch(getUserList())})
+        setShowDeleteUserModal(false)
+        //console.log(showDeleteUserModal)
     }
 
     useEffect(() => {
         setUsers(userList)
         setLoading(fetching)
     }, [userList])
-
 
     useEffect(() => {
         dispatch(getUserList())
@@ -161,45 +169,47 @@ const AdminUserList = () => {
                         </Modal.Body>
                     </Modal>
 
-                    <Modal show={showViewUserModal} onHide={handleCloseViewUserModal}>
-                        <Modal.Header closeButton>
-                            <Modal.Title>View User</Modal.Title>
-                        </Modal.Header>
-                        <Modal.Body>
-                            <ViewUser currentUser={userToView}/>
-                        </Modal.Body>
-                        <Modal.Footer>
-                            <Button variant="secondary" onClick={handleCloseViewUserModal}>
-                                Close
-                            </Button>
-                        </Modal.Footer>
-                    </Modal>
+            <Modal show={showViewUserModal} onHide={handleCloseViewUserModal}>
+                <Modal.Header closeButton>
+                    <Modal.Title>View User</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                    <ViewUser currentUser={userToView}/>
+                </Modal.Body>
+                <Modal.Footer>
+                    <Button variant="secondary" onClick={handleCloseViewUserModal}>
+                        Close
+                    </Button>
+                </Modal.Footer>
+            </Modal>
 
-                    <Modal show={showEditUserModal} onHide={handleCloseEditUserModal}>
-                        <Modal.Header closeButton>
-                            <Modal.Title>Edit User</Modal.Title>
-                        </Modal.Header>
-                        <Modal.Body>
-                            <EditUserModal handleCloseEditUserModal={handleCloseEditUserModal}/>
-                        </Modal.Body>
-                    </Modal>
+            <Modal show={showEditUserModal} onHide={handleCloseEditUserModal}>
+                <Modal.Header closeButton>
+                    <Modal.Title>Edit User</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                    <EditUserModal handleCloseEditUserModal={handleCloseEditUserModal}/>
+                </Modal.Body>
+            </Modal>
 
-                    <Modal show={showDeleteUserModal} onHide={handleCloseDeleteUserModal}>
-                        <Modal.Header closeButton>
-                            <Modal.Title>Delete User</Modal.Title>
-                        </Modal.Header>
-                        <Modal.Body>
-                            Are you sure you want to delete this {userNameToDelete}?
-                        </Modal.Body>
-                        <Modal.Footer>
-                            <Button  variant="secondary" onClick={handleCloseDeleteUserModal}>
-                                No
-                            </Button>
-                            <Button variant="primary" onClick={handleDeleteUser}>
-                                Yes
-                            </Button>
-                        </Modal.Footer>
-                    </Modal>
+            <Modal show={showDeleteUserModal} onHide={handleCloseDeleteUserModal}>
+                <Modal.Header closeButton>
+                    <Modal.Title>Delete User</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                    <div className="jumbotron">
+                        <h4>Are you sure you want to delete: <strong>{userNameToDelete}</strong> ?</h4>
+                    </div>
+                </Modal.Body>
+                <Modal.Footer>
+                    <Button variant="secondary" onClick={handleCloseDeleteUserModal}>
+                        No
+                    </Button>
+                    <Button variant="primary" onClick={handleDeleteUser}>
+                        Yes
+                    </Button>
+                </Modal.Footer>
+            </Modal>
 
                     <header className="jumbotron">
                         {error && <h3>{error}</h3>}
@@ -208,8 +218,6 @@ const AdminUserList = () => {
                                 Create User
                             </Button>
                         </div>
-
-
                         <DataTable
                             paginationPerPage={10}
                             paginationRowsPerPageOptions={[10, 25, 50]}

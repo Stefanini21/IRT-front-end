@@ -4,7 +4,8 @@ const initialState = {
     ticketId: {},
     ticketById: {},
     ticketList: {},
-    isFetching: true
+    isFetching: true,
+    isDeleted: false
 }
 
 export const ticket = (state = initialState, action) => {
@@ -24,6 +25,11 @@ export const ticket = (state = initialState, action) => {
                 ...state,
                 ticketList: action.payload,
                 isFetching: false
+            };
+        case ticketActions.DELETE_TICKET_BY_ID:
+            return {
+                ...state,
+                isDeleted: true
             };
         default:
             return state;

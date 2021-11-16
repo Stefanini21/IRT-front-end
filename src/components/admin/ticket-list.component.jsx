@@ -5,7 +5,8 @@ import DataTable from "react-data-table-component";
 import ViewTicket from "./view.ticket.component";
 import {useDispatch, useSelector} from "react-redux";
 import {getTicketList, setTicketId} from "../../redux/actions/ticket";
-import {selectTicketList} from "../../redux/selectors/ticket";
+import {selectTicketList, selectIsFetching} from "../../redux/selectors/ticket";
+import Loader from "react-loader-spinner";
 
 
 const TicketList = () => {
@@ -21,8 +22,10 @@ const TicketList = () => {
     const [userIdToDelete, setUserIdToDelete] = useState("");
     const [userNameToDelete, setUserNameToDelete] = useState("");
     const [ticketToView, setTicketToView] = useState([]);
+    const [loading, setLoading] = useState(true);
 
     const ticketList = useSelector(selectTicketList);
+    const fetching = useSelector(selectIsFetching);
 
     const columns = [
         {
@@ -59,7 +62,7 @@ const TicketList = () => {
     {
       name: "View Ticket",
       cell: (row) => (
-        <Button variant="success" onClick={() => handleShowViewTicketModal(row)}>
+        <Button variant="outline-secondary" onClick={() => handleShowViewTicketModal(row)}>
           View
         </Button>
       ),
@@ -67,7 +70,7 @@ const TicketList = () => {
     },
     {
       name: "Edit Ticket",
-      cell: (row) => <Button variant="primary"
+      cell: (row) => <Button variant="outline-secondary"
                              onClick={() => handleEditTicketModal(row)}>Edit</Button>,
       grow: 0.3
     },
@@ -75,7 +78,7 @@ const TicketList = () => {
       name: "Delete Ticket",
       cell: (row) => (
         <Button
-          variant="danger"
+          variant="outline-secondary"
           onClick={() => handleShowDeleteTicketModal(row.id, row.username)}
         >
           Delete
@@ -121,6 +124,7 @@ const TicketList = () => {
 
   useEffect(() => {
     setTickets(ticketList)
+      setLoading(fetching)
   }, [ticketList])
 
 
@@ -128,15 +132,21 @@ const TicketList = () => {
     dispatch(getTicketList())
   }, [])
 
-    return (
-        <div>
+    return <>
+        {loading ?  <Loader className="loader-spinner"
+                            type="TailSpin"
+                            color="#4f677f"
+                            height={50}
+                            width={50}
+            /> :
+        (<div>
             <Modal show={showCreateTicketModal} onHide={handleCloseCreateTicketModal}>
                 <Modal.Header closeButton>
                     <Modal.Title>Create Ticket</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
                     <CreateTicketModal
-                        handleCloseCreateTicketModal={handleCloseCreateTicketModal}
+                        handleCloseCreateTxicketModal={handleCloseCreateTicketModal}
                     />
                 </Modal.Body>
             </Modal>
@@ -175,7 +185,7 @@ const TicketList = () => {
             <header className="jumbotron">
                 {error && <h3>{error}</h3>}
                 <div style={{ margin: 10 }}>
-                    <Button variant="primary" onClick={handleShowCreateTicketModal}>
+                    <Button className="button_create" variant="dark" onClick={handleShowCreateTicketModal}>
                         Create Ticket
                     </Button>
                 </div>
@@ -188,8 +198,9 @@ const TicketList = () => {
                     pagination={true}
                 />
             </header>
-        </div>
-    );
-};
+        </div>)
+        }</>
+}
+
 
 export default TicketList;

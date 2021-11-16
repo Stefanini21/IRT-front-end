@@ -3,7 +3,8 @@ import {ticketActions} from "../actions/ticket";
 const initialState = {
     ticketId: {},
     ticketById: {},
-    ticketList: {}
+    ticketList: {},
+    isFetching: true
 }
 
 export const ticket = (state = initialState, action) => {
@@ -21,7 +22,8 @@ export const ticket = (state = initialState, action) => {
         case ticketActions.GET_TICKET_LIST:
             return {
                 ...state,
-                ticketList: action.payload
+                ticketList: action.payload,
+                isFetching: false
             };
         default:
             return state;

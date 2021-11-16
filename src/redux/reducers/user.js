@@ -6,7 +6,8 @@ const initialState = {
     createdUser: {},
     userList: {},
     specialties: {},
-    roles: {}
+    roles: {},
+    isFetching: true
 }
 
 export const user = (state = initialState, action) => {
@@ -31,7 +32,8 @@ export const user = (state = initialState, action) => {
             const userList = action.payload
             return {
                 ...state,
-                userList: userList
+                userList: userList,
+                isFetching: false
             };
         case userActions.GET_SPECIALTIES:
             return {

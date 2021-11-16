@@ -32,5 +32,35 @@ label {
 }
 
 .header {
-  background-color: #4f677f!important;
+  background-color: #4f677f !important;
+}
+
+.loader-spinner {
+  margin: 100px;
+  text-align: center;
+}
+
+.button_create {
+  background-color: #4f677f;
+  border-color: #4f677f;
+}
+
+.button_login {
+  background-color: #6e92b5;
+  border-color: darkgrey;
+}
+
+.button_view {
+  background-color: #6e92b5;
+  border-color: #6e92b5;
+}
+
+.button_edit {
+  background-color: #6e92b5;
+  border-color: #6e92b5;
+}
+
+.button_delete {
+  background-color: #6e92b5;
+  border-color: #6e92b5;
 }

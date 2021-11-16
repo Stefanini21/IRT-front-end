@@ -12,6 +12,7 @@ export const userActions = {
     UPDATE_USER_BY_ID: "UPDATE_USER_BY_ID",
     GET_USER_LIST: "GET_USER_LIST",
     RECEIVE_DUPLICATE_ENTRY: "RECEIVE_DUPLICATE_ENTRY",
+    DELETE_USER_BY_ID: "DELETE_USER_BY_ID",
     GET_SPECIALTIES: "GET_SPECIALTIES",
     GET_ROLES: "GET_ROLES"
 }
@@ -41,6 +42,7 @@ export const getRoles = () => (dispatch) => {
 }
 
 export const setUserId = (userId) => (dispatch) => {
+
     return dispatch({
         type: userActions.SET_USER_ID,
         payload: userId
@@ -49,7 +51,7 @@ export const setUserId = (userId) => (dispatch) => {
 
 export const closeModal = () => (dispatch) => {
     return dispatch({
-        type: userActions.CLOSE_MODAL,
+        type: userActions.CLOSE_MODAL
     })
 }
 
@@ -115,4 +117,18 @@ export const updateUserById = (userData, userId) => (dispatch) => {
                 })
             }
         })
-};
+}
+
+export const deleteUserById = (userId) => (dispatch) => {
+    const url = routes.BASIC_URL + routes.BASIC_PATH + routes.USER_BY_ID + userId;
+    console.log(userId + " this is id inside delete function")
+    console.log(url + " this is url inside delete function")
+
+    return HttpService.delete(url)
+        .then(response => {
+            return dispatch({
+                type: userActions.DELETE_USER_BY_ID,
+                payload: response
+            })
+        })
+}

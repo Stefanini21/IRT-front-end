@@ -3,7 +3,8 @@ import {ticketActions} from "../actions/ticket";
 const initialState = {
     ticketId: {},
     ticketById: {},
-    ticketList: {}
+    ticketList: {},
+    isDeleted: false
 }
 
 export const ticket = (state = initialState, action) => {
@@ -14,14 +15,20 @@ export const ticket = (state = initialState, action) => {
                 ticketId: action.payload
             };
         case ticketActions.GET_TICKET_BY_ID:
-            return {
+        const ticketById = action.payload    
+        return {
                 ...state,
-                ticketById: action.payload
+                ticketById: ticketById
             };
         case ticketActions.GET_TICKET_LIST:
             return {
                 ...state,
                 ticketList: action.payload
+            };
+        case ticketActions.DELETE_TICKET_BY_ID:
+            return {
+                ...state,
+                isDeleted: true
             };
         default:
             return state;

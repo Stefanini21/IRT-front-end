@@ -1,6 +1,6 @@
 import {routes} from "../../config/routes";
 import {HttpService} from "../../services/httpService";
-import {CREATE_USER_FAIL, CREATE_USER_SUCCESS, SET_MESSAGE} from "../../actions/types";
+import {CREATE_USER_FAIL, CREATE_USER_SUCCESS, SET_MESSAGE} from "./types";
 
 export const userActions = {
     SET_USER_ID: "SET_USER_ID",
@@ -11,10 +11,38 @@ export const userActions = {
     CREATE_USER_FAIL: "CREATE_USER_FAIL",
     UPDATE_USER_BY_ID: "UPDATE_USER_BY_ID",
     GET_USER_LIST: "GET_USER_LIST",
-    RECEIVE_DUPLICATE_ENTRY: "RECEIVE_DUPLICATE_ENTRY"
+    RECEIVE_DUPLICATE_ENTRY: "RECEIVE_DUPLICATE_ENTRY",
+    DELETE_USER_BY_ID: "DELETE_USER_BY_ID",
+    GET_SPECIALTIES: "GET_SPECIALTIES",
+    GET_ROLES: "GET_ROLES"
+}
+
+export const getSpecialties = () => (dispatch) => {
+    const url = routes.BASIC_URL + routes.BASIC_PATH + routes.USER_BY_ID + routes.SPECIALTIES
+
+    return HttpService.get(url)
+        .then(response => {
+            return dispatch({
+                type: userActions.GET_SPECIALTIES,
+                payload: response
+            })
+        })
+}
+
+export const getRoles = () => (dispatch) => {
+    const url = routes.BASIC_URL + routes.BASIC_PATH + routes.USER_BY_ID + routes.ROLES
+
+    return HttpService.get(url)
+        .then(response => {
+            return dispatch({
+                type: userActions.GET_ROLES,
+                payload: response
+            })
+        })
 }
 
 export const setUserId = (userId) => (dispatch) => {
+
     return dispatch({
         type: userActions.SET_USER_ID,
         payload: userId
@@ -23,7 +51,7 @@ export const setUserId = (userId) => (dispatch) => {
 
 export const closeModal = () => (dispatch) => {
     return dispatch({
-        type: userActions.CLOSE_MODAL,
+        type: userActions.CLOSE_MODAL
     })
 }
 
@@ -58,7 +86,7 @@ export const createUser = (newUser) => (dispatch) => {
     return HttpService.post(url, newUser)
         .then((response) => {
 
-                if (response === 400 || response === 500 ) {
+                if (response === 400 || response === 500) {
                     return dispatch({
                         type: userActions.RECEIVE_DUPLICATE_ENTRY
                     })
@@ -82,12 +110,25 @@ export const updateUserById = (userData, userId) => (dispatch) => {
                 return dispatch({
                     type: userActions.RECEIVE_DUPLICATE_ENTRY
                 })
-            }
-            else {
+            } else {
                 return dispatch({
                     type: userActions.UPDATE_USER_BY_ID,
                     payload: response
                 })
             }
         })
-};
+}
+
+export const deleteUserById = (userId) => (dispatch) => {
+    const url = routes.BASIC_URL + routes.BASIC_PATH + routes.USER_BY_ID + userId;
+    console.log(userId + " this is id inside delete function")
+    console.log(url + " this is url inside delete function")
+
+    return HttpService.delete(url)
+        .then(response => {
+            return dispatch({
+                type: userActions.DELETE_USER_BY_ID,
+                payload: response
+            })
+        })
+}

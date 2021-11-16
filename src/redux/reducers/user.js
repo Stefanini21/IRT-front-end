@@ -4,8 +4,11 @@ const initialState = {
     userId: {},
     userById: {},
     createdUser: {},
-    //updatedUser: {},
-    userList: {}
+    isDeleted: false,
+    userList: {},
+    specialties: {},
+    roles: {},
+    isFetching: true
 }
 
 export const user = (state = initialState, action) => {
@@ -15,11 +18,6 @@ export const user = (state = initialState, action) => {
                 ...state,
                 userId: action.payload
             };
-        // case userActions.UPDATE_USER_BY_ID:
-        //     return {
-        //         ...state,
-        //         updatedUser: action.payload
-        //     }
         case userActions.GET_USER_BY_ID:
             const userById = action.payload
             return {
@@ -35,7 +33,36 @@ export const user = (state = initialState, action) => {
             const userList = action.payload
             return {
                 ...state,
-                userList: userList
+                userList: userList,
+                isFetching: false
+            };
+        case userActions.DELETE_USER_BY_ID:
+            console.log(action.payload + " action.payload for delete")
+            return {
+                ...state,
+                //userId: action.payload,
+                //userById: action.payload,
+                //userList: userList,
+                isDeleted: true
+            };
+        case userActions.DELETE_USER_BY_ID:
+            console.log(action.payload + " action.payload for delete")
+            return {
+                ...state,
+                //userId: action.payload,
+                //userById: action.payload,
+                //userList: userList,
+                isDeleted: true
+            };
+        case userActions.GET_SPECIALTIES:
+            return {
+                ...state,
+                specialties: action.payload
+            };
+        case userActions.GET_ROLES:
+            return {
+                ...state,
+                roles: action.payload
             };
         default:
             return state;

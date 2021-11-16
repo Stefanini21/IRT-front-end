@@ -1,15 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { Button, Modal } from "react-bootstrap";
-//import TicketService from "../../services/ticket.service";
-//import EventBus from "../../common/EventBus";
 import CreateTicketModal from "./create.ticket.component";
 import DataTable from "react-data-table-component";
-import ViewTicket from "../view.ticket.component";
-import { useDispatch, useSelector } from "react-redux";
-import {getTicketList, setTicketId, deleteTicketById,} from "../../redux/actions/ticket";
-import { selectTicketList, selectIsFetching} from "../../redux/selectors/ticket";
+import ViewTicket from "./view.ticket.component";
+import {useDispatch, useSelector} from "react-redux";
+import {getTicketList, setTicketId, deleteTicketById} from "../../redux/actions/ticket";
+import {selectTicketList, selectIsFetching} from "../../redux/selectors/ticket";
 import Loader from "react-loader-spinner";
-//import { closeModal, setUserId } from "../../redux/actions/user";
+
 
 const TicketList = () => {
 
@@ -74,10 +72,7 @@ const TicketList = () => {
     {
       name: "View Ticket",
       cell: (row) => (
-        <Button
-          variant="outline-secondary"
-          onClick={() => handleShowViewTicketModal(row)}
-        >
+        <Button variant="outline-secondary" onClick={() => handleShowViewTicketModal(row)}>
           View
         </Button>
       ),
@@ -85,38 +80,28 @@ const TicketList = () => {
     },
     {
       name: "Edit Ticket",
-      cell: (row) => (
-        <Button
-          variant="outline-secondary"
-          onClick={() => handleEditTicketModal(row)}
-        >
-          Edit
-        </Button>
-      ),
-      grow: 0.3,
+      cell: (row) => <Button variant="outline-secondary"
+                             onClick={() => handleEditTicketModal(row)}>Edit</Button>,
+      grow: 0.3
     },
     {
       name: "Delete Ticket",
-      cell: (row) => (
-        <Button
-          variant="outline-secondary"
-          onClick={() => handleShowDeleteTicketModal(row.id, row.title)}>
-          Delete
-        </Button>
-      ),
-      grow: 1,
-    },
+      cell: (row) => <Button variant="outline-secondary" onClick={() => handleShowDeleteTicketModal(row.id, row.title)}>Delete</Button>,
+      grow: 1
+    }
   ];
 
   const handleEditTicketModal = (ticketToEdit) => {
-    dispatch(setTicketId(ticketToEdit.id));
-    setShowEditTicketModal(true);
-    setTicketToView(ticketToEdit);
-  };
+
+    dispatch(setTicketId(ticketToEdit.id))
+    setShowEditTicketModal(true)
+    setTicketToView(ticketToEdit)
+  }
 
   const handleCloseEditTicketModal = () => {
-    setShowEditTicketModal(false);
-    dispatch(getTicketList());
+
+    setShowEditTicketModal(false)
+    dispatch(getTicketList())
   };
 
   const handleShowCreateTicketModal = () => {
@@ -128,8 +113,9 @@ const TicketList = () => {
     window.location.reload();
   };
 
+
   const handleShowViewTicketModal = (ticketToView) => {
-    // setUserId(userToView.id)
+    // setUserId(ticketToView.id)
     dispatch(setTicketId(ticketToView.id));
     setShowViewTicketModal(true);
     setTicketToView(ticketToView);
@@ -150,46 +136,46 @@ const TicketList = () => {
   };
 
   const handleDeleteTicket = () => {
-    dispatch(deleteTicketById(ticketIdToDelete)).then(() => {
-      dispatch(getTicketList());
-    });
-    setShowDeleteTicketModal(false);
+    dispatch(deleteTicketById(ticketIdToDelete))
+    .then(() => {
+      dispatch(getTicketList())})
+    setShowDeleteTicketModal(false)
   };
-    
-    useEffect(() => {
+
+  useEffect(() => {
     setTickets(ticketList)
       setLoading(fetching)
   }, [ticketList])
 
-   useEffect(() =>{
+  useEffect(() =>{
     dispatch(getTicketList())
   }, [])
 
-  return <>
-    {loading ?  <Loader className="loader-spinner"
+    return <>
+        {loading ?  <Loader className="loader-spinner"
                             type="TailSpin"
                             color="#4f677f"
                             height={50}
                             width={50}
             /> :
-    (<div>
-      <Modal show={showCreateTicketModal} onHide={handleCloseCreateTicketModal}>
-        <Modal.Header closeButton>
-          <Modal.Title>Create Ticket</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          <CreateTicketModal
-            handleCloseCreateTicketModal={handleCloseCreateTicketModal}
-          />
-        </Modal.Body>
-      </Modal>
+        (<div>
+            <Modal show={showCreateTicketModal} onHide={handleCloseCreateTicketModal}>
+                <Modal.Header closeButton>
+                    <Modal.Title>Create Ticket</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                    <CreateTicketModal
+                        handleCloseCreateTicketModal={handleCloseCreateTicketModal}
+                    />
+                </Modal.Body>
+            </Modal>
 
       <Modal show={showViewTicketModal} onHide={handleCloseViewTicketModal}>
         <Modal.Header closeButton>
           <Modal.Title>View Ticket</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <ViewUser currentTicket={ticketToView} />
+          <ViewTicket currentTicket={ticketToView} />
         </Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={handleCloseViewTicketModal}>
@@ -217,26 +203,25 @@ const TicketList = () => {
         </Modal.Footer>
       </Modal>
 
-      <header className="jumbotron">
-        {error && <h3>{error}</h3>}
-        <div style={{ margin: 10 }}>
-          <Button className="button_create" variant="dark" onClick={handleShowCreateTicketModal}>
-            Create Ticket
-          </Button>
-        </div>
-        <DataTable
-          paginationPerPage={10}
-          paginationRowsPerPageOptions={[10, 25, 50]}
-          title={"Tickets"}
-          columns={columns}
-          data={tickets}
-          pagination={true}
-        />
-      </header>
-    </div>)
-  }</>
+            <header className="jumbotron">
+                {error && <h3>{error}</h3>}
+                <div style={{ margin: 10 }}>
+                    <Button className="button_create" variant="dark" onClick={handleShowCreateTicketModal}>
+                        Create Ticket
+                    </Button>
+                </div>
+                <DataTable
+                    paginationPerPage={10}
+                    paginationRowsPerPageOptions={[10, 25, 50]}
+                    title={"Tickets"}
+                    columns={columns}
+                    data={tickets}
+                    pagination={true}
+                />
+            </header>
+        </div>)
+        }</>
 }
-
 
 
 export default TicketList;

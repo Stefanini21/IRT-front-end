@@ -4,7 +4,7 @@ import CreateTicketModal from "./create.ticket.component";
 import DataTable from "react-data-table-component";
 import ViewTicket from "./view.ticket.component";
 import {useDispatch, useSelector} from "react-redux";
-import {getTicketList, setTicketId} from "../../redux/actions/ticket";
+import {getTicketList, setTicketId, deleteTicketById} from "../../redux/actions/ticket";
 import {selectTicketList} from "../../redux/selectors/ticket";
 
 
@@ -101,7 +101,7 @@ const TicketList = () => {
   };
 
 
-  const handleShowViewTicketModal = (userToView) => {
+  const handleShowViewTicketModal = (ticketToView) => {
     // setUserId(ticketToView.id)
     dispatch(setTicketId(ticketToView.id));
     setShowViewTicketModal(true);
@@ -152,10 +152,10 @@ const TicketList = () => {
 
       <Modal show={showViewTicketModal} onHide={handleCloseViewTicketModal}>
         <Modal.Header closeButton>
-          <Modal.Title>View User</Modal.Title>
+          <Modal.Title>View Ticket</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <ViewUser currentUser={ticketToView} />
+          <ViewTicket currentTicket={ticketToView} />
         </Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={handleCloseViewTicketModal}>

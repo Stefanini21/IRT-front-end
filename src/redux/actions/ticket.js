@@ -8,9 +8,10 @@ import {
   CHANGE_TICKET_STATUS,
   SET_TICKET_ID,
   GET_TICKET_BY_ID,
-  GET_ALL_TICKETS,
+  GET_TICKET_LIST,
   GET_USER_BY_ID,
-  CLOSE_TICKET
+//   CLOSE_TICKET,
+  GET_ALL_TICKETS_FOR_KANBAN
 } from "./types";
 
 export const createTicket =
@@ -77,37 +78,37 @@ export const getTicketById = (ticketId) => (dispatch) => {
   });
 };
 
-export const closeTicket = (ticketId) => (dispatch) => {
-    const url = routes.BASIC_URL + routes.BASIC_PATH + routes.TICKETS + ticketId;
+// export const closeTicket = (ticketId) => (dispatch) => {
+//     const url = routes.BASIC_URL + routes.BASIC_PATH + routes.TICKETS + ticketId;
 
-    return HttpService.put(url, {}).then((response) => {
-      return dispatch({
-        type: CLOSE_TICKET,
-        payload: response
-      });
-    });
-  };
-
-// export const getTicketList = () => (dispatch) => {
-//     const url = routes.BASIC_URL + routes.BASIC_PATH + routes.TICKETS
-
-//     return HttpService.get(url)
-//         .then(response => {
-//             return dispatch({
-//                 type: ticketActions.GET_TICKET_LIST,
-//                 payload: response
-//             })
-//         })
-// }
+//     return HttpService.put(url, {}).then((response) => {
+//       return dispatch({
+//         type: CLOSE_TICKET,
+//         payload: response
+//       });
+//     });
+//   };
 
 export const getTicketList = () => (dispatch) => {
-  const url = routes.BASIC_URL + routes.BASIC_PATH + routes.ALL_TICKETS;
+    const url = routes.BASIC_URL + routes.BASIC_PATH + routes.TICKETS
+
+    return HttpService.get(url)
+        .then(response => {
+            return dispatch({
+                type: GET_TICKET_LIST,
+                payload: response
+            })
+        })
+}
+
+export const getTicketListForKanban = () => (dispatch) => {
+  const url = routes.BASIC_URL + routes.BASIC_PATH + routes.ALL_TICKETS_FOR_KANBAN;
   console.log("url: " + url);
 
   return HttpService.get(url, {}).then((response) => {
     console.log("response: " + response);
     return dispatch({
-      type: GET_ALL_TICKETS,
+      type: GET_ALL_TICKETS_FOR_KANBAN,
       payload: response,
     });
   });

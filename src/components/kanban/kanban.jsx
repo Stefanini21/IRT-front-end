@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getUserData } from "../../redux/selectors/auth";
 import { selectTicketList } from "../../redux/selectors/ticket";
-import { changeTicketStatus, closeTicket, getTicketList } from "../../redux/actions/ticket";
+import { changeTicketStatus, closeTicket, getTicketListForKanban, getTicketList } from "../../redux/actions/ticket";
 import { getUserById } from "../../redux/actions/user";
 import { selectUserById } from "../../redux/selectors/user";
 
@@ -124,7 +124,7 @@ const KanbanBoard = (props) => {
           project.project_stage === 3 &&
           draggedOverCol === 4
         ) {
-          dispatch(closeTicket(project.id));
+          // dispatch(closeTicket(project.id));
           return projectObject.title === project.title;
         } else if (
           (currentUserData.role === "USER" &&
@@ -373,19 +373,19 @@ const KanbanCard = (props) => {
           }}
         >
           {currentUserData !== null && currentUserData.username === project.creator ? <div>
-          <div style={{width: 8, height: 8, backgroundColor: "orange", display: "inline-block", position: "absolute", left: 10, top: 12, borderRadius: "100%"}}></div>
+          <div style={{width: 9, height: 9, backgroundColor: "#fdee00", border: "1px solid darkorange", display: "inline-block", position: "absolute", left: 10, top: 11, borderRadius: "100%"}}></div>
           </div> : 
-          <div style={{width: 8, height: 8, backgroundColor: "#6e5dbd", display: "inline-block", position: "absolute", left: 10, top: 12, borderRadius: "100%"}}></div>}
+          <div style={{width: 9, height: 9, backgroundColor: "#6e5dbd", display: "inline-block", position: "absolute", left: 10, top: 11, borderRadius: "100%"}}></div>}
           {currentUserData !== null && currentUserData.username === project.developer ? <div>
-          <div style={{width: 8, height: 8, backgroundColor: "orange", display: "inline-block", position: "absolute", left: 10, top: 33, borderRadius: "100%"}}></div>
+          <div style={{width: 9, height: 9, backgroundColor: "orange", border: "1px solid yellow", display: "inline-block", position: "absolute", left: 10, top: 32, borderRadius: "100%"}}></div>
           </div> :
-          <div style={{width: 8, height: 8, backgroundColor: "#6e5dbd", display: "inline-block", position: "absolute", left: 10, top: 33, borderRadius: "100%"}}></div>}
+          <div style={{width: 9, height: 9, backgroundColor: "#6e5dbd", display: "inline-block", position: "absolute", left: 10, top: 32, borderRadius: "100%"}}></div>}
           <h6
             style={{
               fontSize: "0.8rem",
               margin: 0,
               padding: 3,
-              paddingLeft: 17,
+              paddingLeft: 18,
               textAlign: "left",
               fontWeight: 700,
               borderTop: "5px solid white",
@@ -407,7 +407,7 @@ const KanbanCard = (props) => {
                 fontSize: "0.8rem",
                 textAlign: "left",
                 padding: 3,
-                paddingLeft: 17,
+                paddingLeft: 18,
                 fontWeight: 700,
                 borderLeft: "5px solid white",
               }}

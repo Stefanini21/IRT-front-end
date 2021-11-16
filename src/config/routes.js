@@ -5,7 +5,7 @@ export const routes = {
     LOGOUT_URL: "auth/logout",
     USER_BY_ID: "users/",
     ALL_USERS: "users",
-    ALL_TICKETS: "tickets",
+    ALL_TICKETS_FOR_KANBAN: "tickets/kanban",
     CHANGE_TICKET_STATUS: "tickets/",
     CREATE_USER: "users/",
     TICKETS: "tickets/",

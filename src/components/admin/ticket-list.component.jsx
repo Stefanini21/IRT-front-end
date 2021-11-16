@@ -195,7 +195,7 @@ const TicketList = () => {
             <header className="jumbotron">
                 {error && <h3>{error}</h3>}
                 <div style={{ margin: 10 }}>
-                    <Button className="button_create" variant="dark" onClick={handleShowCreateTicketModal}>
+                    <Button variant="primary" onClick={handleShowCreateTicketModal}>
                         Create Ticket
                     </Button>
                 </div>

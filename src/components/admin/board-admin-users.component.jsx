@@ -1,5 +1,4 @@
 import React, {useEffect, useState} from "react";
-import Loader from "react-loader-spinner";
 import {Button, Modal} from "react-bootstrap";
 import {deleteUser} from "../../actions/user";
 import CreateUserModal from "./create.user.component";
@@ -91,7 +90,6 @@ const AdminUserList = () => {
     }
 
     const handleShowViewUserModal = (userToView) => {
-
         dispatch(setUserId(userToView.id))
         setShowViewUserModal(true)
         setUserToView(userToView)
@@ -103,7 +101,6 @@ const AdminUserList = () => {
         setUserToView(userToEdit)
     }
     const handleCloseViewUserModal = () => {
-
         setShowViewUserModal(false)
 
     }
@@ -144,9 +141,29 @@ const AdminUserList = () => {
     }
 
     useEffect(() => {
+        //     UserService.getUsers().then(
+        //         response => {
+        //             setUsers(response.data)
+        //         },
+        //         error => {
+        //             setError(
+        //                 (error.response &&
+        //                     error.response.data &&
+        //                     error.response.data.message) ||
+        //                 error.message ||
+        //                 error.toString())
+        //
+        //             if (error.response && error.response.status === 401) {
+        //                 EventBus.dispatch("logout");
+        //             }
+        //
+        //         }
+        //     );
+        // }, [])
         setUsers(userList)
         setLoading(fetching)
     }, [userList])
+
 
     useEffect(() => {
         dispatch(getUserList())

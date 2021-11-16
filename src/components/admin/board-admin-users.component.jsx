@@ -8,6 +8,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {getUserList, setUserId, getSpecialties, deleteUserById} from "../../redux/actions/user";
 import EditUserModal from "./edit.user.component";
 import {selectUserList, selectIsFetching} from "../../redux/selectors/user";
+import Loader from "react-loader-spinner";
 
 const AdminUserList = () => {
 

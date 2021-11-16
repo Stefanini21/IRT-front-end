@@ -1,14 +1,12 @@
 import React, {useEffect, useState} from "react";
 import Form from "react-validation/build/form";
 import Input from "react-validation/build/input";
-import CheckButton from "react-validation/build/button";
 import {isEmail} from "validator";
 import {useDispatch, useSelector} from "react-redux";
-import {createUser} from "../actions/user";
-import {getUserById, getUserList, updateUserById} from "../redux/actions/user";
-import {selectUserById, selectUserId, selectUserList} from "../redux/selectors/user";
-import {selectDuplicatedEntryFlag, selectUserUpdatedFlag} from "../redux/selectors/flag";
-import {resetEditUserFlags} from "../redux/actions/flag";
+import {getSpecialties, getRoles, getUserById, updateUserById, userActions} from "../../redux/actions/user";
+import {selectSpecialties, selectRoles, selectUserById, selectUserId} from "../../redux/selectors/user";
+import {selectDuplicatedEntryFlag, selectUserUpdatedFlag} from "../../redux/selectors/flag";
+import {resetEditUserFlags} from "../../redux/actions/flag";
 
 
 const required = (value) => {
@@ -61,15 +59,6 @@ const vlastname = value => {
     }
 };
 
-const vspecialty = value => {
-    if (value.length < 3 || value.length > 10) {
-        return (
-            <div className="alert alert-danger" role="alert">
-                The gender must be between 3 and 10 characters.
-            </div>
-        );
-    }
-};
 
 
 const EditUserModal = (props) => {
@@ -77,9 +66,10 @@ const EditUserModal = (props) => {
     const dispatch = useDispatch();
     const userId = useSelector(selectUserId);
     const userById = useSelector(selectUserById);
-    //const updatedUser = useSelector(updateUserById);
     const userUpdateSuccess = useSelector(selectUserUpdatedFlag);
     const duplicatedEntryFlag = useSelector(selectDuplicatedEntryFlag);
+    const specialties = useSelector(selectSpecialties);
+    const roles = useSelector(selectRoles);
 
     const [usernameForm, setUsername] = useState("");
     const [firstnameForm, setFirstName] = useState("");
@@ -104,6 +94,8 @@ const EditUserModal = (props) => {
         setEmail(userById.email);
         setSpecialty(userById.specialty);
         setRole(userById.role);
+        dispatch(getSpecialties());
+        dispatch(getRoles());
 
     }, [userById])
 
@@ -139,8 +131,6 @@ const EditUserModal = (props) => {
     const handleSubmit = (e) => {
         e.preventDefault();
 
-        setMessage("")
-        setSuccessful(false)
 
         const formattedData = {
             id: userId,
@@ -180,10 +170,9 @@ const EditUserModal = (props) => {
                                 name="username"
                                 value={usernameForm}
                                 onChange={onChangeUsername}
-                                // validations={[required, vusername]}
+                                validations={[required, vusername]}
                             />
                         </div>
-
 
 
                         <div className="form-group">
@@ -222,21 +211,22 @@ const EditUserModal = (props) => {
                             />
                         </div>
 
-                        <div>
+                        <div className="form-group">
                             <label htmlFor="role">Role</label>
                             <select
                                 className="form-control"
                                 name="role"
                                 defaultValue={roleForm}
                                 value={roleForm}
+                                validations={[required]}
                                 onChange={onChangeRole}>
-                                <option value="USER">User</option>
-                                <option value="DEVELOPER">Developer</option>
-                                <option value="ADMIN">Admin</option>
+                                {roles.map((r, i) =>
+                                    <option value={r}>{r}</option>
+                                )}
                             </select>
                         </div>
 
-                        <div>
+                        <div className="form-group">
                             <label htmlFor="specialty">Specialty</label>
                             <select
                                 className="form-control"
@@ -244,9 +234,10 @@ const EditUserModal = (props) => {
                                 defaultValue={specialtyForm}
                                 value={specialtyForm}
                                 onChange={onChangeSpecialty}>
-                                <option value="NONE"></option>
-                                <option value="BACKEND">BackEnd</option>
-                                <option value="FRONTEND">FrontEnd</option>
+                                validations={[required]}
+                                {specialties.map((s, i) =>
+                                    <option value={s}>{s}</option>
+                                )}
                             </select>
                             <br/>
                         </div>

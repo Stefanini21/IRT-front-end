@@ -1,63 +1,65 @@
 import React, { useEffect, useState } from "react";
 import { Button, Modal } from "react-bootstrap";
-import { deleteUser } from "../../actions/user";
-import UserService from "../../services/user.service";
-import TicketService from "../../services/ticket.service";
-import EventBus from "../../common/EventBus";
-import CreateTicketModal from "../create.ticket.component";
-import ViewUser from "../view.user.component";
+import CreateTicketModal from "./create.ticket.component";
 import DataTable from "react-data-table-component";
-import { useDispatch } from "react-redux";
-import { closeModal, setUserId } from "../../redux/actions/user";
+import ViewTicket from "./view.ticket.component";
+import {useDispatch, useSelector} from "react-redux";
+import {getTicketList, setTicketId} from "../../redux/actions/ticket";
+import {selectTicketList} from "../../redux/selectors/ticket";
+
 
 const TicketList = () => {
+
   const dispatch = useDispatch();
 
-  const [showCreateTicketModal, setShowCreateTicketModal] = useState(false);
-  const [showDeleteTicketModal, setShowDeleteTicketModal] = useState(false);
-  const [showViewUserModal, setShowViewUserModal] = useState(false);
-  const [users, setUsers] = useState([]);
-  const [error, setError] = useState("");
-  const [ticketIdToDelete, setTicketIdToDelete] = useState("");
-  const [ticketTitleToDelete, setTicketTitleToDelete] = useState("");
-  const [userToView, setUserToView] = useState([]);
+    const [showCreateTicketModal, setShowCreateTicketModal] = useState(false);
+    const [showDeleteTicketModal, setShowDeleteTicketModal] = useState(false);
+    const [showViewTicketModal, setShowViewTicketModal] = useState(false);
+    const [showEditTicketModal, setShowEditTicketModal] = useState(false);
+    const [tickets, setTickets] = useState([]);
+    const [error, setError] = useState("");
+    const [ticketIdToDelete, setTicketIdToDelete] = useState("");
+    const [ticketTitleToDelete, setTicketTitleToDelete] = useState("");
+    const [ticketToView, setTicketToView] = useState([]);
 
-  const columns = [
-    {
-      name: "Title",
-      selector: (row) => row.title,
-      sortable: true,
-    },
-    {
-      name: "Description",
-      selector: (row) => row.description,
-      sortable: true,
-    },
-    {
-      name: "Specialty",
-      selector: (row) => row.specialty,
-      sortable: true,
-    },
-    {
-      name: "Priority",
-      selector: (row) => row.priority,
-      sortable: true,
-    },
-    {
-      name: "Status",
-      selector: (row) => row.status,
-      sortable: true,
-    },
-    {
-      name: "Developer username",
-      selector: (row) => row.email,
-      sortable: true,
-    },
+    const ticketList = useSelector(selectTicketList);
+
+    const columns = [
+        {
+            name: "Title",
+            selector: (row) => row.title,
+            sortable: true,
+        },
+        {
+            name: "Description",
+            selector: (row) => row.description,
+            sortable: true,
+        },
+        {
+            name: "Specialty",
+            selector: (row) => row.specialty,
+            sortable: true,
+        },
+        {
+            name: "Priority",
+            selector: (row) => row.priority,
+            sortable: true,
+        },
+        {
+            name: "Status",
+            selector: (row) => row.status,
+            sortable: true,
+        },
+        {
+            name: "Developer username",
+            selector: (row) => row.email,
+            sortable: true,
+        },
 
     {
       name: "View Ticket",
       cell: (row) => (
-        <Button variant="success" onClick={() => handleShowViewUserModal(row)}>
+        <Button variant="success" onClick={() => handleShowViewTicketModal(row)}>
           View
         </Button>
       ),
@@ -65,8 +67,9 @@ const TicketList = () => {
     },
     {
       name: "Edit Ticket",
-      cell: () => <Button variant="primary">Edit</Button>,
-      grow: 0.3,
+      cell: (row) => <Button variant="primary"
+                             onClick={() => handleEditTicketModal(row)}>Edit</Button>,
+      grow: 0.3
     },
     {
       name: "Delete Ticket",
@@ -75,24 +78,38 @@ const TicketList = () => {
     }
   ];
 
+  const handleEditTicketModal = (ticketToEdit) => {
+
+    dispatch(setTicketId(ticketToEdit.id))
+    setShowEditTicketModal(true)
+    setTicketToView(ticketToEdit)
+  }
+
+  const handleCloseEditTicketModal = () => {
+
+    setShowEditTicketModal(false)
+    dispatch(getTicketList())
+  };
+
   const handleShowCreateTicketModal = () => {
     setShowCreateTicketModal(true);
   };
 
-  const handleCloseCreateUserModal = () => {
+  const handleCloseCreateTicketModal = () => {
     setShowCreateTicketModal(false);
     window.location.reload();
   };
 
-  const handleShowViewUserModal = (userToView) => {
-    // setUserId(userToView.id)
-    dispatch(setUserId(userToView.id));
-    setShowViewUserModal(true);
-    setUserToView(userToView);
+
+  const handleShowViewTicketModal = (userToView) => {
+    // setUserId(ticketToView.id)
+    dispatch(setTicketId(ticketToView.id));
+    setShowViewTicketModal(true);
+    setTicketToView(ticketToView);
   };
 
-  const handleCloseViewUserModal = () => {
-    setShowViewUserModal(false);
+  const handleCloseViewTicketModal = () => {
+    setShowViewTicketModal(false);
   };
 
   const handleShowDeleteTicketModal = (ticketId, ticketTitle) => {
@@ -113,52 +130,35 @@ const TicketList = () => {
   };
 
   useEffect(() => {
-    TicketService.getTickets().then(
-      (response) => {
-        setUsers(response.data);
-      },
-      (error) => {
-        setError(
-          (error.response &&
-            error.response.data &&
-            error.response.data.message) ||
-            error.message ||
-            error.toString()
-        );
+    setTickets(ticketList)
+  }, [ticketList])
 
-        if (error.response && error.response.status === 401) {
-          EventBus.dispatch("logout");
-        }
-      }
-    );
-  }, []);
-
-  useEffect(() => {
-    dispatch(closeModal);
-  }, [handleCloseViewUserModal]);
+  useEffect(() =>{
+    dispatch(getTicketList())
+  }, [])
 
   return (
     <div>
-      <Modal show={showCreateTicketModal} onHide={handleCloseCreateUserModal}>
+      <Modal show={showCreateTicketModal} onHide={handleCloseCreateTicketModal}>
         <Modal.Header closeButton>
           <Modal.Title>Create Ticket</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <CreateTicketModal
-            handleCloseCreateUserModal={handleCloseCreateUserModal}
+            handleCloseCreateTicketModal={handleCloseCreateTicketModal}
           />
         </Modal.Body>
       </Modal>
 
-      <Modal show={showViewUserModal} onHide={handleCloseViewUserModal}>
+      <Modal show={showViewTicketModal} onHide={handleCloseViewTicketModal}>
         <Modal.Header closeButton>
           <Modal.Title>View User</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <ViewUser currentUser={userToView} />
+          <ViewUser currentUser={ticketToView} />
         </Modal.Body>
         <Modal.Footer>
-          <Button variant="secondary" onClick={handleCloseViewUserModal}>
+          <Button variant="secondary" onClick={handleCloseViewTicketModal}>
             Close
           </Button>
         </Modal.Footer>
@@ -184,23 +184,23 @@ const TicketList = () => {
       </Modal>
 
       <header className="jumbotron">
-        {error && <h3>{error}</h3>}
-        <div style={{ margin: 10 }}>
-          <Button variant="primary" onClick={handleShowCreateTicketModal}>
-            Create Ticket
-          </Button>
+          {error && <h3>{error}</h3>}
+          <div style={{ margin: 10 }}>
+              <Button variant="primary" onClick={handleShowCreateTicketModal}>
+                  Create Ticket
+              </Button>
+              </div>
+              <DataTable
+                  paginationPerPage={10}
+                  paginationRowsPerPageOptions={[10, 25, 50]}
+                  title={"Tickets"}
+                  columns={columns}
+                  data={tickets}
+                  pagination={true}
+                />
+            </header>
         </div>
-        <DataTable
-          paginationPerPage={5}
-          paginationRowsPerPageOptions={[5, 10, 15]}
-          title={"Tickets"}
-          columns={columns}
-          data={users}
-          pagination={true}
-        />
-      </header>
-    </div>
-  );
+    );
 };
 
 export default TicketList;

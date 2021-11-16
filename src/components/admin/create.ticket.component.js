@@ -4,14 +4,15 @@ import Input from "react-validation/build/input";
 import Select from "react-select";
 import CheckButton from "react-validation/build/button";
 import { useDispatch, useSelector } from "react-redux";
-import { createTicket, getAllUsersBySpecialty } from "../redux/actions/ticket";
-import { getUserListBySpecialty } from "../redux/selectors/ticket";
-import { getUserData } from "../redux/selectors/auth";
+import { createTicket, getAllUsersBySpecialty } from "../../redux/actions/ticket";
+import { getUserListBySpecialty } from "../../redux/selectors/ticket";
+import { getUserData } from "../../redux/selectors/auth";
 
 const CreateTicketModal = (props) => {
 
   const admin = useSelector(getUserData);
-  const admin_id = admin.id;
+  const admin_username = admin.username;
+
 
   const userListBySpecialty = useSelector(getUserListBySpecialty);
 
@@ -20,7 +21,7 @@ const CreateTicketModal = (props) => {
 
   const statusOptions = [
     { value: "BACKLOG", label: "Backlog" },
-    { value: "ASIGNED", label: "Assigned" },
+    { value: "ASSIGNED", label: "Assigned" },
     { value: "FINISHED", label: "Finished" },
     { value: "CLOSED", label: "Closed" }
   ];
@@ -79,7 +80,7 @@ const CreateTicketModal = (props) => {
     userListBySpecialty.forEach(function (element) {
       usersListBySpecialtyUsernames.push({
         label: element.username,
-        value: element.id,
+        value: element.username,
       });
     });
 
@@ -112,10 +113,13 @@ const CreateTicketModal = (props) => {
     title: title,
     description: description,
     priority: priority,
-    status: status
+    status: status,
+    specialty: specialty,
+    developer: developer,
+    creator: admin_username
   };
 
-      dispatch(createTicket(newTicket, admin_id, developer))
+      dispatch(createTicket(newTicket))
         .then(() => {
           setMessage(title + "ticket successfully registered!");
           setSuccessful(true);

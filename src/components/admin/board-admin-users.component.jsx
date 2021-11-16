@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from "react";
-import {Button, Modal} from "react-bootstrap";
+import {Button, CloseButton, Modal} from "react-bootstrap";
 import {deleteUser} from "../../actions/user";
 import CreateUserModal from "./create.user.component";
 import ViewUser from "./view.user.component";
@@ -192,7 +192,7 @@ const AdminUserList = () => {
             </Modal>
 
             <Modal show={showDeleteUserModal} onHide={handleCloseDeleteUserModal}>
-                <Modal.Header className="close_button" closeButton>
+                <Modal.Header closeButton="close_button">
                     <Modal.Title>Delete User</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>

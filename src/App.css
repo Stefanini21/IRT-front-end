@@ -16,7 +16,6 @@ label {
   margin-top: 0px;
   -moz-border-radius: 2px;
   -webkit-border-radius: 2px;
-  border-radius: 2px;
   -moz-box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
   -webkit-box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
   box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
@@ -132,9 +131,19 @@ label {
   color: white;
 }
 
+.modal-content {
+  border-radius: 5px 5px 0px 0px;
+  border: #80a9d1 1px;
+  padding: 0;
+}
 .modal-dialog {
   max-width: 350px;
   padding: 0;
+}
+
+.jumbotron {
+  padding-top: 1rem;
+  margin-top: 10px;
 }
 
 .modal-body {
@@ -152,10 +161,10 @@ label {
 
 .close_button {
   position: absolute;
-  right: 32px;
-  top: 32px;
-  width: 32px;
-  height: 32px;
+  right: 16px;
+  top: 16px;
+  width: 16px;
+  height: 16px;
   opacity: 0.3;
 }
 .close_button:hover {

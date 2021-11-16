@@ -5,7 +5,7 @@ const initialState = {
     ticketById: {},
     ticketList: {},
     isFetching: true,
-    isDeleted: false
+    isDeleted: false,
 }
 
 export const ticket = (state = initialState, action) => {

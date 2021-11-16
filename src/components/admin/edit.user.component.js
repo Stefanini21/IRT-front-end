@@ -4,7 +4,13 @@ import Input from "react-validation/build/input";
 import {isEmail} from "validator";
 import {useDispatch, useSelector} from "react-redux";
 import {getSpecialties, getRoles, getUserById, updateUserById, userActions} from "../../redux/actions/user";
-import {selectSpecialties, selectRoles, selectUserById, selectUserId} from "../../redux/selectors/user";
+import {
+    selectSpecialties,
+    selectRoles,
+    selectUserById,
+    selectUserId,
+    selectRolesFetching
+} from "../../redux/selectors/user";
 import {selectDuplicatedEntryFlag, selectUserUpdatedFlag} from "../../redux/selectors/flag";
 import {resetEditUserFlags} from "../../redux/actions/flag";
 
@@ -70,6 +76,7 @@ const EditUserModal = (props) => {
     const duplicatedEntryFlag = useSelector(selectDuplicatedEntryFlag);
     const specialties = useSelector(selectSpecialties);
     const roles = useSelector(selectRoles);
+    const rolesFetched = useSelector(selectRolesFetching)
 
     const [usernameForm, setUsername] = useState("");
     const [firstnameForm, setFirstName] = useState("");

@@ -14,6 +14,7 @@ export const userActions = {
     GET_USER_LIST: "GET_USER_LIST",
     RECEIVE_DUPLICATE_ENTRY: "RECEIVE_DUPLICATE_ENTRY",
     UPDATE_PASSWORD_SUCCESS: "UPDATE_PASSWORD_SUCCESS",
+    FAIL_PASSWORD_UPDATE: "FAIL_PASSWORD_UPDATE",
     SEND_EMAIL_SUCCESS: "SEND_EMAIL_SUCCESS",
     FAIL_SEND_EMAIL: "FAIL_SEND_EMAIL"
 
@@ -55,6 +56,9 @@ export const postEmail = (email) => (dispatch) => {
                     type: userActions.SEND_EMAIL_SUCCESS,
                     payload: response.data
                 });
+                dispatch({
+                    type: CLEAR_MESSAGE,
+                });
                 return Promise.resolve();
             },
             (error) => {
@@ -81,7 +85,7 @@ export const postEmail = (email) => (dispatch) => {
 
 
 export const changePassword = (passwordData) => (dispatch) => {
-    UserService.changePassword(passwordData.userId, passwordData.newPassword, passwordData.newPasswordConfirmation)
+    UserService.changePassword(passwordData.userId, passwordData.currentPassword, passwordData.newPassword, passwordData.newPasswordConfirmation)
         .then((data) => {
                 dispatch({
                     type: userActions.UPDATE_PASSWORD_SUCCESS,
@@ -105,8 +109,7 @@ export const changePassword = (passwordData) => (dispatch) => {
                     error.toString();
 
                 dispatch({
-                    type: SET_MESSAGE,
-                    payload: message,
+                    type: userActions.FAIL_PASSWORD_UPDATE,
                 });
 
                 dispatch({

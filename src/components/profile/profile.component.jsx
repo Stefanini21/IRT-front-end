@@ -6,21 +6,22 @@ import {Button} from "react-bootstrap";
 import Form from "react-validation/build/form";
 import Input from "react-validation/build/input";
 import {changePassword} from "../../redux/actions/user";
-import {selectSuccessfulPasswordUpdateFlag} from "../../redux/selectors/flag";
+import {selectFailPasswordUpdateFlag, selectSuccessfulPasswordUpdateFlag} from "../../redux/selectors/flag";
 
 const Profile = () => {
 
     const currentUserLoaded = useSelector(getUserLoaded);
     const currentUserData = useSelector(getUserData);
-    // const message = useSelector(getMessage)
     const dispatch = useDispatch();
 
+    const [currentPassword, setCurrentPassword] = useState("");
     const [newPassword, setNewPassword] = useState("");
     const [newPasswordConfirmation, setNewPasswordConfirmation] = useState("");
 
     const [message, setMessage] = useState("");
 
     const successfulPasswordUpdate = useSelector(selectSuccessfulPasswordUpdateFlag);
+    const failPasswordUpdate = useSelector(selectFailPasswordUpdateFlag);
 
     if (!currentUserLoaded) {
         return <Redirect to="/login"/>;
@@ -39,17 +40,18 @@ const Profile = () => {
     const handleChangePassword = (event) => {
         event.preventDefault();
 
-        setMessage(" successfully updated")
-
         const formattedData = {
             userId: currentUserData.id,
+            currentPassword: currentPassword,
             newPassword: newPassword,
             newPasswordConfirmation: newPasswordConfirmation,
         };
 
+        setMessage(" Wrong current password !")
+
         {
-            (formattedData.newPassword === formattedData.newPasswordConfirmation) ?
-                dispatch(changePassword(formattedData)) : setMessage("password do not match")
+            ((formattedData.newPassword === formattedData.newPasswordConfirmation)) ?
+                dispatch(changePassword(formattedData)) : setMessage(" New and confirmation password do not match !")
         }
     }
 
@@ -85,6 +87,18 @@ const Profile = () => {
                 <Form onSubmit={handleChangePassword}>
 
                     <div className="form-group">
+                        <label htmlFor="temporaryPassword">Current Password</label>
+                        <Input
+                            type="password"
+                            className="form-control"
+                            name="temporaryPassword"
+                            value={currentPassword}
+                            onChange={(e) => setCurrentPassword(e.target.value)}
+                            validations={[required]}
+                        />
+                    </div>
+
+                    <div className="form-group">
                         <label htmlFor="newPassword">New Password</label>
                         <Input
                             type="password"
@@ -116,11 +130,19 @@ const Profile = () => {
                         Change Password
                     </Button>
 
-                    {message && (
+                    {failPasswordUpdate && (
                         <div className="form-group">
-                            <div className={successfulPasswordUpdate ? "alert alert-success" : "alert alert-danger"}
-                                 role="alert">
+                            <div className="alert alert-danger" role="alert" style={{"margin-top": 15}}>
                                 {message}
+                            </div>
+                        </div>
+                    )}
+
+                    {successfulPasswordUpdate && (
+                        <div className="form-group">
+                            <div className={"alert alert-success"}
+                                 role="alert" style={{"margin-top": 15}}>
+                                Password successfully updated !
                             </div>
                         </div>
                     )}

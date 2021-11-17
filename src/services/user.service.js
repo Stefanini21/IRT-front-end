@@ -9,9 +9,10 @@ class UserService {
         return axios.post(API_URL + "/" + toEmail + "/emails/reset-password", {headers: authHeader()});
     }
 
-    changePassword(userId, newPassword, newPasswordConfirmation) {
+    changePassword(userId,currentPassword, newPassword, newPasswordConfirmation) {
         return axios
             .post(API_URL + "/" + userId + "/change-password", {
+                currentPassword,
                 newPassword,
                 newPasswordConfirmation
             }, {headers: authHeader()});
@@ -50,12 +51,10 @@ class UserService {
             });
     }
 
-    //getUserByUsername
     getUserByUsername(url, userName) {
         return axios
             .get(url + JSON.stringify(userName), {headers: authHeader()})
             .then((response) => {
-                // console.log(response.data)
                 return response.data;
             });
     }

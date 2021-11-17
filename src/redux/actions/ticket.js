@@ -9,7 +9,8 @@ import {
   SET_MESSAGE,
   GET_TICKET_BY_ID,
   GET_TICKET_LIST,
-  DELETE_TICKET_BY_ID
+  DELETE_TICKET_BY_ID,
+  SET_TICKET_ID
 } from "../actions/types";
 
 export const createTicket = (newTicket) => (dispatch) => {

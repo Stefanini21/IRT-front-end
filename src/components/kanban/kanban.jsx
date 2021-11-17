@@ -33,7 +33,7 @@ const KanbanBoard = (props) => {
 
   const columns = [
     { name: "BackLog", stage: 1 },
-    { name: "Assigned", stage: 2 },
+    { name: "In progress...", stage: 2 },
     { name: "Finished", stage: 3 },
     { name: "Closed", stage: 4 },
   ];

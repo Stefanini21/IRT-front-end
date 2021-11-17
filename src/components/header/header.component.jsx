@@ -76,10 +76,6 @@ const Header = () => {
                                 </li>
                                 <li className="nav-item" style={{display: "inline-block"}}>
                                     <Link to={"/user"} className="nav-link">
-                                        User
-                                    </Link>
-                                </li><li className="nav-item" style={{display: "inline-block"}}>
-                                    <Link to={"/user"} className="nav-link">
                                         Ticket-board
                                     </Link>
                                 </li>

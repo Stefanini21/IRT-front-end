@@ -25,7 +25,7 @@ const required = (value) => {
 const EditTicketComponent = (props) => {
     const dispatch = useDispatch();
     const ticketId = useSelector(selectTicketId);
-    const ticketById = useSelector(selectTicketById)
+    const ticketById = useSelector(selectTicketById);
     const ticketUpdatedSuccess = useSelector(selectTicketUpdatedFlag);
     const duplicatedTitleFlag = useSelector(selectDuplicatedTitleFlag);
     const specialties = useSelector(selectSpecialties);
@@ -93,7 +93,7 @@ const EditTicketComponent = (props) => {
 
         dispatch(updateTicketById(formattedData, ticketId))
             .then(() => {
-            setMessage('Ticket id ' + ticketId + ' successfully updated!')});
+            setMessage('Ticket id: ' + ticketId + ' successfully updated!')});
     }
     return <>
     <div className="col-md-12">
@@ -107,7 +107,7 @@ const EditTicketComponent = (props) => {
                             className="form-control"
                             name="title"
                             value={titleForm}
-                            onChange={onChangeTitle()}
+                            onChange={onChangeTitle}
                             //validations={[required, vtitle]}
                         />
                     </div>
@@ -119,7 +119,7 @@ const EditTicketComponent = (props) => {
                             className="form-control"
                             name="description"
                             value={descriptionForm}
-                            onChange={onChangeDescription()}
+                            onChange={onChangeDescription}
                             //validations={[required, vdescription]}
                         />
                     </div>

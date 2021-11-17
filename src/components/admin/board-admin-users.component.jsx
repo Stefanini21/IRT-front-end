@@ -120,7 +120,6 @@ const AdminUserList = () => {
     }
 
     const handleShowDeleteUserModal = (deleteId, deleteUsername) => {
-        //dispatch(setUserId(deleteId))
         setUserIdToDelete(deleteId)
         setUserNameToDelete(deleteUsername)
         setShowDeleteUserModal(true)

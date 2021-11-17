@@ -178,7 +178,7 @@ const TicketList = () => {
           <ViewTicket currentTicket={ticketToView} />
         </Modal.Body>
         <Modal.Footer>
-          <button variant="tertiary_button" onClick={handleCloseViewTicketModal}>
+          <button className="tertiary_button" onClick={handleCloseViewTicketModal}>
             Close
           </button>
         </Modal.Footer>
@@ -194,7 +194,7 @@ const TicketList = () => {
           </div>
         </Modal.Body>
         <Modal.Footer>
-          <button variant="tertiary_button" onClick={handleCloseDeleteTicketModal}>
+          <button className="tertiary_button" onClick={handleCloseDeleteTicketModal}>
             No
           </button>
           <button className="secondary_button" onClick={handleDeleteTicket}>

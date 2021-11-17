@@ -14,7 +14,9 @@ export const userActions = {
     GET_USER_LIST: "GET_USER_LIST",
     RECEIVE_DUPLICATE_ENTRY: "RECEIVE_DUPLICATE_ENTRY",
     UPDATE_PASSWORD_SUCCESS: "UPDATE_PASSWORD_SUCCESS",
-    SEND_EMAIL_SUCCESS: "SEND_EMAIL_SUCCESS"
+    SEND_EMAIL_SUCCESS: "SEND_EMAIL_SUCCESS",
+    FAIL_SEND_EMAIL: "FAIL_SEND_EMAIL"
+
 
 }
 
@@ -43,29 +45,38 @@ export const getUserList = () => (dispatch) => {
             })
         })
 }
-//
-// export const postEmail = (email) => (dispatch) => {
-//     const url = routes.EMAIL_BASIC_PATH + routes.EMAIL_SEND
-//
-//     return HttpService.post(url, email)
-//         .then(response => {
-//             return dispatch({
-//                 type: userActions.SEND_EMAIL_SUCCESS,
-//                 payload: response.data
-//             })
-//         })
-// }
 
 
 export const postEmail = (email) => (dispatch) => {
+
     UserService.postEmail(email.toEmail)
         .then((response) => {
-            dispatch({
-                type: userActions.SEND_EMAIL_SUCCESS,
-                payload: response.data
-            });
-            return Promise.resolve();
-        });
+                dispatch({
+                    type: userActions.SEND_EMAIL_SUCCESS,
+                    payload: response.data
+                });
+                return Promise.resolve();
+            },
+            (error) => {
+                const message =
+                    (error.response &&
+                        error.response.data &&
+                        error.response.data.message) ||
+                    error.message ||
+                    error.toString();
+
+                dispatch({
+                    type: userActions.FAIL_SEND_EMAIL,
+                });
+
+                dispatch({
+                    type: CLEAR_MESSAGE,
+                });
+
+
+                return Promise.reject();
+            }
+        );
 }
 
 

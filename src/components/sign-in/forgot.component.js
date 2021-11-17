@@ -1,14 +1,17 @@
 import React, {useState} from "react";
 import Form from "react-validation/build/form";
 import Input from "react-validation/build/input";
-import {useDispatch} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {postEmail} from "../../redux/actions/user";
+import {selectFailPasswordSendFlag, selectSuccessfulPasswordSendFlag} from "../../redux/selectors/flag";
 
 
 const Forgot = () => {
 
     const [email, setEmail] = useState("");
     const dispatch = useDispatch();
+    const successfulPasswordSend = useSelector(selectSuccessfulPasswordSendFlag);
+    const failPasswordSend = useSelector(selectFailPasswordSendFlag);
 
     const required = (value) => {
         if (!value) {
@@ -22,7 +25,6 @@ const Forgot = () => {
 
     const handleSubmit = (event) => {
         event.preventDefault();
-
 
         const emailData = {
             toEmail: email
@@ -58,6 +60,22 @@ const Forgot = () => {
                         </div>
 
                     </div>
+
+                    {failPasswordSend && (
+                        <div className="form-group">
+                            <div className="alert alert-danger" role="alert">
+                                This email does not exists !
+                            </div>
+                        </div>
+                    )}
+
+                    {successfulPasswordSend && (
+                        <div className="form-group">
+                            <div className="alert alert-success" role="alert">
+                                Your temporary password was sent to your email !
+                            </div>
+                        </div>
+                    )}
                 </Form>
 
             </div>

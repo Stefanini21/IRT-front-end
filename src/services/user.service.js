@@ -2,18 +2,11 @@ import axios from 'axios';
 import authHeader from './auth-header';
 
 const API_URL = 'http://localhost:8080/api/users';
-const SEND_EMAIL_URL = "http://localhost:8080/api/email/sendMail";
-
 
 class UserService {
 
     postEmail(toEmail) {
-        return axios.post(SEND_EMAIL_URL,
-            {
-                toEmail
-            },
-            {headers: authHeader()}
-        );
+        return axios.post(API_URL + "/" + toEmail + "/emails/reset-password", {headers: authHeader()});
     }
 
     changePassword(userId, newPassword, newPasswordConfirmation) {

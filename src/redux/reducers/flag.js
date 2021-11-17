@@ -7,7 +7,8 @@ const initialState = {
     userDataUpdated: false,
     isDuplicatedEntry: false,
     successfulPasswordUpdated: false,
-    successfulSendEmail: false
+    successfulSendEmail: false,
+    failSendEmail: false
 }
 
 export const flipFlag = (state = initialState, action) => {
@@ -46,8 +47,13 @@ export const flipFlag = (state = initialState, action) => {
             }
         case userActions.SEND_EMAIL_SUCCESS:
             return {
-                ...state,
+                ...initialState,
                 successfulSendEmail: true
+            }
+        case userActions.FAIL_SEND_EMAIL:
+            return {
+                ...initialState,
+                failSendEmail: true
             }
         default:
             return state;

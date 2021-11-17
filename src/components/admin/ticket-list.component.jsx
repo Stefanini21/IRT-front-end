@@ -1,12 +1,10 @@
 import React, {useEffect, useState} from "react";
 import {Button, Modal} from "react-bootstrap";
-import {deleteUser} from "../../actions/user";
 import TicketService from "../../services/ticket.service";
 import EventBus from "../../common/EventBus";
 import CreateTicketModal from "./create.ticket.component";
 import DataTable from "react-data-table-component";
 import {useDispatch} from "react-redux";
-import {closeModal} from "../../redux/actions/user";
 import {setTicketId} from "../../redux/actions/ticket";
 import ViewTicket from "./view.ticket.component";
 
@@ -115,10 +113,10 @@ const TicketList = () => {
     };
 
     const handleDeleteUser = () => {
-        dispatch(deleteUser(userIdToDelete)).then(() => {
-            setShowDeleteUserModal(false);
-        });
-        window.location.reload();
+        // dispatch(deleteUser(userIdToDelete)).then(() => {
+        //     setShowDeleteUserModal(false);
+        // });
+        // window.location.reload();
     };
 
     useEffect(() => {

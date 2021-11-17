@@ -2,7 +2,6 @@ import {routes} from "../../config/routes";
 import {HttpService} from "../../services/httpService";
 import {CLEAR_MESSAGE, CREATE_USER_FAIL, CREATE_USER_SUCCESS, SET_MESSAGE} from "./types";
 import UserService from "../../services/user.service";
-import {AuthActions} from "./auth";
 
 export const userActions = {
     SET_USER_ID: "SET_USER_ID",
@@ -13,8 +12,12 @@ export const userActions = {
     CREATE_USER_FAIL: "CREATE_USER_FAIL",
     UPDATE_USER_BY_ID: "UPDATE_USER_BY_ID",
     GET_USER_LIST: "GET_USER_LIST",
-    RECEIVE_DUPLICATE_ENTRY: "RECEIVE_DUPLICATE_ENTRY"
+    RECEIVE_DUPLICATE_ENTRY: "RECEIVE_DUPLICATE_ENTRY",
+    UPDATE_PASSWORD_SUCCESS: "UPDATE_PASSWORD_SUCCESS",
+    SEND_EMAIL_SUCCESS: "SEND_EMAIL_SUCCESS"
+
 }
+
 
 export const setUserId = (userId) => (dispatch) => {
     return dispatch({
@@ -40,13 +43,37 @@ export const getUserList = () => (dispatch) => {
             })
         })
 }
+//
+// export const postEmail = (email) => (dispatch) => {
+//     const url = routes.EMAIL_BASIC_PATH + routes.EMAIL_SEND
+//
+//     return HttpService.post(url, email)
+//         .then(response => {
+//             return dispatch({
+//                 type: userActions.SEND_EMAIL_SUCCESS,
+//                 payload: response.data
+//             })
+//         })
+// }
 
 
-export const changePassword = (passwordData, history) => (dispatch) => {
+export const postEmail = (email) => (dispatch) => {
+    UserService.postEmail(email.toEmail)
+        .then((response) => {
+            dispatch({
+                type: userActions.SEND_EMAIL_SUCCESS,
+                payload: response.data
+            });
+            return Promise.resolve();
+        });
+}
+
+
+export const changePassword = (passwordData) => (dispatch) => {
     UserService.changePassword(passwordData.userId, passwordData.newPassword, passwordData.newPasswordConfirmation)
         .then((data) => {
                 dispatch({
-                    type: AuthActions.CHANGE_PASSWORD,
+                    type: userActions.UPDATE_PASSWORD_SUCCESS,
                     payload: data,
                 });
                 dispatch({
@@ -81,6 +108,7 @@ export const changePassword = (passwordData, history) => (dispatch) => {
         );
 }
 
+
 export const getUserById = (userId) => (dispatch) => {
     const url = routes.BASIC_URL + routes.BASIC_PATH + routes.USER_BY_ID + userId;
 
@@ -92,7 +120,6 @@ export const getUserById = (userId) => (dispatch) => {
             })
         })
 }
-
 
 export const createUser = (newUser) => (dispatch) => {
     const url = routes.BASIC_URL + routes.BASIC_PATH + routes.CREATE_USER;

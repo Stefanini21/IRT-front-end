@@ -2,24 +2,18 @@ import axios from 'axios';
 import authHeader from './auth-header';
 
 const API_URL = 'http://localhost:8080/api/users';
+const SEND_EMAIL_URL = "http://localhost:8080/api/email/sendMail";
 
 
 class UserService {
 
-    getUsers() {
-        return axios.get(API_URL, {headers: authHeader()});
-    }
-
-    getRoles() {
-        return axios.get(API_URL + "/roles", {headers: authHeader()});
-    }
-
-    getSpecialties() {
-        return axios.get(API_URL + "/specialties", {headers: authHeader()});
-    }
-
-    deleteUser(userId) {
-        return axios.delete(API_URL + "/" + userId, {headers: authHeader()});
+    postEmail(toEmail) {
+        return axios.post(SEND_EMAIL_URL,
+            {
+                toEmail
+            },
+            {headers: authHeader()}
+        );
     }
 
     changePassword(userId, newPassword, newPasswordConfirmation) {
@@ -28,6 +22,14 @@ class UserService {
                 newPassword,
                 newPasswordConfirmation
             }, {headers: authHeader()});
+    }
+
+    getRoles() {
+        return axios.get(API_URL + "/roles", {headers: authHeader()});
+    }
+
+    getSpecialties() {
+        return axios.get(API_URL + "/specialties", {headers: authHeader()});
     }
 
     createUser(username, firstname, lastname, specialty, role, email, password) {

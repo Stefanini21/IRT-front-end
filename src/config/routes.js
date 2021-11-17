@@ -5,6 +5,8 @@ export const routes = {
     LOGOUT_URL: "auth/logout",
     USER_BY_ID: "users/",
     CREATE_USER: "users/",
-    TICKET_BY_ID: "tickets/"
+    TICKET_BY_ID: "tickets/",
+    EMAIL_BASIC_PATH: "/email",
+    EMAIL_SEND: "/sendMailSimple"
 
 }

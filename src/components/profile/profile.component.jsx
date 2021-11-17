@@ -5,18 +5,22 @@ import {getUserData, getUserLoaded} from "../../redux/selectors/auth";
 import {Button} from "react-bootstrap";
 import Form from "react-validation/build/form";
 import Input from "react-validation/build/input";
-import {getMessage} from "../../redux/selectors/message";
 import {changePassword} from "../../redux/actions/user";
+import {selectSuccessfulPasswordUpdateFlag} from "../../redux/selectors/flag";
 
 const Profile = () => {
 
     const currentUserLoaded = useSelector(getUserLoaded);
     const currentUserData = useSelector(getUserData);
-    const message = useSelector(getMessage)
+    // const message = useSelector(getMessage)
     const dispatch = useDispatch();
 
     const [newPassword, setNewPassword] = useState("");
     const [newPasswordConfirmation, setNewPasswordConfirmation] = useState("");
+
+    const [message, setMessage] = useState("");
+
+    const successfulPasswordUpdate = useSelector(selectSuccessfulPasswordUpdateFlag);
 
     if (!currentUserLoaded) {
         return <Redirect to="/login"/>;
@@ -35,15 +39,18 @@ const Profile = () => {
     const handleChangePassword = (event) => {
         event.preventDefault();
 
+        setMessage(" successfully updated")
+
         const formattedData = {
             userId: currentUserData.id,
             newPassword: newPassword,
             newPasswordConfirmation: newPasswordConfirmation,
         };
 
-        dispatch(
-            changePassword(formattedData, history)
-        );
+        {
+            (formattedData.newPassword === formattedData.newPasswordConfirmation) ?
+                dispatch(changePassword(formattedData)) : setMessage("password do not match")
+        }
     }
 
     return (
@@ -111,7 +118,7 @@ const Profile = () => {
 
                     {message && (
                         <div className="form-group">
-                            <div className={"alert alert-danger"}
+                            <div className={successfulPasswordUpdate ? "alert alert-success" : "alert alert-danger"}
                                  role="alert">
                                 {message}
                             </div>

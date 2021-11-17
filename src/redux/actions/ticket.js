@@ -10,7 +10,6 @@ import {
   GET_TICKET_BY_ID,
   GET_TICKET_LIST,
   GET_USER_BY_ID,
-//   CLOSE_TICKET,
   GET_ALL_TICKETS_FOR_KANBAN
 } from "./types";
 
@@ -30,12 +29,10 @@ export const createTicket =
           type: CREATE_TICKET_SUCCESS,
           payload: response.data,
         });
-
         dispatch({
           type: SET_MESSAGE,
           payload: response.data.message,
         });
-
         return Promise.resolve();
       },
       (error) => {
@@ -49,12 +46,10 @@ export const createTicket =
         dispatch({
           type: CREATE_TICKET_FAIL,
         });
-
         dispatch({
           type: SET_MESSAGE,
           payload: message,
         });
-
         return Promise.reject();
       }
     );
@@ -69,7 +64,6 @@ export const setTicketId = (ticketId) => (dispatch) => {
 
 export const getTicketById = (ticketId) => (dispatch) => {
   const url = routes.BASIC_URL + routes.BASIC_PATH + routes.TICKETS + ticketId;
-
   return HttpService.get(url, ticketId).then((response) => {
     return dispatch({
       type: GET_TICKET_BY_ID,
@@ -80,7 +74,6 @@ export const getTicketById = (ticketId) => (dispatch) => {
 
 export const getTicketList = () => (dispatch) => {
     const url = routes.BASIC_URL + routes.BASIC_PATH + routes.TICKETS
-
     return HttpService.get(url)
         .then(response => {
             return dispatch({
@@ -92,10 +85,7 @@ export const getTicketList = () => (dispatch) => {
 
 export const getTicketListForKanban = () => (dispatch) => {
   const url = routes.BASIC_URL + routes.BASIC_PATH + routes.ALL_TICKETS_FOR_KANBAN;
-  console.log("url: " + url);
-
   return HttpService.get(url, {}).then((response) => {
-    console.log("response: " + response);
     return dispatch({
       type: GET_ALL_TICKETS_FOR_KANBAN,
       payload: response,
@@ -117,9 +107,6 @@ export const changeTicketStatus = (id, status) => (dispatch) => {
 
 export const getAllUsersBySpecialty = (specialty) => (dispatch) => {
   const url = routes.BASIC_URL + routes.BASIC_PATH + routes.USER_BY_ID + userId;
-  console.log(userId + " this is userid");
-  console.log(url + " urlllll");
-
   return HttpService.get(url, userId).then((response) => {
     return dispatch({
       type: GET_USER_BY_ID,

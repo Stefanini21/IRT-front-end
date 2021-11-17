@@ -48,7 +48,7 @@ const KanbanBoard = (props) => {
           element.project_stage = 1;
           break;
         }
-        case "ASIGNED": {
+        case "ASSIGNED": {
           element.project_stage = 2;
           break;
         }
@@ -79,7 +79,7 @@ const KanbanBoard = (props) => {
         break;
       case 2:
         console.log("case 2 draggedOverCol: " + stageValue);
-        setStatus("ASIGNED");
+        setStatus("ASSIGNED");
         break;
       case 3:
         console.log("case 3 draggedOverCol: " + stageValue);
@@ -210,9 +210,8 @@ const KanbanColumn = (props) => {
     paddingTop: "3px",
     paddingRight: "3px",
     width: "24%",
-    // minHeight: 500,
     textAlign: "center",
-    backgroundColor: mouseIsHovering ? "orange" : "#b1b1b1",
+    backgroundColor: mouseIsHovering ? "orange" : "#b1b1b1"
   };
 
   return (
@@ -246,7 +245,9 @@ const KanbanColumn = (props) => {
           ({props.projects.length})
         </span>
       </h5>
-      {generateKanbanCards()}
+      <div style={{ height: 650, overflowY: "scroll"}}>
+        {generateKanbanCards()}
+      </div>
     </div>
   );
 };
@@ -373,11 +374,11 @@ const KanbanCard = (props) => {
           }}
         >
           {currentUserData !== null && currentUserData.username === project.creator ? <div>
-          <div style={{width: 9, height: 9, backgroundColor: "#fdee00", border: "1px solid darkorange", display: "inline-block", position: "absolute", left: 10, top: 11, borderRadius: "100%"}}></div>
+          <div style={{width: 9, height: 9, backgroundColor: "yellow", border: "2px solid orange", display: "inline-block", position: "absolute", left: 10, top: 11, borderRadius: "100%"}}></div>
           </div> : 
           <div style={{width: 9, height: 9, backgroundColor: "#6e5dbd", display: "inline-block", position: "absolute", left: 10, top: 11, borderRadius: "100%"}}></div>}
           {currentUserData !== null && currentUserData.username === project.developer ? <div>
-          <div style={{width: 9, height: 9, backgroundColor: "orange", border: "1px solid yellow", display: "inline-block", position: "absolute", left: 10, top: 32, borderRadius: "100%"}}></div>
+          <div style={{width: 9, height: 9, backgroundColor: "yellow", border: "2px solid orange", display: "inline-block", position: "absolute", left: 10, top: 32, borderRadius: "100%"}}></div>
           </div> :
           <div style={{width: 9, height: 9, backgroundColor: "#6e5dbd", display: "inline-block", position: "absolute", left: 10, top: 32, borderRadius: "100%"}}></div>}
           <h6

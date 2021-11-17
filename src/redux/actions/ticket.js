@@ -10,8 +10,12 @@ import {
   GET_TICKET_BY_ID,
   GET_TICKET_LIST,
   DELETE_TICKET_BY_ID,
-  SET_TICKET_ID
-} from "../actions/types";
+  SET_TICKET_ID,
+  UPDATE_TICKET_BY_ID,
+  RECEIVE_DUPLICATE_TITLE,
+
+} from "./types";
+import {userActions as ticketActions} from "./user";
 
 export const createTicket = (newTicket) => (dispatch) => {
   const url = routes.BASIC_URL + routes.BASIC_PATH + routes.CREATE_TICKET;
@@ -128,3 +132,21 @@ export const changeTicketStatus = (id, status) => (dispatch) => {
     });
   });
 };
+
+export const updateTicketById = (ticketData, ticketId) => (dispatch) => {
+  const url = routes.BASIC_URL + routes.BASIC_PATH + routes.TICKET_BY_ID + ticketId;
+
+  return HttpService.put(url, ticketData)
+      .then(response => {
+        if (response === 500) {
+          return dispatch({
+            type: RECEIVE_DUPLICATE_TITLE
+          })
+        } else {
+          return dispatch({
+            type: UPDATE_TICKET_BY_ID,
+            payload: response
+          })
+        }
+      })
+}

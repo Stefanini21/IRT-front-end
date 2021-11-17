@@ -7,6 +7,8 @@ import {useDispatch, useSelector} from "react-redux";
 import {getTicketList, setTicketId, deleteTicketById} from "../../redux/actions/ticket";
 import {selectTicketList, selectIsFetching} from "../../redux/selectors/ticket";
 import Loader from "react-loader-spinner";
+import {getRoles, getSpecialties} from "../../redux/actions/user";
+import EditTicketComponent from "./edit.ticket.component";
 
 
 const TicketList = () => {
@@ -34,11 +36,6 @@ const TicketList = () => {
       sortable: true,
     },
     {
-      name: "Description",
-      selector: (row) => row.description,
-      sortable: true,
-    },
-    {
       name: "Specialty",
       selector: (row) => row.specialty,
       sortable: true,
@@ -56,11 +53,6 @@ const TicketList = () => {
     {
       name: "Developer",
       selector: (row) => row.developer,
-      sortable: true,
-    },
-    {
-      name: "Creator",
-      selector: (row) => row.creator,
       sortable: true,
     },
     {
@@ -148,7 +140,9 @@ const TicketList = () => {
   }, [ticketList])
 
   useEffect(() =>{
-    dispatch(getTicketList())
+    dispatch(getTicketList());
+    dispatch(getSpecialties());
+    dispatch(getRoles());
   }, [])
 
     return <>
@@ -183,6 +177,15 @@ const TicketList = () => {
           </button>
         </Modal.Footer>
       </Modal>
+
+          <Modal show={showEditTicketModal} onHide={handleCloseEditTicketModal}>
+            <Modal.Header closeButton>
+              <Modal.Title className="modal_header">Edit Ticket</Modal.Title>
+            </Modal.Header>
+            <Modal.Body>
+              <EditTicketComponent handleCloseEditTicketModal={handleCloseEditTicketModal}/>
+            </Modal.Body>
+          </Modal>
 
       <Modal show={showDeleteTicketModal} onHide={handleCloseDeleteTicketModal}>
         <Modal.Header closeButton>

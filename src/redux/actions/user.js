@@ -14,7 +14,7 @@ export const userActions = {
     RECEIVE_DUPLICATE_ENTRY: "RECEIVE_DUPLICATE_ENTRY",
     DELETE_USER_BY_ID: "DELETE_USER_BY_ID",
     GET_SPECIALTIES: "GET_SPECIALTIES",
-    GET_ROLES: "GET_ROLES"
+    GET_ROLES: "GET_ROLES",
 }
 
 export const getSpecialties = () => (dispatch) => {

@@ -239,6 +239,7 @@ const KanbanColumn = (props) => {
     width: "25%",
     textAlign: "center",
     backgroundColor: mouseIsHovering ? "#e3dac9" : "#b1b1b1",
+    transition: "mouseIsHovering 1",
   };
 
   return (

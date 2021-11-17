@@ -33,6 +33,7 @@ export default class App extends Component {
                                     <Route exact path="/profile" component={Profile}/>
                                     <Route path="/admin/users" component={AdminUserList}/>
                                     <Route path="/admin/tickets" component={TicketList}/>
+                                    <Route path="/admin/tickets-board" component={User}/>
                                     <Route path="/user" component={User}/>
                                 </Switch>
                             </div>

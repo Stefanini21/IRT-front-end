@@ -5,9 +5,15 @@ import CreateUserModal from "./create.user.component";
 import ViewUser from "./view.user.component";
 import DataTable from "react-data-table-component";
 import {useDispatch, useSelector} from "react-redux";
-import {getUserList, setUserId, getSpecialties, deleteUserById} from "../../redux/actions/user";
+import {getUserList, setUserId, getSpecialties, deleteUserById, getRoles} from "../../redux/actions/user";
 import EditUserModal from "./edit.user.component";
-import {selectUserList, selectIsFetching, selectRolesFetching} from "../../redux/selectors/user";
+import {
+    selectUserList,
+    selectIsFetching,
+    selectRolesFetching,
+    selectSpecialties,
+    selectRoles
+} from "../../redux/selectors/user";
 import Loader from "react-loader-spinner";
 
 const AdminUserList = () => {
@@ -25,8 +31,11 @@ const AdminUserList = () => {
     const [userToView, setUserToView] = useState([]);
     const [loading, setLoading] = useState(true);
 
+
     const userList = useSelector(selectUserList);
     const fetching = useSelector(selectIsFetching);
+    const specialties = useSelector(selectSpecialties);
+    const roles = useSelector(selectRoles);
 
     const columns = [
         {
@@ -149,6 +158,8 @@ const AdminUserList = () => {
 
     useEffect(() => {
         dispatch(getUserList())
+        dispatch(getSpecialties());
+        dispatch(getRoles());
     }, [])
 
     return <>

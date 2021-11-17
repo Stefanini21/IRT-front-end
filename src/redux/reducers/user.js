@@ -1,13 +1,18 @@
 import {userActions} from "../actions/user";
+import {selectRolesFetching} from "../selectors/user";
 
 const initialState = {
     userId: {},
     userById: {},
     updatedUser: {},
     createdUser: {},
+    isDeleted: false,
     userList: {},
     specialties: {},
-    roles: {}
+    specialtiesFetching: true,
+    roles: {},
+    rolesFetching: true,
+    isFetching: true,
 }
 
 export const user = (state = initialState, action) => {
@@ -34,15 +39,32 @@ export const user = (state = initialState, action) => {
                 ...state,
                 createdUser: action.payload
             };
+        case userActions.GET_USER_LIST:
+            return {
+                ...state,
+                userList: action.payload,
+                isFetching: false
+            };
+        case userActions.DELETE_USER_BY_ID:
+            console.log(action.payload + " action.payload for delete")
+            return {
+                ...state,
+                //userId: action.payload,
+                //userById: action.payload,
+                //userList: userList,
+                isDeleted: true
+            };
         case userActions.GET_SPECIALTIES:
             return {
                 ...state,
-                specialties: action.payload
+                specialties: action.payload,
+                specialtiesFetching: false
             };
         case userActions.GET_ROLES:
             return {
                 ...state,
-                roles: action.payload
+                roles: action.payload,
+                rolesFetching: false
             };
         default:
             return state;

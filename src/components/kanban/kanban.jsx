@@ -2,22 +2,50 @@ import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getUserData } from "../../redux/selectors/auth";
 import { selectTicketList } from "../../redux/selectors/ticket";
-import { changeTicketStatus, getTicketListForKanban} from "../../redux/actions/ticket";
+import {
+  changeTicketStatus,
+  getTicketListForKanban,
+} from "../../redux/actions/ticket";
 import { getUserById } from "../../redux/actions/user";
 import { selectUserById } from "../../redux/selectors/user";
+import Loader from "react-loader-spinner";
+import {
+  selectUserList,
+  selectIsFetching,
+  selectRolesFetching,
+  selectSpecialties,
+  selectRoles,
+} from "../../redux/selectors/user";
 
 const Kanban = () => {
   const dispatch = useDispatch();
+  const fetching = useSelector(selectIsFetching);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     dispatch(getTicketListForKanban());
+    setLoading(fetching);
   }, []);
 
   return (
-    <div style={{ paddingTop: "5px" }}>
-      <h3>Ticket-board</h3>
-      <KanbanBoard />
-    </div>
+    // <>
+    //   {loading ? (
+    //     <Loader
+    //       className="loader-spinner"
+    //       type="TailSpin"
+    //       color="#4f677f"
+    //       height={50}
+    //       width={50}
+    //     />
+    //   ) : (
+        <div style={{ paddingTop: "5px" }}>
+          <h3>Ticket-board</h3>
+          <div style={{display: "flex", justifyContent: "space-between", padding: "0 auto"}}>
+            <KanbanBoard />
+          </div>
+        </div>
+      // )}
+    // </>
   );
 };
 
@@ -33,7 +61,7 @@ const KanbanBoard = (props) => {
 
   const columns = [
     { name: "BackLog", stage: 1 },
-    { name: "Assigned", stage: 2 },
+    { name: "In progress...", stage: 2 },
     { name: "Finished", stage: 3 },
     { name: "Closed", stage: 4 },
   ];
@@ -114,9 +142,8 @@ const KanbanBoard = (props) => {
         if (
           currentUserData.role === "ADMIN" &&
           project.project_stage === 3 &&
-          draggedOverCol === 1
-
-          && currentUserData.creator === project.author
+          draggedOverCol === 1 &&
+          currentUserData.creator === project.author
         ) {
           return projectObject.title === project.title;
         } else if (
@@ -154,7 +181,7 @@ const KanbanBoard = (props) => {
   };
 
   return (
-    <div>
+    <div style={{display: "flex", justifyContent: "space-between"}}>
       {columns.map((column) => {
         return (
           <KanbanColumn
@@ -206,12 +233,13 @@ const KanbanColumn = (props) => {
     verticalAlign: "top",
     marginBottom: "2px",
     margin: 3,
-    paddingLeft: "3px",
+    paddingLeft: "1px",
     paddingTop: "3px",
-    paddingRight: "3px",
-    width: "24%",
+    paddingRight: "1px",
+    width: "25%",
     textAlign: "center",
-    backgroundColor: mouseIsHovering ? "orange" : "#b1b1b1"
+    backgroundColor: mouseIsHovering ? "#e3dac9" : "#b1b1b1",
+    transition: "mouseIsHovering 1",
   };
 
   return (
@@ -245,7 +273,7 @@ const KanbanColumn = (props) => {
           ({props.projects.length})
         </span>
       </h5>
-      <div style={{ height: 650, overflowY: "scroll"}}>
+      <div style={{ height: 650, overflowY: "scroll" }}>
         {generateKanbanCards()}
       </div>
     </div>
@@ -293,14 +321,14 @@ const KanbanCard = (props) => {
       width: "auto",
       padding: 7,
       transition: "250ms ease-in, 250ms ease-out",
-      fontSize: "0.9rem"
+      fontSize: "0.9rem",
     },
 
     menuCollapsed: {
       overflow: "hidden",
       height: 0,
       transition: "250ms ease-in, 250ms ease-out",
-      fontSize: "0.9rem"
+      fontSize: "0.9rem",
     },
   };
 
@@ -370,17 +398,71 @@ const KanbanCard = (props) => {
           style={{
             // color: "brown",
             backgroundColor: "#97ACED",
-            position: "relative"
+            position: "relative",
           }}
         >
-          {currentUserData !== null && currentUserData.username === project.creator ? <div>
-          <div style={{width: 9, height: 9, backgroundColor: "yellow", border: "2px solid orange", display: "inline-block", position: "absolute", left: 10, top: 11, borderRadius: "100%"}}></div>
-          </div> : 
-          <div style={{width: 9, height: 9, backgroundColor: "#6e5dbd", display: "inline-block", position: "absolute", left: 10, top: 11, borderRadius: "100%"}}></div>}
-          {currentUserData !== null && currentUserData.username === project.developer ? <div>
-          <div style={{width: 9, height: 9, backgroundColor: "yellow", border: "2px solid orange", display: "inline-block", position: "absolute", left: 10, top: 32, borderRadius: "100%"}}></div>
-          </div> :
-          <div style={{width: 9, height: 9, backgroundColor: "#6e5dbd", display: "inline-block", position: "absolute", left: 10, top: 32, borderRadius: "100%"}}></div>}
+          {currentUserData !== null &&
+          currentUserData.username === project.creator ? (
+            <div>
+              <div
+                style={{
+                  width: 9,
+                  height: 9,
+                  backgroundColor: "yellow",
+                  border: "2px solid orange",
+                  display: "inline-block",
+                  position: "absolute",
+                  left: 10,
+                  top: 11,
+                  borderRadius: "100%",
+                }}
+              ></div>
+            </div>
+          ) : (
+            <div
+              style={{
+                width: 9,
+                height: 9,
+                backgroundColor: "#6e5dbd",
+                display: "inline-block",
+                position: "absolute",
+                left: 10,
+                top: 11,
+                borderRadius: "100%",
+              }}
+            ></div>
+          )}
+          {currentUserData !== null &&
+          currentUserData.username === project.developer ? (
+            <div>
+              <div
+                style={{
+                  width: 9,
+                  height: 9,
+                  backgroundColor: "yellow",
+                  border: "2px solid orange",
+                  display: "inline-block",
+                  position: "absolute",
+                  left: 10,
+                  top: 32,
+                  borderRadius: "100%",
+                }}
+              ></div>
+            </div>
+          ) : (
+            <div
+              style={{
+                width: 9,
+                height: 9,
+                backgroundColor: "#6e5dbd",
+                display: "inline-block",
+                position: "absolute",
+                left: 10,
+                top: 32,
+                borderRadius: "100%",
+              }}
+            ></div>
+          )}
           <h6
             style={{
               fontSize: "0.8rem",
@@ -450,7 +532,9 @@ const KanbanCard = (props) => {
           </span>
         </div>
         <div style={{ display: "inline-block", margin: 0, padding: 0 }}>
-          <h6 style={{ fontWeight: 500, margin: 0, marginBottom: 6 }}>{project.title}</h6>
+          <h6 style={{ fontWeight: 500, margin: 0, marginBottom: 6 }}>
+            {project.title}
+          </h6>
         </div>
       </div>
       <div
@@ -461,9 +545,10 @@ const KanbanCard = (props) => {
         <div style={{ fontSize: "0.8rem", padding: "0 7px 7px 7px" }}>
           {props.project.description}
         </div>
-        {currentUserData !== null ? currentUserData.username === project.developer 
-        || currentUserData.username === project.creator ? 
-        <h6
+        {currentUserData !== null ? (
+          currentUserData.username === project.developer ||
+          currentUserData.username === project.creator ? (
+            <h6
               style={{
                 fontSize: "0.7rem",
                 marginBottom: -2,
@@ -477,8 +562,9 @@ const KanbanCard = (props) => {
               onMouseLeave={changeBackgroundOnMouseLeave}
             >
               Comments
-            </h6> 
-            : null : null}
+            </h6>
+          ) : null
+        ) : null}
       </div>
       <div
         style={{
@@ -504,137 +590,5 @@ const KanbanCard = (props) => {
     </div>
   );
 };
-
-/*
- * Projects to be displayed on Kanban Board
- */
-let projectList = [
-  {
-    id: 1,
-    name: "Title ticket 1",
-    description:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam posuere dui vel urna egestas rutrum. ",
-    project_stage: 1,
-    creator: "aaa",
-    developer: "",
-  },
-  {
-    id: 2,
-    name: "Title ticket 2",
-    description:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam posuere dui vel urna egestas rutrum. ",
-    project_stage: 2,
-    creator: "aaa",
-    developer: "ccc",
-  },
-  {
-    id: 3,
-    name: "Title ticket 3",
-    description:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam posuere dui vel urna egestas rutrum. ",
-    project_stage: 1,
-    creator: "bbb",
-    developer: "",
-  },
-  {
-    id: 4,
-    name: "Title ticket 4",
-    description:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam posuere dui vel urna egestas rutrum. ",
-    project_stage: 2,
-    creator: "bbb",
-    developer: "nic",
-  },
-  {
-    id: 5,
-    name: "Title ticket 5",
-    description:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam posuere dui vel urna egestas rutrum. ",
-    project_stage: 3,
-    creator: "aaa",
-    developer: "nic",
-  },
-  {
-    id: 6,
-    name: "Title ticket 6",
-    description:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam posuere dui vel urna egestas rutrum. ",
-    project_stage: 3,
-    creator: "aaa",
-    developer: "ccc",
-  },
-  {
-    id: 7,
-    name: "Title ticket 7",
-    description:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam posuere dui vel urna egestas rutrum. ",
-    project_stage: 4,
-    creator: "vova",
-    developer: "ccc",
-  },
-  {
-    id: 8,
-    name: "Title ticket 8",
-    description:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam posuere dui vel urna egestas rutrum. ",
-    project_stage: 1,
-    creator: "aaa",
-    developer: "",
-  },
-  {
-    id: 9,
-    name: "Title ticket 9",
-    description:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam posuere dui vel urna egestas rutrum. ",
-    project_stage: 2,
-    creator: "aaa",
-    developer: "ccc",
-  },
-  {
-    id: 10,
-    name: "Title ticket 10",
-    description:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam posuere dui vel urna egestas rutrum. ",
-    project_stage: 1,
-    creator: "bbb",
-    developer: "",
-  },
-  {
-    id: 11,
-    name: "Title ticket 11",
-    description:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam posuere dui vel urna egestas rutrum. ",
-    project_stage: 2,
-    creator: "bbb",
-    developer: "nic",
-  },
-  {
-    id: 12,
-    name: "Title ticket 12",
-    description:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam posuere dui vel urna egestas rutrum. ",
-    project_stage: 3,
-    creator: "aaa",
-    developer: "nic",
-  },
-  {
-    id: 13,
-    name: "Title ticket 13",
-    description:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam posuere dui vel urna egestas rutrum. ",
-    project_stage: 3,
-    creator: "aaa",
-    developer: "ccc",
-  },
-  {
-    id: 14,
-    name: "Title ticket 14",
-    description:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam posuere dui vel urna egestas rutrum. ",
-    project_stage: 4,
-    creator: "vova",
-    developer: "ccc",
-  },
-];
 
 export default Kanban;

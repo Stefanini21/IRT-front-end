@@ -1,5 +1,5 @@
 import React, {useEffect} from "react";
-import {Link, useHistory} from "react-router-dom";
+import {NavLink, Link, useHistory} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
 import {getUserData, getUserLoaded} from "../../redux/selectors/auth"; // addUserData
 import {signOutUser} from "../../redux/actions/auth";
@@ -35,67 +35,67 @@ const Header = () => {
         <div>
             <div className="header">
                 <nav className="navbar navbar-expand navbar-dark">
-                    <Link to={"/"} className="navbar-brand">
+                    <NavLink to={"/"} className="navbar-brand">
                         Issue Reporting Tool
-                    </Link>
+                    </NavLink>
                     <div className="navbar-nav mr-auto">
                         {currentUserLoaded && currentUserData.role === "ADMIN" ? (
                             <div>
                                 <li className="nav-item" style={{display: "inline-block"}}>
-                                    <Link to={"/home"} className="nav-link">
+                                    <NavLink activeClassName="active" to={"/home"} className="nav-link">
                                         Home
-                                    </Link>
+                                    </NavLink>
                                 </li>
                                 <li className="nav-item" style={{display: "inline-block"}}>
-                                    <Link to={"/admin/users"} className="nav-link">
+                                    <NavLink to={"/admin/users"} className="nav-link">
                                         User list
-                                    </Link>
+                                    </NavLink>
                                 </li>
-
                                 <li className="nav-item" style={{display: "inline-block"}}>
-                                    <Link to={"/admin/tickets"} className="nav-link">
+                                    <NavLink to={"/admin/tickets"} className="nav-link">
                                         Ticket list
-                                    </Link>
+                                    </NavLink>
                                 </li>
                                 <li className="nav-item" style={{display: "inline-block"}}>
-                                    <Link to={"/admin/tickets-board"} className="nav-link">
+                                    <NavLink to={"/admin/tickets-board"} className="nav-link">
                                         Ticket-board
-                                    </Link>
+                                    </NavLink>
                                 </li>
                                 <li className="nav-item" style={{display: "inline-block"}}>
-                                    <Link to={"/profile"} className="nav-link">
+                                    <NavLink to={"/profile"} className="nav-link">
                                         Profile
-                                    </Link>
+                                    </NavLink>
                                 </li>
                             </div>
                         ) : currentUserLoaded && currentUserData.role === "USER" ? (
                             <div>
                                 <li className="nav-item" style={{display: "inline-block"}}>
-                                    <Link to={"/home"} className="nav-link">
+                                    <NavLink to={"/home"} className="nav-link">
                                         Home
-                                    </Link>
+                                    </NavLink>
                                 </li>
                                 <li className="nav-item" style={{display: "inline-block"}}>
-                                    <Link to={"/user"} className="nav-link">
+                                    <NavLink to={"/user"} className="nav-link">
                                         Ticket-board
-                                    </Link>
+                                    </NavLink>
                                 </li>
                                 <li className="nav-item" style={{display: "inline-block"}}>
-                                    <Link to={"/profile"} className="nav-link">
+                                    <NavLink to={"/profile"} className="nav-link">
                                         Profile
-                                    </Link>
+                                    </NavLink>
                                 </li>
                             </div>
                         ) : (
                             <li className="nav-item">
-                                <Link to={"/login"} className="nav-link"></Link>
+                                <NavLink to={"/login"} className="nav-link"></NavLink>
                             </li>
                         )}
                     </div>
                     {currentUserLoaded ? (
                         <div className="navbar-nav ml-auto">
                             <button
-                                className="btn btn-primary btn-block"
+                                className="login_button btn-block"
+
                                 onClick={handleLogOut}
                             >
                                 <span>Logout</span>
@@ -104,7 +104,7 @@ const Header = () => {
                     ) : (
                         <div className="navbar-nav ml-auto">
                             <button
-                                className="btn btn-primary btn-block"
+                                className="login_button btn-block"
                                 onClick={handleLogIn}
                             >
                                 <span>Login</span>

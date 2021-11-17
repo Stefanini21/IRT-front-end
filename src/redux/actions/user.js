@@ -12,6 +12,7 @@ export const userActions = {
     UPDATE_USER_BY_ID: "UPDATE_USER_BY_ID",
     GET_USER_LIST: "GET_USER_LIST",
     RECEIVE_DUPLICATE_ENTRY: "RECEIVE_DUPLICATE_ENTRY",
+    DELETE_USER_BY_ID: "DELETE_USER_BY_ID",
     GET_SPECIALTIES: "GET_SPECIALTIES",
     GET_ROLES: "GET_ROLES"
 }
@@ -40,45 +41,47 @@ export const getRoles = () => (dispatch) => {
         })
 }
 
-export const getUserList = () => (dispatch) => {
-  const url = routes.BASIC_URL + routes.BASIC_PATH + routes.ALL_USERS;
-
-  return HttpService.get(url, {}).then((response) => {
-    return dispatch({
-      type: userActions.GET_USER_LIST,
-      payload: response,
-    });
-  });
-};
-
 export const setUserId = (userId) => (dispatch) => {
-  return dispatch({
-    type: userActions.SET_USER_ID,
-    payload: userId,
-  });
-};
+
+    return dispatch({
+        type: userActions.SET_USER_ID,
+        payload: userId
+    })
+}
 
 export const closeModal = () => (dispatch) => {
-  return dispatch({
-    type: userActions.CLOSE_MODAL,
-  });
-};
+    return dispatch({
+        type: userActions.CLOSE_MODAL
+    })
+}
+
+export const getUserList = () => (dispatch) => {
+    const url = routes.BASIC_URL + routes.BASIC_PATH + routes.USER_BY_ID
+
+    return HttpService.get(url)
+        .then(response => {
+            return dispatch({
+                type: userActions.GET_USER_LIST,
+                payload: response
+            })
+        })
+}
 
 export const getUserById = (userId) => (dispatch) => {
-  const url = routes.BASIC_URL + routes.BASIC_PATH + routes.USER_BY_ID + userId;
-  console.log(userId + " this is userid");
-  console.log(url + " urlllll");
+    const url = routes.BASIC_URL + routes.BASIC_PATH + routes.USER_BY_ID + userId;
 
-  return HttpService.get(url, userId).then((response) => {
-    return dispatch({
-      type: userActions.GET_USER_BY_ID,
-      payload: response,
-    });
-  });
-};
+    return HttpService.get(url, userId)
+        .then(response => {
+            return dispatch({
+                type: userActions.GET_USER_BY_ID,
+                payload: response
+            })
+        })
+}
+
 
 export const createUser = (newUser) => (dispatch) => {
-  const url = routes.BASIC_URL + routes.BASIC_PATH + routes.CREATE_USER;
+    const url = routes.BASIC_URL + routes.BASIC_PATH + routes.CREATE_USER;
 
     return HttpService.post(url, newUser)
         .then((response) => {
@@ -97,8 +100,9 @@ export const createUser = (newUser) => (dispatch) => {
         );
 };
 
+
 export const updateUserById = (userData, userId) => (dispatch) => {
-  const url = routes.BASIC_URL + routes.BASIC_PATH + routes.USER_BY_ID + userId;
+    const url = routes.BASIC_URL + routes.BASIC_PATH + routes.USER_BY_ID + userId;
 
     return HttpService.put(url, userData)
         .then(response => {
@@ -113,4 +117,18 @@ export const updateUserById = (userData, userId) => (dispatch) => {
                 })
             }
         })
-};
+}
+
+export const deleteUserById = (userId) => (dispatch) => {
+    const url = routes.BASIC_URL + routes.BASIC_PATH + routes.USER_BY_ID + userId;
+    console.log(userId + " this is id inside delete function")
+    console.log(url + " this is url inside delete function")
+
+    return HttpService.delete(url)
+        .then(response => {
+            return dispatch({
+                type: userActions.DELETE_USER_BY_ID,
+                payload: response
+            })
+        })
+}

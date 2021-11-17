@@ -9,5 +9,7 @@ export const routes = {
   ROLES: "roles",
   USERS_BY_SPECIALTY: "users/specialty",
   CREATE_TICKET: "tickets/",
-  TICKET_BY_ID: "tickets/"
+  TICKET_BY_ID: "tickets/",
+  ALL_TICKETS_FOR_KANBAN: "tickets/kanban",
+  CHANGE_TICKET_STATUS: "tickets/"
 };

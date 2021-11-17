@@ -57,6 +57,11 @@ const Header = () => {
                                     </Link>
                                 </li>
                                 <li className="nav-item" style={{display: "inline-block"}}>
+                                    <Link to={"/admin/tickets-board"} className="nav-link">
+                                        Ticket-board
+                                    </Link>
+                                </li>
+                                <li className="nav-item" style={{display: "inline-block"}}>
                                     <Link to={"/profile"} className="nav-link">
                                         Profile
                                     </Link>
@@ -72,6 +77,10 @@ const Header = () => {
                                 <li className="nav-item" style={{display: "inline-block"}}>
                                     <Link to={"/user"} className="nav-link">
                                         User
+                                    </Link>
+                                </li><li className="nav-item" style={{display: "inline-block"}}>
+                                    <Link to={"/user"} className="nav-link">
+                                        Ticket-board
                                     </Link>
                                 </li>
                                 <li className="nav-item" style={{display: "inline-block"}}>

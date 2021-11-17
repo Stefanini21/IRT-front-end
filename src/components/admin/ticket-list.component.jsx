@@ -72,21 +72,21 @@ const TicketList = () => {
     {
       name: "View Ticket",
       cell: (row) => (
-        <Button variant="outline-secondary" onClick={() => handleShowViewTicketModal(row)}>
+        <button className="secondary_button" onClick={() => handleShowViewTicketModal(row)}>
           View
-        </Button>
+        </button>
       ),
       grow: 0.3,
     },
     {
       name: "Edit Ticket",
-      cell: (row) => <Button variant="outline-secondary"
-                             onClick={() => handleEditTicketModal(row)}>Edit</Button>,
+      cell: (row) => <button className="secondary_button"
+                             onClick={() => handleEditTicketModal(row)}>Edit</button>,
       grow: 0.3
     },
     {
       name: "Delete Ticket",
-      cell: (row) => <Button variant="outline-secondary" onClick={() => handleShowDeleteTicketModal(row.id, row.title)}>Delete</Button>,
+      cell: (row) => <button className="secondary_button"  onClick={() => handleShowDeleteTicketModal(row.id, row.title)}>Delete</button>,
       grow: 1
     }
   ];

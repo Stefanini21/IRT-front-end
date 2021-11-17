@@ -93,13 +93,22 @@ const EditUserModal = (props) => {
     const [loadingRoles, setLoadingRoles] = useState(true);
     const [loadingSpecialties, setLoadingSpecialties] = useState(true);
 
+    const specialtyOptions = [
+        { value: "FRONTEND", label: "Front-end" },
+        { value: "BACKEND", label: "Back-end" }
+    ];
 
+    const roleOptions = [
+        { value: "USER", label: "User" },
+        { value: "DEVELOPER", label: "Developer" },
+        { value: "ADMIN", label: "Admin" }
+    ];
 
     useEffect(() => {
         dispatch(resetEditUserFlags())
         dispatch(getUserById(userId))
-        dispatch(getSpecialties());
-        dispatch(getRoles());
+        // dispatch(getSpecialties());
+        // dispatch(getRoles());
     }, [])
 
 
@@ -257,6 +266,7 @@ const EditUserModal = (props) => {
                                 <select
                                     className="form-control"
                                     name="specialty"
+                                    options={specialtyOptions}
                                     defaultValue={specialtyForm}
                                     value={specialtyForm}
                                     onChange={onChangeSpecialty}>

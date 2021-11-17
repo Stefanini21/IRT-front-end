@@ -1,119 +1,110 @@
-import TicketService from "../../services/ticket.service";
-import {HttpService} from "../../services/httpService";
-import {routes} from "../../config/routes";
-import {CREATE_TICKET_FAIL, CREATE_TICKET_SUCCESS, SET_MESSAGE} from "./types";
-import {userActions} from "./user";
-
+import { routes } from "../../config/routes";
+import { HttpService } from "../../services/httpService";
 
 export const ticketActions = {
-    SET_TICKET_ID: "SET_TICKET_ID",
-    GET_TICKET_BY_ID: "GET_TICKET_BY_ID",
-    GET_TICKET_LIST: "GET_TICKET_LIST",
-    DELETE_TICKET_BY_ID: "DELETE_TICKET_BY_ID"
-}
+  CREATE_TICKET_FAIL: "CREATE_TICKET_FAIL",
+  CREATE_TICKET_SUCCESS: "CREATE_TICKET_SUCCESS",
+  SET_MESSAGE: "SET_MESSAGE",
+  SELECTED_SPECIALTY: "SELECTED_SPECIALTY",
 
-export const createTicket =
-    (title, description, priority, specialty, status, developer) =>
-        (dispatch) => {
-            return TicketService.createTicket(
-                title,
-                description,
-                priority,
-                specialty,
-                status,
-                developer
-            ).then(
-                (response) => {
-                    dispatch({
-                        type: CREATE_TICKET_SUCCESS,
-                        payload: response.data,
-                    });
+  SET_TICKET_ID: "SET_TICKET_ID",
+  GET_TICKET_BY_ID: "GET_TICKET_BY_ID",
+  GET_TICKET_LIST: "GET_TICKET_LIST",
+  DELETE_TICKET_BY_ID: "DELETE_TICKET_BY_ID"
+};
 
-                    dispatch({
-                        type: SET_MESSAGE,
-                        payload: response.data.message,
-                    });
+export const createTicket = (newTicket) => (dispatch) => {
+  const url = routes.BASIC_URL + routes.BASIC_PATH + routes.CREATE_TICKET;
+  return HttpService.post(url, newTicket).then(
+    (response) => {
+      dispatch({
+        type: ticketActions.CREATE_TICKET_SUCCESS,
+        payload: response.data,
+      });
 
-                    return Promise.resolve();
-                },
-                (error) => {
-                    const message =
-                        (error.response &&
-                            error.response.data &&
-                            error.response.data.message) ||
-                        error.message ||
-                        error.toString();
+      dispatch({
+        type: ticketActions.SET_MESSAGE,
+        payload: response.data.message,
+      });
 
-                    dispatch({
-                        type: CREATE_TICKET_FAIL,
-                    });
+      return Promise.resolve();
+    },
+    (error) => {
+      const message =
+        (error.response &&
+          error.response.data &&
+          error.response.data.message) ||
+        error.message ||
+        error.toString();
 
-                    dispatch({
-                        type: SET_MESSAGE,
-                        payload: message,
-                    });
+      dispatch({
+        type: CREATE_TICKET_FAIL,
+      });
 
-                    return Promise.reject();
-                }
-            );
-        };
+      dispatch({
+        type: SET_MESSAGE,
+        payload: message,
+      });
 
-export const setTicketId = (ticketId) => (dispatch) => {
-    return dispatch({
-        type: ticketActions.SET_TICKET_ID,
-        payload: ticketId
-    })
-}
-
-export const getTicketById = (ticketId) => (dispatch) => {
-    const url = routes.BASIC_URL + routes.BASIC_PATH + routes.TICKETS + ticketId;
-
-    return HttpService.get(url, ticketId)
-        .then(response => {
-            return dispatch({
-                type: ticketActions.GET_TICKET_BY_ID,
-                payload: response
-            })
-        })
-}
-
-export const getTicketList = () => (dispatch) => {
-    const url = routes.BASIC_URL + routes.BASIC_PATH + routes.TICKETS
-
-    return HttpService.get(url)
-        .then(response => {
-            return dispatch({
-                type: ticketActions.GET_TICKET_LIST,
-                payload: response
-            })
-        })
-}
+      return Promise.reject();
+    }
+  );
+};
 
   export const getAllUsersBySpecialty = (specialty) => (dispatch) => {
-    const url = routes.BASIC_URL + routes.BASIC_PATH + routes.USER_BY_ID + userId;
-    console.log(userId + " this is userid")
-    console.log(url + " urlllll")
+    const url =
+      routes.BASIC_URL + routes.BASIC_PATH + routes.USERS_BY_SPECIALTY;
 
-    return HttpService.get(url, userId)
-        .then(response => {
-            return dispatch({
-                type: userActions.GET_USER_BY_ID,
-                payload: response
-            })
-        })
-}
+    return HttpService.get(url + "/" + specialty, {}).then((response) => {
+      return dispatch({
+        type: ticketActions.SELECTED_SPECIALTY,
+        payload: response,
+      });
+    });
+  };
 
-export const deleteTicketById = (ticketId) => (dispatch) => {
-    const url = routes.BASIC_URL + routes.BASIC_PATH + routes.TICKET_BY_ID + ticketId;
+  export const setTicketId = (ticketId) => (dispatch) => {
+    return dispatch({
+      type: ticketActions.SET_TICKET_ID,
+      payload: ticketId,
+    });
+  };
 
-    console.log(ticketId + " this is id inside delete function")
-    console.log(url + " this is url inside delete function")
+  export const getTicketById = (ticketId) => (dispatch) => {
+    const url =
+      routes.BASIC_URL + routes.BASIC_PATH + routes.TICKETS + ticketId;
 
-    return HttpService.delete(url)
-        .then(response => {
-            return dispatch({
-                type: ticketActions.DELETE_TICKET_BY_ID,
-                payload: response
-            })
-        })
-}
+    return HttpService.get(url, ticketId).then((response) => {
+      return dispatch({
+        type: ticketActions.GET_TICKET_BY_ID,
+        payload: response,
+      });
+    });
+  };
+
+  export const getTicketList = () => (dispatch) => {
+    const url = routes.BASIC_URL + routes.BASIC_PATH + routes.TICKETS;
+
+    return HttpService.get(url).then((response) => {
+      return dispatch({
+        type: ticketActions.GET_TICKET_LIST,
+        payload: response,
+      });
+    });
+  };
+
+  export const deleteTicketById = (ticketId) => (dispatch) => {
+    const url =
+      routes.BASIC_URL + routes.BASIC_PATH + routes.TICKET_BY_ID + ticketId;
+
+    console.log(ticketId + " this is id inside delete function");
+    console.log(url + " this is url inside delete function");
+
+    return HttpService.delete(url).then((response) => {
+      return dispatch({
+        type: ticketActions.DELETE_TICKET_BY_ID,
+        payload: response,
+      });
+    });
+  };
+

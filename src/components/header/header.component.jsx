@@ -51,7 +51,6 @@ const Header = () => {
                                         User list
                                     </Link>
                                 </li>
-
                                 <li className="nav-item" style={{display: "inline-block"}}>
                                     <Link to={"/admin/tickets"} className="nav-link">
                                         Ticket list
@@ -90,7 +89,7 @@ const Header = () => {
                     {currentUserLoaded ? (
                         <div className="navbar-nav ml-auto">
                             <button
-                                className="btn btn-primary btn-block button_login"
+                                className="login_button btn-block"
 
                                 onClick={handleLogOut}
                             >
@@ -100,7 +99,7 @@ const Header = () => {
                     ) : (
                         <div className="navbar-nav ml-auto">
                             <button
-                                className="btn btn-primary btn-block"
+                                className="login_button btn-block"
                                 onClick={handleLogIn}
                             >
                                 <span>Login</span>

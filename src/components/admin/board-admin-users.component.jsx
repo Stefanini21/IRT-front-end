@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from "react";
-import {Button, Modal} from "react-bootstrap";
+import {Button, CloseButton, Modal} from "react-bootstrap";
 import {deleteUser} from "../../actions/user";
 import CreateUserModal from "./create.user.component";
 import ViewUser from "./view.user.component";
@@ -7,7 +7,7 @@ import DataTable from "react-data-table-component";
 import {useDispatch, useSelector} from "react-redux";
 import {getUserList, setUserId, getSpecialties, deleteUserById} from "../../redux/actions/user";
 import EditUserModal from "./edit.user.component";
-import {selectUserList, selectIsFetching} from "../../redux/selectors/user";
+import {selectUserList, selectIsFetching, selectRolesFetching} from "../../redux/selectors/user";
 import Loader from "react-loader-spinner";
 
 const AdminUserList = () => {
@@ -62,20 +62,20 @@ const AdminUserList = () => {
         {
             name: "View User",
             cell: (row) =>
-                <Button variant="outline-secondary"
-                                   onClick={() => handleShowViewUserModal(row)}>View</Button>,
+                <button className="secondary_button"
+                        onClick={() => handleShowViewUserModal(row)}>View</button>,
             grow: 0.3
         },
         {
             name: "Edit User",
-            cell: (row) => <Button variant="outline-secondary"
-                                   onClick={() => handleEditUserModal(row)}>Edit</Button>,
+            cell: (row) => <button className="secondary_button"
+                                   onClick={() => handleEditUserModal(row)}>Edit</button>,
             grow: 0.3
         },
         {
             name: "Delete User",
-            cell: (row) => <Button variant="outline-secondary"
-                                   onClick={() => handleShowDeleteUserModal(row.id, row.username)}>Delete</Button>,
+            cell: (row) => <button className="secondary_button"
+                                   onClick={() => handleShowDeleteUserModal(row.id, row.username)}>Delete</button>,
             grow: 1
         },
     ]
@@ -142,25 +142,6 @@ const AdminUserList = () => {
     }
 
     useEffect(() => {
-        //     UserService.getUsers().then(
-        //         response => {
-        //             setUsers(response.data)
-        //         },
-        //         error => {
-        //             setError(
-        //                 (error.response &&
-        //                     error.response.data &&
-        //                     error.response.data.message) ||
-        //                 error.message ||
-        //                 error.toString())
-        //
-        //             if (error.response && error.response.status === 401) {
-        //                 EventBus.dispatch("logout");
-        //             }
-        //
-        //         }
-        //     );
-        // }, [])
         setUsers(userList)
         setLoading(fetching)
     }, [userList])
@@ -203,7 +184,7 @@ const AdminUserList = () => {
 
             <Modal show={showEditUserModal} onHide={handleCloseEditUserModal}>
                 <Modal.Header closeButton>
-                    <Modal.Title>Edit User</Modal.Title>
+                    <Modal.Title className="modal_header">Edit User</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
                     <EditUserModal handleCloseEditUserModal={handleCloseEditUserModal}/>
@@ -211,30 +192,32 @@ const AdminUserList = () => {
             </Modal>
 
             <Modal show={showDeleteUserModal} onHide={handleCloseDeleteUserModal}>
-                <Modal.Header closeButton>
+                <Modal.Header closeButton="close_button">
                     <Modal.Title>Delete User</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
+                    <div className="container">
                     <div className="jumbotron">
-                        <h4>Are you sure you want to delete: <strong>{userNameToDelete}</strong> ?</h4>
+                        <h4>Delete: <strong>{userNameToDelete}</strong> ?</h4>
                     </div>
+                        </div>
                 </Modal.Body>
                 <Modal.Footer>
-                    <Button variant="secondary" onClick={handleCloseDeleteUserModal}>
+                    <button className="tertiary_button" onClick={handleCloseDeleteUserModal}>
                         No
-                    </Button>
-                    <Button variant="primary" onClick={handleDeleteUser}>
+                    </button>
+                    <button className="secondary_button" onClick={handleDeleteUser}>
                         Yes
-                    </Button>
+                    </button>
                 </Modal.Footer>
             </Modal>
 
                     <header className="jumbotron">
                         {error && <h3>{error}</h3>}
                         <div style={{margin: 10}}>
-                            <Button className="button_create" variant="dark" onClick={handleShowCreateUserModal}>
+                            <button className="primary_button" onClick={handleShowCreateUserModal}>
                                 Create User
-                            </Button>
+                            </button>
                         </div>
                         <DataTable
                             paginationPerPage={10}

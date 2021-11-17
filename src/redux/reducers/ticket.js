@@ -1,4 +1,4 @@
-import { ticketActions } from "../actions/ticket";
+import {ticketActions} from "../actions/ticket";
 
 const initialState = {
   message: null,

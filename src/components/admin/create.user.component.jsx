@@ -240,7 +240,7 @@ const CreateUserModal = () => {
                         </div>
 
                         <div className="form-group">
-                            <button className="btn btn-primary btn-block">Sign Up</button>
+                            <button className="primary_button btn-block">Sign Up</button>
                         </div>
                     </div>
                     }

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, {useState} from "react";
 import Form from "react-validation/build/form";
 import Input from "react-validation/build/input";
 import Select from "react-select";
@@ -38,10 +38,7 @@ const CreateTicketModal = (props) => {
   ];
 
 
-
-
-
-  const dispatch = useDispatch();
+    const dispatch = useDispatch();
 
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
@@ -135,11 +132,6 @@ const CreateTicketModal = (props) => {
   return (
     <div className="col-md-12">
       <div className="card card-container">
-        {/* <img
-          src="//ssl.gstatic.com/accounts/ui/avatar_2x.png"
-          alt="profile-img"
-          className="profile-img-card"
-        /> */}
 
         <Form
           onSubmit={handleCreateTicket}
@@ -212,13 +204,11 @@ const CreateTicketModal = (props) => {
                 />
               </div>
 
-              <div className="form-group">
-                <button className="btn btn-primary btn-block">
-                  Create ticket
-                </button>
-              </div>
-            </div>
-          )}
+                            <div className="form-group">
+                                <button className="primary_button btn-block">Create ticket</button>
+                            </div>
+                        </div>
+                    )}
 
           {message && (
             <div className="form-group">

@@ -8,55 +8,66 @@ import {getTicketList, setTicketId, deleteTicketById} from "../../redux/actions/
 import {selectTicketList, selectIsFetching} from "../../redux/selectors/ticket";
 import Loader from "react-loader-spinner";
 
+
 const TicketList = () => {
 
   const dispatch = useDispatch();
 
-    const [showCreateTicketModal, setShowCreateTicketModal] = useState(false);
-    const [showDeleteTicketModal, setShowDeleteTicketModal] = useState(false);
-    const [showViewTicketModal, setShowViewTicketModal] = useState(false);
-    const [showEditTicketModal, setShowEditTicketModal] = useState(false);
-    const [tickets, setTickets] = useState([]);
-    const [error, setError] = useState("");
-    const [ticketIdToDelete, setTicketIdToDelete] = useState("");
-    const [ticketTitleToDelete, setTicketTitleToDelete] = useState("");
-    const [ticketToView, setTicketToView] = useState([]);
-    const [loading, setLoading] = useState(true);
+  const [showCreateTicketModal, setShowCreateTicketModal] = useState(false);
+  const [showDeleteTicketModal, setShowDeleteTicketModal] = useState(false);
+  const [showViewTicketModal, setShowViewTicketModal] = useState(false);
+  const [showEditTicketModal, setShowEditTicketModal] = useState(false);
+  const [tickets, setTickets] = useState([]);
+  const [error, setError] = useState("");
+  const [ticketIdToDelete, setTicketIdToDelete] = useState("");
+  const [ticketTitleToDelete, setTicketTitleToDelete] = useState("");
+  const [ticketToView, setTicketToView] = useState([]);
+  const [loading, setLoading] = useState(true);
 
-    const ticketList = useSelector(selectTicketList);
-    const fetching = useSelector(selectIsFetching);
+  const ticketList = useSelector(selectTicketList);
+  const fetching = useSelector(selectIsFetching);
 
-    const columns = [
-        {
-            name: "Title",
-            selector: (row) => row.title,
-            sortable: true,
-        },
-        {
-            name: "Description",
-            selector: (row) => row.description,
-            sortable: true,
-        },
-        {
-            name: "Specialty",
-            selector: (row) => row.specialty,
-            sortable: true,
-        },
-        {
-            name: "Priority",
-            selector: (row) => row.priority,
-            sortable: true,
-        },
-        {
-            name: "Status",
-            selector: (row) => row.status,
-            sortable: true,
-        },
-        {
-            name: "Developer username",
-            selector: (row) => row.email,
-            sortable: true,
-        },
+  const columns = [
+    {
+      name: "Title",
+      selector: (row) => row.title,
+      sortable: true,
+    },
+    {
+      name: "Description",
+      selector: (row) => row.description,
+      sortable: true,
+    },
+    {
+      name: "Specialty",
+      selector: (row) => row.specialty,
+      sortable: true,
+    },
+    {
+      name: "Priority",
+      selector: (row) => row.priority,
+      sortable: true,
+    },
+    {
+      name: "Status",
+      selector: (row) => row.status,
+      sortable: true,
+    },
+    {
+      name: "Developer",
+      selector: (row) => row.developer,
+      sortable: true,
+    },
+    {
+      name: "Creator",
+      selector: (row) => row.creator,
+      sortable: true,
+    },
+    {
+      name: "Created date",
+      selector: (row) => row.createdDate,
+      sortable: true,
+    },
 
     {
       name: "View Ticket",

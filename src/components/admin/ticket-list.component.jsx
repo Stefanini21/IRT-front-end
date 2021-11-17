@@ -3,7 +3,6 @@ import { Button, Modal } from "react-bootstrap";
 import CreateTicketModal from "./create.ticket.component";
 import DataTable from "react-data-table-component";
 import ViewTicket from "./view.ticket.component";
-import EditTicketModal from "./edit.ticket.component";
 import {useDispatch, useSelector} from "react-redux";
 import {getTicketList, setTicketId, deleteTicketById} from "../../redux/actions/ticket";
 import {selectTicketList, selectIsFetching} from "../../redux/selectors/ticket";
@@ -93,6 +92,7 @@ const TicketList = () => {
   ];
 
   const handleEditTicketModal = (ticketToEdit) => {
+
     dispatch(setTicketId(ticketToEdit.id))
     setShowEditTicketModal(true)
     setTicketToView(ticketToEdit)
@@ -115,6 +115,7 @@ const TicketList = () => {
 
 
   const handleShowViewTicketModal = (ticketToView) => {
+    // setUserId(ticketToView.id)
     dispatch(setTicketId(ticketToView.id));
     setShowViewTicketModal(true);
     setTicketToView(ticketToView);
@@ -188,7 +189,9 @@ const TicketList = () => {
           <Modal.Title>Delete Ticket</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <EditTicketModal />
+          <div className="jumbotron">
+            <h4>Delete: <strong>{ticketTitleToDelete}</strong>?</h4>
+          </div>
         </Modal.Body>
         <Modal.Footer>
           <button className="tertiary_button" onClick={handleCloseDeleteTicketModal}>

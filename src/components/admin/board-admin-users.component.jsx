@@ -15,6 +15,7 @@ import {
     selectRoles
 } from "../../redux/selectors/user";
 import Loader from "react-loader-spinner";
+import { selectUserWithTasksFlag } from "../../redux/selectors/flag";
 
 const AdminUserList = () => {
 
@@ -36,6 +37,7 @@ const AdminUserList = () => {
     const fetching = useSelector(selectIsFetching);
     const specialties = useSelector(selectSpecialties);
     const roles = useSelector(selectRoles);
+    const isUserWithTasks = useSelector(selectUserWithTasksFlag);
 
     const columns = [
         {
@@ -141,12 +143,13 @@ const AdminUserList = () => {
 
     const handleDeleteUser = () => {
         console.log(userIdToDelete + " user with this id will be deleted")
+        
         dispatch(deleteUserById(userIdToDelete))
         .then(() => {
         //    setShowDeleteUserModal(false)
         //})
         dispatch(getUserList())})
-        setShowDeleteUserModal(false)
+        //setShowDeleteUserModal(false)
         //console.log(showDeleteUserModal)
     }
 
@@ -206,12 +209,19 @@ const AdminUserList = () => {
                 <Modal.Header closeButton="close_button">
                     <Modal.Title>Delete User</Modal.Title>
                 </Modal.Header>
-                <Modal.Body>
+                <Modal.Body>    
                     <div className="container">
-                    <div className="jumbotron">
-                        <h4>Delete: <strong>{userNameToDelete}</strong> ?</h4>
-                    </div>
+                        <div className="jumbotron">
+                            <h4>Delete: <strong>{userNameToDelete}</strong> ?</h4>
                         </div>
+                    </div>    
+                    {isUserWithTasks && (
+                        <div className="container">
+                            <div className={"alert alert-danger"} role="alert">
+                                Please, unassign tasks from this user before delete!
+                            </div>
+                        </div>
+                    )}
                 </Modal.Body>
                 <Modal.Footer>
                     <button className="tertiary_button" onClick={handleCloseDeleteUserModal}>

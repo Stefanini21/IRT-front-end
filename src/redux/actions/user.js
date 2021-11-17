@@ -14,7 +14,8 @@ export const userActions = {
     RECEIVE_DUPLICATE_ENTRY: "RECEIVE_DUPLICATE_ENTRY",
     DELETE_USER_BY_ID: "DELETE_USER_BY_ID",
     GET_SPECIALTIES: "GET_SPECIALTIES",
-    GET_ROLES: "GET_ROLES"
+    GET_ROLES: "GET_ROLES",
+    RECEIVE_USER_WITH_TASKS: "RECEIVE_USER_WITH_TASKS"
 }
 
 export const getSpecialties = () => (dispatch) => {
@@ -127,9 +128,15 @@ export const deleteUserById = (userId) => (dispatch) => {
 
     return HttpService.delete(url)
         .then(response => {
-            return dispatch({
-                type: userActions.DELETE_USER_BY_ID,
-                payload: response
-            })
+            if (response === 400) {
+                return dispatch({
+                    type: userActions.RECEIVE_USER_WITH_TASKS
+                })
+            } else {
+                return dispatch({
+                    type: userActions.DELETE_USER_BY_ID,
+                    payload: response
+                })
+            }
         })
 }

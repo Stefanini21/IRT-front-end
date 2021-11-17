@@ -4,7 +4,7 @@ import CreateTicketModal from "./create.ticket.component";
 import DataTable from "react-data-table-component";
 import ViewTicket from "./view.ticket.component";
 import {useDispatch, useSelector} from "react-redux";
-import {getTicketList, setTicketId, deleteTicketById} from "../../redux/actions/ticket";
+import {getTicketList, setTicketId, deleteTicketById, getStatuses, getPriorities} from "../../redux/actions/ticket";
 import {selectTicketList, selectIsFetching} from "../../redux/selectors/ticket";
 import Loader from "react-loader-spinner";
 import {getRoles, getSpecialties} from "../../redux/actions/user";
@@ -142,7 +142,9 @@ const TicketList = () => {
   useEffect(() =>{
     dispatch(getTicketList());
     dispatch(getSpecialties());
-    dispatch(getRoles());
+    dispatch(getStatuses());
+    dispatch(getPriorities());
+    //dispatch(getDevelopers());
   }, [])
 
     return <>

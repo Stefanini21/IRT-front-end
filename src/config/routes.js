@@ -5,6 +5,8 @@ export const routes = {
   LOGOUT_URL: "auth/logout",
   USER_BY_ID: "users/",
   TICKETS: "tickets/",
+  STATUSES: "statuses/",
+  PRIORITIES: "priorities/",
   CREATE_USER: "users/",
   ROLES: "roles",
   SPECIALTIES: "specialties",

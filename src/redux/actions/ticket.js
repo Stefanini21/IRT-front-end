@@ -12,7 +12,7 @@ import {
   DELETE_TICKET_BY_ID,
   SET_TICKET_ID,
   UPDATE_TICKET_BY_ID,
-  RECEIVE_DUPLICATE_TITLE,
+  RECEIVE_DUPLICATE_TITLE, GET_STATUSES, GET_PRIORITIES,
 
 } from "./types";
 import {userActions as ticketActions} from "./user";
@@ -150,3 +150,27 @@ export const updateTicketById = (ticketData, ticketId) => (dispatch) => {
         }
       })
 }
+
+export const getStatuses = () => (dispatch) => {
+  const url = routes.BASIC_URL + routes.BASIC_PATH + routes.TICKETS + routes.STATUSES
+
+  return HttpService.get(url)
+      .then(response => {
+        return dispatch({
+          type: GET_STATUSES,
+          payload: response
+        })
+      })
+}
+export const getPriorities = () => (dispatch) => {
+  const url = routes.BASIC_URL + routes.BASIC_PATH + routes.TICKETS + routes.PRIORITIES
+
+  return HttpService.get(url)
+      .then(response => {
+        return dispatch({
+          type: GET_PRIORITIES,
+          payload: response
+        })
+      })
+}
+

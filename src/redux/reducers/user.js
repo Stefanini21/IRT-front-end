@@ -4,6 +4,7 @@ import {selectRolesFetching} from "../selectors/user";
 const initialState = {
     userId: {},
     userById: {},
+    updatedUser: {},
     createdUser: {},
     isDeleted: false,
     userList: {},
@@ -16,6 +17,12 @@ const initialState = {
 
 export const user = (state = initialState, action) => {
     switch (action.type) {
+        case userActions.GET_USER_LIST:
+            const userList = action.payload
+            return {
+                ...state,
+                userList: userList
+            }
         case userActions.SET_USER_ID:
             return {
                 ...state,
@@ -33,10 +40,9 @@ export const user = (state = initialState, action) => {
                 createdUser: action.payload
             };
         case userActions.GET_USER_LIST:
-            const userList = action.payload
             return {
                 ...state,
-                userList: userList,
+                userList: action.payload,
                 isFetching: false
             };
         case userActions.DELETE_USER_BY_ID:

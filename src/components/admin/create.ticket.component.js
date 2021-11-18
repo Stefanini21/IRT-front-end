@@ -120,8 +120,7 @@ const CreateTicketModal = (props) => {
         .then(() => {
           setMessage(title + "ticket successfully registered!");
           setSuccessful(true);
-
-          this.props.handleCloseCreateTicketModal();
+          props.handleCloseCreateTicketModal();
         })
         .catch(() => {
           setSuccessful(false);

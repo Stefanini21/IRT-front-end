@@ -74,6 +74,9 @@ const Profile = () => {
                 <strong>Last Name : </strong> {currentUserData.lastName}
             </p>
             <p>
+                <strong>Username : </strong> {currentUserData.username}
+            </p>
+            <p>
                 <strong>Email : </strong> {currentUserData.email}
             </p>
             <p>

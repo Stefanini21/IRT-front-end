@@ -11,8 +11,12 @@ import {
   GET_TICKET_LIST,
   DELETE_TICKET_BY_ID,
   SET_TICKET_ID,
-  ASSIGN_TICKET_TO_USER
-} from "../actions/types";
+  ASSIGN_TICKET_TO_USER,
+  UPDATE_TICKET_BY_ID,
+  RECEIVE_DUPLICATE_TITLE, GET_STATUSES, GET_PRIORITIES,
+
+} from "./types";
+import {userActions as ticketActions} from "./user";
 
 export const createTicket = (newTicket) => (dispatch) => {
   const url = routes.BASIC_URL + routes.BASIC_PATH + routes.CREATE_TICKET;
@@ -141,3 +145,44 @@ export const assigneTicketToUser = (ticket, id) => (dispatch) => {
     });
   });
 };
+
+export const updateTicketById = (ticketData, ticketId) => (dispatch) => {
+  const url = routes.BASIC_URL + routes.BASIC_PATH + routes.TICKET_BY_ID + ticketId;
+
+  return HttpService.put(url, ticketData)
+      .then(response => {
+        if (response === 500) {
+          return dispatch({
+            type: RECEIVE_DUPLICATE_TITLE
+          })
+        } else {
+          return dispatch({
+            type: UPDATE_TICKET_BY_ID,
+            payload: response
+          })
+        }
+      })
+}
+
+export const getStatuses = () => (dispatch) => {
+  const url = routes.BASIC_URL + routes.BASIC_PATH + routes.TICKETS + routes.STATUSES
+
+  return HttpService.get(url)
+      .then(response => {
+        return dispatch({
+          type: GET_STATUSES,
+          payload: response
+        })
+      })
+}
+export const getPriorities = () => (dispatch) => {
+  const url = routes.BASIC_URL + routes.BASIC_PATH + routes.TICKETS + routes.PRIORITIES
+
+  return HttpService.get(url)
+      .then(response => {
+        return dispatch({
+          type: GET_PRIORITIES,
+          payload: response
+        })
+      })
+}

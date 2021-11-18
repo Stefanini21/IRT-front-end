@@ -1,6 +1,5 @@
 import React, {useEffect, useState} from "react";
 import {Button, CloseButton, Modal} from "react-bootstrap";
-import {deleteUser} from "../../actions/user";
 import CreateUserModal from "./create.user.component";
 import ViewUser from "./view.user.component";
 import DataTable from "react-data-table-component";
@@ -10,7 +9,6 @@ import EditUserModal from "./edit.user.component";
 import {
     selectUserList,
     selectIsFetching,
-    selectRolesFetching,
     selectSpecialties,
     selectRoles
 } from "../../redux/selectors/user";
@@ -156,7 +154,7 @@ const AdminUserList = () => {
 
 
     useEffect(() => {
-        dispatch(getUserList())
+        dispatch(getUserList());
         dispatch(getSpecialties());
         dispatch(getRoles());
     }, [])

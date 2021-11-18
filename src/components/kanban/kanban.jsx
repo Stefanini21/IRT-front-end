@@ -18,7 +18,7 @@ const Kanban = () => {
   return (
         <div style={{ paddingTop: "5px" }}>
           <h3>Ticket-board</h3>
-          <div style={{padding: "0 auto"}}>
+          <div style={{ justifyContent: "space-between", padding: "0 auto"}}>
             <KanbanBoard />
           </div>
         </div>

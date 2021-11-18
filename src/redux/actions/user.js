@@ -1,6 +1,7 @@
 import {routes} from "../../config/routes";
 import {HttpService} from "../../services/httpService";
-import {CREATE_USER_FAIL, CREATE_USER_SUCCESS, SET_MESSAGE} from "./types";
+import {CLEAR_MESSAGE, CREATE_USER_FAIL, CREATE_USER_SUCCESS, SET_MESSAGE} from "./types";
+import UserService from "../../services/user.service";
 
 export const userActions = {
     SET_USER_ID: "SET_USER_ID",
@@ -12,9 +13,13 @@ export const userActions = {
     UPDATE_USER_BY_ID: "UPDATE_USER_BY_ID",
     GET_USER_LIST: "GET_USER_LIST",
     RECEIVE_DUPLICATE_ENTRY: "RECEIVE_DUPLICATE_ENTRY",
+    UPDATE_PASSWORD_SUCCESS: "UPDATE_PASSWORD_SUCCESS",
+    FAIL_PASSWORD_UPDATE: "FAIL_PASSWORD_UPDATE",
+    SEND_EMAIL_SUCCESS: "SEND_EMAIL_SUCCESS",
+    FAIL_SEND_EMAIL: "FAIL_SEND_EMAIL",
     DELETE_USER_BY_ID: "DELETE_USER_BY_ID",
     GET_SPECIALTIES: "GET_SPECIALTIES",
-    GET_ROLES: "GET_ROLES"
+    GET_ROLES: "GET_ROLES",
 }
 
 export const getSpecialties = () => (dispatch) => {
@@ -29,6 +34,8 @@ export const getSpecialties = () => (dispatch) => {
         })
 }
 
+
+
 export const getRoles = () => (dispatch) => {
     const url = routes.BASIC_URL + routes.BASIC_PATH + routes.USER_BY_ID + routes.ROLES
 
@@ -40,6 +47,7 @@ export const getRoles = () => (dispatch) => {
             })
         })
 }
+
 
 export const setUserId = (userId) => (dispatch) => {
 
@@ -66,6 +74,82 @@ export const getUserList = () => (dispatch) => {
             })
         })
 }
+
+
+export const postEmail = (email) => (dispatch) => {
+
+    UserService.postEmail(email.toEmail)
+        .then((response) => {
+                dispatch({
+                    type: userActions.SEND_EMAIL_SUCCESS,
+                    payload: response.data
+                });
+                dispatch({
+                    type: CLEAR_MESSAGE,
+                });
+                return Promise.resolve();
+            },
+            (error) => {
+                const message =
+                    (error.response &&
+                        error.response.data &&
+                        error.response.data.message) ||
+                    error.message ||
+                    error.toString();
+
+                dispatch({
+                    type: userActions.FAIL_SEND_EMAIL,
+                });
+
+                dispatch({
+                    type: CLEAR_MESSAGE,
+                });
+
+
+                return Promise.reject();
+            }
+        );
+}
+
+
+export const changePassword = (passwordData) => (dispatch) => {
+    UserService.changePassword(passwordData.userId, passwordData.currentPassword, passwordData.newPassword, passwordData.newPasswordConfirmation)
+        .then((data) => {
+                dispatch({
+                    type: userActions.UPDATE_PASSWORD_SUCCESS,
+                    payload: data,
+                });
+                dispatch({
+                    type: SET_MESSAGE,
+                    payload: 'Successfully changed password!',
+                });
+                dispatch({
+                    type: CLEAR_MESSAGE,
+                });
+                return Promise.resolve();
+            },
+            (error) => {
+                const message =
+                    (error.response &&
+                        error.response.data &&
+                        error.response.data.message) ||
+                    error.message ||
+                    error.toString();
+
+                dispatch({
+                    type: userActions.FAIL_PASSWORD_UPDATE,
+                });
+
+                dispatch({
+                    type: CLEAR_MESSAGE,
+                });
+
+
+                return Promise.reject();
+            }
+        );
+}
+
 
 export const getUserById = (userId) => (dispatch) => {
     const url = routes.BASIC_URL + routes.BASIC_PATH + routes.USER_BY_ID + userId;

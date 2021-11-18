@@ -1,10 +1,14 @@
 import React from "react";
 
 const footerStyle = {
-    bottom: '0',
-    left: '0',
-    width: '100%',
-    padding: '1rem',
+    'background-color': 'green',
+    'border-top': '2px solid red',
+    'position': 'fixed',
+    'width': '100%',
+    'bottom': 0,
+    'color': 'white',
+    'font-size': '25px',
+    'background-image': 'linear-gradient(to bottom right, #3b6a9a, #80a9d1)'
 
 }
 
@@ -12,7 +16,7 @@ const Footer = () => {
     return (
         <div className="container">
             <footer className="py-5">
-                <div className="d-flex justify-content-between py-4 my-4 border-top" style={footerStyle}>
+                <div className="d-flex" style={footerStyle}>
                     <p>&copy; 2021 IRT powered by Stefanini, Inc. All rights reserved.</p>
                 </div>
             </footer>

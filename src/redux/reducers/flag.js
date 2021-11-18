@@ -1,11 +1,15 @@
 import {userActions} from "../actions/user";
 import {flagActions} from "../actions/flag";
+import {UPDATE_TICKET_BY_ID,
+    RECEIVE_DUPLICATE_TITLE} from "../actions/types"
 
 const initialState = {
     userDataLoaded: false,
     successfulCreated: false,
     userDataUpdated: false,
     isDuplicatedEntry: false,
+    ticketDataUpdated: false,
+    isDuplicatedTitle: false,
     withTasks: false
 }
 
@@ -42,6 +46,22 @@ export const flipFlag = (state = initialState, action) => {
                 ...state,
                 userDataUpdated: false,
                 isDuplicatedEntry: false
+            }
+        case UPDATE_TICKET_BY_ID:
+            return {
+                ...state,
+                ticketDataUpdated: true
+            };
+        case RECEIVE_DUPLICATE_TITLE:
+            return {
+                ...state,
+                isDuplicatedTitle: true
+            }
+        case flagActions.RESET_EDIT_TICKET_FLAGS:
+            return {
+                ...state,
+                ticketDataUpdated: false,
+                isDuplicatedTitle: false,
             }
         default:
             return state;

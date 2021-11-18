@@ -3,17 +3,15 @@ import Form from "react-validation/build/form";
 import Input from "react-validation/build/input";
 import {isEmail} from "validator";
 import {useDispatch, useSelector} from "react-redux";
-import {getSpecialties, getRoles, getUserById, updateUserById, userActions} from "../../redux/actions/user";
+import {getUserById, updateUserById, userActions} from "../../redux/actions/user";
 import {
     selectSpecialties,
     selectRoles,
     selectUserById,
     selectUserId,
-    selectRolesFetching, selectSpecialtiesFetching
 } from "../../redux/selectors/user";
 import {selectDuplicatedEntryFlag, selectUserUpdatedFlag} from "../../redux/selectors/flag";
 import {resetEditUserFlags} from "../../redux/actions/flag";
-import Loader from "react-loader-spinner";
 
 
 const required = (value) => {
@@ -67,7 +65,6 @@ const vlastname = value => {
 };
 
 
-
 const EditUserModal = (props) => {
 
     const dispatch = useDispatch();
@@ -77,9 +74,6 @@ const EditUserModal = (props) => {
     const duplicatedEntryFlag = useSelector(selectDuplicatedEntryFlag);
     const specialties = useSelector(selectSpecialties);
     const roles = useSelector(selectRoles);
-    const rolesFetching = useSelector(selectRolesFetching)
-    const specialtiesFetching = useSelector(selectSpecialtiesFetching)
-
 
     const [usernameForm, setUsername] = useState("");
     const [firstnameForm, setFirstName] = useState("");
@@ -90,25 +84,12 @@ const EditUserModal = (props) => {
     const [successful, setSuccessful] = useState(false);
     const [message, setMessage] = useState("");
     const [show, setShow] = useState(true);
-    const [loadingRoles, setLoadingRoles] = useState(true);
-    const [loadingSpecialties, setLoadingSpecialties] = useState(true);
 
-    const specialtyOptions = [
-        { value: "FRONTEND", label: "Front-end" },
-        { value: "BACKEND", label: "Back-end" }
-    ];
-
-    const roleOptions = [
-        { value: "USER", label: "User" },
-        { value: "DEVELOPER", label: "Developer" },
-        { value: "ADMIN", label: "Admin" }
-    ];
 
     useEffect(() => {
         dispatch(resetEditUserFlags())
         dispatch(getUserById(userId))
-        // dispatch(getSpecialties());
-        // dispatch(getRoles());
+
     }, [])
 
 
@@ -119,8 +100,6 @@ const EditUserModal = (props) => {
         setEmail(userById.email);
         setSpecialty(userById.specialty);
         setRole(userById.role);
-        setLoadingRoles(rolesFetching);
-        setLoadingSpecialties(specialtiesFetching);
     }, [userById])
 
     const handleClose = () => {
@@ -173,17 +152,7 @@ const EditUserModal = (props) => {
     }
 
     return <>
-    { loadingRoles && loadingSpecialties
-            ?
-                <Loader className="loader-spinner"
-                    type="TailSpin"
-                    color="#4e83b9"
-                    height={50}
-                    width={50}
-                />
-            :
-
-        (<div className="col-md-12">
+    <div className="col-md-12">
             <div className="card card-container">
                 <img
                     src="//ssl.gstatic.com/accounts/ui/avatar_2x.png"
@@ -191,10 +160,7 @@ const EditUserModal = (props) => {
                     className="profile-img-card"
                 />
 
-                <Form
-                    onSubmit={handleSubmit}
-
-                >
+                <Form onSubmit={handleSubmit}>
                     <div>
                         <div className="form-group">
                             <label htmlFor="username">Username</label>
@@ -207,7 +173,6 @@ const EditUserModal = (props) => {
                                 validations={[required, vusername]}
                             />
                         </div>
-
 
                         <div className="form-group">
                             <label htmlFor="firstname">First name</label>
@@ -266,7 +231,6 @@ const EditUserModal = (props) => {
                                 <select
                                     className="form-control"
                                     name="specialty"
-                                    options={specialtyOptions}
                                     defaultValue={specialtyForm}
                                     value={specialtyForm}
                                     onChange={onChangeSpecialty}>
@@ -305,9 +269,9 @@ const EditUserModal = (props) => {
                 </Form>
             </div>
         </div>
-    )} </>
+    </>
 }
 
 
 
-export default EditUserModal
+export default EditUserModal;

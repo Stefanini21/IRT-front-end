@@ -206,28 +206,45 @@ const AdminUserList = () => {
                 <Modal.Header closeButton="close_button">
                     <Modal.Title>Delete User</Modal.Title>
                 </Modal.Header>
-                <Modal.Body>    
-                    <div className="container">
+                <Modal.Body>
+
+                    <div className="card card-container">
                         <div className="jumbotron">
                             <h4>Delete: <strong>{userNameToDelete}</strong> ?</h4>
                         </div>
-                    </div>    
+                   
+                    <button className="primary_button btn-block" onClick={handleCloseDeleteUserModal}>
+                        No
+                    </button>
+                    <button className="primary_button btn-block" onClick={handleDeleteUser}>
+                        Yes
+                    </button>
+                    </div>
+
+                    {!isUserWithTasks && (
+                        <div className="card card-container">
+                            <div className={"alert alert-danger"} role="alert">
+                                User deleted!
+                            </div>
+                            <button className="primary_button btn-block" onClick={handleCloseDeleteUserModal}>
+                                OK
+                            </button>
+                        </div>
+                    )}
+                    
                     {isUserWithTasks && (
-                        <div className="container">
+                        <div className="card card-container">
                             <div className={"alert alert-danger"} role="alert">
                                 Please, unassign tasks from this user before delete!
                             </div>
+                            <button className="primary_button btn-block" onClick={handleCloseDeleteUserModal}>
+                                OK
+                            </button>
                         </div>
                     )}
+
                 </Modal.Body>
-                <Modal.Footer>
-                    <button className="tertiary_button" onClick={handleCloseDeleteUserModal}>
-                        No
-                    </button>
-                    <button className="secondary_button" onClick={handleDeleteUser}>
-                        Yes
-                    </button>
-                </Modal.Footer>
+                
             </Modal>
 
                     <header className="jumbotron">

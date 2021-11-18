@@ -1,17 +1,12 @@
 import React, {useEffect, useState} from "react";
-import {Button, CloseButton, Modal} from "react-bootstrap";
+import {Button, Modal} from "react-bootstrap";
 import CreateUserModal from "./create.user.component";
 import ViewUser from "./view.user.component";
 import DataTable from "react-data-table-component";
 import {useDispatch, useSelector} from "react-redux";
-import {getUserList, setUserId, getSpecialties, deleteUserById, getRoles} from "../../redux/actions/user";
+import {deleteUserById, getRoles, getSpecialties, getUserList, setUserId} from "../../redux/actions/user";
 import EditUserModal from "./edit.user.component";
-import {
-    selectUserList,
-    selectIsFetching,
-    selectSpecialties,
-    selectRoles
-} from "../../redux/selectors/user";
+import {selectIsFetching, selectRoles, selectSpecialties, selectUserList} from "../../redux/selectors/user";
 import Loader from "react-loader-spinner";
 import { selectUserWithTasksFlag } from "../../redux/selectors/flag";
 
@@ -163,11 +158,11 @@ const AdminUserList = () => {
     }, [])
 
     return <>
-        {loading ?  <Loader className="loader-spinner"
-                            type="TailSpin"
-                            color="#4f677f"
-                            height={50}
-                            width={50}
+        {loading ? <Loader className="loader-spinner"
+                           type="TailSpin"
+                           color="#4f677f"
+                           height={50}
+                           width={50}
             /> :
             (<div>
                     <Modal show={showCreateUserModal} onHide={handleCloseCreateUserModal}>
@@ -247,22 +242,22 @@ const AdminUserList = () => {
                 
             </Modal>
 
-                    <header className="jumbotron">
-                        {error && <h3>{error}</h3>}
-                        <div style={{margin: 10}}>
-                            <button className="primary_button" onClick={handleShowCreateUserModal}>
-                                Create User
-                            </button>
-                        </div>
-                        <DataTable
-                            paginationPerPage={10}
-                            paginationRowsPerPageOptions={[10, 25, 50]}
-                            title={'Users'}
-                            columns={columns}
-                            data={users}
-                            pagination={true}/>
-                    </header>
-                </div>)
+                <header className="jumbotron">
+                    {error && <h3>{error}</h3>}
+                    <div style={{margin: 10}}>
+                        <button className="primary_button" onClick={handleShowCreateUserModal}>
+                            Create User
+                        </button>
+                    </div>
+                    <DataTable
+                        paginationPerPage={10}
+                        paginationRowsPerPageOptions={[10, 25, 50]}
+                        title={'Users'}
+                        columns={columns}
+                        data={users}
+                        pagination={true}/>
+                </header>
+            </div>)
         }</>
 
 }

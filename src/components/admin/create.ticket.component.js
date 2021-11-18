@@ -5,7 +5,7 @@ import Select from "react-select";
 import CheckButton from "react-validation/build/button";
 import { useDispatch, useSelector } from "react-redux";
 import { createTicket, getAllUsersBySpecialty } from "../../redux/actions/ticket";
-import { getUserListBySpecialty, selectPriorities } from "../../redux/selectors/ticket";
+import { getUserListBySpecialty, selectPriorities, selectStatuses } from "../../redux/selectors/ticket";
 import { selectSpecialties } from "../../redux/selectors/user";
 import { getUserData } from "../../redux/selectors/auth";
 

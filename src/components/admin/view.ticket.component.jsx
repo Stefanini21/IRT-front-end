@@ -37,13 +37,13 @@ const ViewTicket = () => {
             <p>
                 <strong>Priority : </strong>
                 <Badge bg="warning">
-                     {ticketById.priority}
+                    {ticketById.priority}
                 </Badge>
             </p>
             <p>
                 <strong>Status : </strong>
                 <Badge bg="primary">
-                     {ticketById.status}
+                    {ticketById.status}
                 </Badge>
 
             </p>

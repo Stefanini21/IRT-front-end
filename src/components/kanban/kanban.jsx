@@ -6,51 +6,26 @@ import {
   changeTicketStatus,
   getTicketListForKanban,
 } from "../../redux/actions/ticket";
-import { getUserById } from "../../redux/actions/user";
 import { selectUserById } from "../../redux/selectors/user";
-import Loader from "react-loader-spinner";
-import {
-  selectUserList,
-  selectIsFetching,
-  selectRolesFetching,
-  selectSpecialties,
-  selectRoles,
-} from "../../redux/selectors/user";
 
 const Kanban = () => {
   const dispatch = useDispatch();
-  const fetching = useSelector(selectIsFetching);
-  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     dispatch(getTicketListForKanban());
-    setLoading(fetching);
   }, []);
 
   return (
-    // <>
-    //   {loading ? (
-    //     <Loader
-    //       className="loader-spinner"
-    //       type="TailSpin"
-    //       color="#4f677f"
-    //       height={50}
-    //       width={50}
-    //     />
-    //   ) : (
         <div style={{ paddingTop: "5px" }}>
           <h3>Ticket-board</h3>
-          <div style={{display: "flex", justifyContent: "space-between", padding: "0 auto"}}>
+          <div style={{ justifyContent: "space-between", padding: "0 auto"}}>
             <KanbanBoard />
           </div>
         </div>
-      // )}
-    // </>
   );
 };
 
 const KanbanBoard = (props) => {
-  const [isLoading, setIsLoading] = useState(true);
   const [projects, setProjects] = useState([]);
   const [draggedOverCol, setDraggedOverCol] = useState(0);
   const userData = useSelector(getUserData);
@@ -68,7 +43,6 @@ const KanbanBoard = (props) => {
 
   useEffect(() => {
     setProjects(tickets);
-    setIsLoading(false);
     tickets.forEach((element) => {
       console.log("element.status: " + element.status);
       switch (element.status) {
@@ -96,8 +70,6 @@ const KanbanBoard = (props) => {
 
   //this is called when a Kanban card is dragged over a column (called by column)
   const handleOnDragEnter = (e, stageValue) => {
-    // console.log("target: " + e.target);
-    // console.log("e.stageValue: " + stageValue);
     setDraggedOverCol(stageValue);
 
     switch (stageValue) {
@@ -123,17 +95,12 @@ const KanbanBoard = (props) => {
   };
 
   //this is called when a Kanban card dropped over a column (called by card)
-
   const handleOnDragEnd = (e, project) => {
     const updatedProjects = projects.slice(0);
     console.log(
       "in the start handleOnDragEnd project.project_stage: " +
         project.project_stage
     );
-    // console.log("project.title: " + project.title);
-    // console.log("draggedOverCol: " + draggedOverCol);
-    // console.log("e: " + e);
-    // console.log("currentUserData.role: " + currentUserData.role);
     const dOc = updatedProjects.find((projectObject) => {
       if (
         currentUserData.username === project.developer ||
@@ -151,7 +118,6 @@ const KanbanBoard = (props) => {
           project.project_stage === 3 &&
           draggedOverCol === 4
         ) {
-          // dispatch(closeTicket(project.id));
           return projectObject.title === project.title;
         } else if (
           (currentUserData.role === "USER" &&
@@ -160,13 +126,13 @@ const KanbanBoard = (props) => {
           (currentUserData.role === "USER" &&
             project.project_stage === 2 &&
             draggedOverCol === 3)
-          // && currentUserData.developer === project.developer
         ) {
           if (
             projectObject.developer === "" &&
             currentUserData.developer !== null
           ) {
             projectObject.developer === currentUserData.developer;
+            dispatch(assigneTicketToUser(project, currentUserData.id))
           }
           return projectObject.title === project.title;
         }
@@ -196,6 +162,7 @@ const KanbanBoard = (props) => {
             userData={userData}
             currentUserData={currentUserData}
           />
+          
         );
       })}
     </div>
@@ -264,7 +231,7 @@ const KanbanColumn = (props) => {
           backgroundColor: "#0C0032",
           padding: 8,
           color: "white",
-          margin: 0,
+          margin: "1px 3",
           marginBottom: 5,
         }}
       >
@@ -285,14 +252,14 @@ const KanbanCard = (props) => {
   const userById = useSelector(selectUserById);
   const dispatch = useDispatch();
 
-  const userNameByUserId = (id) => {
-    dispatch(getUserById(id));
-    const username = userById.username;
-    return username;
-  };
+  // const userNameByUserId = (id) => {
+  //   dispatch(getUserById(id));
+  //   const username = userById.username;
+  //   return username;
+  // };
 
   const changeCollapse = () => {
-    setCollapsed(!collapsed); //to do animated collapse
+    setCollapsed(!collapsed);
   };
 
   const cardStyle = {
@@ -573,6 +540,9 @@ const KanbanCard = (props) => {
           color: "#190061",
           paddingTop: 4,
           paddingBottom: 3,
+          borderBottom: "2px solid #d5ddf8",
+          borderLeft: "2px solid #d5ddf8",
+          borderRight: "2px solid #d5ddf8"
         }}
         onClick={changeCollapse}
       >
@@ -590,137 +560,5 @@ const KanbanCard = (props) => {
     </div>
   );
 };
-
-/*
- * Projects to be displayed on Kanban Board
- */
-let projectList = [
-  {
-    id: 1,
-    name: "Title ticket 1",
-    description:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam posuere dui vel urna egestas rutrum. ",
-    project_stage: 1,
-    creator: "aaa",
-    developer: "",
-  },
-  {
-    id: 2,
-    name: "Title ticket 2",
-    description:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam posuere dui vel urna egestas rutrum. ",
-    project_stage: 2,
-    creator: "aaa",
-    developer: "ccc",
-  },
-  {
-    id: 3,
-    name: "Title ticket 3",
-    description:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam posuere dui vel urna egestas rutrum. ",
-    project_stage: 1,
-    creator: "bbb",
-    developer: "",
-  },
-  {
-    id: 4,
-    name: "Title ticket 4",
-    description:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam posuere dui vel urna egestas rutrum. ",
-    project_stage: 2,
-    creator: "bbb",
-    developer: "nic",
-  },
-  {
-    id: 5,
-    name: "Title ticket 5",
-    description:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam posuere dui vel urna egestas rutrum. ",
-    project_stage: 3,
-    creator: "aaa",
-    developer: "nic",
-  },
-  {
-    id: 6,
-    name: "Title ticket 6",
-    description:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam posuere dui vel urna egestas rutrum. ",
-    project_stage: 3,
-    creator: "aaa",
-    developer: "ccc",
-  },
-  {
-    id: 7,
-    name: "Title ticket 7",
-    description:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam posuere dui vel urna egestas rutrum. ",
-    project_stage: 4,
-    creator: "vova",
-    developer: "ccc",
-  },
-  {
-    id: 8,
-    name: "Title ticket 8",
-    description:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam posuere dui vel urna egestas rutrum. ",
-    project_stage: 1,
-    creator: "aaa",
-    developer: "",
-  },
-  {
-    id: 9,
-    name: "Title ticket 9",
-    description:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam posuere dui vel urna egestas rutrum. ",
-    project_stage: 2,
-    creator: "aaa",
-    developer: "ccc",
-  },
-  {
-    id: 10,
-    name: "Title ticket 10",
-    description:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam posuere dui vel urna egestas rutrum. ",
-    project_stage: 1,
-    creator: "bbb",
-    developer: "",
-  },
-  {
-    id: 11,
-    name: "Title ticket 11",
-    description:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam posuere dui vel urna egestas rutrum. ",
-    project_stage: 2,
-    creator: "bbb",
-    developer: "nic",
-  },
-  {
-    id: 12,
-    name: "Title ticket 12",
-    description:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam posuere dui vel urna egestas rutrum. ",
-    project_stage: 3,
-    creator: "aaa",
-    developer: "nic",
-  },
-  {
-    id: 13,
-    name: "Title ticket 13",
-    description:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam posuere dui vel urna egestas rutrum. ",
-    project_stage: 3,
-    creator: "aaa",
-    developer: "ccc",
-  },
-  {
-    id: 14,
-    name: "Title ticket 14",
-    description:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam posuere dui vel urna egestas rutrum. ",
-    project_stage: 4,
-    creator: "vova",
-    developer: "ccc",
-  },
-];
 
 export default Kanban;

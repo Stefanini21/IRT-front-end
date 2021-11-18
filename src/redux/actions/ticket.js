@@ -11,6 +11,7 @@ import {
   GET_TICKET_LIST,
   DELETE_TICKET_BY_ID,
   SET_TICKET_ID,
+  ASSIGN_TICKET_TO_USER,
   UPDATE_TICKET_BY_ID,
   RECEIVE_DUPLICATE_TITLE, GET_STATUSES, GET_PRIORITIES,
 
@@ -75,7 +76,6 @@ export const setTicketId = (ticketId) => (dispatch) => {
 
 export const getTicketById = (ticketId) => (dispatch) => {
   const url = routes.BASIC_URL + routes.BASIC_PATH + routes.TICKETS + ticketId;
-
   return HttpService.get(url, ticketId).then((response) => {
     return dispatch({
       type: GET_TICKET_BY_ID,
@@ -133,6 +133,19 @@ export const changeTicketStatus = (id, status) => (dispatch) => {
   });
 };
 
+export const assigneTicketToUser = (ticket, id) => (dispatch) => {
+  const url =
+    routes.BASIC_URL + routes.BASIC_PATH + routes.ASSIGN_TICKET_TO_USER;
+    console.log("url: " + url)
+  return HttpService.put(url + ticket + "/" + id, {}).then((response) => {
+    console.log("in action assigneTicketToUser response: " + response.status);
+    return dispatch({
+      type: ASSIGN_TICKET_TO_USER,
+      payload: response,
+    });
+  });
+};
+
 export const updateTicketById = (ticketData, ticketId) => (dispatch) => {
   const url = routes.BASIC_URL + routes.BASIC_PATH + routes.TICKET_BY_ID + ticketId;
 
@@ -173,4 +186,3 @@ export const getPriorities = () => (dispatch) => {
         })
       })
 }
-

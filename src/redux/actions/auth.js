@@ -1,12 +1,14 @@
 import {routes} from "../../config/routes";
 import {HttpService} from "../../services/httpService";
 import AuthService from "../../services/auth.service";
-import {SET_MESSAGE} from "./types";
+import {CLEAR_MESSAGE, SET_MESSAGE} from "./types";
 
 export const AuthActions = {
     RECEIVE_USER_AUTH: "RECEIVE_USER_AUTH",
-    RECEIVE_USER_SIGNOUT: "RECEIVE_USER_SIGNOUT"
+    RECEIVE_USER_SIGNOUT: "RECEIVE_USER_SIGNOUT",
+    CHANGE_PASSWORD: "CHANGE_PASSWORD",
 }
+
 
 export const authUser = (userData, history) => (dispatch) => {
     AuthService.login(userData.email, userData.password)
@@ -14,6 +16,9 @@ export const authUser = (userData, history) => (dispatch) => {
                 dispatch({
                     type: AuthActions.RECEIVE_USER_AUTH,
                     payload: data,
+                });
+                dispatch({
+                    type: CLEAR_MESSAGE,
                 });
                 history.push("/home");
                 return Promise.resolve();

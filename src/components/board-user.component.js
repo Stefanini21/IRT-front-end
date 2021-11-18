@@ -1,12 +1,15 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Kanban from "./kanban/kanban";
+// import { useDispatch } from "react-redux";
+// import { getTicketListForKanban } from "../redux/actions/ticket";
 
 function User(props) {
-    return (
-        <div style={{margin: "0 auto"}}>
-            <Kanban/>
-        </div>
-    );
+
+  return (
+    <div>
+      <Kanban />
+    </div>
+  );
 }
 
 export default User;

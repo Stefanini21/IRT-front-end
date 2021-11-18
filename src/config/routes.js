@@ -6,12 +6,10 @@ export const routes = {
     USER_BY_ID: "users/",
     CREATE_USER: "users/",
     TICKET_BY_ID: "tickets/",
-    EMAIL_SEND: "/emails/reset-password"
-    BASIC_URL: "http://localhost:8080/",
+    EMAIL_SEND: "/emails/reset-password",
     TICKETS: "tickets/",
     STATUSES: "statuses/",
     PRIORITIES: "priorities/",
-    CREATE_USER: "users/",
     ROLES: "roles",
     SPECIALTIES: "specialties",
     USERS_BY_SPECIALTY: "users/specialty",

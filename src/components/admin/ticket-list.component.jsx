@@ -1,9 +1,7 @@
 import React, {useEffect, useState} from "react";
 import {Button, Modal} from "react-bootstrap";
-import TicketService from "../../services/ticket.service";
 import CreateTicketModal from "./create.ticket.component";
 import DataTable from "react-data-table-component";
-import {setTicketId} from "../../redux/actions/ticket";
 import ViewTicket from "./view.ticket.component";
 import {useDispatch, useSelector} from "react-redux";
 import {getTicketList, setTicketId, deleteTicketById, getStatuses, getPriorities} from "../../redux/actions/ticket";

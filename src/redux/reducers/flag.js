@@ -7,11 +7,10 @@ const initialState = {
     userDataLoaded: false,
     successfulCreated: false,
     userDataUpdated: false,
-    isDuplicatedEntry: false,
     successfulPasswordUpdated: false,
     successfulSendEmail: false,
     failSendEmail: false,
-    failPasswordUpdate: false
+    failPasswordUpdate: false,
     isDuplicatedEntry: false,
     ticketDataUpdated: false,
     isDuplicatedTitle: false,

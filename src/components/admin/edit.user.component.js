@@ -14,6 +14,7 @@ import {selectDuplicatedEntryFlag, selectUserUpdatedFlag} from "../../redux/sele
 import {
     resetEditUserFlags,
 } from "../../redux/actions/flag";
+import Loader from "react-loader-spinner";
 
 
 const required = (value) => {
@@ -90,6 +91,10 @@ const EditUserModal = () => {
     useEffect(() => {
         dispatch(resetEditUserFlags())
         dispatch(getUserById(userId))
+        setUsername("")
+        setFirstName("")
+        setEmail("")
+        setEmail("")
     }, [])
 
 
@@ -154,6 +159,14 @@ const EditUserModal = () => {
     }
 
     return <>
+        {(usernameForm === "" || firstnameForm === "" ||
+            lastnameForm === "" || emailForm ==="") ?
+            <Loader className="loader-spinner"
+                    type="TailSpin"
+                    color="#4f677f"
+                    height={50}
+                    width={50}
+            /> :
     <div className="col-md-12">
             <div className="card card-container">
                 <img
@@ -227,7 +240,6 @@ const EditUserModal = () => {
                                 </select>
                             </div>
 
-
                             <div className="form-group">
                                 <label htmlFor="specialty">Specialty</label>
                                 <select
@@ -274,6 +286,7 @@ const EditUserModal = () => {
                 </Form>
             </div>
         </div>
+        }
     </>
 }
 

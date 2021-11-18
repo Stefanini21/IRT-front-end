@@ -56,7 +56,7 @@ const EditTicketComponent = () => {
     const statuses = useSelector(selectStatuses);
     const priorities = useSelector(selectPriorities);
 
-    const [titleForm, setTitle] = useState("");
+    const [titleForm, setTitle] = useState(" ");
     const [descriptionForm, setDescription] = useState("");
     const [priorityForm, setPriority] = useState("");
     const [specialtyForm, setSpecialty] = useState("");
@@ -68,6 +68,8 @@ const EditTicketComponent = () => {
     useEffect(() => {
         dispatch(resetEditTicketFlags())
         dispatch(getTicketById(ticketId))
+        setTitle("")
+        setDescription("")
     }, [])
 
     useEffect(() => {
@@ -121,8 +123,15 @@ const EditTicketComponent = () => {
             .then(() => {
             setMessage('Ticket id: ' + ticketId + ' successfully updated!')});
     }
-    return <>
-            <div className="col-md-12">
+    return <div>
+            {(titleForm === "" || descriptionForm === "") ?
+                <Loader className="loader-spinner"
+                        type="TailSpin"
+                        color="#4f677f"
+                        height={50}
+                        width={50}
+                /> :
+                (<div className="col-md-12">
                 <div className="card card-container">
                     <Form onSubmit={handleSubmit}>
                         <div>
@@ -211,11 +220,12 @@ const EditTicketComponent = () => {
                             {/*    </select>*/}
                             {/*    <br/>*/}
                             {/*</div>*/}
+
                             {titleForm.length > 2 && titleForm.length < 31 &&
-                                descriptionForm.length > 2 && (
-                            <div className="form-group">
-                                <button className="primary_button btn-block">Update</button>
-                            </div>
+                            descriptionForm.length > 2 && (
+                                <div className="form-group">
+                                    <button className="primary_button btn-block">Update</button>
+                                </div>
                             )}
 
                             {duplicatedTitleFlag && (
@@ -236,11 +246,11 @@ const EditTicketComponent = () => {
                                 </div>
                             )}
 
-                        </div>
-                    </Form>
-                </div>
+                    </div>
+                </Form>
             </div>
-    </>
+        </div> )}
+    </div>
 }
 
 export default EditTicketComponent;

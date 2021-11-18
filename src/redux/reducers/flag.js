@@ -1,5 +1,7 @@
 import {userActions} from "../actions/user";
 import {flagActions} from "../actions/flag";
+import {UPDATE_TICKET_BY_ID,
+    RECEIVE_DUPLICATE_TITLE} from "../actions/types"
 
 const initialState = {
     userDataLoaded: false,
@@ -10,6 +12,9 @@ const initialState = {
     successfulSendEmail: false,
     failSendEmail: false,
     failPasswordUpdate: false
+    isDuplicatedEntry: false,
+    ticketDataUpdated: false,
+    isDuplicatedTitle: false,
 }
 
 export const flipFlag = (state = initialState, action) => {
@@ -61,6 +66,22 @@ export const flipFlag = (state = initialState, action) => {
             return {
                 ...initialState,
                 failSendEmail: true
+            }
+        case UPDATE_TICKET_BY_ID:
+            return {
+                ...state,
+                ticketDataUpdated: true
+            };
+        case RECEIVE_DUPLICATE_TITLE:
+            return {
+                ...state,
+                isDuplicatedTitle: true
+            }
+        case flagActions.RESET_EDIT_TICKET_FLAGS:
+            return {
+                ...state,
+                ticketDataUpdated: false,
+                isDuplicatedTitle: false,
             }
         default:
             return state;

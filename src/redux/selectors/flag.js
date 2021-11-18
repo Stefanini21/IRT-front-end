@@ -5,4 +5,5 @@ export const selectSuccessfulPasswordUpdateFlag = (state) => state.flipFlag.succ
 export const selectSuccessfulPasswordSendFlag = (state) => state.flipFlag.successfulSendEmail;
 export const selectFailPasswordSendFlag = (state) => state.flipFlag.failSendEmail;
 export const selectFailPasswordUpdateFlag = (state) => state.flipFlag.failPasswordUpdate;
-
+export const selectTicketUpdatedFlag = (state) => state.flipFlag.ticketDataUpdated;
+export const selectDuplicatedTitleFlag = (state) => state.flipFlag.isDuplicatedTitle;

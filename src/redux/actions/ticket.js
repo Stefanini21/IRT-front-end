@@ -1,91 +1,176 @@
-import TicketService from "../../services/ticket.service";
-import {CREATE_TICKET_FAIL, CREATE_TICKET_SUCCESS, SET_MESSAGE} from "./types";
-import {routes} from "../../config/routes";
-import {HttpService} from "../../services/httpService";
-import {userActions} from "./user";
+import { routes } from "../../config/routes";
+import { HttpService } from "../../services/httpService";
+import {
+  CHANGE_TICKET_STATUS,
+  GET_ALL_TICKETS_FOR_KANBAN,
+  CREATE_TICKET_SUCCESS,
+  SELECTED_SPECIALTY,
+  CREATE_TICKET_FAIL,
+  SET_MESSAGE,
+  GET_TICKET_BY_ID,
+  GET_TICKET_LIST,
+  DELETE_TICKET_BY_ID,
+  SET_TICKET_ID,
+  UPDATE_TICKET_BY_ID,
+  RECEIVE_DUPLICATE_TITLE, GET_STATUSES, GET_PRIORITIES,
 
+} from "./types";
+import {userActions as ticketActions} from "./user";
 
-export const ticketActions = {
-    SET_TICKET_ID: "SET_TICKET_ID",
-    GET_TICKET_BY_ID: "GET_TICKET_BY_ID",
+export const createTicket = (newTicket) => (dispatch) => {
+  const url = routes.BASIC_URL + routes.BASIC_PATH + routes.CREATE_TICKET;
+  return HttpService.post(url, newTicket).then(
+    (response) => {
+      dispatch({
+        type: CREATE_TICKET_SUCCESS,
+        payload: response.data,
+      });
 
-}
+      dispatch({
+        type: ticketActions.SET_MESSAGE,
+        payload: response.data.message,
+      });
 
-export const setTicketId = (ticketId) => (dispatch) => {
-    return dispatch({
-        type: ticketActions.SET_TICKET_ID,
-        payload: ticketId
-    })
-}
+      return Promise.resolve();
+    },
+    (error) => {
+      const message =
+        (error.response &&
+          error.response.data &&
+          error.response.data.message) ||
+        error.message ||
+        error.toString();
 
-export const getTicketById = (ticketId) => (dispatch) => {
-    const url = routes.BASIC_URL + routes.BASIC_PATH + routes.TICKET_BY_ID + ticketId;
+      dispatch({
+        type: CREATE_TICKET_FAIL,
+      });
 
-    return HttpService.get(url, ticketId)
-        .then(response => {
-            return dispatch({
-                type: ticketActions.GET_TICKET_BY_ID,
-                payload: response
-            })
-        })
-}
+      dispatch({
+        type: SET_MESSAGE,
+        payload: message,
+      });
 
-export const createTicket =
-    (title, description, priority, specialty, status, developer) =>
-        (dispatch) => {
-            return TicketService.createTicket(
-                title,
-                description,
-                priority,
-                specialty,
-                status,
-                developer
-            ).then(
-                (response) => {
-                    dispatch({
-                        type: CREATE_TICKET_SUCCESS,
-                        payload: response.data,
-                    });
-
-                    dispatch({
-                        type: SET_MESSAGE,
-                        payload: response.data.message,
-                    });
-
-                    return Promise.resolve();
-                },
-                (error) => {
-                    const message =
-                        (error.response &&
-                            error.response.data &&
-                            error.response.data.message) ||
-                        error.message ||
-                        error.toString();
-
-                    dispatch({
-                        type: CREATE_TICKET_FAIL,
-                    });
-
-                    dispatch({
-                        type: SET_MESSAGE,
-                        payload: message,
-                    });
-
-                    return Promise.reject();
-                }
-            );
-        };
+      return Promise.reject();
+    }
+  );
+};
 
 export const getAllUsersBySpecialty = (specialty) => (dispatch) => {
-    const url = routes.BASIC_URL + routes.BASIC_PATH + routes.USER_BY_ID + userId;
-    console.log(userId + " this is userid")
-    console.log(url + " urlllll")
+  const url = routes.BASIC_URL + routes.BASIC_PATH + routes.USERS_BY_SPECIALTY;
 
-    return HttpService.get(url, userId)
-        .then(response => {
-            return dispatch({
-                type: userActions.GET_USER_BY_ID,
-                payload: response
-            })
-        })
+  return HttpService.get(url + "/" + specialty, {}).then((response) => {
+    return dispatch({
+      type: SELECTED_SPECIALTY,
+      payload: response,
+    });
+  });
+};
+
+export const setTicketId = (ticketId) => (dispatch) => {
+  return dispatch({
+    type: SET_TICKET_ID,
+    payload: ticketId,
+  });
+};
+
+export const getTicketById = (ticketId) => (dispatch) => {
+  const url = routes.BASIC_URL + routes.BASIC_PATH + routes.TICKETS + ticketId;
+
+  return HttpService.get(url, ticketId).then((response) => {
+    return dispatch({
+      type: GET_TICKET_BY_ID,
+      payload: response,
+    });
+  });
+};
+
+export const getTicketList = () => (dispatch) => {
+  const url = routes.BASIC_URL + routes.BASIC_PATH + routes.TICKETS;
+
+  return HttpService.get(url).then((response) => {
+    return dispatch({
+      type: GET_TICKET_LIST,
+      payload: response,
+    });
+  });
+};
+
+export const deleteTicketById = (ticketId) => (dispatch) => {
+  const url =
+    routes.BASIC_URL + routes.BASIC_PATH + routes.TICKET_BY_ID + ticketId;
+
+  console.log(ticketId + " this is id inside delete function");
+  console.log(url + " this is url inside delete function");
+
+  return HttpService.delete(url).then((response) => {
+    return dispatch({
+      type: DELETE_TICKET_BY_ID,
+      payload: response,
+    });
+  });
+};
+
+export const getTicketListForKanban = () => (dispatch) => {
+  const url =
+    routes.BASIC_URL + routes.BASIC_PATH + routes.ALL_TICKETS_FOR_KANBAN;
+  return HttpService.get(url, {}).then((response) => {
+    return dispatch({
+      type: GET_ALL_TICKETS_FOR_KANBAN,
+      payload: response,
+    });
+  });
+};
+
+export const changeTicketStatus = (id, status) => (dispatch) => {
+  const url =
+    routes.BASIC_URL + routes.BASIC_PATH + routes.CHANGE_TICKET_STATUS;
+  return HttpService.put(url + id + "/" + status, {}).then((response) => {
+    console.log("in action changeTicketStatus response: " + response.status);
+    return dispatch({
+      type: CHANGE_TICKET_STATUS,
+      payload: response,
+    });
+  });
+};
+
+export const updateTicketById = (ticketData, ticketId) => (dispatch) => {
+  const url = routes.BASIC_URL + routes.BASIC_PATH + routes.TICKET_BY_ID + ticketId;
+
+  return HttpService.put(url, ticketData)
+      .then(response => {
+        if (response === 500) {
+          return dispatch({
+            type: RECEIVE_DUPLICATE_TITLE
+          })
+        } else {
+          return dispatch({
+            type: UPDATE_TICKET_BY_ID,
+            payload: response
+          })
+        }
+      })
 }
+
+export const getStatuses = () => (dispatch) => {
+  const url = routes.BASIC_URL + routes.BASIC_PATH + routes.TICKETS + routes.STATUSES
+
+  return HttpService.get(url)
+      .then(response => {
+        return dispatch({
+          type: GET_STATUSES,
+          payload: response
+        })
+      })
+}
+export const getPriorities = () => (dispatch) => {
+  const url = routes.BASIC_URL + routes.BASIC_PATH + routes.TICKETS + routes.PRIORITIES
+
+  return HttpService.get(url)
+      .then(response => {
+        return dispatch({
+          type: GET_PRIORITIES,
+          payload: response
+        })
+      })
+}
+

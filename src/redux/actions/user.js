@@ -19,10 +19,41 @@ export const userActions = {
     FAIL_SEND_EMAIL: "FAIL_SEND_EMAIL"
 
 
+    RECEIVE_DUPLICATE_ENTRY: "RECEIVE_DUPLICATE_ENTRY",
+    DELETE_USER_BY_ID: "DELETE_USER_BY_ID",
+    GET_SPECIALTIES: "GET_SPECIALTIES",
+    GET_ROLES: "GET_ROLES",
+}
+
+export const getSpecialties = () => (dispatch) => {
+    const url = routes.BASIC_URL + routes.BASIC_PATH + routes.USER_BY_ID + routes.SPECIALTIES
+
+    return HttpService.get(url)
+        .then(response => {
+            return dispatch({
+                type: userActions.GET_SPECIALTIES,
+                payload: response
+            })
+        })
+}
+
+
+
+export const getRoles = () => (dispatch) => {
+    const url = routes.BASIC_URL + routes.BASIC_PATH + routes.USER_BY_ID + routes.ROLES
+
+    return HttpService.get(url)
+        .then(response => {
+            return dispatch({
+                type: userActions.GET_ROLES,
+                payload: response
+            })
+        })
 }
 
 
 export const setUserId = (userId) => (dispatch) => {
+
     return dispatch({
         type: userActions.SET_USER_ID,
         payload: userId
@@ -31,7 +62,7 @@ export const setUserId = (userId) => (dispatch) => {
 
 export const closeModal = () => (dispatch) => {
     return dispatch({
-        type: userActions.CLOSE_MODAL,
+        type: userActions.CLOSE_MODAL
     })
 }
 
@@ -135,6 +166,7 @@ export const getUserById = (userId) => (dispatch) => {
         })
 }
 
+
 export const createUser = (newUser) => (dispatch) => {
     const url = routes.BASIC_URL + routes.BASIC_PATH + routes.CREATE_USER;
 
@@ -172,4 +204,18 @@ export const updateUserById = (userData, userId) => (dispatch) => {
                 })
             }
         })
-};
+}
+
+export const deleteUserById = (userId) => (dispatch) => {
+    const url = routes.BASIC_URL + routes.BASIC_PATH + routes.USER_BY_ID + userId;
+    console.log(userId + " this is id inside delete function")
+    console.log(url + " this is url inside delete function")
+
+    return HttpService.delete(url)
+        .then(response => {
+            return dispatch({
+                type: userActions.DELETE_USER_BY_ID,
+                payload: response
+            })
+        })
+}

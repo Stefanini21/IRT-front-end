@@ -35,7 +35,7 @@ export class HttpService {
 
     static async delete(url, requestParams) {
         try {
-            return await request(url, "DELETE", requestParams);
+            return await request(url, "DELETE", requestParams, true);
         } catch (e) {
             console.log("Error on DELETE request: ", e);
             throw e;
@@ -47,6 +47,14 @@ export class HttpService {
             return await request(url, "POST", {}, true);
         } catch (e) {
             console.log("Error on POST request: ", e);
+            throw e;
+        }
+    }
+
+    static async getSpecialties() {
+        try {
+            return await request("http://localhost:8080/api/users/specialties", "GET", {})
+        } catch (e) {
             throw e;
         }
     }

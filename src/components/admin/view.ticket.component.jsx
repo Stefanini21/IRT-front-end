@@ -13,7 +13,9 @@ const ViewTicket = () => {
     const dispatch = useDispatch();
 
     useEffect(() => {
-        dispatch(getTicketById(ticketId))
+        dispatch(getTicketById(ticketId));
+        console.log("ticketId: " + ticketId);
+
     }, [])
 
     return (

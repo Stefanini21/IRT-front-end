@@ -3,8 +3,13 @@ import Form from "react-validation/build/form";
 import Input from "react-validation/build/input";
 import {isEmail} from "validator";
 import {useDispatch, useSelector} from "react-redux";
-import {getUserById, updateUserById} from "../../redux/actions/user";
-import {selectUserById, selectUserId} from "../../redux/selectors/user";
+import {getUserById, updateUserById, userActions} from "../../redux/actions/user";
+import {
+    selectSpecialties,
+    selectRoles,
+    selectUserById,
+    selectUserId,
+} from "../../redux/selectors/user";
 import {selectDuplicatedEntryFlag, selectUserUpdatedFlag} from "../../redux/selectors/flag";
 import {resetEditUserFlags} from "../../redux/actions/flag";
 
@@ -29,6 +34,15 @@ const vemail = (value) => {
     }
 };
 
+const vusername = (value) => {
+    if (value.length < 3 || value.length > 20) {
+        return (
+            <div className="alert alert-danger" role="alert">
+                The username must be between 3 and 20 characters.
+            </div>
+        );
+    }
+};
 
 const vfirstname = value => {
     if (value.length < 1 || value.length > 20) {
@@ -51,7 +65,6 @@ const vlastname = value => {
 };
 
 
-
 const EditUserModal = (props) => {
 
     const dispatch = useDispatch();
@@ -59,6 +72,8 @@ const EditUserModal = (props) => {
     const userById = useSelector(selectUserById);
     const userUpdateSuccess = useSelector(selectUserUpdatedFlag);
     const duplicatedEntryFlag = useSelector(selectDuplicatedEntryFlag);
+    const specialties = useSelector(selectSpecialties);
+    const roles = useSelector(selectRoles);
 
     const [usernameForm, setUsername] = useState("");
     const [firstnameForm, setFirstName] = useState("");
@@ -66,11 +81,15 @@ const EditUserModal = (props) => {
     const [emailForm, setEmail] = useState("");
     const [specialtyForm, setSpecialty] = useState("");
     const [roleForm, setRole] = useState("");
+    const [successful, setSuccessful] = useState(false);
     const [message, setMessage] = useState("");
+    const [show, setShow] = useState(true);
+
 
     useEffect(() => {
         dispatch(resetEditUserFlags())
         dispatch(getUserById(userId))
+
     }, [])
 
 
@@ -81,8 +100,11 @@ const EditUserModal = (props) => {
         setEmail(userById.email);
         setSpecialty(userById.specialty);
         setRole(userById.role);
-
     }, [userById])
+
+    const handleClose = () => {
+        setShow(false)
+    }
 
     const onChangeUsername = (e) => {
         setUsername(e.target.value)
@@ -129,8 +151,8 @@ const EditUserModal = (props) => {
             });
     }
 
-    return (
-        <div className="col-md-12">
+    return <>
+    <div className="col-md-12">
             <div className="card card-container">
                 <img
                     src="//ssl.gstatic.com/accounts/ui/avatar_2x.png"
@@ -138,10 +160,7 @@ const EditUserModal = (props) => {
                     className="profile-img-card"
                 />
 
-                <Form
-                    onSubmit={handleSubmit}
-
-                >
+                <Form onSubmit={handleSubmit}>
                     <div>
                         <div className="form-group">
                             <label htmlFor="username">Username</label>
@@ -151,10 +170,9 @@ const EditUserModal = (props) => {
                                 name="username"
                                 value={usernameForm}
                                 onChange={onChangeUsername}
-                                validations={[required]}
+                                validations={[required, vusername]}
                             />
                         </div>
-
 
                         <div className="form-group">
                             <label htmlFor="firstname">First name</label>
@@ -192,37 +210,41 @@ const EditUserModal = (props) => {
                             />
                         </div>
 
-                        <div>
-                            <label htmlFor="role">Role</label>
-                            <select
-                                className="form-control"
-                                name="role"
-                                defaultValue={roleForm}
-                                value={roleForm}
-                                onChange={onChangeRole}>
-                                <option value="USER">User</option>
-                                <option value="DEVELOPER">Developer</option>
-                                <option value="ADMIN">Admin</option>
-                            </select>
-                        </div>
+                        <div className="form-group">
+                                <label htmlFor="role">Role</label>
+                                <select
+                                    className="form-control"
+                                    name="role"
+                                    defaultValue={roleForm}
+                                    value={roleForm}
+                                    validations={[required]}
+                                    onChange={onChangeRole}>
+                                    {roles.map((r, i) =>
+                                        <option value={r}>{r}</option>
+                                    )}
+                                </select>
+                            </div>
 
-                        <div>
-                            <label htmlFor="specialty">Specialty</label>
-                            <select
-                                className="form-control"
-                                name="specialty"
-                                defaultValue={specialtyForm}
-                                value={specialtyForm}
-                                onChange={onChangeSpecialty}>
-                                <option value="NONE"></option>
-                                <option value="BACKEND">BackEnd</option>
-                                <option value="FRONTEND">FrontEnd</option>
-                            </select>
-                            <br/>
-                        </div>
+
+                            <div className="form-group">
+                                <label htmlFor="specialty">Specialty</label>
+                                <select
+                                    className="form-control"
+                                    name="specialty"
+                                    defaultValue={specialtyForm}
+                                    value={specialtyForm}
+                                    onChange={onChangeSpecialty}>
+                                    validations={[required]}
+                                    {specialties.map((s, i) =>
+                                        <option value={s}>{s}</option>
+                                    )}
+                                </select>
+                                <br/>
+                            </div>
+
 
                         <div className="form-group">
-                            <button className="btn btn-primary btn-block">Update</button>
+                            <button className="primary_button btn-block">Update</button>
                         </div>
                     </div>
 
@@ -247,9 +269,9 @@ const EditUserModal = (props) => {
                 </Form>
             </div>
         </div>
-    );
-
+    </>
 }
 
 
-export default EditUserModal
+
+export default EditUserModal;

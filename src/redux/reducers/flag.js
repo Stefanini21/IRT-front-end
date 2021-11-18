@@ -7,6 +7,10 @@ const initialState = {
     userDataLoaded: false,
     successfulCreated: false,
     userDataUpdated: false,
+    successfulPasswordUpdated: false,
+    successfulSendEmail: false,
+    failSendEmail: false,
+    failPasswordUpdate: false,
     isDuplicatedEntry: false,
     ticketDataUpdated: false,
     isDuplicatedTitle: false,
@@ -40,6 +44,27 @@ export const flipFlag = (state = initialState, action) => {
                 ...state,
                 userDataUpdated: false,
                 isDuplicatedEntry: false
+            }
+        case userActions.UPDATE_PASSWORD_SUCCESS:
+            return {
+                ...initialState,
+                successfulPasswordUpdated: true
+            }
+        case userActions.FAIL_PASSWORD_UPDATE:
+            return {
+                ...initialState,
+                failPasswordUpdate: true
+            }
+
+        case userActions.SEND_EMAIL_SUCCESS:
+            return {
+                ...initialState,
+                successfulSendEmail: true
+            }
+        case userActions.FAIL_SEND_EMAIL:
+            return {
+                ...initialState,
+                failSendEmail: true
             }
         case UPDATE_TICKET_BY_ID:
             return {

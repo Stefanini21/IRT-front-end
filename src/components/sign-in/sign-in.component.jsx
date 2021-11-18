@@ -3,7 +3,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {authUser} from "../../redux/actions/auth";
 import Form from "react-validation/build/form";
 import Input from "react-validation/build/input";
-import {useHistory} from "react-router-dom";
+import {Link, useHistory} from "react-router-dom";
 import {getMessage} from "../../redux/selectors/message";
 
 
@@ -91,6 +91,11 @@ const SignIn = () => {
                     )}
 
                 </Form>
+
+                <p className="forgot-password text-right">
+                    <Link to={'/forgot'}>Forgot password ?</Link>
+                </p>
+
             </div>
         </div>
     );

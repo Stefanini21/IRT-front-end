@@ -81,6 +81,7 @@ const EditTicketComponent = () => {
 
     const onChangeTitle = (e) => {
         setTitle(e.target.value)
+        dispatch(resetEditTicketFlags())
     }
 
     const onChangeDescription = (e) => {

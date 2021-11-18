@@ -108,6 +108,7 @@ const EditUserModal = () => {
 
     const onChangeUsername = (e) => {
         setUsername(e.target.value)
+        dispatch(resetEditUserFlags())
     }
 
     const onChangeFirstName = (e) => {
@@ -129,6 +130,7 @@ const EditUserModal = () => {
 
     const onChangeEmail = (e) => {
         setEmail(e.target.value)
+        dispatch(resetEditUserFlags())
     }
 
     const handleSubmit = (e) => {

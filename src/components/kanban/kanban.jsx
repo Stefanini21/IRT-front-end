@@ -160,13 +160,13 @@ const KanbanBoard = (props) => {
           (currentUserData.role === "USER" &&
             project.project_stage === 2 &&
             draggedOverCol === 3)
-          // && currentUserData.developer === project.developer
         ) {
           if (
             projectObject.developer === "" &&
             currentUserData.developer !== null
           ) {
             projectObject.developer === currentUserData.developer;
+            dispatch(assigneTicketToUser(project, currentUserData.id))
           }
           return projectObject.title === project.title;
         }
@@ -196,6 +196,7 @@ const KanbanBoard = (props) => {
             userData={userData}
             currentUserData={currentUserData}
           />
+          
         );
       })}
     </div>
@@ -264,7 +265,7 @@ const KanbanColumn = (props) => {
           backgroundColor: "#0C0032",
           padding: 8,
           color: "white",
-          margin: 0,
+          margin: "1px 3",
           marginBottom: 5,
         }}
       >
@@ -573,6 +574,9 @@ const KanbanCard = (props) => {
           color: "#190061",
           paddingTop: 4,
           paddingBottom: 3,
+          borderBottom: "2px solid #d5ddf8",
+          borderLeft: "2px solid #d5ddf8",
+          borderRight: "2px solid #d5ddf8"
         }}
         onClick={changeCollapse}
       >

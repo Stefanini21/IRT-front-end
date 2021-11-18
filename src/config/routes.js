@@ -12,5 +12,6 @@ export const routes = {
   CREATE_TICKET: "tickets/",
   TICKET_BY_ID: "tickets/",
   ALL_TICKETS_FOR_KANBAN: "tickets/kanban",
-  CHANGE_TICKET_STATUS: "tickets/"
+  CHANGE_TICKET_STATUS: "tickets/",
+  ASSIGN_TICKET_TO_USER: "tickets/"
 };

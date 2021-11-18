@@ -10,7 +10,8 @@ import {
   GET_TICKET_BY_ID,
   GET_TICKET_LIST,
   DELETE_TICKET_BY_ID,
-  SET_TICKET_ID
+  SET_TICKET_ID,
+  ASSIGN_TICKET_TO_USER
 } from "../actions/types";
 
 export const createTicket = (newTicket) => (dispatch) => {
@@ -123,6 +124,19 @@ export const changeTicketStatus = (id, status) => (dispatch) => {
     console.log("in action changeTicketStatus response: " + response.status);
     return dispatch({
       type: CHANGE_TICKET_STATUS,
+      payload: response,
+    });
+  });
+};
+
+export const assigneTicketToUser = (ticket, id) => (dispatch) => {
+  const url =
+    routes.BASIC_URL + routes.BASIC_PATH + routes.ASSIGN_TICKET_TO_USER;
+    console.log("url: " + url)
+  return HttpService.put(url + ticket + "/" + id, {}).then((response) => {
+    console.log("in action assigneTicketToUser response: " + response.status);
+    return dispatch({
+      type: ASSIGN_TICKET_TO_USER,
       payload: response,
     });
   });

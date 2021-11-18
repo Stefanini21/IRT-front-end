@@ -202,6 +202,7 @@ const EditTicketComponent = () => {
                                         <option value={s}>{s}</option>
                                     )}
                                 </select>
+                                <br/>
                             </div>
 
 
@@ -222,11 +223,16 @@ const EditTicketComponent = () => {
                             {/*</div>*/}
 
                             {titleForm.length > 2 && titleForm.length < 31 &&
-                            descriptionForm.length > 2 && (
+                            descriptionForm.length > 2 ? (
                                 <div className="form-group">
                                     <button className="primary_button btn-block">Update</button>
                                 </div>
-                            )}
+                            )
+                                :
+                                <div className="form-group">
+                                    <button disabled className="primary_button btn-block">Update</button>
+                                </div>
+                            }
 
                             {duplicatedTitleFlag && (
                                 <div className="form-group">

@@ -259,10 +259,15 @@ const EditUserModal = () => {
                         {usernameForm.length > 2 && usernameForm.length < 21 &&
                         firstnameForm.length > 2 && firstnameForm.length <21 &&
                         lastnameForm.length > 2 && lastnameForm.length < 21 &&
-                        isEmail(emailForm) && (
+                        isEmail(emailForm) ? (
                         <div className="form-group">
                             <button className="primary_button btn-block">Update</button>
-                        </div>)}
+                        </div>)
+                        :
+                            <div className="form-group">
+                                <button disabled className="primary_button btn-block">Update</button>
+                            </div>
+                        }
                     </div>
 
 

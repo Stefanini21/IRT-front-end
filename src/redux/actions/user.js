@@ -14,7 +14,7 @@ export const userActions = {
     RECEIVE_DUPLICATE_ENTRY: "RECEIVE_DUPLICATE_ENTRY",
     DELETE_USER_BY_ID: "DELETE_USER_BY_ID",
     GET_SPECIALTIES: "GET_SPECIALTIES",
-    GET_ROLES: "GET_ROLES"
+    GET_ROLES: "GET_ROLES",
 }
 
 export const getSpecialties = () => (dispatch) => {
@@ -28,6 +28,8 @@ export const getSpecialties = () => (dispatch) => {
             })
         })
 }
+
+
 
 export const getRoles = () => (dispatch) => {
     const url = routes.BASIC_URL + routes.BASIC_PATH + routes.USER_BY_ID + routes.ROLES

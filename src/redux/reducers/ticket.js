@@ -8,7 +8,7 @@ import {
   GET_TICKET_BY_ID,
   GET_TICKET_LIST,
   DELETE_TICKET_BY_ID,
-  SET_TICKET_ID
+  SET_TICKET_ID, GET_STATUSES, GET_PRIORITIES
 } from "../actions/types";
 
 const initialState = {
@@ -18,7 +18,9 @@ const initialState = {
   ticketById: {},
   ticketList: {},
   isFetching: true,
-  isDeleted: false
+  isDeleted: false,
+  statuses: {},
+  priorities: {},
 };
 
 
@@ -64,6 +66,16 @@ export const ticket = (state = initialState, action) => {
         ...state,
         isDeleted: true,
       };
+    case GET_STATUSES:
+      return {
+        ...state,
+        statuses: action.payload,
+      }
+    case GET_PRIORITIES:
+      return {
+        ...state,
+        priorities: action.payload,
+      }
     default:
       return state;
   }

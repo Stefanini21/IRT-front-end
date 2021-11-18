@@ -6,51 +6,26 @@ import {
   changeTicketStatus,
   getTicketListForKanban,
 } from "../../redux/actions/ticket";
-import { getUserById } from "../../redux/actions/user";
 import { selectUserById } from "../../redux/selectors/user";
-import Loader from "react-loader-spinner";
-import {
-  selectUserList,
-  selectIsFetching,
-  selectRolesFetching,
-  selectSpecialties,
-  selectRoles,
-} from "../../redux/selectors/user";
 
 const Kanban = () => {
   const dispatch = useDispatch();
-  const fetching = useSelector(selectIsFetching);
-  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     dispatch(getTicketListForKanban());
-    setLoading(fetching);
   }, []);
 
   return (
-    // <>
-    //   {loading ? (
-    //     <Loader
-    //       className="loader-spinner"
-    //       type="TailSpin"
-    //       color="#4f677f"
-    //       height={50}
-    //       width={50}
-    //     />
-    //   ) : (
         <div style={{ paddingTop: "5px" }}>
           <h3>Ticket-board</h3>
-          <div style={{display: "flex", justifyContent: "space-between", padding: "0 auto"}}>
+          <div style={{padding: "0 auto"}}>
             <KanbanBoard />
           </div>
         </div>
-      // )}
-    // </>
   );
 };
 
 const KanbanBoard = (props) => {
-  const [isLoading, setIsLoading] = useState(true);
   const [projects, setProjects] = useState([]);
   const [draggedOverCol, setDraggedOverCol] = useState(0);
   const userData = useSelector(getUserData);
@@ -68,7 +43,6 @@ const KanbanBoard = (props) => {
 
   useEffect(() => {
     setProjects(tickets);
-    setIsLoading(false);
     tickets.forEach((element) => {
       console.log("element.status: " + element.status);
       switch (element.status) {
@@ -96,8 +70,6 @@ const KanbanBoard = (props) => {
 
   //this is called when a Kanban card is dragged over a column (called by column)
   const handleOnDragEnter = (e, stageValue) => {
-    // console.log("target: " + e.target);
-    // console.log("e.stageValue: " + stageValue);
     setDraggedOverCol(stageValue);
 
     switch (stageValue) {
@@ -123,17 +95,12 @@ const KanbanBoard = (props) => {
   };
 
   //this is called when a Kanban card dropped over a column (called by card)
-
   const handleOnDragEnd = (e, project) => {
     const updatedProjects = projects.slice(0);
     console.log(
       "in the start handleOnDragEnd project.project_stage: " +
         project.project_stage
     );
-    // console.log("project.title: " + project.title);
-    // console.log("draggedOverCol: " + draggedOverCol);
-    // console.log("e: " + e);
-    // console.log("currentUserData.role: " + currentUserData.role);
     const dOc = updatedProjects.find((projectObject) => {
       if (
         currentUserData.username === project.developer ||
@@ -151,7 +118,6 @@ const KanbanBoard = (props) => {
           project.project_stage === 3 &&
           draggedOverCol === 4
         ) {
-          // dispatch(closeTicket(project.id));
           return projectObject.title === project.title;
         } else if (
           (currentUserData.role === "USER" &&
@@ -286,14 +252,14 @@ const KanbanCard = (props) => {
   const userById = useSelector(selectUserById);
   const dispatch = useDispatch();
 
-  const userNameByUserId = (id) => {
-    dispatch(getUserById(id));
-    const username = userById.username;
-    return username;
-  };
+  // const userNameByUserId = (id) => {
+  //   dispatch(getUserById(id));
+  //   const username = userById.username;
+  //   return username;
+  // };
 
   const changeCollapse = () => {
-    setCollapsed(!collapsed); //to do animated collapse
+    setCollapsed(!collapsed);
   };
 
   const cardStyle = {

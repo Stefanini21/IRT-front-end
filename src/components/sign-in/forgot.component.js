@@ -54,7 +54,7 @@ const Forgot = () => {
                             />
                         </div>
                         <div className="form-group">
-                            <button className="btn btn-primary btn-block">
+                            <button className="primary_button btn-block">
                                 <span>Submit</span>
                             </button>
                         </div>

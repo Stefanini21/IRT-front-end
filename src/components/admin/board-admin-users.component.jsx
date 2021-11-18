@@ -124,18 +124,18 @@ const AdminUserList = () => {
         setUserIdToDelete(deleteId)
         setUserNameToDelete(deleteUsername)
         setShowDeleteUserModal(true)
-        console.log(userIdToDelete)
-        console.log(userNameToDelete)
-        console.log(showDeleteUserModal)
+        //console.log(userIdToDelete)
+        //console.log(userNameToDelete)
+        //console.log(showDeleteUserModal)
 
     }
 
     const handleCloseDeleteUserModal = () => {
-        console.log(userIdToDelete)
-        console.log(userNameToDelete)
-        console.log(showDeleteUserModal)
+        //console.log(userIdToDelete)
+        //console.log(userNameToDelete)
+        //console.log(showDeleteUserModal)
         setShowDeleteUserModal(false)
-        console.log(showDeleteUserModal)
+        //console.log(showDeleteUserModal)
     }
 
     const handleDeleteUser = () => {

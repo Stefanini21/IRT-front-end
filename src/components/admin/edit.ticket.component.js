@@ -10,7 +10,7 @@ import {resetEditTicketFlags} from "../../redux/actions/flag";
 import {getTicketById, getTicketList, updateTicketById} from "../../redux/actions/ticket";
 import Loader from "react-loader-spinner";
 import {setMessage} from "../../redux/actions/message";
-import {Form} from "react-bootstrap";
+import Form from "react-validation/build/form";
 import Input from "react-validation/build/input";
 
 const required = (value) => {
@@ -23,7 +23,30 @@ const required = (value) => {
     }
 };
 
-const EditTicketComponent = (props) => {
+const vtitle = (value) => {
+    if (value.length < 3 || value.length > 30) {
+        return (
+            <div className="alert alert-danger" role="alert">
+                Title must be between 3 and 30 characters.
+            </div>
+        );
+    }
+};
+
+const vdescription = (value) => {
+    if (value.length < 3) {
+        return (
+            <div className="alert alert-danger" role="alert">
+                Description must be more than 3 characters.
+            </div>
+        );
+    }
+};
+
+
+
+
+const EditTicketComponent = () => {
     const dispatch = useDispatch();
     const ticketId = useSelector(selectTicketId);
     const ticketById = useSelector(selectTicketById);
@@ -51,7 +74,7 @@ const EditTicketComponent = (props) => {
         setTitle(ticketById.title);
         setDescription(ticketById.description);
         setPriority(ticketById.priority);
-        setSpecialty(ticketById.status);
+        setSpecialty(ticketById.specialty);
         setStatus(ticketById.status);
         setDeveloper(ticketById.developer);
     }, [ticketById])
@@ -97,130 +120,126 @@ const EditTicketComponent = (props) => {
             .then(() => {
             setMessage('Ticket id: ' + ticketId + ' successfully updated!')});
     }
-    return <Loader className="loader-spinner"
-    type="TailSpin"
-    color="#4f677f"
-    height={50}
-    width={50}
-    />
+    return <>
+            <div className="col-md-12">
+                <div className="card card-container">
+                    <Form onSubmit={handleSubmit}>
+                        <div>
+                            <div className="form-group">
+                                <label htmlFor="title">Title</label>
+                                <Input
+                                    type="text"
+                                    className="form-control"
+                                    name="title"
+                                    value={titleForm}
+                                    onChange={onChangeTitle}
+                                    validations={[required, vtitle]}
+                                />
+                            </div>
 
-    // <>
-    //         <div className="col-md-12">
-    //             <div className="card card-container">
-    //                 <Form onSubmit={handleSubmit}>
-    //                     <div>
-    //                         <div className="form-group">
-    //                             <label htmlFor="title">Title</label>
-    //                             <Input
-    //                                 type="text"
-    //                                 className="form-control"
-    //                                 name="title"
-    //                                 value={titleForm}
-    //                                 onChange={onChangeTitle}
-    //                                 //validations={[required, vtitle]}
-    //                             />
-    //                         </div>
-    //
-    //                         <div className="form-group">
-    //                             <label htmlFor="description">Title</label>
-    //                             <Input
-    //                                 type="text"
-    //                                 className="form-control"
-    //                                 name="description"
-    //                                 value={descriptionForm}
-    //                                 onChange={onChangeDescription}
-    //                                 //validations={[required, vdescription]}
-    //                             />
-    //                         </div>
-    //
-    //                         <div className="form-group">
-    //                             <label htmlFor="priority">Priority</label>
-    //                             <select
-    //                                 className="form-control"
-    //                                 name="priority"
-    //                                 defaultValue={priorityForm}
-    //                                 value={priorityForm}
-    //                                 validations={[required]}
-    //                                 onChange={onChangePriority}>
-    //                                 {priorities.map((r, i) =>
-    //                                     <option value={r}>{r}</option>
-    //                                 )}
-    //                             </select>
-    //                         </div>
-    //
-    //                         <div className="form-group">
-    //                             <label htmlFor="specialty">Specialty</label>
-    //                             <select
-    //                                 className="form-control"
-    //                                 name="specialty"
-    //                                 defaultValue={specialtyForm}
-    //                                 value={specialtyForm}
-    //                                 onChange={onChangeSpecialty}>
-    //                                 validations={[required]}
-    //                                 {specialties.map((s, i) =>
-    //                                     <option value={s}>{s}</option>
-    //                                 )}
-    //                             </select>
-    //                         </div>
-    //
-    //                         <div className="form-group">
-    //                             <label htmlFor="status">Status</label>
-    //                             <select
-    //                                 className="form-control"
-    //                                 name="status"
-    //                                 defaultValue={statusForm}
-    //                                 value={statusForm}
-    //                                 onChange={onChangeStatus}>
-    //                                 validations={[required]}
-    //                                 {statuses.map((s, i) =>
-    //                                     <option value={s}>{s}</option>
-    //                                 )}
-    //                             </select>
-    //                         </div>
-    //
-    //                         {/*<div className="form-group">*/}
-    //                         {/*    <label htmlFor="developer">Developer</label>*/}
-    //                         {/*    <select*/}
-    //                         {/*        className="form-control"*/}
-    //                         {/*        name="developer"*/}
-    //                         {/*        defaultValue={developerForm}*/}
-    //                         {/*        value={developerForm}*/}
-    //                         {/*        onChange={onChangeDeveloper}>*/}
-    //                         {/*        validations={[required]}*/}
-    //                         {/*        {specialties.map((s, i) =>*/}
-    //                         {/*            <option value={s}>{s}</option>*/}
-    //                         {/*        )}*/}
-    //                         {/*    </select>*/}
-    //                         {/*    <br/>*/}
-    //                         {/*</div>*/}
-    //
-    //                         <div className="form-group">
-    //                             <button className="primary_button btn-block">Update</button>
-    //                         </div>
-    //
-    //                         {duplicatedTitleFlag && (
-    //                             <div className="form-group">
-    //                                 <div className="alert alert-danger"
-    //                                      role="alert">
-    //                                     There is another ticket with this title.
-    //                                 </div>
-    //                             </div>
-    //                         )}
-    //
-    //                         {ticketUpdatedSuccess && (
-    //                             <div className="form-group">
-    //                                 <div className="alert alert-success"
-    //                                      role="alert">
-    //                                     {message}
-    //                                 </div>
-    //                             </div>
-    //                         )}
-    //
-    //                     </div>
-    //                 </Form>
-    //             </div>
-    //         </div>
-    // </>
+                            <div className="form-group">
+                                <label htmlFor="description">Description</label>
+                                <Input
+                                    type="text"
+                                    className="form-control"
+                                    name="description"
+                                    value={descriptionForm}
+                                    onChange={onChangeDescription}
+                                    validations={[required, vdescription]}
+                                />
+                            </div>
+
+                            <div className="form-group">
+                                <label htmlFor="priority">Priority</label>
+                                <select
+                                    className="form-control"
+                                    name="priority"
+                                    defaultValue={priorityForm}
+                                    value={priorityForm}
+                                    validations={[required]}
+                                    onChange={onChangePriority}>
+                                    {priorities.map((r, i) =>
+                                        <option value={r}>{r}</option>
+                                    )}
+                                </select>
+                            </div>
+
+                            <div className="form-group">
+                                <label htmlFor="status">Status</label>
+                                <select
+                                    className="form-control"
+                                    name="status"
+                                    defaultValue={statusForm}
+                                    value={statusForm}
+                                    onChange={onChangeStatus}>
+                                    validations={[required]}
+                                    {statuses.map((s, i) =>
+                                        <option value={s}>{s}</option>
+                                    )}
+                                </select>
+                            </div>
+
+                            <div className="form-group">
+                                <label htmlFor="specialty">Specialty</label>
+                                <select
+                                    className="form-control"
+                                    name="specialty"
+                                    defaultValue={specialtyForm}
+                                    value={specialtyForm}
+                                    onChange={onChangeSpecialty}>
+                                    validations={[required]}
+                                    {specialties.map((s, i) =>
+                                        <option value={s}>{s}</option>
+                                    )}
+                                </select>
+                            </div>
+
+
+                            {/*<div className="form-group">*/}
+                            {/*    <label htmlFor="developer">Developer</label>*/}
+                            {/*    <select*/}
+                            {/*        className="form-control"*/}
+                            {/*        name="developer"*/}
+                            {/*        defaultValue={developerForm}*/}
+                            {/*        value={developerForm}*/}
+                            {/*        onChange={onChangeDeveloper}>*/}
+                            {/*        validations={[required]}*/}
+                            {/*        {specialties.map((s, i) =>*/}
+                            {/*            <option value={s}>{s}</option>*/}
+                            {/*        )}*/}
+                            {/*    </select>*/}
+                            {/*    <br/>*/}
+                            {/*</div>*/}
+                            {titleForm.length > 2 && titleForm.length < 31 &&
+                                descriptionForm.length > 2 && (
+                            <div className="form-group">
+                                <button className="primary_button btn-block">Update</button>
+                            </div>
+                            )}
+
+                            {duplicatedTitleFlag && (
+                                <div className="form-group">
+                                    <div className="alert alert-danger"
+                                         role="alert">
+                                        There is another ticket with this title.
+                                    </div>
+                                </div>
+                            )}
+
+                            {ticketUpdatedSuccess && (
+                                <div className="form-group">
+                                    <div className="alert alert-success"
+                                         role="alert">
+                                        {message}
+                                    </div>
+                                </div>
+                            )}
+
+                        </div>
+                    </Form>
+                </div>
+            </div>
+    </>
 }
 
 export default EditTicketComponent;

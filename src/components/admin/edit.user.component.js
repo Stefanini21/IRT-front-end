@@ -11,7 +11,9 @@ import {
     selectUserId,
 } from "../../redux/selectors/user";
 import {selectDuplicatedEntryFlag, selectUserUpdatedFlag} from "../../redux/selectors/flag";
-import {resetEditUserFlags} from "../../redux/actions/flag";
+import {
+    resetEditUserFlags,
+} from "../../redux/actions/flag";
 
 
 const required = (value) => {
@@ -45,7 +47,7 @@ const vusername = (value) => {
 };
 
 const vfirstname = value => {
-    if (value.length < 1 || value.length > 20) {
+    if (value.length < 3 || value.length > 20) {
         return (
             <div className="alert alert-danger" role="alert">
                 The first name must be between 3 and 20 characters.
@@ -65,7 +67,7 @@ const vlastname = value => {
 };
 
 
-const EditUserModal = (props) => {
+const EditUserModal = () => {
 
     const dispatch = useDispatch();
     const userId = useSelector(selectUserId);
@@ -85,11 +87,9 @@ const EditUserModal = (props) => {
     const [message, setMessage] = useState("");
     const [show, setShow] = useState(true);
 
-
     useEffect(() => {
         dispatch(resetEditUserFlags())
         dispatch(getUserById(userId))
-
     }, [])
 
 
@@ -242,10 +242,13 @@ const EditUserModal = (props) => {
                                 <br/>
                             </div>
 
-
+                        {usernameForm.length > 2 && usernameForm.length < 21 &&
+                        firstnameForm.length > 2 && firstnameForm.length <21 &&
+                        lastnameForm.length > 2 && lastnameForm.length < 21 &&
+                        isEmail(emailForm) && (
                         <div className="form-group">
                             <button className="primary_button btn-block">Update</button>
-                        </div>
+                        </div>)}
                     </div>
 
 

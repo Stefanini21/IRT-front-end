@@ -34,8 +34,8 @@ const Forgot = () => {
 
     }
 
-    return (
-        <div className="col-md-12">
+    return (<div style={{display: 'flex',  justifyContent:'center', alignItems:'center'}}>
+
             <div className="card card-container">
                 <h3> Forgot password </h3>
 
@@ -78,8 +78,8 @@ const Forgot = () => {
                     )}
                 </Form>
 
+                </div>
             </div>
-        </div>
     );
 }
 

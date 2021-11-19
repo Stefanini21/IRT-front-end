@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {deleteUserById, getUserList, getUserById} from "../../redux/actions/user";
-import {selectIdToDelete, selectUserNameToDelete, selectUserId, selectUserById} from "../../redux/selectors/user";
+import {selectIdToDelete, selectUserNameToDelete, selectUserId, selectUserById, selectIsDeleted} from "../../redux/selectors/user";
 import {selectDuplicatedEntryFlag, selectSuccessfulCreatedUserFlag, selectUserWithTasksFlag} from "../../redux/selectors/flag";
 import UserService from "../../services/user.service";
 
@@ -11,6 +11,7 @@ const DeleteUserModal = () => {
     
     const userId = useSelector(selectUserId);
     const userById = useSelector(selectUserById);
+    const isDeleted = useSelector(selectIsDeleted)
     const isUserWithTasks = useSelector(selectUserWithTasksFlag);
     
     const [show, setShow] = useState(false);
@@ -46,8 +47,9 @@ const DeleteUserModal = () => {
                     alt="profile-img"
                     className="profile-img-card"
                 />
-
-                <div>
+                
+                {!isDeleted && (
+                    <div>
                     <div className="jumbotron">
                         <h4>Delete: <strong>{userById.username}</strong> ?</h4>
                     </div>
@@ -58,8 +60,9 @@ const DeleteUserModal = () => {
                         Yes
                     </button>
                 </div>
+                )}
 
-                {!isUserWithTasks && (
+                {isDeleted && (
                 <div>
                     <div className={"alert alert-danger"} role="alert">
                         User deleted!

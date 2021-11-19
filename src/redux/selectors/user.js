@@ -7,5 +7,4 @@ export const selectSpecialtiesFetching = (state) => state.user.specialtiesFetchi
 export const selectRoles = (state) => state.user.roles;
 export const selectRolesFetching = (state) => state.user.rolesFetching;
 export const selectIsFetching = (state) => state.user.isFetching;
-//export const selectIdToDelete = (state) => state.user.idToDelete;
-//export const selectUserNameToDelete = (state) => state.user.userNameToDelete;
+export const selectIsDeleted = (state) => state.user.isDeleted;

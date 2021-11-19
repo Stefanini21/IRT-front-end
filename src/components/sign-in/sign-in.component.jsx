@@ -40,7 +40,7 @@ const SignIn = () => {
 
     return (<div style={{display: 'flex',  justifyContent:'center', alignItems:'center'}}>
 
-            <div style={{marginTop: 100, width: "27%"}}>
+            <div style={{width: "27%"}} className={"card card-container"}>
 
                 <Form onSubmit={handleSubmit}>
 

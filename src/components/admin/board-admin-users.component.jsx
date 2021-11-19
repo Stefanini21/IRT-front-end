@@ -129,9 +129,8 @@ const AdminUserList = () => {
         //console.log(userNameToDelete)
         //console.log(showDeleteUserModal)
         setShowDeleteUserModal(false)
-        .then(() => {
-            dispatch(getUserList())
-        })
+        dispatch(getUserList())
+        
         //console.log(showDeleteUserModal)
         //dispatch(getUserList())
     }

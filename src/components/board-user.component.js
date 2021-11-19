@@ -4,7 +4,6 @@ import Kanban from "./kanban/kanban";
 // import { getTicketListForKanban } from "../redux/actions/ticket";
 
 function User(props) {
-
   return (
     <div>
       <Kanban />

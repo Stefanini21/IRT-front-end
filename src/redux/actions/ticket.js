@@ -13,8 +13,11 @@ import {
   SET_TICKET_ID,
   ASSIGN_TICKET_TO_USER,
   UPDATE_TICKET_BY_ID,
-  RECEIVE_DUPLICATE_TITLE, GET_STATUSES, GET_PRIORITIES,
-
+  RECEIVE_DUPLICATE_TITLE,
+  GET_STATUSES,
+  GET_PRIORITIES,
+  GET_ALL_TICKETS_CREATORS,
+  GET_ALL_TICKETS_DEVELOPERS
 } from "./types";
 import {userActions as ticketActions} from "./user";
 
@@ -175,6 +178,7 @@ export const getStatuses = () => (dispatch) => {
         })
       })
 }
+
 export const getPriorities = () => (dispatch) => {
   const url = routes.BASIC_URL + routes.BASIC_PATH + routes.TICKETS + routes.PRIORITIES
 
@@ -182,6 +186,32 @@ export const getPriorities = () => (dispatch) => {
       .then(response => {
         return dispatch({
           type: GET_PRIORITIES,
+          payload: response
+        })
+      })
+}
+
+export const getAllTicketsCreators = () => (dispatch) => {
+  const url = routes.BASIC_URL + routes.BASIC_PATH + routes.GET_ALL_TICKETS_CREATORS
+
+  return HttpService.get(url)
+      .then(response => {
+  console.log("In getAllTicketsCreators, response: " + response)
+        return dispatch({
+          type: GET_ALL_TICKETS_CREATORS,
+          payload: response
+        })
+      })
+}
+
+export const getAllTicketsDevelopers = () => (dispatch) => {
+  const url = routes.BASIC_URL + routes.BASIC_PATH + routes.GET_ALL_TICKETS_DEVELOPERS
+  console.log("url: "+ url)
+  return HttpService.get(url)
+      .then(response => {
+  console.log("In getAllTicketsDevelopers, response: " + response)
+        return dispatch({
+          type: GET_ALL_TICKETS_DEVELOPERS,
           payload: response
         })
       })

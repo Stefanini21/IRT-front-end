@@ -4,42 +4,25 @@ import {Col, Container, Row} from "react-bootstrap";
 
 
 const footerStyle = {
-    'margin-top': '310px',
-    'padding': '1rem',
-    'bottom': '0',
-    'left': '0',
-    'width': '100%',
-    'textAlign': 'center',
-    'font-size': '20px',
-    'background-image': 'linear-gradient(to bottom right, #3b6a9a, #80a9d1)'
-
+    padding: '24px',
+    bottom: 0,
+    width: '100%',
+    textAlign: 'center',
+    fontSize: '20px',
+    backgroundImage: 'linear-gradient(to bottom right, #0c0032, #5c7de3',
+    backgroundColor: '#4e83b9 !important',
+    position: "fixed",
+    bottom: 0,
+    color: "white",
+    textAlign: "center"
 }
 
 const Footer = () => {
     return (
         <div>
             <footer>
-                <div style={footerStyle}>
-
-                    <Container>
-                        <Row className="justify-content-md-center">
-                            <Col xs lg="2">
-                                <a href="#" style={{color: 'white'}}><FaFacebook/></a>
-                            </Col>
-                            <Col xs lg="2">
-                                <a href="#" style={{color: 'white'}}><FaTwitter/></a>
-                            </Col>
-                            <Col xs lg="2">
-                                <a href="#" style={{color: 'white'}}><FaInstagram/></a>
-                            </Col>
-                            <Col xs lg="2">
-                                <a href="#" style={{color: 'white'}}><FaYoutube/></a>
-                            </Col>
-                            <Col xs lg="2">
-                                <a href="#" style={{color: 'white'}}><FaSlack/></a>
-                            </Col>
-                        </Row>
-                    </Container>
+                <div className="d-flex justify-content-between border-top" style={footerStyle}>
+                    <h6 style={{margin: "0 auto"}}>&copy; 2021 IRT powered by Stefanini, Inc. All rights reserved.</h6>
                 </div>
             </footer>
         </div>

@@ -31,6 +31,11 @@ const TicketList = () => {
 
   const columns = [
     {
+      name: "Id",
+      selector: (row) => row.id,
+      sortable: true,
+    },
+    {
       name: "Title",
       selector: (row) => row.title,
       sortable: true,

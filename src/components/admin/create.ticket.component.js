@@ -5,7 +5,8 @@ import Select from "react-select";
 import CheckButton from "react-validation/build/button";
 import { useDispatch, useSelector } from "react-redux";
 import { createTicket, getAllUsersBySpecialty } from "../../redux/actions/ticket";
-import { getUserListBySpecialty } from "../../redux/selectors/ticket";
+import { getUserListBySpecialty, selectPriorities } from "../../redux/selectors/ticket";
+import { selectSpecialties } from "../../redux/selectors/user";
 import { getUserData } from "../../redux/selectors/auth";
 
 const CreateTicketModal = (props) => {
@@ -19,23 +20,28 @@ const CreateTicketModal = (props) => {
   const usersListBySpecialtyUsernames = [];
 
 
-  const statusOptions = [
-    { value: "BACKLOG", label: "Backlog" },
-    { value: "ASSIGNED", label: "Assigned" },
-    { value: "FINISHED", label: "Finished" },
-    { value: "CLOSED", label: "Closed" }
-  ];
+  // const statusOptions = [
+  //   { value: "BACKLOG", label: "Backlog" },
+  //   { value: "ASSIGNED", label: "Assigned" },
+  //   { value: "FINISHED", label: "Finished" },
+  //   { value: "CLOSED", label: "Closed" }
+  // ];
+  const statusOptions = useSelector(selectStatuses)
 
-  const specialtyOptions = [
-    { value: "FRONTEND", label: "Front-end" },
-    { value: "BACKEND", label: "Back-end" }
-  ];
+  // const specialtyOptions = [
+  //   { value: "FRONTEND", label: "Front-end" },
+  //   { value: "BACKEND", label: "Back-end" }
+  // ];
 
-  const priorityOptions = [
-    { value: "LOW", label: "Low" },
-    { value: "MEDIUM", label: "Medium" },
-    { value: "HIGH", label: "High" }
-  ];
+  const specialtyOptions = useSelector(selectSpecialties);
+
+  // const priorityOptions = [
+  //   { value: "LOW", label: "Low" },
+  //   { value: "MEDIUM", label: "Medium" },
+  //   { value: "HIGH", label: "High" }
+  // ];
+
+  const priorityOptions = useSelector(selectPriorities)
 
 
     const dispatch = useDispatch();
@@ -74,14 +80,14 @@ const CreateTicketModal = (props) => {
 
     dispatch(getAllUsersBySpecialty(e.value));
 
-    userListBySpecialty.forEach(function (element) {
-      usersListBySpecialtyUsernames.push({
-        label: element.username,
-        value: element.username,
-      });
-    });
+    // userListBySpecialty.forEach(function (element) {
+    //   usersListBySpecialtyUsernames.push({
+    //     label: element.username,
+    //     value: element.username,
+    //   });
+    // });
 
-    setDeveloperOptions(usersListBySpecialtyUsernames);
+    //setDeveloperOptions(usersListBySpecialtyUsernames);
 
   };
 
@@ -104,7 +110,6 @@ const CreateTicketModal = (props) => {
     // this.form.validateAll();
 
     // if (this.checkBtn.context._errors.length === 0)
-    if (true) {
 
   const newTicket = {
     title: title,
@@ -120,19 +125,17 @@ const CreateTicketModal = (props) => {
         .then(() => {
           setMessage(title + "ticket successfully registered!");
           setSuccessful(true);
-
-          this.props.handleCloseCreateTicketModal();
+         // handleCloseCreateTicketModal();
         })
         .catch(() => {
           setSuccessful(false);
         });
-    }
+    
   };
 
   return (
     <div className="col-md-12">
       <div className="card card-container">
-
         <Form
           onSubmit={handleCreateTicket}
           // ref={(c) => {
@@ -166,7 +169,10 @@ const CreateTicketModal = (props) => {
               <div className="form-group">
                 <label htmlFor="priority">Priority</label>
                 <Select
-                  options={priorityOptions}
+                  options={priorityOptions.map((t) => ({
+                    value: t,
+                    label: t,
+                  }))}
                   type="text"
                   name="priority"
                   onChange={onChangePriority}
@@ -176,7 +182,10 @@ const CreateTicketModal = (props) => {
               <div className="form-group">
                 <label htmlFor="specialty">Specialty</label>
                 <Select
-                  options={specialtyOptions}
+                  options={specialtyOptions.map((t) => ({
+                    value: t,
+                    label: t,
+                  }))}
                   type="text"
                   name="specialty"
                   onChange={onChangeSpecialty}
@@ -186,7 +195,10 @@ const CreateTicketModal = (props) => {
               <div className="form-group">
                 <label htmlFor="status">Status</label>
                 <Select
-                  options={statusOptions}
+                  options={statusOptions.map((t) => ({
+                    value: t,
+                    label: t,
+                  }))}
                   type="text"
                   name="status"
                   onChange={onChangeStatus}
@@ -196,7 +208,10 @@ const CreateTicketModal = (props) => {
               <div className="form-group">
                 <label htmlFor="developer">Developer</label>
                 <Select
-                  options={developerOptions}
+                  options={userListBySpecialty.map((t) => ({
+                    value: t,
+                    label: t,
+                  }))}
                   type="text"
                   name="developer"
                   onChange={onChangeDeveloper}
@@ -204,11 +219,13 @@ const CreateTicketModal = (props) => {
                 />
               </div>
 
-                            <div className="form-group">
-                                <button className="primary_button btn-block">Create ticket</button>
-                            </div>
-                        </div>
-                    )}
+              <div className="form-group">
+                <button className="primary_button btn-block">
+                  Create ticket
+                </button>
+              </div>
+            </div>
+          )}
 
           {message && (
             <div className="form-group">

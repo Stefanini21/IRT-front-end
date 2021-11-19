@@ -29,6 +29,7 @@ export const ticket = (state = initialState, action) => {
     case CREATE_TICKET_SUCCESS:
       return {
         ...state,
+        ticketList: action.payload,
       };
     case SELECTED_SPECIALTY:
       return {

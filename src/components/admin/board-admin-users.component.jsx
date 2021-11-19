@@ -9,6 +9,7 @@ import EditUserModal from "./edit.user.component";
 import {selectIsFetching, selectRoles, selectSpecialties, selectUserList} from "../../redux/selectors/user";
 import Loader from "react-loader-spinner";
 import { selectUserWithTasksFlag } from "../../redux/selectors/flag";
+import DeleteUserModal from "./delete.user.component";
 
 const AdminUserList = () => {
 
@@ -20,7 +21,7 @@ const AdminUserList = () => {
     const [showEditUserModal, setShowEditUserModal] = useState(false);
     const [users, setUsers] = useState([]);
     const [error, setError] = useState("");
-    const [userIdToDelete, setUserIdToDelete] = useState('');
+    const [idToDelete, setIdToDelete] = useState('');
     const [userNameToDelete, setUserNameToDelete] = useState('');
     const [userToView, setUserToView] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -30,7 +31,6 @@ const AdminUserList = () => {
     const fetching = useSelector(selectIsFetching);
     const specialties = useSelector(selectSpecialties);
     const roles = useSelector(selectRoles);
-    const isUserWithTasks = useSelector(selectUserWithTasksFlag);
 
     const columns = [
         {
@@ -79,7 +79,7 @@ const AdminUserList = () => {
         {
             name: "Delete User",
             cell: (row) => <button className="secondary_button"
-                                   onClick={() => handleShowDeleteUserModal(row.id, row.username)}>Delete</button>,
+                                   onClick={() => handleShowDeleteUserModal(row)}>Delete</button>,
             grow: 1
         },
     ]
@@ -115,9 +115,9 @@ const AdminUserList = () => {
         dispatch(getUserList())
     }
 
-    const handleShowDeleteUserModal = (deleteId, deleteUsername) => {
-        setUserIdToDelete(deleteId)
-        setUserNameToDelete(deleteUsername)
+    const handleShowDeleteUserModal = (userToDelete) => {
+        dispatch(setUserId(userToDelete.id))
+        //dispatch(setUserNameToDelete(deleteUsername))
         setShowDeleteUserModal(true)
         //console.log(userIdToDelete)
         //console.log(userNameToDelete)
@@ -131,19 +131,20 @@ const AdminUserList = () => {
         //console.log(showDeleteUserModal)
         setShowDeleteUserModal(false)
         //console.log(showDeleteUserModal)
+        dispatch(getUserList())
     }
 
-    const handleDeleteUser = () => {
-        console.log(userIdToDelete + " user with this id will be deleted")
+    //const handleDeleteUser = () => {
+        //console.log(userIdToDelete + " user with this id will be deleted")
         
-        dispatch(deleteUserById(userIdToDelete))
-        .then(() => {
+        //dispatch(deleteUserById(userIdToDelete))
+        //.then(() => {
         //    setShowDeleteUserModal(false)
         //})
-        dispatch(getUserList())})
+        //dispatch(getUserList())})
         //setShowDeleteUserModal(false)
         //console.log(showDeleteUserModal)
-    }
+    //}
 
     useEffect(() => {
         setUsers(userList)
@@ -198,48 +199,12 @@ const AdminUserList = () => {
             </Modal>
 
             <Modal show={showDeleteUserModal} onHide={handleCloseDeleteUserModal}>
-                <Modal.Header closeButton="close_button">
+                <Modal.Header closeButton>
                     <Modal.Title>Delete User</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-
-                    <div className="card card-container">
-                        <div className="jumbotron">
-                            <h4>Delete: <strong>{userNameToDelete}</strong> ?</h4>
-                        </div>
-                   
-                    <button className="primary_button btn-block" onClick={handleCloseDeleteUserModal}>
-                        No
-                    </button>
-                    <button className="primary_button btn-block" onClick={handleDeleteUser}>
-                        Yes
-                    </button>
-                    </div>
-
-                    {!isUserWithTasks && (
-                        <div className="card card-container">
-                            <div className={"alert alert-danger"} role="alert">
-                                User deleted!
-                            </div>
-                            <button className="primary_button btn-block" onClick={handleCloseDeleteUserModal}>
-                                OK
-                            </button>
-                        </div>
-                    )}
-                    
-                    {isUserWithTasks && (
-                        <div className="card card-container">
-                            <div className={"alert alert-danger"} role="alert">
-                                Please, unassign tasks from this user before delete!
-                            </div>
-                            <button className="primary_button btn-block" onClick={handleCloseDeleteUserModal}>
-                                OK
-                            </button>
-                        </div>
-                    )}
-
-                </Modal.Body>
-                
+                    <DeleteUserModal handleCloseDeleteUserModal={handleCloseDeleteUserModal}/>                 
+                </Modal.Body>                
             </Modal>
 
                 <header className="jumbotron">

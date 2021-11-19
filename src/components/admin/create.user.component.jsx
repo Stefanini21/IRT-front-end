@@ -65,7 +65,14 @@ const CreateUserModal = () => {
 
     const [roles, setRoles] = useState([]);
     const [specialties, setSpecialties] = useState([]);
+    const [showCreateUserModal, setShowCreateUserModal] = useState(false);
 
+
+    const handleCloseCreateUserModal = () => {
+
+        setShowCreateUserModal(false)
+        window.location.reload()
+    }
 
     const onChangeUsername = (e) => {
         setUsername(e.target.value)
@@ -259,6 +266,9 @@ const CreateUserModal = () => {
                                  role="alert">
                                 {message}
                             </div>
+                            <button className="primary_button btn-block" onClick={handleCloseCreateUserModal}>
+                                OK
+                            </button>
                         </div>
                     )}
 

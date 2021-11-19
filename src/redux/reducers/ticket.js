@@ -21,6 +21,7 @@ const initialState = {
   ticketId: {},
   ticketById: {},
   ticketList: {},
+  ticketListForKanban: {},
   isFetching: true,
   isDeleted: false,
   statuses: {},
@@ -61,7 +62,7 @@ export const ticket = (state = initialState, action) => {
       case GET_ALL_TICKETS_FOR_KANBAN:
       return {
         ...state,
-        ticketList: action.payload,
+        ticketListForKanban: action.payload,
       };
     case CHANGE_TICKET_STATUS:
       return {

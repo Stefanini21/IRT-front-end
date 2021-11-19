@@ -2,33 +2,50 @@ import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getUserData } from "../../redux/selectors/auth";
 import {
-  selectTicketList,
+  selectTicketListForKanban,
   selectAllTicketCreators,
-  selectAllTicketDevelopers
+  selectAllTicketDevelopers,
 } from "../../redux/selectors/ticket";
 import {
   changeTicketStatus,
   getTicketListForKanban,
   getAllTicketsCreators,
-  getAllTicketsDevelopers
+  getAllTicketsDevelopers,
 } from "../../redux/actions/ticket";
 import { selectUserById } from "../../redux/selectors/user";
 import Select from "react-select";
 import { style } from "dom-helpers";
+import { fontWeight } from "@mui/system";
 
 const Kanban = () => {
-  const filterOptionsStep1 = [
+  const filterBacklogOptions = [
     { value: "CREATOR", label: "Creator" },
     { value: "DEVELOPER", label: "Developer" },
     { value: "SPECIALTY", label: "Specialty" },
     { value: "PRIORITY", label: "Priority" },
     { value: "CREATED_BEFORE_DATE", label: "Created before date" },
-    { value: "CREATED_AFTER_DATE", label: "Created after date" },
-    { value: "FINISHED_BEFORE_DATE", label: "Finished before date" },
-    { value: "FINISHED_AFTER_DATE", label: "Finished after date" },
+    { value: "CREATED_AFTER_DATE", label: "Created after date" }
   ];
 
-  const filterOptionsStep2 = [
+  const filterInProgressOptions = [
+    { value: "CREATOR", label: "Creator" },
+    { value: "DEVELOPER", label: "Developer" },
+    { value: "SPECIALTY", label: "Specialty" },
+    { value: "PRIORITY", label: "Priority" },
+    { value: "CREATED_BEFORE_DATE", label: "Created before date" },
+    { value: "CREATED_AFTER_DATE", label: "Created after date" }
+  ];
+
+  const filterFinishedOptions = [
+    { value: "CREATOR", label: "Creator" },
+    { value: "DEVELOPER", label: "Developer" },
+    { value: "SPECIALTY", label: "Specialty" },
+    { value: "PRIORITY", label: "Priority" },
+    { value: "CREATED_BEFORE_DATE", label: "Created before date" },
+    { value: "CREATED_AFTER_DATE", label: "Created after date" }
+  ];
+
+  const filterClosedOptions = [
     { value: "CREATOR", label: "Creator" },
     { value: "DEVELOPER", label: "Developer" },
     { value: "SPECIALTY", label: "Specialty" },
@@ -120,52 +137,174 @@ const Kanban = () => {
   };
 
   return (
-    <div>
-      <label
-        htmlFor="filter"
-        style={{ paddingLeft: 4, paddingBottom: 5, margin: 0, fontWeight: 500 }}
-      >
-        Filter "Closed" column by:{" "}
-      </label>
-      <div
-        className="form-group col-lg-12"
-        style={{
-          display: "flex",
-          justifyContent: "space-between",
-          marginLeft: 0,
-          padding: 0,
-        }}
-      >
-        <div className="col-lg-4" style={{ paddingLeft: 0 }}>
-          <Select
-            options={filterOptionsStep1}
-            type="text"
-            name="filter"
-            onChange={filter1}
-            style={{ width: "20%", display: "inline-block", padding: 4 }}
-          />
-        </div>
-        <div className="col-lg-4" style={{ paddingLeft: 0 }}>
-          <Select
-            options={options2 !== null ? options2 : null}
-            type="text"
-            name="filter"
-            onChange={filter2}
-            style={{ width: "20%", display: "inline-block", padding: 4 }}
-          />
-        </div>
-        <div className="col-lg-4" style={{ paddingLeft: 0 }}>
-          <button
-            disabled={filterButonDisabled}
-            style={{ float: "right" }}
-            className="btn btn-outline-secondary"
-            onClick={doFilter}
+    <div className={"col-lg-12"}>
+      <div style={{padding: "0 20px 5px 20px"}}>
+        <div style={{ display: "inline-block", width: "25%", paddingRight: 5}}>
+          <label
+            htmlFor="filter"
+            style={{
+              paddingLeft: 4,
+              margin: 0,
+              fontWeight: 500,
+            }}
           >
-            Filter
-          </button>
+            <h4
+              style={{
+                fontWeight: 500,
+                textAlign: "center",
+                fontSize: "20px",
+                // paddingBottom: -10,
+                marginBottom: 4
+              }}
+            >
+              <span style={{fontWeight: 300}}>"Backlog"</span> filter
+            </h4>
+          </label>
+          <div style={{top: -5, height: 45 }}>
+            <Select
+              options={filterBacklogOptions}
+              type="text"
+              name="filter"
+              onChange={filter1}
+              style={{ width: "20%", padding: 4, marginBottom: 4}}
+            />
+          </div>
+          <div>
+            <Select
+              options={options2 !== null ? options2 : null}
+              type="text"
+              name="filter"
+              onChange={filter2}
+              style={{ width: "20%", padding: 4}}
+            />
+          </div>
+        </div>
+        <div style={{ display: "inline-block", width: "25%", paddingRight: 4, paddingLeft: 2}}>
+        <label
+            htmlFor="filter"
+            style={{
+              paddingLeft: 4,
+              margin: 0,
+              fontWeight: 500,
+            }}
+          >
+            <h4
+              style={{
+                fontWeight: 500,
+                textAlign: "center",
+                fontSize: "20px",
+                paddingBottom: -10,
+                marginBottom: 4
+              }}
+            >
+              <span style={{fontWeight: 300}}>"In progress"</span> filter
+            </h4>
+          </label>
+          <div style={{top: -5, height: 45 }}>
+            <Select
+              options={filterInProgressOptions}
+              type="text"
+              name="filter"
+              onChange={filter1}
+              style={{ width: "20%", padding: 4, marginBottom: 4 }}
+            />
+          </div>
+          <div>
+            <Select
+              options={options2 !== null ? options2 : null}
+              type="text"
+              name="filter"
+              onChange={filter2}
+              style={{ width: "20%", padding: 4 }}
+            />
+          </div>
+        </div>
+        <div style={{ display: "inline-block", width: "25%", paddingLeft: 4, paddingRight: 2}}>
+        <label
+            htmlFor="filter"
+            style={{
+              paddingLeft: 4,
+              margin: 0,
+              fontWeight: 500,
+            }}
+          >
+            <h4
+              style={{
+                fontWeight: 500,
+                textAlign: "center",
+                fontSize: "20px",
+                paddingBottom: -10,
+                marginBottom: 4
+              }}
+            >
+              <span style={{fontWeight: 300}}>"Finished"</span> filter
+            </h4>
+          </label>
+          <div style={{top: -5, height: 45 }}>
+            <Select
+              options={filterFinishedOptions}
+              type="text"
+              name="filter"
+              onChange={filter1}
+              style={{ width: "20%", padding: 4, marginBottom: 4 }}
+            />
+          </div>
+          <div>
+            <Select
+              options={options2 !== null ? options2 : null}
+              type="text"
+              name="filter"
+              onChange={filter2}
+              style={{ width: "20%", padding: 4 }}
+            />
+          </div>
+          <div></div>
+        </div>
+        <div style={{ display: "inline-block", width: "25%", paddingLeft: 5}}>
+        <label
+            htmlFor="filter"
+            style={{
+              paddingLeft: 4,
+              margin: 0,
+              fontWeight: 500,
+            }}
+          >
+            <h4
+              style={{
+                fontWeight: 400,
+                textAlign: "center",
+                fontSize: "20px",
+                paddingBottom: -10,
+                marginBottom: 4
+              }}
+            >
+              <span style={{fontWeight: 300}}>"Closed"</span> filter
+            </h4>
+          </label>
+          <div style={{top: -5, height: 45 }}>
+            <Select
+              options={filterClosedOptions}
+              type="text"
+              name="filter"
+              onChange={filter1}
+              style={{ width: "20%", padding: 4 }}
+            />
+          </div>
+          <div>
+            <Select
+              options={options2 !== null ? options2 : null}
+              type="text"
+              name="filter"
+              onChange={filter2}
+              style={{ width: "20%", padding: 4 }}
+            />
+          </div>
         </div>
       </div>
-      <div style={{ justifyContent: "space-between", padding: "0 auto" }}>
+      <div
+        className={"col-lg-12"}
+        style={{ justifyContent: "space-between", padding: "0 auto" }}
+      >
         <KanbanBoard />
       </div>
     </div>
@@ -177,7 +316,7 @@ const KanbanBoard = (props) => {
   const [draggedOverCol, setDraggedOverCol] = useState(0);
   const userData = useSelector(getUserData);
   const currentUserData = useSelector(getUserData);
-  const tickets = useSelector(selectTicketList);
+  const tickets = useSelector(selectTicketListForKanban);
   const [status, setStatus] = useState("");
   const dispatch = useDispatch();
 

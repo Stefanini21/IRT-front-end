@@ -2,6 +2,10 @@
     background-image: linear-gradient(to bottom right, #b9c9ee, #e7eff6);
 }
 
+.container-width {
+    max-width: 400px;
+}
+
 .container-profile {
     border-style:groove;
 }

@@ -58,7 +58,7 @@ const Profile = () => {
 
     return (
 
-        <div className="container">
+        <div className="container container-width">
             <header className="jumbotron container-profile">
                 <img
                     src="//ssl.gstatic.com/accounts/ui/avatar_2x.png"

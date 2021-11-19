@@ -4,7 +4,7 @@ import {Col, Container, Row} from "react-bootstrap";
 
 
 const footerStyle = {
-    'margin-top': '235px',
+    'margin-top': '310px',
     'padding': '1rem',
     'bottom': '0',
     'left': '0',

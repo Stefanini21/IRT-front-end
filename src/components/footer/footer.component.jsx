@@ -1,19 +1,28 @@
 import React from "react";
+import {FaFacebook, FaInstagram, FaSlack, FaTwitter, FaYoutube} from 'react-icons/fa'
+import {Col, Container, Row} from "react-bootstrap";
+
 
 const footerStyle = {
-    bottom: '0',
-    left: '0',
+    padding: '24px',
+    bottom: 0,
     width: '100%',
-    padding: '1rem',
-
+    textAlign: 'center',
+    fontSize: '20px',
+    backgroundImage: 'linear-gradient(to bottom right, #0c0032, #5c7de3',
+    backgroundColor: '#4e83b9 !important',
+    position: "fixed",
+    bottom: 0,
+    color: "white",
+    textAlign: "center"
 }
 
 const Footer = () => {
     return (
-        <div className="container">
-            <footer className="py-2">
-                <div className="d-flex justify-content-between my-4 border-top" style={footerStyle}>
-                    <p>&copy; 2021 IRT powered by Stefanini, Inc. All rights reserved.</p>
+        <div>
+            <footer>
+                <div className="d-flex justify-content-between border-top" style={footerStyle}>
+                    <h6 style={{margin: "0 auto"}}>&copy; 2021 IRT powered by Stefanini, Inc. All rights reserved.</h6>
                 </div>
             </footer>
         </div>

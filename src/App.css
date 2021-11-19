@@ -8,6 +8,7 @@ label {
   padding: 40px 40px;
   border-radius: 0px;
   border: 0px;
+  top: 75px
 }
 
 .card {
@@ -38,7 +39,7 @@ label {
 }
 
 .header {
-  background-image: linear-gradient(to bottom right, #3b6a9a, #80a9d1);
+  background-image: linear-gradient(to bottom right, #0c0032, #5c7de3);
   background-color: #4e83b9 !important;
 }
 
@@ -90,7 +91,7 @@ label {
 }
 
 .primary_button {
-  background-color: #4e83b9;
+  background-color: #5c7bde;
   border: 1px solid transparent;
   line-height: 1.5;
   border-color: #6e92b5;
@@ -112,12 +113,17 @@ label {
 }
 
 .primary_button:hover {
-  background-color: #6a97c4;
-  border-color: #6a97c4;
+  background-color: #3a4bcb !important;
+}
+
+.primary_button:disabled {
+  background-color: #cccccc;
+  border-color: #cccccc;
+  color: #666666;
 }
 
 .secondary_button {
-  background-color: #6a97c4;
+  background-color: #5c7bde;
   border: 1px solid transparent;
   line-height: 1.5;
   color: white;
@@ -137,12 +143,11 @@ label {
 }
 
 .secondary_button:hover {
-  background-color: #4e83b9;
-  border-color: #4e83b9;
+  background-color: #3a4bcb !important;
 }
 
 .tertiary_button {
-  background-color: #6c757d;
+  background-color: #5c7bde;
   border: 1px solid transparent;
   line-height: 1.5;
   color: white;
@@ -162,12 +167,11 @@ label {
 }
 
 .tertiary_button:hover {
-  background-color: #6c757d;
-  border-color: #6c757d;
+  background-color: #3a4bcb !important;
 }
 
 .modal-header {
-  background-image: linear-gradient(to bottom right, #6d9bd9, #adc5dc);
+  background-image: linear-gradient(to bottom right, #0c0032, #5c7de3);
 
   background-color: #80a9d1;
   color: white;
@@ -186,6 +190,7 @@ label {
 .jumbotron {
   padding: 1rem 2rem;
   margin-top: 10px;
+  background-color: #d5ddf8;
 }
 
 .modal-body {

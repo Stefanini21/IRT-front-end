@@ -1,27 +1,313 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getUserData } from "../../redux/selectors/auth";
-import { selectTicketList } from "../../redux/selectors/ticket";
+import {
+  selectTicketListForKanban,
+  selectAllTicketCreators,
+  selectAllTicketDevelopers,
+} from "../../redux/selectors/ticket";
 import {
   changeTicketStatus,
   getTicketListForKanban,
+  getAllTicketsCreators,
+  getAllTicketsDevelopers,
 } from "../../redux/actions/ticket";
 import { selectUserById } from "../../redux/selectors/user";
+import Select from "react-select";
+import { style } from "dom-helpers";
+import { fontWeight } from "@mui/system";
 
 const Kanban = () => {
+  const filterBacklogOptions = [
+    { value: "CREATOR", label: "Creator" },
+    { value: "DEVELOPER", label: "Developer" },
+    { value: "SPECIALTY", label: "Specialty" },
+    { value: "PRIORITY", label: "Priority" },
+    { value: "CREATED_BEFORE_DATE", label: "Created before date" },
+    { value: "CREATED_AFTER_DATE", label: "Created after date" }
+  ];
+
+  const filterInProgressOptions = [
+    { value: "CREATOR", label: "Creator" },
+    { value: "DEVELOPER", label: "Developer" },
+    { value: "SPECIALTY", label: "Specialty" },
+    { value: "PRIORITY", label: "Priority" },
+    { value: "CREATED_BEFORE_DATE", label: "Created before date" },
+    { value: "CREATED_AFTER_DATE", label: "Created after date" }
+  ];
+
+  const filterFinishedOptions = [
+    { value: "CREATOR", label: "Creator" },
+    { value: "DEVELOPER", label: "Developer" },
+    { value: "SPECIALTY", label: "Specialty" },
+    { value: "PRIORITY", label: "Priority" },
+    { value: "CREATED_BEFORE_DATE", label: "Created before date" },
+    { value: "CREATED_AFTER_DATE", label: "Created after date" }
+  ];
+
+  const filterClosedOptions = [
+    { value: "CREATOR", label: "Creator" },
+    { value: "DEVELOPER", label: "Developer" },
+    { value: "SPECIALTY", label: "Specialty" },
+    { value: "PRIORITY", label: "Priority" },
+    { value: "CREATED_BEFORE_DATE", label: "Created before date" },
+    { value: "CREATED_AFTER_DATE", label: "Created after date" },
+    { value: "FINISHED_BEFORE_DATE", label: "Finished before date" },
+    { value: "FINISHED_AFTER_DATE", label: "Finished after date" },
+  ];
+
   const dispatch = useDispatch();
+  const [filterOne, setFilterOne] = useState("");
+  const [filterTwo, setFilterTwo] = useState("");
+  const ticketCreators = useSelector(selectAllTicketCreators);
+  const ticketDevelopers = useSelector(selectAllTicketDevelopers);
+  const [filterButonDisabled, setFilterButtonDisabled] = useState(true);
+  const [options2, setOptions2] = useState([]);
 
   useEffect(() => {
     dispatch(getTicketListForKanban());
+    dispatch(getAllTicketsCreators());
+    dispatch(getAllTicketsDevelopers());
+    console.log("filterOne: " + filterOne);
+    console.log("filterTwo: " + filterTwo);
   }, []);
 
+  const filter1 = (e) => {
+    setFilterOne(e.value);
+    switch (filterOne) {
+      case "CREATOR": {
+        const mappedTicketCreators = ticketCreators.map((v) => ({
+          label: v,
+          value: v,
+        }));
+        setOptions2(mappedTicketCreators);
+        break;
+      }
+      case "DEVELOPER": {
+        const mappedTicketDevelopers = ticketDevelopers.map((v) => ({
+          label: v,
+          value: v,
+        }));
+        setOptions2(mappedTicketDevelopers);
+        break;
+      }
+      case "SPECIALTY": {
+        // dispatch(getAllTicketsCreators());
+        console.log("SPECIALTY");
+        break;
+      }
+      case "PRIORITY": {
+        // dispatch(getAllTicketsCreators());
+        console.log("PRIORITY");
+        break;
+      }
+      case "CREATED_BEFORE_DATE": {
+        // dispatch(getAllTicketsCreators());
+        console.log("CREATED_BEFORE_DATE");
+        break;
+      }
+      case "CREATED_AFTER_DATE": {
+        // dispatch(getAllTicketsCreators());
+        console.log("CREATED_AFTER_DATE");
+        break;
+      }
+      case "FINISHED_BEFORE_DATE": {
+        // dispatch(getAllTicketsCreators());
+        console.log("FINISHED_BEFORE_DATE");
+        break;
+      }
+      case "FINISHED_AFTER_DATE": {
+        // dispatch(getAllTicketsCreators());
+        console.log("FINISHED_AFTER_DATE");
+        break;
+      }
+      default:
+        setOptions2(null);
+    }
+  };
+
+  const doFilter = () => {
+    setFilterButtonDisabled(true);
+    setOptions2(null);
+  };
+
+  const filter2 = (e) => {
+    setFilterTwo(e.value);
+    setFilterButtonDisabled(false);
+  };
+
   return (
-        <div style={{ paddingTop: "5px" }}>
-          <h3>Ticket-board</h3>
-          <div style={{ justifyContent: "space-between", padding: "0 auto"}}>
-            <KanbanBoard />
+    <div className={"col-lg-12"}>
+      <div style={{padding: "0 20px 5px 20px"}}>
+        <div style={{ display: "inline-block", width: "25%", paddingRight: 5}}>
+          <label
+            htmlFor="filter"
+            style={{
+              paddingLeft: 4,
+              margin: 0,
+              fontWeight: 500,
+            }}
+          >
+            <h4
+              style={{
+                fontWeight: 500,
+                textAlign: "center",
+                fontSize: "20px",
+                // paddingBottom: -10,
+                marginBottom: 4
+              }}
+            >
+              <span style={{fontWeight: 300}}>"Backlog"</span> filter
+            </h4>
+          </label>
+          <div style={{top: -5, height: 45 }}>
+            <Select
+              options={filterBacklogOptions}
+              type="text"
+              name="filter"
+              onChange={filter1}
+              style={{ width: "20%", padding: 4, marginBottom: 4}}
+            />
+          </div>
+          <div>
+            <Select
+              options={options2 !== null ? options2 : null}
+              type="text"
+              name="filter"
+              onChange={filter2}
+              style={{ width: "20%", padding: 4}}
+            />
           </div>
         </div>
+        <div style={{ display: "inline-block", width: "25%", paddingRight: 4, paddingLeft: 2}}>
+        <label
+            htmlFor="filter"
+            style={{
+              paddingLeft: 4,
+              margin: 0,
+              fontWeight: 500,
+            }}
+          >
+            <h4
+              style={{
+                fontWeight: 500,
+                textAlign: "center",
+                fontSize: "20px",
+                paddingBottom: -10,
+                marginBottom: 4
+              }}
+            >
+              <span style={{fontWeight: 300}}>"In progress"</span> filter
+            </h4>
+          </label>
+          <div style={{top: -5, height: 45 }}>
+            <Select
+              options={filterInProgressOptions}
+              type="text"
+              name="filter"
+              onChange={filter1}
+              style={{ width: "20%", padding: 4, marginBottom: 4 }}
+            />
+          </div>
+          <div>
+            <Select
+              options={options2 !== null ? options2 : null}
+              type="text"
+              name="filter"
+              onChange={filter2}
+              style={{ width: "20%", padding: 4 }}
+            />
+          </div>
+        </div>
+        <div style={{ display: "inline-block", width: "25%", paddingLeft: 4, paddingRight: 2}}>
+        <label
+            htmlFor="filter"
+            style={{
+              paddingLeft: 4,
+              margin: 0,
+              fontWeight: 500,
+            }}
+          >
+            <h4
+              style={{
+                fontWeight: 500,
+                textAlign: "center",
+                fontSize: "20px",
+                paddingBottom: -10,
+                marginBottom: 4
+              }}
+            >
+              <span style={{fontWeight: 300}}>"Finished"</span> filter
+            </h4>
+          </label>
+          <div style={{top: -5, height: 45 }}>
+            <Select
+              options={filterFinishedOptions}
+              type="text"
+              name="filter"
+              onChange={filter1}
+              style={{ width: "20%", padding: 4, marginBottom: 4 }}
+            />
+          </div>
+          <div>
+            <Select
+              options={options2 !== null ? options2 : null}
+              type="text"
+              name="filter"
+              onChange={filter2}
+              style={{ width: "20%", padding: 4 }}
+            />
+          </div>
+          <div></div>
+        </div>
+        <div style={{ display: "inline-block", width: "25%", paddingLeft: 5}}>
+        <label
+            htmlFor="filter"
+            style={{
+              paddingLeft: 4,
+              margin: 0,
+              fontWeight: 500,
+            }}
+          >
+            <h4
+              style={{
+                fontWeight: 400,
+                textAlign: "center",
+                fontSize: "20px",
+                paddingBottom: -10,
+                marginBottom: 4
+              }}
+            >
+              <span style={{fontWeight: 300}}>"Closed"</span> filter
+            </h4>
+          </label>
+          <div style={{top: -5, height: 45 }}>
+            <Select
+              options={filterClosedOptions}
+              type="text"
+              name="filter"
+              onChange={filter1}
+              style={{ width: "20%", padding: 4 }}
+            />
+          </div>
+          <div>
+            <Select
+              options={options2 !== null ? options2 : null}
+              type="text"
+              name="filter"
+              onChange={filter2}
+              style={{ width: "20%", padding: 4 }}
+            />
+          </div>
+        </div>
+      </div>
+      <div
+        className={"col-lg-12"}
+        style={{ justifyContent: "space-between", padding: "0 auto" }}
+      >
+        <KanbanBoard />
+      </div>
+    </div>
   );
 };
 
@@ -30,7 +316,7 @@ const KanbanBoard = (props) => {
   const [draggedOverCol, setDraggedOverCol] = useState(0);
   const userData = useSelector(getUserData);
   const currentUserData = useSelector(getUserData);
-  const tickets = useSelector(selectTicketList);
+  const tickets = useSelector(selectTicketListForKanban);
   const [status, setStatus] = useState("");
   const dispatch = useDispatch();
 
@@ -132,7 +418,7 @@ const KanbanBoard = (props) => {
             currentUserData.developer !== null
           ) {
             projectObject.developer === currentUserData.developer;
-            dispatch(assigneTicketToUser(project, currentUserData.id))
+            dispatch(assigneTicketToUser(project, currentUserData.id));
           }
           return projectObject.title === project.title;
         }
@@ -147,7 +433,7 @@ const KanbanBoard = (props) => {
   };
 
   return (
-    <div style={{display: "flex", justifyContent: "space-between"}}>
+    <div style={{ display: "flex", justifyContent: "space-between" }}>
       {columns.map((column) => {
         return (
           <KanbanColumn
@@ -162,7 +448,6 @@ const KanbanBoard = (props) => {
             userData={userData}
             currentUserData={currentUserData}
           />
-          
         );
       })}
     </div>
@@ -205,7 +490,7 @@ const KanbanColumn = (props) => {
     paddingRight: "1px",
     width: "25%",
     textAlign: "center",
-    backgroundColor: mouseIsHovering ? "#e3dac9" : "#b1b1b1",
+    backgroundColor: mouseIsHovering ? "#8f92a1" : "#a1a4b5",
     transition: "mouseIsHovering 1",
   };
 
@@ -240,7 +525,7 @@ const KanbanColumn = (props) => {
           ({props.projects.length})
         </span>
       </h5>
-      <div style={{ height: 650, overflowY: "scroll" }}>
+      <div style={{ height: 600, overflowY: "scroll" }}>
         {generateKanbanCards()}
       </div>
     </div>
@@ -265,8 +550,7 @@ const KanbanCard = (props) => {
   const cardStyle = {
     backgroundColor: "#f9f7f7",
     paddingLeft: 0,
-    marginLeft: 0,
-    margin: 4,
+    margin: "2px 7px 7px",
     marginBottom: 8,
   };
   const project = props.project;
@@ -299,8 +583,8 @@ const KanbanCard = (props) => {
     },
   };
 
-  const openComments = (id) => {
-    alert("Comments for ticket with id: " + id + "!!");
+  const openTicketHistory = (id) => {
+    alert("Hitory of ticket with id: " + id + "!!");
   };
 
   const changeBackgroundOnMouseHover = (e) => {
@@ -524,11 +808,11 @@ const KanbanCard = (props) => {
                 width: "100%",
                 cursor: "pointer",
               }}
-              onClick={() => openComments(project.id)}
+              onClick={() => openTicketHistory(project.id)}
               onMouseOver={changeBackgroundOnMouseHover}
               onMouseLeave={changeBackgroundOnMouseLeave}
             >
-              Comments
+              Ticket history
             </h6>
           ) : null
         ) : null}
@@ -542,7 +826,7 @@ const KanbanCard = (props) => {
           paddingBottom: 3,
           borderBottom: "2px solid #d5ddf8",
           borderLeft: "2px solid #d5ddf8",
-          borderRight: "2px solid #d5ddf8"
+          borderRight: "2px solid #d5ddf8",
         }}
         onClick={changeCollapse}
       >

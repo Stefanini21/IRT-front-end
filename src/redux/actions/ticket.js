@@ -154,7 +154,7 @@ export const updateTicketById = (ticketData, ticketId) => (dispatch) => {
 
   return HttpService.put(url, ticketData)
       .then(response => {
-        if (response === 500) {
+        if (response === 403) {
           return dispatch({
             type: RECEIVE_DUPLICATE_TITLE
           })

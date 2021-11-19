@@ -116,6 +116,12 @@ label {
   border-color: #6a97c4;
 }
 
+.primary_button:disabled {
+  background-color: #cccccc;
+  border-color: #cccccc;
+  color: #666666;
+}
+
 .secondary_button {
   background-color: #6a97c4;
   border: 1px solid transparent;

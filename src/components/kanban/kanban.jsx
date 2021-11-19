@@ -1,27 +1,102 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getUserData } from "../../redux/selectors/auth";
-import { selectTicketList } from "../../redux/selectors/ticket";
+import { selectTicketList, selectAllTicketCreators } from "../../redux/selectors/ticket";
 import {
   changeTicketStatus,
   getTicketListForKanban,
+  getAllTicketsCreators
 } from "../../redux/actions/ticket";
 import { selectUserById } from "../../redux/selectors/user";
+import Select from "react-select";
 
 const Kanban = () => {
+
+  const filterOptionsStep1 = [
+    { value: "CREATOR", label: "Creator" },
+    { value: "DEVELOPER", label: "Developer" },
+    { value: "SPECIALTY", label: "Specialty" },
+    { value: "PRIORITY", label: "Priority" },
+    { value: "CREATED_BEFORE_DATE", label: "Created before date" },
+    { value: "CREATED_AFTER_DATE", label: "Created after date" },
+    { value: "FINISHED_BEFORE_DATE", label: "Finished before date" },
+    { value: "FINISHED_AFTER_DATE", label: "Finished after date" },
+  ];
+
+  const filterOptionsStep2 = [
+    { value: "CREATOR", label: "Creator" },
+    { value: "DEVELOPER", label: "Developer" },
+    { value: "SPECIALTY", label: "Specialty" },
+    { value: "PRIORITY", label: "Priority" },
+    { value: "CREATED_BEFORE_DATE", label: "Created before date" },
+    { value: "CREATED_AFTER_DATE", label: "Created after date" },
+    { value: "FINISHED_BEFORE_DATE", label: "Finished before date" },
+    { value: "FINISHED_AFTER_DATE", label: "Finished after date" },
+  ];
+
   const dispatch = useDispatch();
+  const [filterOne, setFilterOne] = useState("");
+  const [filterTwo, setFilterTwo] = useState("");
+  const ticketCreators = useSelector(selectAllTicketCreators);
+  const creators = ticketCreators.map(x => x);
 
   useEffect(() => {
     dispatch(getTicketListForKanban());
+    console.log("ticketCreators: " + ticketCreators)
+  }, []);
+
+  const filter1 = (e) => {
+    setFilterOne(e.value);
+  };
+
+  const filter2 = (e) => {
+    setFilterTwo(e.value);
+  };
+
+  useEffect(() => {
+    dispatch(getAllTicketsCreators())
+    // switch(filterOne) {
+    //   case "CREATOR": {
+    //     dispatch(getAllTicketsCreators())
+    //   }
+    // }
+    console.log("filterOne: " + filterOne);
+  }, []);
+
+  useEffect(() => {
+    console.log("filterTwo: " + filterTwo);
   }, []);
 
   return (
-        <div style={{ paddingTop: "5px" }}>
-          <h3>Ticket-board</h3>
-          <div style={{ justifyContent: "space-between", padding: "0 auto"}}>
-            <KanbanBoard />
-          </div>
+    <div>
+      <label htmlFor="filter" style={{paddingLeft: 4, paddingBottom: 5, margin: 0, fontWeight: 500}}>Filter "Closed" column by: </label>
+      <div className="form-group col-lg-12" style={{display: "flex", justifyContent: "space-between", marginLeft: 0, padding: 0}}>
+        <div className="col-lg-4" style={{ paddingLeft: 0 }}>
+          <Select
+            options={filterOptionsStep1}
+            type="text"
+            name="filter"
+            onChange={filter1}
+            style={{ width: "20%", display: "inline-block", padding: 4}}
+          />
         </div>
+        <div className="col-lg-4" style={{ paddingLeft: 0 }}>
+          <Select
+            // options={creators !== null ? creators : null}
+            type="text"
+            name="filter"
+            onChange={filter2}
+            style={{ width: "20%", display: "inline-block", padding: 4}}
+          />
+        </div>
+        <div className="col-lg-4" style={{ paddingLeft: 0 }}>
+          <button className="btn-block">Filter</button>
+        </div>
+      </div>
+      <div style={{ justifyContent: "space-between", padding: "0 auto" }}>
+        <KanbanBoard />
+      </div>
+    </div>
   );
 };
 
@@ -132,7 +207,7 @@ const KanbanBoard = (props) => {
             currentUserData.developer !== null
           ) {
             projectObject.developer === currentUserData.developer;
-            dispatch(assigneTicketToUser(project, currentUserData.id))
+            dispatch(assigneTicketToUser(project, currentUserData.id));
           }
           return projectObject.title === project.title;
         }
@@ -147,7 +222,7 @@ const KanbanBoard = (props) => {
   };
 
   return (
-    <div style={{display: "flex", justifyContent: "space-between"}}>
+    <div style={{ display: "flex", justifyContent: "space-between" }}>
       {columns.map((column) => {
         return (
           <KanbanColumn
@@ -162,7 +237,6 @@ const KanbanBoard = (props) => {
             userData={userData}
             currentUserData={currentUserData}
           />
-          
         );
       })}
     </div>
@@ -205,7 +279,7 @@ const KanbanColumn = (props) => {
     paddingRight: "1px",
     width: "25%",
     textAlign: "center",
-    backgroundColor: mouseIsHovering ? "#e3dac9" : "#b1b1b1",
+    backgroundColor: mouseIsHovering ? "#8f92a1" : "#a1a4b5",
     transition: "mouseIsHovering 1",
   };
 
@@ -240,7 +314,7 @@ const KanbanColumn = (props) => {
           ({props.projects.length})
         </span>
       </h5>
-      <div style={{ height: 650, overflowY: "scroll" }}>
+      <div style={{ height: 600, overflowY: "scroll" }}>
         {generateKanbanCards()}
       </div>
     </div>
@@ -265,8 +339,7 @@ const KanbanCard = (props) => {
   const cardStyle = {
     backgroundColor: "#f9f7f7",
     paddingLeft: 0,
-    marginLeft: 0,
-    margin: 4,
+    margin: "2px 7px 7px",
     marginBottom: 8,
   };
   const project = props.project;
@@ -299,8 +372,8 @@ const KanbanCard = (props) => {
     },
   };
 
-  const openComments = (id) => {
-    alert("Comments for ticket with id: " + id + "!!");
+  const openTicketHistory = (id) => {
+    alert("Hitory of ticket with id: " + id + "!!");
   };
 
   const changeBackgroundOnMouseHover = (e) => {
@@ -524,11 +597,11 @@ const KanbanCard = (props) => {
                 width: "100%",
                 cursor: "pointer",
               }}
-              onClick={() => openComments(project.id)}
+              onClick={() => openTicketHistory(project.id)}
               onMouseOver={changeBackgroundOnMouseHover}
               onMouseLeave={changeBackgroundOnMouseLeave}
             >
-              Comments
+              Ticket history
             </h6>
           ) : null
         ) : null}
@@ -542,7 +615,7 @@ const KanbanCard = (props) => {
           paddingBottom: 3,
           borderBottom: "2px solid #d5ddf8",
           borderLeft: "2px solid #d5ddf8",
-          borderRight: "2px solid #d5ddf8"
+          borderRight: "2px solid #d5ddf8",
         }}
         onClick={changeCollapse}
       >

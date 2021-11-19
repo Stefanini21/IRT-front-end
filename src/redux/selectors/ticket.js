@@ -5,3 +5,4 @@ export const selectTicketList = (state) => state.ticket.ticketList;
 export const selectIsFetching = (state) => state.ticket.isFetching;
 export const selectStatuses = (state) => state.ticket.statuses;
 export const selectPriorities = (state) => state.ticket.priorities;
+export const selectAllTicketCreators = (state) => state.ticket.allTicketCreators;

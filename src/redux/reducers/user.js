@@ -21,7 +21,8 @@ export const user = (state = initialState, action) => {
             const userList = action.payload
             return {
                 ...state,
-                userList: userList
+                userList: userList,
+                isFetching: false
             }
         case userActions.SET_USER_ID:
             return {
@@ -38,12 +39,6 @@ export const user = (state = initialState, action) => {
             return {
                 ...state,
                 createdUser: action.payload
-            };
-        case userActions.GET_USER_LIST:
-            return {
-                ...state,
-                userList: action.payload,
-                isFetching: false
             };
         case userActions.DELETE_USER_BY_ID:
             console.log(action.payload + " action.payload for delete")

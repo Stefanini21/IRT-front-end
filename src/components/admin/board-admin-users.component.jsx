@@ -4,11 +4,10 @@ import CreateUserModal from "./create.user.component";
 import ViewUser from "./view.user.component";
 import DataTable from "react-data-table-component";
 import {useDispatch, useSelector} from "react-redux";
-import {deleteUserById, getRoles, getSpecialties, getUserList, setUserId} from "../../redux/actions/user";
+import {getRoles, getSpecialties, getUserList, setUserId} from "../../redux/actions/user";
 import EditUserModal from "./edit.user.component";
 import {selectIsFetching, selectRoles, selectSpecialties, selectUserList} from "../../redux/selectors/user";
 import Loader from "react-loader-spinner";
-import { selectUserWithTasksFlag } from "../../redux/selectors/flag";
 import DeleteUserModal from "./delete.user.component";
 
 const AdminUserList = () => {
@@ -21,12 +20,9 @@ const AdminUserList = () => {
     const [showEditUserModal, setShowEditUserModal] = useState(false);
     const [users, setUsers] = useState([]);
     const [error, setError] = useState("");
-    const [idToDelete, setIdToDelete] = useState('');
-    const [userNameToDelete, setUserNameToDelete] = useState('');
     const [userToView, setUserToView] = useState([]);
     const [loading, setLoading] = useState(true);
-
-
+   
     const userList = useSelector(selectUserList);
     const fetching = useSelector(selectIsFetching);
     const specialties = useSelector(selectSpecialties);
@@ -117,12 +113,15 @@ const AdminUserList = () => {
 
     const handleShowDeleteUserModal = (userToDelete) => {
         dispatch(setUserId(userToDelete.id))
-        //dispatch(setUserNameToDelete(deleteUsername))
         setShowDeleteUserModal(true)
-        //console.log(userIdToDelete)
-        //console.log(userNameToDelete)
+        
+        //dispatch(setWithTasks(false))
+        //dispatch(isDeleted(false))
+        //dispatch(setUserNameToDelete(deleteUsername))
+        //setShowDeleteUserModal(true)
+        //console.log(withTasks)
+        //console.log(isDeleted)
         //console.log(showDeleteUserModal)
-
     }
 
     const handleCloseDeleteUserModal = () => {
@@ -130,8 +129,11 @@ const AdminUserList = () => {
         //console.log(userNameToDelete)
         //console.log(showDeleteUserModal)
         setShowDeleteUserModal(false)
+        .then(() => {
+            dispatch(getUserList())
+        })
         //console.log(showDeleteUserModal)
-        dispatch(getUserList())
+        //dispatch(getUserList())
     }
 
     //const handleDeleteUser = () => {

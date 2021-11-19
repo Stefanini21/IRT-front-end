@@ -7,6 +7,7 @@ const initialState = {
   updatedUser: {},
   createdUser: {},
   isDeleted: false,
+  withTasks: false,
   userList: {},
   specialties: {},
   specialtiesFetching: true,
@@ -48,6 +49,17 @@ export const user = (state = initialState, action) => {
         //userList: userList,
         isDeleted: true,
       };
+    case userActions.RECEIVE_USER_WITH_TASKS:
+      return {
+        ...state,
+        withTasks: true
+      };
+    case userActions.RESET_DELETE_USER_STATE:
+      return {
+        ...state,
+        isDeleted: false,
+        withTasks: false
+      }
     case userActions.GET_SPECIALTIES:
       return {
         ...state,

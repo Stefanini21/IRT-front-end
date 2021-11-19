@@ -8,3 +8,4 @@ export const selectRoles = (state) => state.user.roles;
 export const selectRolesFetching = (state) => state.user.rolesFetching;
 export const selectIsFetching = (state) => state.user.isFetching;
 export const selectIsDeleted = (state) => state.user.isDeleted;
+export const selectUserWithTasksFlag = (state) => state.user.withTasks;

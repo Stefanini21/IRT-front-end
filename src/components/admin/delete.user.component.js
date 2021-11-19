@@ -1,9 +1,7 @@
 import React, {useEffect, useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
-import {deleteUserById, getUserList, getUserById} from "../../redux/actions/user";
-import {selectIdToDelete, selectUserNameToDelete, selectUserId, selectUserById, selectIsDeleted} from "../../redux/selectors/user";
-import {selectDuplicatedEntryFlag, selectSuccessfulCreatedUserFlag, selectUserWithTasksFlag} from "../../redux/selectors/flag";
-import UserService from "../../services/user.service";
+import {deleteUserById, getUserList, getUserById, resetDeleteUserState} from "../../redux/actions/user";
+import {selectUserId, selectUserById, selectIsDeleted, selectUserWithTasksFlag} from "../../redux/selectors/user";
 
 const DeleteUserModal = () => {
 
@@ -13,11 +11,20 @@ const DeleteUserModal = () => {
     const userById = useSelector(selectUserById);
     const isDeleted = useSelector(selectIsDeleted)
     const isUserWithTasks = useSelector(selectUserWithTasksFlag);
-    
+        
     const [show, setShow] = useState(false);
 
+    useEffect(() => {
+        dispatch(resetDeleteUserState())
+        dispatch(getUserById(userId))
+    }, [])
+
+    useEffect(() => {
+        dispatch(getUserList());
+    }, [])   
+
     const handleCloseDeleteUserModal = () => {
-        setShow(false)
+        dispatch(setShow(false))
         window.location.reload()
         //dispatch(getUserList())
     }
@@ -29,15 +36,6 @@ const DeleteUserModal = () => {
         //setShowDeleteUserModal(false)
         //console.log(showDeleteUserModal)
     }
-
-    useEffect(() => {
-        dispatch(getUserById(userId))
-        console.log("dispatch(deleteUserById(userId))")
-    }, [])
-
-    useEffect(() => {
-        dispatch(getUserList());
-    }, [])
 
     return (
         <div className="col-md-12">
@@ -62,6 +60,17 @@ const DeleteUserModal = () => {
                 </div>
                 )}
 
+                {isUserWithTasks && (
+                <div>
+                    <div className={"alert alert-danger"} role="alert">
+                        Please, unassign tasks from this user before delete!
+                    </div>
+                    <button className="primary_button btn-block" onClick={handleCloseDeleteUserModal}>
+                        OK
+                    </button>
+                </div>
+                )}
+
                 {isDeleted && (
                 <div>
                     <div className={"alert alert-danger"} role="alert">
@@ -73,16 +82,6 @@ const DeleteUserModal = () => {
                 </div>
                 )}
                 
-                {isUserWithTasks && (
-                <div>
-                    <div className={"alert alert-danger"} role="alert">
-                        Please, unassign tasks from this user before delete!
-                    </div>
-                    <button className="primary_button btn-block" onClick={handleCloseDeleteUserModal}>
-                        OK
-                    </button>
-                </div>
-                )}
             </div>
         </div>
     );

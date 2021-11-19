@@ -20,7 +20,8 @@ export const userActions = {
     DELETE_USER_BY_ID: "DELETE_USER_BY_ID",
     GET_SPECIALTIES: "GET_SPECIALTIES",
     GET_ROLES: "GET_ROLES",
-    RECEIVE_USER_WITH_TASKS: "RECEIVE_USER_WITH_TASKS"
+    RECEIVE_USER_WITH_TASKS: "RECEIVE_USER_WITH_TASKS",
+    RESET_DELETE_USER_STATE: "RESET_DELETE_USER_STATE"
 }
 
 export const getSpecialties = () => (dispatch) => {
@@ -223,4 +224,10 @@ export const deleteUserById = (userId) => (dispatch) => {
                 })
             }
         })
+}
+
+export const resetDeleteUserState = () => (dispatch) => {
+    return dispatch({
+        type: userActions.RESET_DELETE_USER_STATE,
+    })
 }

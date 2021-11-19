@@ -14,7 +14,6 @@ const initialState = {
     isDuplicatedEntry: false,
     ticketDataUpdated: false,
     isDuplicatedTitle: false,
-    withTasks: false
 }
 
 export const flipFlag = (state = initialState, action) => {
@@ -39,11 +38,6 @@ export const flipFlag = (state = initialState, action) => {
             return {
                 ...state,
                 userDataUpdated: true
-            };
-        case userActions.RECEIVE_USER_WITH_TASKS:
-            return {
-                ...initialState,
-                withTasks: true
             };
         case flagActions.RESET_EDIT_USER_FLAGS:
             return {

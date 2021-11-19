@@ -1,10 +1,17 @@
 import React from "react";
+import {FaFacebook, FaInstagram, FaSlack, FaTwitter, FaYoutube} from 'react-icons/fa'
+import {Col, Container, Row} from "react-bootstrap";
+
 
 const footerStyle = {
-    bottom: '0',
-    left: '0',
-    width: '100%',
-    padding: '1rem',
+    'margin-top': '310px',
+    'padding': '1rem',
+    'bottom': '0',
+    'left': '0',
+    'width': '100%',
+    'textAlign': 'center',
+    'font-size': '20px',
+    'background-image': 'linear-gradient(to bottom right, #3b6a9a, #80a9d1)'
 
 }
 

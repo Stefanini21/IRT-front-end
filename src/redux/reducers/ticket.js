@@ -11,7 +11,8 @@ import {
   SET_TICKET_ID,
   GET_STATUSES,
   GET_PRIORITIES,
-  GET_ALL_TICKETS_CREATORS
+  GET_ALL_TICKETS_CREATORS,
+  GET_ALL_TICKETS_DEVELOPERS
 } from "../actions/types";
 
 const initialState = {
@@ -24,7 +25,8 @@ const initialState = {
   isDeleted: false,
   statuses: {},
   priorities: {},
-  allTicketCreators: {}
+  allTicketCreators: {},
+  allTicketDevelopers: {}
 };
 
 
@@ -85,6 +87,11 @@ export const ticket = (state = initialState, action) => {
       return {
         ...state,
         allTicketCreators: action.payload,
+      }
+    case GET_ALL_TICKETS_DEVELOPERS:
+      return {
+        ...state,
+        allTicketDevelopers: action.payload,
       }
     default:
       return state;

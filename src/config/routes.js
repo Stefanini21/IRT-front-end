@@ -18,4 +18,5 @@ export const routes = {
     CHANGE_TICKET_STATUS: "tickets/",
     ASSIGN_TICKET_TO_USER: "tickets/",
     GET_ALL_TICKETS_CREATORS: "tickets/creators",
+    GET_ALL_TICKETS_DEVELOPERS: "tickets/developers",
 };

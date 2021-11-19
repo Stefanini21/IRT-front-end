@@ -1,17 +1,22 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getUserData } from "../../redux/selectors/auth";
-import { selectTicketList, selectAllTicketCreators } from "../../redux/selectors/ticket";
+import {
+  selectTicketList,
+  selectAllTicketCreators,
+  selectAllTicketDevelopers
+} from "../../redux/selectors/ticket";
 import {
   changeTicketStatus,
   getTicketListForKanban,
-  getAllTicketsCreators
+  getAllTicketsCreators,
+  getAllTicketsDevelopers
 } from "../../redux/actions/ticket";
 import { selectUserById } from "../../redux/selectors/user";
 import Select from "react-select";
+import { style } from "dom-helpers";
 
 const Kanban = () => {
-
   const filterOptionsStep1 = [
     { value: "CREATOR", label: "Creator" },
     { value: "DEVELOPER", label: "Developer" },
@@ -38,59 +43,126 @@ const Kanban = () => {
   const [filterOne, setFilterOne] = useState("");
   const [filterTwo, setFilterTwo] = useState("");
   const ticketCreators = useSelector(selectAllTicketCreators);
-  const creators = ticketCreators.map(x => x);
+  const ticketDevelopers = useSelector(selectAllTicketDevelopers);
+  const [filterButonDisabled, setFilterButtonDisabled] = useState(true);
+  const [options2, setOptions2] = useState([]);
 
   useEffect(() => {
     dispatch(getTicketListForKanban());
-    console.log("ticketCreators: " + ticketCreators)
+    dispatch(getAllTicketsCreators());
+    dispatch(getAllTicketsDevelopers());
+    console.log("filterOne: " + filterOne);
+    console.log("filterTwo: " + filterTwo);
   }, []);
 
   const filter1 = (e) => {
     setFilterOne(e.value);
+    switch (filterOne) {
+      case "CREATOR": {
+        const mappedTicketCreators = ticketCreators.map((v) => ({
+          label: v,
+          value: v,
+        }));
+        setOptions2(mappedTicketCreators);
+        break;
+      }
+      case "DEVELOPER": {
+        const mappedTicketDevelopers = ticketDevelopers.map((v) => ({
+          label: v,
+          value: v,
+        }));
+        setOptions2(mappedTicketDevelopers);
+        break;
+      }
+      case "SPECIALTY": {
+        // dispatch(getAllTicketsCreators());
+        console.log("SPECIALTY");
+        break;
+      }
+      case "PRIORITY": {
+        // dispatch(getAllTicketsCreators());
+        console.log("PRIORITY");
+        break;
+      }
+      case "CREATED_BEFORE_DATE": {
+        // dispatch(getAllTicketsCreators());
+        console.log("CREATED_BEFORE_DATE");
+        break;
+      }
+      case "CREATED_AFTER_DATE": {
+        // dispatch(getAllTicketsCreators());
+        console.log("CREATED_AFTER_DATE");
+        break;
+      }
+      case "FINISHED_BEFORE_DATE": {
+        // dispatch(getAllTicketsCreators());
+        console.log("FINISHED_BEFORE_DATE");
+        break;
+      }
+      case "FINISHED_AFTER_DATE": {
+        // dispatch(getAllTicketsCreators());
+        console.log("FINISHED_AFTER_DATE");
+        break;
+      }
+      default:
+        setOptions2(null);
+    }
+  };
+
+  const doFilter = () => {
+    setFilterButtonDisabled(true);
+    setOptions2(null);
   };
 
   const filter2 = (e) => {
     setFilterTwo(e.value);
+    setFilterButtonDisabled(false);
   };
-
-  useEffect(() => {
-    dispatch(getAllTicketsCreators())
-    // switch(filterOne) {
-    //   case "CREATOR": {
-    //     dispatch(getAllTicketsCreators())
-    //   }
-    // }
-    console.log("filterOne: " + filterOne);
-  }, []);
-
-  useEffect(() => {
-    console.log("filterTwo: " + filterTwo);
-  }, []);
 
   return (
     <div>
-      <label htmlFor="filter" style={{paddingLeft: 4, paddingBottom: 5, margin: 0, fontWeight: 500}}>Filter "Closed" column by: </label>
-      <div className="form-group col-lg-12" style={{display: "flex", justifyContent: "space-between", marginLeft: 0, padding: 0}}>
+      <label
+        htmlFor="filter"
+        style={{ paddingLeft: 4, paddingBottom: 5, margin: 0, fontWeight: 500 }}
+      >
+        Filter "Closed" column by:{" "}
+      </label>
+      <div
+        className="form-group col-lg-12"
+        style={{
+          display: "flex",
+          justifyContent: "space-between",
+          marginLeft: 0,
+          padding: 0,
+        }}
+      >
         <div className="col-lg-4" style={{ paddingLeft: 0 }}>
           <Select
             options={filterOptionsStep1}
             type="text"
             name="filter"
             onChange={filter1}
-            style={{ width: "20%", display: "inline-block", padding: 4}}
+            style={{ width: "20%", display: "inline-block", padding: 4 }}
           />
         </div>
         <div className="col-lg-4" style={{ paddingLeft: 0 }}>
           <Select
-            // options={creators !== null ? creators : null}
+            options={options2 !== null ? options2 : null}
             type="text"
             name="filter"
             onChange={filter2}
-            style={{ width: "20%", display: "inline-block", padding: 4}}
+            style={{ width: "20%", display: "inline-block", padding: 4 }}
           />
         </div>
         <div className="col-lg-4" style={{ paddingLeft: 0 }}>
-          <button className="btn-block">Filter</button>
+          <button
+            disabled={filterButonDisabled}
+            style={{ float: "right" }}
+            className="btn btn-outline-secondary"
+            onClick={doFilter}
+          >
+            Filter
+          </button>
         </div>
       </div>
       <div style={{ justifyContent: "space-between", padding: "0 auto" }}>

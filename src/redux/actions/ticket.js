@@ -16,7 +16,8 @@ import {
   RECEIVE_DUPLICATE_TITLE,
   GET_STATUSES,
   GET_PRIORITIES,
-  GET_ALL_TICKETS_CREATORS
+  GET_ALL_TICKETS_CREATORS,
+  GET_ALL_TICKETS_DEVELOPERS
 } from "./types";
 import {userActions as ticketActions} from "./user";
 
@@ -195,10 +196,22 @@ export const getAllTicketsCreators = () => (dispatch) => {
 
   return HttpService.get(url)
       .then(response => {
-
   console.log("In getAllTicketsCreators, response: " + response)
         return dispatch({
           type: GET_ALL_TICKETS_CREATORS,
+          payload: response
+        })
+      })
+}
+
+export const getAllTicketsDevelopers = () => (dispatch) => {
+  const url = routes.BASIC_URL + routes.BASIC_PATH + routes.GET_ALL_TICKETS_DEVELOPERS
+  console.log("url: "+ url)
+  return HttpService.get(url)
+      .then(response => {
+  console.log("In getAllTicketsDevelopers, response: " + response)
+        return dispatch({
+          type: GET_ALL_TICKETS_DEVELOPERS,
           payload: response
         })
       })

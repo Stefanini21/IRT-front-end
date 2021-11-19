@@ -3,17 +3,10 @@ import Form from "react-validation/build/form";
 import Input from "react-validation/build/input";
 import {isEmail} from "validator";
 import {useDispatch, useSelector} from "react-redux";
-import {getUserById, updateUserById, userActions} from "../../redux/actions/user";
-import {
-    selectSpecialties,
-    selectRoles,
-    selectUserById,
-    selectUserId,
-} from "../../redux/selectors/user";
+import {getUserById, updateUserById} from "../../redux/actions/user";
+import {selectRoles, selectSpecialties, selectUserById, selectUserId,} from "../../redux/selectors/user";
 import {selectDuplicatedEntryFlag, selectUserUpdatedFlag} from "../../redux/selectors/flag";
-import {
-    resetEditUserFlags,
-} from "../../redux/actions/flag";
+import {resetEditUserFlags,} from "../../redux/actions/flag";
 import Loader from "react-loader-spinner";
 
 
@@ -91,10 +84,6 @@ const EditUserModal = () => {
     useEffect(() => {
         dispatch(resetEditUserFlags())
         dispatch(getUserById(userId))
-        setUsername("")
-        setFirstName("")
-        setEmail("")
-        setEmail("")
     }, [])
 
 
@@ -106,10 +95,6 @@ const EditUserModal = () => {
         setSpecialty(userById.specialty);
         setRole(userById.role);
     }, [userById])
-
-    const handleClose = () => {
-        setShow(false)
-    }
 
     const onChangeUsername = (e) => {
         setUsername(e.target.value)
@@ -123,7 +108,6 @@ const EditUserModal = () => {
     const onChangeLastName = (e) => {
         setLastName(e.target.value)
     }
-
 
     const onChangeSpecialty = (e) => {
         setSpecialty(e.target.value)
@@ -159,73 +143,66 @@ const EditUserModal = () => {
     }
 
     return <>
-        {(usernameForm === "" || firstnameForm === "" ||
-            lastnameForm === "" || emailForm ==="") ?
-            <Loader className="loader-spinner"
-                    type="TailSpin"
-                    color="#4f677f"
-                    height={50}
-                    width={50}
-            /> :
-    <div className="col-md-12">
-            <div className="card card-container">
-                <img
-                    src="//ssl.gstatic.com/accounts/ui/avatar_2x.png"
-                    alt="profile-img"
-                    className="profile-img-card"
-                />
+        {usernameForm ?
+            <div className="col-md-12">
+                <div className="card card-container">
+                    <img
+                        src="//ssl.gstatic.com/accounts/ui/avatar_2x.png"
+                        alt="profile-img"
+                        className="profile-img-card"
+                    />
 
-                <Form onSubmit={handleSubmit}>
-                    <div>
-                        <div className="form-group">
-                            <label htmlFor="username">Username</label>
-                            <Input
-                                type="text"
-                                className="form-control"
-                                name="username"
-                                value={usernameForm}
-                                onChange={onChangeUsername}
-                                validations={[required, vusername]}
-                            />
-                        </div>
+                    <Form onSubmit={handleSubmit}>
+                        <div>
+                            <div className="form-group">
+                                <label htmlFor="username">Username</label>
+                                <Input
+                                    type="text"
+                                    className="form-control"
+                                    name="username"
+                                    value={usernameForm}
+                                    onChange={onChangeUsername}
+                                    validations={[required, vusername]}
+                                />
+                            </div>
 
-                        <div className="form-group">
-                            <label htmlFor="firstname">First name</label>
-                            <Input
-                                type="text"
-                                className="form-control"
-                                name="firstname"
-                                value={firstnameForm}
-                                onChange={onChangeFirstName}
-                                validations={[required, vfirstname]}
-                            />
-                        </div>
+                            <div className="form-group">
+                                <label htmlFor="firstname">First name</label>
+                                <Input
+                                    type="text"
+                                    className="form-control"
+                                    name="firstname"
+                                    value={firstnameForm}
+                                    onChange={onChangeFirstName}
+                                    validations={[required, vfirstname]}
+                                />
+                            </div>
 
-                        <div className="form-group">
-                            <label htmlFor="lastname">Last name</label>
-                            <Input
-                                type="text"
-                                className="form-control"
-                                name="lastname"
-                                value={lastnameForm}
-                                onChange={onChangeLastName}
-                                validations={[required, vlastname]}
-                            />
-                        </div>
+                            <div className="form-group">
+                                <label htmlFor="lastname">Last name</label>
+                                <Input
+                                    type="text"
+                                    className="form-control"
+                                    name="lastname"
+                                    value={lastnameForm}
+                                    onChange={onChangeLastName}
+                                    validations={[required, vlastname]}
+                                />
+                            </div>
 
-                        <div className="form-group">
-                            <label htmlFor="email">Email</label>
-                            <Input
-                                type="text"
-                                className="form-control"
-                                name="email"
-                                value={emailForm}
-                                onChange={onChangeEmail}
-                                validations={[required, vemail]}
-                            />
-                        </div>
+                            <div className="form-group">
+                                <label htmlFor="email">Email</label>
+                                <Input
+                                    type="text"
+                                    className="form-control"
+                                    name="email"
+                                    value={emailForm}
+                                    onChange={onChangeEmail}
+                                    validations={[required, vemail]}
+                                />
+                            </div>
 
-                        <div className="form-group">
+                            <div className="form-group">
                                 <label htmlFor="role">Role</label>
                                 <select
                                     className="form-control"
@@ -256,45 +233,49 @@ const EditUserModal = () => {
                                 <br/>
                             </div>
 
-                        {usernameForm.length > 2 && usernameForm.length < 21 &&
-                        firstnameForm.length > 2 && firstnameForm.length <21 &&
-                        lastnameForm.length > 2 && lastnameForm.length < 21 &&
-                        isEmail(emailForm) ? (
-                        <div className="form-group">
-                            <button className="primary_button btn-block">Update</button>
-                        </div>)
-                        :
+                            {usernameForm.length > 2 && usernameForm.length < 21 &&
+                            firstnameForm.length > 2 && firstnameForm.length < 21 &&
+                            lastnameForm.length > 2 && lastnameForm.length < 21 &&
+                            isEmail(emailForm) ? (
+                                    <div className="form-group">
+                                        <button className="primary_button btn-block">Update</button>
+                                    </div>)
+                                :
+                                <div className="form-group">
+                                    <button disabled className="primary_button btn-block">Update</button>
+                                </div>
+                            }
+                        </div>
+
+                        {duplicatedEntryFlag && (
                             <div className="form-group">
-                                <button disabled className="primary_button btn-block">Update</button>
+                                <div className="alert alert-danger"
+                                     role="alert">
+                                    Username or Email are already taken.
+                                </div>
                             </div>
-                        }
-                    </div>
+                        )}
 
-
-                    {duplicatedEntryFlag && (
-                        <div className="form-group">
-                            <div className="alert alert-danger"
-                                 role="alert">
-                                Username or Email are already taken.
+                        {userUpdateSuccess && (
+                            <div className="form-group">
+                                <div className="alert alert-success"
+                                     role="alert">
+                                    {message}
+                                </div>
                             </div>
-                        </div>
-                    )}
-
-                    {userUpdateSuccess && (
-                        <div className="form-group">
-                            <div className="alert alert-success"
-                                 role="alert">
-                                {message}
-                            </div>
-                        </div>
-                    )}
-                </Form>
-            </div>
-        </div>
+                        )}
+                    </Form>
+                </div>
+            </div> :
+            <Loader className="loader-spinner"
+                    type="TailSpin"
+                    color="#4f677f"
+                    height={50}
+                    width={50}
+            />
         }
     </>
 }
-
 
 
 export default EditUserModal;

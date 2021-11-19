@@ -1,15 +1,11 @@
 import {useDispatch, useSelector} from "react-redux";
-import {selectTicketById, selectTicketId, selectStatuses, selectPriorities} from "../../redux/selectors/ticket";
-import {
-    selectDuplicatedTitleFlag,
-    selectTicketUpdatedFlag,
-} from "../../redux/selectors/flag";
-import {selectRoles, selectSpecialties} from "../../redux/selectors/user";
+import {selectPriorities, selectStatuses, selectTicketById, selectTicketId} from "../../redux/selectors/ticket";
+import {selectDuplicatedTitleFlag, selectTicketUpdatedFlag,} from "../../redux/selectors/flag";
+import {selectSpecialties} from "../../redux/selectors/user";
 import React, {useEffect, useState} from "react";
 import {resetEditTicketFlags} from "../../redux/actions/flag";
-import {getTicketById, getTicketList, updateTicketById} from "../../redux/actions/ticket";
+import {getTicketById, updateTicketById} from "../../redux/actions/ticket";
 import Loader from "react-loader-spinner";
-import {setMessage} from "../../redux/actions/message";
 import Form from "react-validation/build/form";
 import Input from "react-validation/build/input";
 
@@ -44,8 +40,6 @@ const vdescription = (value) => {
 };
 
 
-
-
 const EditTicketComponent = () => {
     const dispatch = useDispatch();
     const ticketId = useSelector(selectTicketId);
@@ -68,8 +62,6 @@ const EditTicketComponent = () => {
     useEffect(() => {
         dispatch(resetEditTicketFlags())
         dispatch(getTicketById(ticketId))
-        setTitle("")
-        setDescription("")
     }, [])
 
     useEffect(() => {
@@ -78,7 +70,7 @@ const EditTicketComponent = () => {
         setPriority(ticketById.priority);
         setSpecialty(ticketById.specialty);
         setStatus(ticketById.status);
-        setDeveloper(ticketById.developer);
+        //setDeveloper(ticketById.developer);
     }, [ticketById])
 
     const onChangeTitle = (e) => {
@@ -116,23 +108,20 @@ const EditTicketComponent = () => {
             priority: priorityForm,
             specialty: specialtyForm,
             status: statusForm,
-            developer: developerForm
+            //developer: developerForm
         }
 
         dispatch(updateTicketById(formattedData, ticketId))
             .then(() => {
-            setMessage('Ticket id: ' + ticketId + ' successfully updated!')});
+                setMessage('Ticket id: ' + ticketId + ' successfully updated!')
+            });
     }
-    return <div>
-            {(titleForm === "" || descriptionForm === "") ?
-                <Loader className="loader-spinner"
-                        type="TailSpin"
-                        color="#4f677f"
-                        height={50}
-                        width={50}
-                /> :
-                (<div className="col-md-12">
+
+    return <>
+        {titleForm && descriptionForm ?
+            <div className="col-md-12">
                 <div className="card card-container">
+
                     <Form onSubmit={handleSubmit}>
                         <div>
                             <div className="form-group">
@@ -166,7 +155,6 @@ const EditTicketComponent = () => {
                                     name="priority"
                                     defaultValue={priorityForm}
                                     value={priorityForm}
-                                    validations={[required]}
                                     onChange={onChangePriority}>
                                     {priorities.map((r, i) =>
                                         <option value={r}>{r}</option>
@@ -224,39 +212,44 @@ const EditTicketComponent = () => {
 
                             {titleForm.length > 2 && titleForm.length < 31 &&
                             descriptionForm.length > 2 ? (
-                                <div className="form-group">
-                                    <button className="primary_button btn-block">Update</button>
-                                </div>
-                            )
+                                    <div className="form-group">
+                                        <button className="primary_button btn-block">Update</button>
+                                    </div>)
                                 :
                                 <div className="form-group">
                                     <button disabled className="primary_button btn-block">Update</button>
                                 </div>
                             }
+                        </div>
 
-                            {duplicatedTitleFlag && (
-                                <div className="form-group">
-                                    <div className="alert alert-danger"
-                                         role="alert">
-                                        There is another ticket with this title.
-                                    </div>
+                        {duplicatedTitleFlag && (
+                            <div className="form-group">
+                                <div className="alert alert-danger"
+                                     role="alert">
+                                    There is another ticket with this title.
                                 </div>
-                            )}
+                            </div>
+                        )}
 
-                            {ticketUpdatedSuccess && (
-                                <div className="form-group">
-                                    <div className="alert alert-success"
-                                         role="alert">
-                                        {message}
-                                    </div>
+                        {ticketUpdatedSuccess && (
+                            <div className="form-group">
+                                <div className="alert alert-success"
+                                     role="alert">
+                                    {message}
                                 </div>
-                            )}
-
-                    </div>
-                </Form>
+                            </div>
+                        )}
+                    </Form>
+                </div>
             </div>
-        </div> )}
-    </div>
+            :
+            <Loader className="loader-spinner"
+                    type="TailSpin"
+                    color="#4f677f"
+                    height={50}
+                    width={50}
+            />}
+    </>
 }
 
 export default EditTicketComponent;

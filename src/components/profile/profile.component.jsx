@@ -137,6 +137,7 @@ const Profile = () => {
                   value={newPasswordConfirmation}
                   onChange={(e) => setNewPasswordConfirmation(e.target.value)}
                   validations={[required]}
+
                 />
               </div>
 

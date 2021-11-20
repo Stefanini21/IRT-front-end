@@ -19,7 +19,7 @@ export const userActions = {
     FAIL_SEND_EMAIL: "FAIL_SEND_EMAIL",
     DELETE_USER_BY_ID: "DELETE_USER_BY_ID",
     GET_SPECIALTIES: "GET_SPECIALTIES",
-    GET_ROLES: "GET_ROLES",
+    GET_ROLES: "GET_ROLES"
 }
 
 export const getSpecialties = () => (dispatch) => {

@@ -10,6 +10,7 @@ import {
   DELETE_TICKET_BY_ID,
   SET_TICKET_ID, GET_STATUSES, GET_PRIORITIES
 } from "../actions/types";
+import {userActions} from "../actions/user";
 
 const initialState = {
   message: null,
@@ -21,6 +22,7 @@ const initialState = {
   isDeleted: false,
   statuses: {},
   priorities: {},
+  ticketListFor: {}
 };
 
 

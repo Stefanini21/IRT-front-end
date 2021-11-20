@@ -1,20 +1,29 @@
-import React, {useEffect} from "react";
+import React, {useEffect, useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
-import {getUserById} from "../../redux/actions/user";
 import {selectUserById, selectUserId} from "../../redux/selectors/user";
-import {Badge} from "react-bootstrap";
+import {Accordion, Badge} from "react-bootstrap";
+import UserService from "../../services/user.service";
+import {getUserById} from "../../redux/actions/user";
 
 
 const ViewUser = () => {
 
     const userId = useSelector(selectUserId);
     const userById = useSelector(selectUserById);
+    const [tickets, setTickets] = useState([]);
+    const [ticketsFor, setTicketsFor] = useState([]);
 
     const dispatch = useDispatch();
 
     useEffect(() => {
+
         dispatch(getUserById(userId))
-        console.log("dispatch(getUserById(userId))")
+
+        UserService.getTicketsFor(userId).then(
+            response => {
+                setTickets(response.data)
+            },
+        );
     }, [])
 
     return (
@@ -45,6 +54,25 @@ const ViewUser = () => {
                     {userById.role}
                 </Badge>
             </p>
+
+            <p>
+                <strong>User Tickets : </strong>
+                <Accordion>
+
+                    {tickets.map((ticket, index) => {
+                       return <Accordion.Item eventKey={index}>
+                            <Accordion.Header>{ticket.title}</Accordion.Header>
+                            <Accordion.Body>
+                                {ticket.description}
+                            </Accordion.Body>
+                        </Accordion.Item>
+                    })}
+
+
+                </Accordion>
+            </p>
+
+
         </div>
     );
 }

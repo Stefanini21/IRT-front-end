@@ -14,9 +14,11 @@ const initialState = {
     isDuplicatedEntry: false,
     ticketDataUpdated: false,
     isDuplicatedTitle: false,
+    successfulForgotPasswordUpdated: false,
+    failForgotPasswordUpdate: false
 }
 
-export const flipFlag = (state = initialState, action) => {
+export const flipFlag = (state = initialState, action, history) => {
     switch (action.type) {
         case userActions.CLOSE_MODAL:
             return {
@@ -49,6 +51,16 @@ export const flipFlag = (state = initialState, action) => {
             return {
                 ...initialState,
                 successfulPasswordUpdated: true
+            }
+        case userActions.UPDATE_FORGOTTEN_PASSWORD_SUCCESS:
+            return {
+                ...initialState,
+                successfulForgotPasswordUpdated: true
+            }
+        case userActions.FAIL_FORGOTTEN_PASSWORD_UPDATE:
+            return {
+                ...initialState,
+                failForgotPasswordUpdate: true
             }
         case userActions.FAIL_PASSWORD_UPDATE:
             return {

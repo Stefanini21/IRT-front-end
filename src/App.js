@@ -15,6 +15,7 @@ import Profile from "./components/profile/profile.component";
 import AdminUserList from "./components/admin/board-admin-users.component";
 import TicketList from "./components/admin/ticket-list.component";
 import Forgot from "./components/sign-in/forgot.component";
+import ChangePassword from "./components/sign-in/change-password.component";
 
 
 export default class App extends Component {
@@ -26,7 +27,7 @@ export default class App extends Component {
                 <Router>
                     <PersistGate persistor={persistor}>
                         <div style={{margin: 0}}>
-                            <Header />
+                            <Header/>
                             <div className="container mt-3">
                                 <Switch>
                                     <Route exact path={["/", "/home"]} component={Home}/>
@@ -37,6 +38,7 @@ export default class App extends Component {
                                     <Route path="/admin/tickets-board" component={User}/>
                                     <Route path="/user" component={User}/>
                                     <Route path="/forgot" component={Forgot}/>
+                                    <Route path="/change-password" component={ChangePassword}/>
 
                                 </Switch>
                             </div>

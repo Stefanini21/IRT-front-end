@@ -11,7 +11,6 @@ const ViewUser = () => {
     const userId = useSelector(selectUserId);
     const userById = useSelector(selectUserById);
     const [tickets, setTickets] = useState([]);
-    const [ticketsFor, setTicketsFor] = useState([]);
 
     const dispatch = useDispatch();
 
@@ -57,11 +56,14 @@ const ViewUser = () => {
 
             <p>
                 <strong>User Tickets : </strong>
-                <Accordion>
 
+                <Accordion style={{'margin-top': '30px'}}>
                     {tickets.map((ticket, index) => {
-                       return <Accordion.Item eventKey={index}>
-                            <Accordion.Header>{ticket.title}</Accordion.Header>
+                        return <Accordion.Item eventKey={index}
+                                               style={{'margin-top': '30px', border: '2px solid #3b6a9a'}}>
+                            <Accordion.Header>
+                                <a href="#" style={{color: 'black'}}>{ticket.title}</a>
+                            </Accordion.Header>
                             <Accordion.Body>
                                 {ticket.description}
                             </Accordion.Body>

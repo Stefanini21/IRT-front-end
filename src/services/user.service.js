@@ -23,6 +23,16 @@ class UserService {
             }, {headers: authHeader()});
     }
 
+    changeForgottenPassword(email, verificationCode, newPassword, newPasswordConfirmation) {
+        return axios
+            .post(API_URL + "/change-forgotten-password", {
+                email,
+                verificationCode,
+                newPassword,
+                newPasswordConfirmation
+            }, {headers: authHeader()});
+    }
+
     getRoles() {
         return axios.get(API_URL + "/roles", {headers: authHeader()});
     }

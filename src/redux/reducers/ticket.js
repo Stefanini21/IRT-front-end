@@ -11,8 +11,9 @@ import {
   SET_TICKET_ID,
   GET_STATUSES,
   GET_PRIORITIES,
-  GET_ALL_TICKETS_CREATORS,
-  GET_ALL_TICKETS_DEVELOPERS
+  CHANGE_TICKET_DEVELOPER
+  // GET_ALL_TICKETS_CREATORS,
+  // GET_ALL_TICKETS_DEVELOPERS
 } from "../actions/types";
 
 const initialState = {
@@ -64,6 +65,11 @@ export const ticket = (state = initialState, action) => {
         ...state,
         ticketListForKanban: action.payload,
       };
+      case CHANGE_TICKET_DEVELOPER:
+      return {
+        ...state,
+        ticketListForKanban: action.payload,
+      };
     case CHANGE_TICKET_STATUS:
       return {
         ...state,
@@ -83,16 +89,6 @@ export const ticket = (state = initialState, action) => {
       return {
         ...state,
         priorities: action.payload,
-      }
-    case GET_ALL_TICKETS_CREATORS:
-      return {
-        ...state,
-        allTicketCreators: action.payload,
-      }
-    case GET_ALL_TICKETS_DEVELOPERS:
-      return {
-        ...state,
-        allTicketDevelopers: action.payload,
       }
     default:
       return state;

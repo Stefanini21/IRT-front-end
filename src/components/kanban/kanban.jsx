@@ -8,9 +8,8 @@ import {
 } from "../../redux/selectors/ticket";
 import {
   changeTicketStatus,
-  getTicketListForKanban,
-  getAllTicketsCreators,
-  getAllTicketsDevelopers,
+  changeTicketDeveloper,
+  getTicketListForKanban
 } from "../../redux/actions/ticket";
 import { selectUserById } from "../../redux/selectors/user";
 import Select from "react-select";
@@ -24,7 +23,7 @@ const Kanban = () => {
     { value: "SPECIALTY", label: "Specialty" },
     { value: "PRIORITY", label: "Priority" },
     { value: "CREATED_BEFORE_DATE", label: "Created before date" },
-    { value: "CREATED_AFTER_DATE", label: "Created after date" }
+    { value: "CREATED_AFTER_DATE", label: "Created after date" },
   ];
 
   const filterInProgressOptions = [
@@ -33,7 +32,7 @@ const Kanban = () => {
     { value: "SPECIALTY", label: "Specialty" },
     { value: "PRIORITY", label: "Priority" },
     { value: "CREATED_BEFORE_DATE", label: "Created before date" },
-    { value: "CREATED_AFTER_DATE", label: "Created after date" }
+    { value: "CREATED_AFTER_DATE", label: "Created after date" },
   ];
 
   const filterFinishedOptions = [
@@ -42,7 +41,7 @@ const Kanban = () => {
     { value: "SPECIALTY", label: "Specialty" },
     { value: "PRIORITY", label: "Priority" },
     { value: "CREATED_BEFORE_DATE", label: "Created before date" },
-    { value: "CREATED_AFTER_DATE", label: "Created after date" }
+    { value: "CREATED_AFTER_DATE", label: "Created after date" },
   ];
 
   const filterClosedOptions = [
@@ -66,8 +65,8 @@ const Kanban = () => {
 
   useEffect(() => {
     dispatch(getTicketListForKanban());
-    dispatch(getAllTicketsCreators());
-    dispatch(getAllTicketsDevelopers());
+    // dispatch(getAllTicketsCreators());
+    // dispatch(getAllTicketsDevelopers());
     console.log("filterOne: " + filterOne);
     console.log("filterTwo: " + filterTwo);
   }, []);
@@ -138,8 +137,8 @@ const Kanban = () => {
 
   return (
     <div className={"col-lg-12"}>
-      <div style={{padding: "0 20px 5px 20px"}}>
-        <div style={{ display: "inline-block", width: "25%", paddingRight: 5}}>
+      <div style={{ padding: "0 20px 5px 20px" }}>
+        <div style={{ display: "inline-block", width: "25%", paddingRight: 5 }}>
           <label
             htmlFor="filter"
             style={{
@@ -154,19 +153,19 @@ const Kanban = () => {
                 textAlign: "center",
                 fontSize: "20px",
                 // paddingBottom: -10,
-                marginBottom: 4
+                marginBottom: 4,
               }}
             >
-              <span style={{fontWeight: 300}}>"Backlog"</span> filter
+              <span style={{ fontWeight: 300 }}>"Backlog"</span> filter
             </h4>
           </label>
-          <div style={{top: -5, height: 45 }}>
+          <div style={{ top: -5, height: 45 }}>
             <Select
               options={filterBacklogOptions}
               type="text"
               name="filter"
               onChange={filter1}
-              style={{ width: "20%", padding: 4, marginBottom: 4}}
+              style={{ width: "20%", padding: 4, marginBottom: 4 }}
             />
           </div>
           <div>
@@ -175,12 +174,19 @@ const Kanban = () => {
               type="text"
               name="filter"
               onChange={filter2}
-              style={{ width: "20%", padding: 4}}
+              style={{ width: "20%", padding: 4 }}
             />
           </div>
         </div>
-        <div style={{ display: "inline-block", width: "25%", paddingRight: 4, paddingLeft: 2}}>
-        <label
+        <div
+          style={{
+            display: "inline-block",
+            width: "25%",
+            paddingRight: 4,
+            paddingLeft: 2,
+          }}
+        >
+          <label
             htmlFor="filter"
             style={{
               paddingLeft: 4,
@@ -194,13 +200,13 @@ const Kanban = () => {
                 textAlign: "center",
                 fontSize: "20px",
                 paddingBottom: -10,
-                marginBottom: 4
+                marginBottom: 4,
               }}
             >
-              <span style={{fontWeight: 300}}>"In progress"</span> filter
+              <span style={{ fontWeight: 300 }}>"In progress"</span> filter
             </h4>
           </label>
-          <div style={{top: -5, height: 45 }}>
+          <div style={{ top: -5, height: 45 }}>
             <Select
               options={filterInProgressOptions}
               type="text"
@@ -219,8 +225,15 @@ const Kanban = () => {
             />
           </div>
         </div>
-        <div style={{ display: "inline-block", width: "25%", paddingLeft: 4, paddingRight: 2}}>
-        <label
+        <div
+          style={{
+            display: "inline-block",
+            width: "25%",
+            paddingLeft: 4,
+            paddingRight: 2,
+          }}
+        >
+          <label
             htmlFor="filter"
             style={{
               paddingLeft: 4,
@@ -234,13 +247,13 @@ const Kanban = () => {
                 textAlign: "center",
                 fontSize: "20px",
                 paddingBottom: -10,
-                marginBottom: 4
+                marginBottom: 4,
               }}
             >
-              <span style={{fontWeight: 300}}>"Finished"</span> filter
+              <span style={{ fontWeight: 300 }}>"Finished"</span> filter
             </h4>
           </label>
-          <div style={{top: -5, height: 45 }}>
+          <div style={{ top: -5, height: 45 }}>
             <Select
               options={filterFinishedOptions}
               type="text"
@@ -260,8 +273,8 @@ const Kanban = () => {
           </div>
           <div></div>
         </div>
-        <div style={{ display: "inline-block", width: "25%", paddingLeft: 5}}>
-        <label
+        <div style={{ display: "inline-block", width: "25%", paddingLeft: 5 }}>
+          <label
             htmlFor="filter"
             style={{
               paddingLeft: 4,
@@ -275,13 +288,13 @@ const Kanban = () => {
                 textAlign: "center",
                 fontSize: "20px",
                 paddingBottom: -10,
-                marginBottom: 4
+                marginBottom: 4,
               }}
             >
-              <span style={{fontWeight: 300}}>"Closed"</span> filter
+              <span style={{ fontWeight: 300 }}>"Closed"</span> filter
             </h4>
           </label>
-          <div style={{top: -5, height: 45 }}>
+          <div style={{ top: -5, height: 45 }}>
             <Select
               options={filterClosedOptions}
               type="text"
@@ -383,12 +396,14 @@ const KanbanBoard = (props) => {
   //this is called when a Kanban card dropped over a column (called by card)
   const handleOnDragEnd = (e, project) => {
     const updatedProjects = projects.slice(0);
-    console.log(
-      "in the start handleOnDragEnd project.project_stage: " +
-        project.project_stage
-    );
     const dOc = updatedProjects.find((projectObject) => {
-      if (
+      if (project.developer === null && currentUserData.role === "USER"
+      && project.specialty === currentUserData.specialty
+      && project.project_stage === 1 && draggedOverCol === 2) {
+        project.developer === currentUserData.username;
+        dispatch(changeTicketDeveloper(project.id, currentUserData.username));
+        return projectObject.title === project.title;
+      } else if (
         currentUserData.username === project.developer ||
         currentUserData.username === project.creator
       ) {
@@ -413,13 +428,6 @@ const KanbanBoard = (props) => {
             project.project_stage === 2 &&
             draggedOverCol === 3)
         ) {
-          if (
-            projectObject.developer === "" &&
-            currentUserData.developer !== null
-          ) {
-            projectObject.developer === currentUserData.developer;
-            dispatch(assigneTicketToUser(project, currentUserData.id));
-          }
           return projectObject.title === project.title;
         }
       }
@@ -431,6 +439,7 @@ const KanbanBoard = (props) => {
     }
     setDraggedOverCol(project.project_stage);
   };
+
 
   return (
     <div style={{ display: "flex", justifyContent: "space-between" }}>
@@ -560,6 +569,7 @@ const KanbanCard = (props) => {
   const author = props.project.creator;
   const developer = props.project.developer;
   const currentUserData = props.currentUserData;
+  
   // console.log('========================')
   // console.log("priority: " + priority);
   // console.log("specialty: " + specialty);
@@ -735,7 +745,7 @@ const KanbanCard = (props) => {
             backgroundColor: "#D5DDF8",
           }}
         >
-          {developer !== "" && (
+          {developer !== null ? (
             <h6
               style={{
                 fontSize: "0.8rem",
@@ -748,7 +758,18 @@ const KanbanCard = (props) => {
             >
               developer: {developer}
             </h6>
-          )}
+          ) : <h6
+          style={{
+            fontSize: "0.8rem",
+            textAlign: "left",
+            padding: 3,
+            paddingLeft: 18,
+            fontWeight: 700,
+            borderLeft: "5px solid white",
+          }}
+        >
+          developer: <span style={{fontWeight: 400}}>unasigned</span>
+        </h6>}
         </div>
       </div>
       <div style={{ position: "relative" }}>

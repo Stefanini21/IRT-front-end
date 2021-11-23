@@ -70,7 +70,7 @@ const EditTicketComponent = () => {
         setPriority(ticketById.priority);
         setSpecialty(ticketById.specialty);
         setStatus(ticketById.status);
-        //setDeveloper(ticketById.developer);
+        setDeveloper(ticketById.developer);
     }, [ticketById])
 
     const onChangeTitle = (e) => {
@@ -108,7 +108,7 @@ const EditTicketComponent = () => {
             priority: priorityForm,
             specialty: specialtyForm,
             status: statusForm,
-            //developer: developerForm
+            developer: developerForm
         }
 
         dispatch(updateTicketById(formattedData, ticketId))
@@ -118,10 +118,9 @@ const EditTicketComponent = () => {
     }
 
     return <>
-        {titleForm && descriptionForm ?
+        {(titleForm && descriptionForm) ?
             <div className="col-md-12">
                 <div className="card card-container">
-
                     <Form onSubmit={handleSubmit}>
                         <div>
                             <div className="form-group">
@@ -190,25 +189,24 @@ const EditTicketComponent = () => {
                                         <option value={s}>{s}</option>
                                     )}
                                 </select>
-                                <br/>
                             </div>
 
 
-                            {/*<div className="form-group">*/}
-                            {/*    <label htmlFor="developer">Developer</label>*/}
-                            {/*    <select*/}
-                            {/*        className="form-control"*/}
-                            {/*        name="developer"*/}
-                            {/*        defaultValue={developerForm}*/}
-                            {/*        value={developerForm}*/}
-                            {/*        onChange={onChangeDeveloper}>*/}
-                            {/*        validations={[required]}*/}
-                            {/*        {specialties.map((s, i) =>*/}
-                            {/*            <option value={s}>{s}</option>*/}
-                            {/*        )}*/}
-                            {/*    </select>*/}
-                            {/*    <br/>*/}
-                            {/*</div>*/}
+                            <div className="form-group">
+                                <label htmlFor="developer">Developer</label>
+                                <select
+                                    className="form-control"
+                                    name="developer"
+                                    defaultValue={developerForm}
+                                    value={developerForm}
+                                    onChange={onChangeDeveloper}>
+                                    validations={[required]}
+                                    {specialties.map((s, i) =>
+                                        <option value={s}>{s}</option>
+                                    )}
+                                </select>
+                                <br/>
+                            </div>
 
                             {titleForm.length > 2 && titleForm.length < 31 &&
                             descriptionForm.length > 2 ? (

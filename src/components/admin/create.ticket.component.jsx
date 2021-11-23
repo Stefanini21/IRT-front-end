@@ -1,65 +1,55 @@
-import React, {useState} from "react";
+import React, { useState } from "react";
 import Form from "react-validation/build/form";
 import Input from "react-validation/build/input";
 import Select from "react-select";
-import CheckButton from "react-validation/build/button";
+import { selectButtonPressedCreatedTicketFlag } from "../../redux/selectors/flag";
 import { useDispatch, useSelector } from "react-redux";
-import { createTicket, getAllUsersBySpecialty } from "../../redux/actions/ticket";
-import { getUserListBySpecialty, selectPriorities } from "../../redux/selectors/ticket";
+import {
+  createTicket,
+  getAllUsersBySpecialty,
+} from "../../redux/actions/ticket";
+import {
+  getUserListBySpecialty,
+  selectPriorities,
+} from "../../redux/selectors/ticket";
 import { selectSpecialties } from "../../redux/selectors/user";
 import { getUserData } from "../../redux/selectors/auth";
 
-const CreateTicketModal = (props) => {
+const required = (value) => {
+  if (!value) {
+    return (
+      <div className="alert alert-danger" role="alert">
+        This field is required!
+      </div>
+    );
+  }
+};
+
+const CreateTicketModal = () => {
+  const dispatch = useDispatch();
 
   const admin = useSelector(getUserData);
   const admin_username = admin.username;
 
+  const specialtyOptions = useSelector(selectSpecialties);
 
   const userListBySpecialty = useSelector(getUserListBySpecialty);
 
-  const usersListBySpecialtyUsernames = [];
-
-
-  // const statusOptions = [
-  //   { value: "BACKLOG", label: "Backlog" },
-  //   { value: "ASSIGNED", label: "Assigned" },
-  //   { value: "FINISHED", label: "Finished" },
-  //   { value: "CLOSED", label: "Closed" }
-  // ];
-  const statusOptions = useSelector(selectStatuses)
-
-  // const specialtyOptions = [
-  //   { value: "FRONTEND", label: "Front-end" },
-  //   { value: "BACKEND", label: "Back-end" }
-  // ];
-
-  const specialtyOptions = useSelector(selectSpecialties);
-
-  // const priorityOptions = [
-  //   { value: "LOW", label: "Low" },
-  //   { value: "MEDIUM", label: "Medium" },
-  //   { value: "HIGH", label: "High" }
-  // ];
-
-  const priorityOptions = useSelector(selectPriorities)
-
-
-    const dispatch = useDispatch();
+  const priorityOptions = useSelector(selectPriorities);
 
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [priority, setPriority] = useState("");
   const [specialty, setSpecialty] = useState("");
-  const [status, setStatus] = useState("");
   const [developer, setDeveloper] = useState("");
-  const [successful, setSuccessful] = useState(false);
   const [message, setMessage] = useState("");
-  const [show, setShow] = useState(true);
-  const [developerOptions, setDeveloperOptions] = useState({});
+  const createTicketButtonPressed = useSelector(selectButtonPressedCreatedTicketFlag);
+  const [showCreateTicketModal, setShowCreateTicketModal] = useState(false);
 
 
-  const handleClose = () => {
-    setShow(false);
+  const handleCloseCreateTicketModal = () => {
+    setShowCreateTicketModal(false);
+    window.location.reload();
   };
 
   const onChangeTitle = (e) => {
@@ -80,69 +70,59 @@ const CreateTicketModal = (props) => {
 
     dispatch(getAllUsersBySpecialty(e.value));
 
-    // userListBySpecialty.forEach(function (element) {
-    //   usersListBySpecialtyUsernames.push({
-    //     label: element.username,
-    //     value: element.username,
-    //   });
-    // });
-
-    //setDeveloperOptions(usersListBySpecialtyUsernames);
-
   };
 
-  const onChangeStatus = (e) => {
-    console.log("into onChangeStatus")
-    console.log(e.value)
-    setStatus(e.value);
-  };
 
   const onChangeDeveloper = (e) => {
     setDeveloper(e.value);
   };
 
+  const handleSetStatus = () => {
+    
+    if (developer === "NOT SET") {
+      return "BACKLOG"
+    } else {
+      return "ASSIGNED"
+    }
+  };
+
+  const handleSetDeveloper = (developer) => {
+    if (developer === "NOT SET") {
+      return null;
+    } else {
+      return developer;
+    }
+  }
+
   const handleCreateTicket = (e) => {
     e.preventDefault();
 
     setMessage("");
-    setSuccessful(false);
 
-    // this.form.validateAll();
+    handleSetStatus();
 
-    // if (this.checkBtn.context._errors.length === 0)
 
-  const newTicket = {
-    title: title,
-    description: description,
-    priority: priority,
-    status: status,
-    specialty: specialty,
-    developer: developer,
-    creator: admin_username
-  };
+    const newTicket = {
+      title: title,
+      description: description,
+      priority: priority,
+      status: handleSetStatus(),
+      specialty: specialty,
+      developer: handleSetDeveloper(developer),
+      creator: admin_username,
+    };
 
-      dispatch(createTicket(newTicket))
-        .then(() => {
-          setMessage(title + "ticket successfully registered!");
-          setSuccessful(true);
-         // handleCloseCreateTicketModal();
-        })
-        .catch(() => {
-          setSuccessful(false);
-        });
-    
+    dispatch(createTicket(newTicket))
+      .then((response) => {
+        setMessage(response);
+      })
   };
 
   return (
     <div className="col-md-12">
       <div className="card card-container">
-        <Form
-          onSubmit={handleCreateTicket}
-          // ref={(c) => {
-          //     this.form = c;
-          // }}
-        >
-          {!successful && (
+        <Form onSubmit={handleCreateTicket}>
+          {!createTicketButtonPressed  && (
             <div>
               <div className="form-group">
                 <label htmlFor="username">Title</label>
@@ -152,6 +132,7 @@ const CreateTicketModal = (props) => {
                   name="title"
                   value={title}
                   onChange={onChangeTitle}
+                  validations={[required]}
                 />
               </div>
 
@@ -193,25 +174,16 @@ const CreateTicketModal = (props) => {
               </div>
 
               <div className="form-group">
-                <label htmlFor="status">Status</label>
-                <Select
-                  options={statusOptions.map((t) => ({
-                    value: t,
-                    label: t,
-                  }))}
-                  type="text"
-                  name="status"
-                  onChange={onChangeStatus}
-                />
-              </div>
-
-              <div className="form-group">
                 <label htmlFor="developer">Developer</label>
                 <Select
-                  options={userListBySpecialty.map((t) => ({
-                    value: t,
-                    label: t,
-                  }))}
+                  options={
+                    userListBySpecialty &&
+                    userListBySpecialty.length &&
+                    userListBySpecialty.map((t) => ({
+                      value: t,
+                      label: t,
+                    }))
+                  }
                   type="text"
                   name="developer"
                   onChange={onChangeDeveloper}
@@ -227,7 +199,20 @@ const CreateTicketModal = (props) => {
             </div>
           )}
 
-          {message && (
+          {createTicketButtonPressed && (
+            <div className="form-group">
+              <div className={"alert alert-success"} role="alert">
+                {message}
+              </div>
+              <button
+                className="primary_button btn-block"
+                onClick={handleCloseCreateTicketModal}>
+                OK
+              </button>
+            </div>
+          )}
+
+          {/* {message && (
             <div className="form-group">
               <div
                 className={
@@ -238,13 +223,7 @@ const CreateTicketModal = (props) => {
                 {message}
               </div>
             </div>
-          )}
-          {/*<CheckButton*/}
-          {/*    style={{display: "none"}}*/}
-          {/*    ref={(c) => {*/}
-          {/*        this.checkBtn = c;*/}
-          {/*    }}*/}
-          {/*/>*/}
+          )} */}
         </Form>
       </div>
     </div>

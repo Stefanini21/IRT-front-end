@@ -75,7 +75,7 @@ const AdminUserList = () => {
         {
             name: "Delete User",
             cell: (row) => <button className="secondary_button"
-                                   onClick={() => handleShowDeleteUserModal(row)}>Delete</button>,
+                                   onClick={() => {dispatch(setUserId(row.id)); setShowDeleteUserModal(true)}}>Delete</button>,
             grow: 1
         },
     ]
@@ -111,9 +111,9 @@ const AdminUserList = () => {
         dispatch(getUserList())
     }
 
-    const handleShowDeleteUserModal = (userToDelete) => {
-        dispatch(setUserId(userToDelete.id))
-        setShowDeleteUserModal(true)
+    //const handleShowDeleteUserModal = (userToDelete) => {
+        //dispatch(setUserId(userToDelete.id))
+        //setShowDeleteUserModal(true)
         
         //dispatch(setWithTasks(false))
         //dispatch(isDeleted(false))
@@ -122,18 +122,19 @@ const AdminUserList = () => {
         //console.log(withTasks)
         //console.log(isDeleted)
         //console.log(showDeleteUserModal)
-    }
+    //}
 
-    const handleCloseDeleteUserModal = () => {
+    //const handleCloseDeleteUserModal = () => {
         //console.log(userIdToDelete)
         //console.log(userNameToDelete)
         //console.log(showDeleteUserModal)
-        setShowDeleteUserModal(false)
-        dispatch(getUserList())
+        
+        //setShowDeleteUserModal(false)
+        //dispatch(getUserList())
         
         //console.log(showDeleteUserModal)
         //dispatch(getUserList())
-    }
+    //}
 
     //const handleDeleteUser = () => {
         //console.log(userIdToDelete + " user with this id will be deleted")
@@ -199,14 +200,7 @@ const AdminUserList = () => {
                 </Modal.Body>
             </Modal>
 
-            <Modal show={showDeleteUserModal} onHide={handleCloseDeleteUserModal}>
-                <Modal.Header closeButton>
-                    <Modal.Title>Delete User</Modal.Title>
-                </Modal.Header>
-                <Modal.Body>
-                    <DeleteUserModal handleCloseDeleteUserModal={handleCloseDeleteUserModal}/>                 
-                </Modal.Body>                
-            </Modal>
+                <DeleteUserModal show={showDeleteUserModal} onHide={setShowDeleteUserModal(false)} />
 
                 <header className="jumbotron">
                     {error && <h3>{error}</h3>}

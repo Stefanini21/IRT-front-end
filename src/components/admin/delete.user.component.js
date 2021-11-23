@@ -39,6 +39,16 @@ const DeleteUserModal = (props) => {
     }
 
     return (
+            /*
+            <Modal show={showDeleteUserModal} onHide={setShowDeleteUserModal(false)}>
+                <Modal.Header closeButton>
+                    <Modal.Title>Delete User</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                    <DeleteUserModal />                 
+                </Modal.Body>                
+            </Modal>
+*/
         <div className="col-md-12">
             <div className="card card-container">
                 <img

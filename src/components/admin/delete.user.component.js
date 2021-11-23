@@ -3,7 +3,8 @@ import {useDispatch, useSelector} from "react-redux";
 import {deleteUserById, getUserList, getUserById, resetDeleteUserState} from "../../redux/actions/user";
 import {selectUserId, selectUserById, selectIsDeleted, selectUserWithTasksFlag} from "../../redux/selectors/user";
 
-const DeleteUserModal = () => {
+const DeleteUserModal = (props) => {
+    
 
     const dispatch = useDispatch();
     
@@ -23,11 +24,11 @@ const DeleteUserModal = () => {
         dispatch(getUserList());
     }, [])   
 
-    const handleCloseDeleteUserModal = () => {
-        dispatch(setShow(false))
-        window.location.reload()
+    //const handleCloseDeleteUserModal = () => {
+    //    dispatch(setShow(false))
+    //    window.location.reload()
         //dispatch(getUserList())
-    }
+    //}
 
     const handleDeleteUser = () => {      
         dispatch(deleteUserById(userId))
@@ -51,7 +52,7 @@ const DeleteUserModal = () => {
                     <div className="jumbotron">
                         <h4>Delete: <strong>{userById.username}</strong> ?</h4>
                     </div>
-                    <button className="primary_button btn-block" onClick={handleCloseDeleteUserModal}>
+                    <button className="primary_button btn-block" onClick={props.handleCloseDeleteUserModal}>
                         No
                     </button>
                     <button className="primary_button btn-block" onClick={handleDeleteUser}>

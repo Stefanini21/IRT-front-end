@@ -115,8 +115,7 @@ export const deleteTicketById = (ticketId) => (dispatch) => {
 };
 
 export const getTicketListForKanban = () => (dispatch) => {
-  const url =
-    routes.BASIC_URL + routes.BASIC_PATH + routes.ALL_TICKETS_FOR_KANBAN;
+  const url = routes.BASIC_URL + routes.BASIC_PATH + routes.ALL_TICKETS_FOR_KANBAN;
   return HttpService.get(url, {}).then((response) => {
     return dispatch({
       type: GET_ALL_TICKETS_FOR_KANBAN,
@@ -192,29 +191,3 @@ export const getPriorities = () => (dispatch) => {
         })
       })
 }
-
-// export const getAllTicketsCreators = () => (dispatch) => {
-//   const url = routes.BASIC_URL + routes.BASIC_PATH + routes.GET_ALL_TICKETS_CREATORS
-
-//   return HttpService.get(url)
-//       .then(response => {
-//   console.log("In getAllTicketsCreators, response: " + response)
-//         return dispatch({
-//           type: GET_ALL_TICKETS_CREATORS,
-//           payload: response
-//         })
-//       })
-// }
-
-// export const getAllTicketsDevelopers = () => (dispatch) => {
-//   const url = routes.BASIC_URL + routes.BASIC_PATH + routes.GET_ALL_TICKETS_DEVELOPERS
-//   console.log("url: "+ url)
-//   return HttpService.get(url)
-//       .then(response => {
-//   console.log("In getAllTicketsDevelopers, response: " + response)
-//         return dispatch({
-//           type: GET_ALL_TICKETS_DEVELOPERS,
-//           payload: response
-//         })
-//       })
-// }

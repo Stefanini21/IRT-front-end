@@ -269,10 +269,9 @@ const KanbanBoard = (props) => {
   ];
 
   useEffect(() => {
-    console.log("tickets" + tickets);
-    console.log("isFilterActive: " + isFilterActive);
+    // console.log("tickets" + tickets);
+    // console.log("isFilterActive: " + isFilterActive);
     console.log("filteredTickets: " + filteredTickets);
-    console.log("filteredTickets.length: " + filteredTickets.length);
     if (isFilterActive) {
       setProjects(filteredTickets)
     } else {
@@ -282,7 +281,6 @@ const KanbanBoard = (props) => {
     // setProjects(filteredTickets)
 
     tickets.forEach((element) => {
-      console.log("element.status: " + element.status);
       switch (element.status) {
         case "BACKLOG": {
           element.project_stage = 1;

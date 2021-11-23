@@ -12,7 +12,7 @@ import Select from "react-select";
 import {
   selectBacklogFirstFilterValue,
   selectFilteredTickets,
-  selectIsFilterActive
+  selectIsFilterActive,
 } from "../../redux/selectors/kanban";
 import {
   setBacklogFirstFilterValue,
@@ -67,14 +67,18 @@ const Kanban = () => {
   const [options2, setOptions2] = useState([]);
   const backlogFirstFilterValue = useSelector(selectBacklogFirstFilterValue);
   const [isFilterActive, setIsFilterActive] = useState(false);
-  // const [filteredTickets, setFilteredTickets] = useState([]);
+  const filteredTickets = useSelector(selectFilteredTickets);
   const [firstFilterArgument, setFirstFilterArgument] = useState("");
+  const [isSelectedFirstFilter, setIsSelectedFirstFilter] = useState(false);
 
   useEffect(() => {
     dispatch(getTicketListForKanban());
-  }, [setBacklogFirstFilterValue]);
+    setIsSelectedFirstFilter(false);
+    dispatch(resetFilteredTickets());
+  }, []);
 
   const setBacklogFilterOne = (e) => {
+    setIsSelectedFirstFilter(true);
     setOptions2([]);
     switch (e.value) {
       case "CREATOR": {
@@ -87,7 +91,7 @@ const Kanban = () => {
         });
         dispatch(setBacklogFirstFilterValue(authors));
         console.log("backlogFirstFilterValue: " + backlogFirstFilterValue);
-        // setOptions2(backlogFirstFilterValue);
+        setOptions2(backlogFirstFilterValue);
         break;
       }
       case "DEVELOPER": {
@@ -138,7 +142,7 @@ const Kanban = () => {
       }
       default:
         dispatch(setBacklogFirstFilterValue([]));
-      // setOptions2(null);
+      setOptions2(null);
     }
   };
 
@@ -153,20 +157,27 @@ const Kanban = () => {
 
   const resetAllFilters = () => {
     setIsFilterActive(false);
+    setIsSelectedFirstFilter(false);
     dispatch(resetFilteredTickets());
-    // dispatch(setBacklogFirstFilterValue([]));
   };
 
   return (
     <div className={"col-lg-12"}>
-      <div style={{ padding: "0 20px 5px 20px" }}>
-        <div style={{ display: "inline-block", width: "25%", paddingRight: 5 }}>
+      <div>
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "space-between",
+            paddingRight: "0 10px",
+          }}
+        >
           <label
             htmlFor="filter"
             style={{
               paddingLeft: 4,
               margin: 0,
               fontWeight: 500,
+              flexGrow: 3,
             }}
           >
             <h4
@@ -178,10 +189,10 @@ const Kanban = () => {
                 marginBottom: 4,
               }}
             >
-              <span style={{ fontWeight: 300 }}>"Backlog"</span> filter
+              <span style={{ fontWeight: 300 }}>"Kanban"</span> filter
             </h4>
           </label>
-          <div style={{ top: -5, height: 45 }}>
+          <div style={{ top: -5, height: 45, flexGrow: 4, margin: "0 10px" }}>
             <Select
               id="my_select1"
               options={filterBacklogOptions}
@@ -191,7 +202,9 @@ const Kanban = () => {
               style={{ width: "20%", padding: 4, marginBottom: 4 }}
             />
           </div>
-          <div>
+          <div
+            style={{ display: "inline-block", flexGrow: 4, margin: "0 10px" }}
+          >
             <Select
               id="my_select2"
               options={backlogFirstFilterValue.map((v) => ({
@@ -202,25 +215,34 @@ const Kanban = () => {
               name="filter2"
               onChange={setBacklogFilterTwo}
               style={{ width: "20%", padding: 4 }}
-              disabled={true}
+              isDisabled={!isSelectedFirstFilter}
             />
           </div>
+          <div className="form-group" style={{ flexGrow: 3 }}>
+            <button
+              className="secondary_button"
+              disabled={!isFilterActive}
+              onClick={() => resetAllFilters()}
+            >
+              Retet filter
+            </button>
+          </div>
         </div>
-
-        <div className="form-group">
-          <button
-            className="secondary_button"
-            onClick={() => resetAllFilters()}
-          >
-            Retet filter
-          </button>
+        <div
+          className={"col-lg-12"}
+          style={{
+            justifyContent: "space-between",
+            padding: "0 auto",
+            flexGrow: 3,
+            right: 0,
+          }}
+        >
+          <KanbanBoard
+            isFilterActive={isFilterActive}
+            tickets={tickets}
+            filteredTickets={filteredTickets}
+          />
         </div>
-      </div>
-      <div
-        className={"col-lg-12"}
-        style={{ justifyContent: "space-between", padding: "0 auto" }}
-      >
-        <KanbanBoard isFilterActive={isFilterActive}/>
       </div>
     </div>
   );
@@ -232,14 +254,12 @@ const KanbanBoard = (props) => {
   const userData = useSelector(getUserData);
   const currentUserData = useSelector(getUserData);
   const tickets = useSelector(selectTicketListForKanban);
+  // const tickets = props.tickets;
   const [status, setStatus] = useState("");
   const dispatch = useDispatch();
   const filteredTickets = useSelector(selectFilteredTickets);
-  const isFilterActive = useSelector(selectIsFilterActive);
-  // const isFilterActive = props.isFilterActive;
-  const actualTickets = isFilterActive === true ? filteredTickets : tickets;
-  console.log("tickets" + tickets);
-  console.log("filteredTickets" + filteredTickets);
+  // const filteredTickets = props.filteredTickets;
+  const isFilterActive = props.isFilterActive;
 
   const columns = [
     { name: "BackLog", stage: 1 },
@@ -249,9 +269,18 @@ const KanbanBoard = (props) => {
   ];
 
   useEffect(() => {
+    console.log("tickets" + tickets);
     console.log("isFilterActive: " + isFilterActive);
     console.log("filteredTickets: " + filteredTickets);
-    setProjects(actualTickets);
+    console.log("filteredTickets.length: " + filteredTickets.length);
+    if (isFilterActive) {
+      setProjects(filteredTickets)
+    } else {
+      setProjects(tickets)
+    }
+
+    // setProjects(filteredTickets)
+
     tickets.forEach((element) => {
       console.log("element.status: " + element.status);
       switch (element.status) {

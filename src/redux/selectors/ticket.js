@@ -6,5 +6,5 @@ export const selectTicketListForKanban = (state) => state.ticket.ticketListForKa
 export const selectIsFetching = (state) => state.ticket.isFetching;
 export const selectStatuses = (state) => state.ticket.statuses;
 export const selectPriorities = (state) => state.ticket.priorities;
-export const selectAllTicketCreators = (state) => state.ticket.allTicketCreators;
-export const selectAllTicketDevelopers = (state) => state.ticket.allTicketDevelopers;
+export const selestBacklogOneValue = (state) => state.kanban.backlogOneValue;
+

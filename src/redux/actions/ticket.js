@@ -16,8 +16,9 @@ import {
   RECEIVE_DUPLICATE_TITLE,
   GET_STATUSES,
   GET_PRIORITIES,
-  GET_ALL_TICKETS_CREATORS,
-  GET_ALL_TICKETS_DEVELOPERS
+  CHANGE_TICKET_DEVELOPER
+  // GET_ALL_TICKETS_CREATORS,
+  // GET_ALL_TICKETS_DEVELOPERS
 } from "./types";
 import {userActions as ticketActions} from "./user";
 
@@ -98,8 +99,7 @@ export const deleteTicketById = (ticketId) => (dispatch) => {
 };
 
 export const getTicketListForKanban = () => (dispatch) => {
-  const url =
-    routes.BASIC_URL + routes.BASIC_PATH + routes.ALL_TICKETS_FOR_KANBAN;
+  const url = routes.BASIC_URL + routes.BASIC_PATH + routes.ALL_TICKETS_FOR_KANBAN;
   return HttpService.get(url, {}).then((response) => {
     return dispatch({
       type: GET_ALL_TICKETS_FOR_KANBAN,
@@ -120,14 +120,15 @@ export const changeTicketStatus = (id, status) => (dispatch) => {
   });
 };
 
-export const assigneTicketToUser = (ticket, id) => (dispatch) => {
+export const changeTicketDeveloper = (id, developer) => (dispatch) => {
   const url =
-    routes.BASIC_URL + routes.BASIC_PATH + routes.ASSIGN_TICKET_TO_USER;
-    console.log("url: " + url)
-  return HttpService.put(url + ticket + "/" + id, {}).then((response) => {
+    routes.BASIC_URL + routes.BASIC_PATH + routes.CHANGE_TICKET_DEVELOPER;
+    console.log("url: " + url);
+    console.log("i changeTicketDeveloper, developer: " + developer);
+  return HttpService.put(url + "add/" + id + "/" + developer, {}).then((response) => {
     console.log("in action assigneTicketToUser response: " + response.status);
     return dispatch({
-      type: ASSIGN_TICKET_TO_USER,
+      type: CHANGE_TICKET_DEVELOPER,
       payload: response,
     });
   });
@@ -170,32 +171,6 @@ export const getPriorities = () => (dispatch) => {
       .then(response => {
         return dispatch({
           type: GET_PRIORITIES,
-          payload: response
-        })
-      })
-}
-
-export const getAllTicketsCreators = () => (dispatch) => {
-  const url = routes.BASIC_URL + routes.BASIC_PATH + routes.GET_ALL_TICKETS_CREATORS
-
-  return HttpService.get(url)
-      .then(response => {
-  console.log("In getAllTicketsCreators, response: " + response)
-        return dispatch({
-          type: GET_ALL_TICKETS_CREATORS,
-          payload: response
-        })
-      })
-}
-
-export const getAllTicketsDevelopers = () => (dispatch) => {
-  const url = routes.BASIC_URL + routes.BASIC_PATH + routes.GET_ALL_TICKETS_DEVELOPERS
-  console.log("url: "+ url)
-  return HttpService.get(url)
-      .then(response => {
-  console.log("In getAllTicketsDevelopers, response: " + response)
-        return dispatch({
-          type: GET_ALL_TICKETS_DEVELOPERS,
           payload: response
         })
       })

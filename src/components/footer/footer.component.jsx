@@ -11,10 +11,8 @@ const footerStyle = {
     fontSize: '20px',
     backgroundImage: 'linear-gradient(to bottom right, #0c0032, #5c7de3',
     backgroundColor: '#4e83b9 !important',
-    position: "fixed",
-    bottom: 0,
+    position: "absolute",
     color: "white",
-    textAlign: "center"
 }
 
 const Footer = () => {

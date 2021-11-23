@@ -23,41 +23,25 @@ import {userActions as ticketActions} from "./user";
 
 export const createTicket = (newTicket) => (dispatch) => {
   const url = routes.BASIC_URL + routes.BASIC_PATH + routes.CREATE_TICKET;
-  return HttpService.post(url, newTicket).then(
+  return HttpService.post(url, newTicket)
+  .then(
     (response) => {
-      dispatch({
-        type: CREATE_TICKET_SUCCESS,
-        payload: response.data,
-      });
-
-      dispatch({
-        type: ticketActions.SET_MESSAGE,
-        payload: response.data.message,
-      });
-
-      return Promise.resolve();
-    },
-    (error) => {
-      const message =
-        (error.response &&
-          error.response.data &&
-          error.response.data.message) ||
-        error.message ||
-        error.toString();
-
-      dispatch({
-        type: CREATE_TICKET_FAIL,
-      });
-
-      dispatch({
-        type: SET_MESSAGE,
-        payload: message,
-      });
-
-      return Promise.reject();
-    }
-  );
-};
+      if (typeof response === 'object' && response !== null ) {
+        console.log("respose: " + response);
+        dispatch({
+          type: CREATE_TICKET_SUCCESS,
+          payload: response.data,
+        });
+        return "Ticket created successefully"
+      } else {
+         console.log("in error: " + response);
+         dispatch({
+           type: CREATE_TICKET_FAIL,
+           payload: response,
+         });
+         return "Ticket is not created";
+      }
+})};
 
 export const getAllUsersBySpecialty = (specialty) => (dispatch) => {
   const url = routes.BASIC_URL + routes.BASIC_PATH + routes.USERS_BY_SPECIALTY;
@@ -65,7 +49,7 @@ export const getAllUsersBySpecialty = (specialty) => (dispatch) => {
   return HttpService.get(url + "/" + specialty, {}).then((response) => {
     return dispatch({
       type: SELECTED_SPECIALTY,
-      payload: response,
+      payload: ["NOT SET",...response],
     });
   });
 };

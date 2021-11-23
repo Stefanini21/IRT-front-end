@@ -28,10 +28,8 @@ const AdminUserList = () => {
 
     const userList = useSelector(selectUserList);
     const fetching = useSelector(selectIsFetching);
-    const specialties = useSelector(selectSpecialties);
-    const roles = useSelector(selectRoles);
     const isUserWithTasks = useSelector(selectUserWithTasksFlag);
-
+    
     const columns = [
         {
             name: 'First Name',

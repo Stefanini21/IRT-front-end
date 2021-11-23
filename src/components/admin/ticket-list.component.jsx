@@ -141,7 +141,7 @@ const TicketList = () => {
 
   useEffect(() => {
     setTickets(ticketList)
-      setLoading(fetching)
+    setLoading(fetching)
   }, [ticketList])
 
   useEffect(() =>{
@@ -227,6 +227,7 @@ const TicketList = () => {
                     columns={columns}
                     data={tickets}
                     pagination={true}
+                    noDataComponent={" "}
                 />
             </header>
         </div>)

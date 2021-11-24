@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from "react";
-import {Button, Modal} from "react-bootstrap";
+import {Modal} from "react-bootstrap";
 import CreateTicketModal from "./create.ticket.component";
 import DataTable from "react-data-table-component";
 import ViewTicket from "./view.ticket.component";
@@ -141,7 +141,7 @@ const TicketList = () => {
 
   useEffect(() => {
     setTickets(ticketList)
-    setLoading(fetching)
+      setLoading(fetching)
   }, [ticketList])
 
   useEffect(() =>{
@@ -176,7 +176,7 @@ const TicketList = () => {
           <Modal.Title>View Ticket</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <ViewTicket currentTicket={ticketToView} />
+          <ViewTicket ticket={ticketToView} />
         </Modal.Body>
         <Modal.Footer>
           <button className="tertiary_button" onClick={handleCloseViewTicketModal}>

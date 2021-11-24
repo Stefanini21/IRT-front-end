@@ -20,7 +20,10 @@ export const userActions = {
     DELETE_USER_BY_ID: "DELETE_USER_BY_ID",
     GET_SPECIALTIES: "GET_SPECIALTIES",
     GET_ROLES: "GET_ROLES",
-    RECEIVE_USER_WITH_TASKS: "RECEIVE_USER_WITH_TASKS"
+    UPDATE_FORGOTTEN_PASSWORD_SUCCESS: "UPDATE_FORGOTTEN_PASSWORD_SUCCESS",
+    FAIL_FORGOTTEN_PASSWORD_UPDATE: "FAIL_FORGOTTEN_PASSWORD_UPDATE",
+    RECEIVE_USER_WITH_TASKS: "RECEIVE_USER_WITH_TASKS",
+
 }
 
 export const getSpecialties = () => (dispatch) => {
@@ -78,7 +81,7 @@ export const getUserList = () => (dispatch) => {
 }
 
 
-export const postEmail = (email) => (dispatch) => {
+export const postEmail = (email, history) => (dispatch) => {
 
     UserService.postEmail(email.toEmail)
         .then((response) => {
@@ -89,6 +92,7 @@ export const postEmail = (email) => (dispatch) => {
                 dispatch({
                     type: CLEAR_MESSAGE,
                 });
+                history.push("/change-password")
                 return Promise.resolve();
             },
             (error) => {
@@ -114,6 +118,44 @@ export const postEmail = (email) => (dispatch) => {
 }
 
 
+export const changeForgottenPassword = (forgottenPasswordData) => (dispatch) => {
+    UserService.changeForgottenPassword(forgottenPasswordData.email, forgottenPasswordData.verificationCode, forgottenPasswordData.newPassword, forgottenPasswordData.newPasswordConfirmation)
+        .then((data) => {
+                dispatch({
+                    type: userActions.UPDATE_FORGOTTEN_PASSWORD_SUCCESS,
+                    payload: data,
+                });
+                dispatch({
+                    type: SET_MESSAGE,
+                });
+                dispatch({
+                    type: CLEAR_MESSAGE,
+                });
+                return Promise.resolve();
+            },
+            (error) => {
+                const message =
+                    (error.response &&
+                        error.response.data &&
+                        error.response.data.message) ||
+                    error.message ||
+                    error.toString();
+
+                dispatch({
+                    type: userActions.FAIL_FORGOTTEN_PASSWORD_UPDATE,
+                });
+
+                dispatch({
+                    type: CLEAR_MESSAGE,
+                });
+
+
+                return Promise.reject();
+            }
+        );
+}
+
+
 export const changePassword = (passwordData) => (dispatch) => {
     UserService.changePassword(passwordData.userId, passwordData.currentPassword, passwordData.newPassword, passwordData.newPasswordConfirmation)
         .then((data) => {
@@ -123,7 +165,6 @@ export const changePassword = (passwordData) => (dispatch) => {
                 });
                 dispatch({
                     type: SET_MESSAGE,
-                    payload: 'Successfully changed password!',
                 });
                 dispatch({
                     type: CLEAR_MESSAGE,

@@ -4,7 +4,7 @@ import CreateUserModal from "./create.user.component";
 import ViewUser from "./view.user.component";
 import DataTable from "react-data-table-component";
 import {useDispatch, useSelector} from "react-redux";
-import {getRoles, getSpecialties, getUserList, setUserId} from "../../redux/actions/user";
+import {getRoles, getSpecialties, getUserList, setUserId, getUserById} from "../../redux/actions/user";
 import EditUserModal from "./edit.user.component";
 import {selectIsFetching, selectRoles, selectSpecialties, selectUserList} from "../../redux/selectors/user";
 import Loader from "react-loader-spinner";
@@ -66,24 +66,25 @@ const AdminUserList = () => {
         },
         {
             name: "Edit User",
-            cell: (row) => <button className="secondary_button"
-                                   onClick={() => handleEditUserModal(row)}>Edit</button>,
+            cell: (row) => 
+                <button className="secondary_button"
+                        onClick={() => handleEditUserModal(row)}>Edit</button>,
             grow: 0.3
         },
         {
             name: "Delete User",
-            cell: (row) => <button className="secondary_button"
-                                   onClick={() => {dispatch(setUserId(row.id)); setShowDeleteUserModal(true)}}>Delete</button>,
+            cell: (row) => 
+                <button className="secondary_button"
+                        onClick={() => handleShowDeleteUserModal(row)}>Delete</button>,
             grow: 1
         },
     ]
 
     const handleShowCreateUserModal = () => {
-
         setShowCreateUserModal(true)
     }
-    const handleCloseCreateUserModal = () => {
 
+    const handleCloseCreateUserModal = () => {
         setShowCreateUserModal(false)
         window.location.reload()
     }
@@ -93,58 +94,32 @@ const AdminUserList = () => {
         setShowViewUserModal(true)
         setUserToView(userToView)
     }
-    const handleEditUserModal = (userToEdit) => {
 
+    const handleEditUserModal = (userToEdit) => {
         dispatch(setUserId(userToEdit.id))
         setShowEditUserModal(true)
         setUserToView(userToEdit)
     }
-    const handleCloseViewUserModal = () => {
+
+    const handleCloseViewUserModal = () => {       
         setShowViewUserModal(false)
-
     }
-    const handleCloseEditUserModal = () => {
 
+    const handleCloseEditUserModal = () => {
         setShowEditUserModal(false)
         dispatch(getUserList())
     }
 
-    //const handleShowDeleteUserModal = (userToDelete) => {
-        //dispatch(setUserId(userToDelete.id))
-        //setShowDeleteUserModal(true)
-        
-        //dispatch(setWithTasks(false))
-        //dispatch(isDeleted(false))
-        //dispatch(setUserNameToDelete(deleteUsername))
-        //setShowDeleteUserModal(true)
-        //console.log(withTasks)
-        //console.log(isDeleted)
-        //console.log(showDeleteUserModal)
-    //}
+    const handleShowDeleteUserModal = (userToDelete) => {
+        dispatch(getUserById(userToDelete.id))
+        .then(() => {
+        setShowDeleteUserModal(true)})
+    }
 
-    //const handleCloseDeleteUserModal = () => {
-        //console.log(userIdToDelete)
-        //console.log(userNameToDelete)
-        //console.log(showDeleteUserModal)
-        
-        //setShowDeleteUserModal(false)
-        //dispatch(getUserList())
-        
-        //console.log(showDeleteUserModal)
-        //dispatch(getUserList())
-    //}
-
-    //const handleDeleteUser = () => {
-        //console.log(userIdToDelete + " user with this id will be deleted")
-        
-        //dispatch(deleteUserById(userIdToDelete))
-        //.then(() => {
-        //    setShowDeleteUserModal(false)
-        //})
-        //dispatch(getUserList())})
-        //setShowDeleteUserModal(false)
-        //console.log(showDeleteUserModal)
-    //}
+    const handleCloseDeleteUserModal = () => {
+        setShowDeleteUserModal(false)
+        dispatch(getUserList())
+    }
 
     useEffect(() => {
         setUsers(userList)
@@ -166,39 +141,46 @@ const AdminUserList = () => {
                            width={50}
             /> :
             (<div>
-                    <Modal show={showCreateUserModal} onHide={handleCloseCreateUserModal}>
-                        <Modal.Header closeButton>
-                            <Modal.Title>Create User</Modal.Title>
-                        </Modal.Header>
-                        <Modal.Body>
-                            <CreateUserModal handleCloseCreateUserModal={handleCloseCreateUserModal}/>
-                        </Modal.Body>
-                    </Modal>
+                <Modal show={showCreateUserModal} onHide={handleCloseCreateUserModal}>
+                    <Modal.Header closeButton>
+                        <Modal.Title>Create User</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
+                        <CreateUserModal handleCloseCreateUserModal={handleCloseCreateUserModal}/>
+                    </Modal.Body>
+                </Modal>
 
-            <Modal show={showViewUserModal} onHide={handleCloseViewUserModal}>
-                <Modal.Header closeButton>
-                    <Modal.Title>View User</Modal.Title>
-                </Modal.Header>
-                <Modal.Body>
-                    <ViewUser currentUser={userToView}/>
-                </Modal.Body>
-                <Modal.Footer>
-                    <Button variant="secondary" onClick={handleCloseViewUserModal}>
-                        Close
-                    </Button>
-                </Modal.Footer>
-            </Modal>
+                <Modal show={showViewUserModal} onHide={handleCloseViewUserModal}>
+                    <Modal.Header closeButton>
+                        <Modal.Title>View User</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
+                        <ViewUser currentUser={userToView}/>
+                    </Modal.Body>
+                    <Modal.Footer>
+                        <Button variant="secondary" onClick={handleCloseViewUserModal}>
+                            Close
+                        </Button>
+                    </Modal.Footer>
+                </Modal>
 
-            <Modal show={showEditUserModal} onHide={handleCloseEditUserModal}>
-                <Modal.Header closeButton>
-                    <Modal.Title className="modal_header">Edit User</Modal.Title>
-                </Modal.Header>
-                <Modal.Body>
-                    <EditUserModal handleCloseEditUserModal={handleCloseEditUserModal}/>
-                </Modal.Body>
-            </Modal>
+                <Modal show={showEditUserModal} onHide={handleCloseEditUserModal}>
+                    <Modal.Header closeButton>
+                        <Modal.Title className="modal_header">Edit User</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
+                        <EditUserModal handleCloseEditUserModal={handleCloseEditUserModal}/>
+                    </Modal.Body>
+                </Modal>
 
-                <DeleteUserModal show={showDeleteUserModal} onHide={setShowDeleteUserModal(false)} />
+                <Modal show={showDeleteUserModal} onHide={handleCloseDeleteUserModal}>
+                    <Modal.Header closeButton>
+                        <Modal.Title>Delete User</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
+                        <DeleteUserModal handleCloseDeleteUserModal={handleCloseDeleteUserModal}/>                 
+                    </Modal.Body>                
+                </Modal>
 
                 <header className="jumbotron">
                     {error && <h3>{error}</h3>}
@@ -217,7 +199,6 @@ const AdminUserList = () => {
                 </header>
             </div>)
         }</>
-
 }
 
 export default AdminUserList

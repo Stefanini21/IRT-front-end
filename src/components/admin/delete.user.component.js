@@ -1,54 +1,34 @@
-import React, {useEffect, useState} from "react";
+import React, {useEffect} from "react";
 import {useDispatch, useSelector} from "react-redux";
-import {deleteUserById, getUserList, getUserById, resetDeleteUserState} from "../../redux/actions/user";
-import {selectUserId, selectUserById, selectIsDeleted, selectUserWithTasksFlag} from "../../redux/selectors/user";
+import {deleteUserById, getUserList, resetDeleteUserState} from "../../redux/actions/user";
+import {selectUserById, selectIsDeleted, selectUserWithTasksFlag} from "../../redux/selectors/user";
 
 const DeleteUserModal = (props) => {
     
-
     const dispatch = useDispatch();
     
-    const userId = useSelector(selectUserId);
     const userById = useSelector(selectUserById);
     const isDeleted = useSelector(selectIsDeleted)
     const isUserWithTasks = useSelector(selectUserWithTasksFlag);
         
-    const [show, setShow] = useState(false);
-
     useEffect(() => {
         dispatch(resetDeleteUserState())
-        dispatch(getUserById(userId))
+        console.log(isDeleted)
+        console.log(isUserWithTasks)
+        console.log(userById)
     }, [])
 
-    useEffect(() => {
+    /*useEffect(() => {
         dispatch(getUserList());
-    }, [])   
-
-    //const handleCloseDeleteUserModal = () => {
-    //    dispatch(setShow(false))
-    //    window.location.reload()
-        //dispatch(getUserList())
-    //}
+    }, [])   */
 
     const handleDeleteUser = () => {      
-        dispatch(deleteUserById(userId))
+        dispatch(deleteUserById(userById.id))
         .then(() => {
         dispatch(getUserList())})
-        //setShowDeleteUserModal(false)
-        //console.log(showDeleteUserModal)
     }
 
-    return (
-            /*
-            <Modal show={showDeleteUserModal} onHide={setShowDeleteUserModal(false)}>
-                <Modal.Header closeButton>
-                    <Modal.Title>Delete User</Modal.Title>
-                </Modal.Header>
-                <Modal.Body>
-                    <DeleteUserModal />                 
-                </Modal.Body>                
-            </Modal>
-*/
+    return <>
         <div className="col-md-12">
             <div className="card card-container">
                 <img
@@ -59,43 +39,46 @@ const DeleteUserModal = (props) => {
                 
                 {!isDeleted && (
                     <div>
-                    <div className="jumbotron">
-                        <h4>Delete: <strong>{userById.username}</strong> ?</h4>
+                        <div className="jumbotron">
+                            <h4>Delete: <strong>{userById.username}</strong> ?</h4>
+                        </div>
+                        <button className="primary_button btn-block" onClick={props.handleCloseDeleteUserModal}>
+                            No
+                        </button>
+                        <button className="primary_button btn-block" onClick={handleDeleteUser}>
+                            Yes
+                        </button>
                     </div>
-                    <button className="primary_button btn-block" onClick={props.handleCloseDeleteUserModal}>
-                        No
-                    </button>
-                    <button className="primary_button btn-block" onClick={handleDeleteUser}>
-                        Yes
-                    </button>
-                </div>
-                )}
-
-                {isUserWithTasks && (
-                <div>
-                    <div className={"alert alert-danger"} role="alert">
-                        Please, unassign tasks from this user before delete!
-                    </div>
-                    <button className="primary_button btn-block" onClick={handleCloseDeleteUserModal}>
-                        OK
-                    </button>
-                </div>
                 )}
 
                 {isDeleted && (
-                <div>
-                    <div className={"alert alert-danger"} role="alert">
-                        User deleted!
+                    <div>
+                        <div className={"alert alert-danger"} role="alert">
+                            User <strong> {userById.username} </strong> deleted!
+                        </div>
+                        <button className="primary_button btn-block" onClick={props.handleCloseDeleteUserModal}>
+                            OK
+                        </button>
                     </div>
-                    <button className="primary_button btn-block" onClick={handleCloseDeleteUserModal}>
-                        OK
-                    </button>
-                </div>
                 )}
-                
-            </div>
-        </div>
-    );
+
+                    {/*     {isUserWithTasks && (
+                            <div>
+                                <div className={"alert alert-danger"} role="alert">
+                                    Please, unassign tasks from this user before delete!
+                                </div>
+                                <button className="primary_button btn-block" onClick={handleCloseDeleteUserModal}>
+                                    OK
+                                </button>
+                            </div>
+                            )}
+
+                       
+                */
+}
+                        </div>
+                    </div>   
+            </>
 }
 
 export default DeleteUserModal

@@ -15,6 +15,7 @@ import {
   // GET_ALL_TICKETS_CREATORS,
   // GET_ALL_TICKETS_DEVELOPERS
 } from "../actions/types";
+import {userActions} from "../actions/user";
 
 const initialState = {
   message: null,
@@ -27,6 +28,7 @@ const initialState = {
   isDeleted: false,
   statuses: {},
   priorities: {},
+  ticketListFor: {},
   allTicketCreators: {},
   allTicketDevelopers: {}
 };

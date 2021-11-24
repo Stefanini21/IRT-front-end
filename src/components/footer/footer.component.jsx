@@ -4,15 +4,16 @@ import {Col, Container, Row} from "react-bootstrap";
 
 
 const footerStyle = {
-    padding: '24px',
+    marginTop: 250,
+    marginBottom: 0,
+    padding: 15,
     bottom: 0,
     width: '100%',
     textAlign: 'center',
     fontSize: '20px',
     backgroundImage: 'linear-gradient(to bottom right, #0c0032, #5c7de3',
     backgroundColor: '#4e83b9 !important',
-    position: "fixed",
-    bottom: 0,
+    // position: "fixed",
     color: "white"
 }
 
@@ -20,8 +21,27 @@ const Footer = () => {
     return (
         <div>
             <footer>
-                <div className="d-flex justify-content-between border-top" style={footerStyle}>
-                    <h6 style={{margin: "0 auto"}}>&copy; 2021 IRT powered by Stefanini, Inc. All rights reserved.</h6>
+                <div style={footerStyle}>
+
+                    <Container>
+                        <Row className="justify-content-md-center">
+                            <Col xs lg="2">
+                                <a href="#" style={{color: 'white'}}><FaFacebook/></a>
+                            </Col>
+                            <Col xs lg="2">
+                                <a href="#" style={{color: 'white'}}><FaTwitter/></a>
+                            </Col>
+                            <Col xs lg="2">
+                                <a href="#" style={{color: 'white'}}><FaInstagram/></a>
+                            </Col>
+                            <Col xs lg="2">
+                                <a href="#" style={{color: 'white'}}><FaYoutube/></a>
+                            </Col>
+                            <Col xs lg="2">
+                                <a href="#" style={{color: 'white'}}><FaSlack/></a>
+                            </Col>
+                        </Row>
+                    </Container>
                 </div>
             </footer>
         </div>

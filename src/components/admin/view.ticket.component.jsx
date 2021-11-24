@@ -5,7 +5,7 @@ import {getTicketById} from "../../redux/actions/ticket";
 import {Badge} from "react-bootstrap";
 
 
-const ViewTicket = () => {
+const ViewTicket = (props) => {
 
     const ticketId = useSelector(selectTicketId);
     const ticketById = useSelector(selectTicketById);
@@ -13,8 +13,10 @@ const ViewTicket = () => {
     const dispatch = useDispatch();
 
     useEffect(() => {
-        dispatch(getTicketById(ticketId));
-        console.log("ticketId: " + ticketId);
+        // dispatch(getTicketById(ticketId));
+        dispatch(getTicketById(props.ticket.id));
+
+        console.log("ticketId: " + props.ticket.id);
 
     }, [])
 
@@ -22,28 +24,28 @@ const ViewTicket = () => {
         <div className="container">
             <header className="jumbotron">
                 <h3>
-                    Ticket Title <strong>{ticketById.title}</strong>
+                    Ticket Title <strong>{props.ticket.title}</strong>
                 </h3>
             </header>
             <p>
-                <strong>Description : </strong> {ticketById.description}
+                <strong>Description : </strong> {props.ticket.description}
             </p>
             <p>
                 <strong>Specialty : </strong>
                 <Badge bg="dark" text="light">
-                    {ticketById.specialty}
+                    {props.ticket.specialty}
                 </Badge>
             </p>
             <p>
                 <strong>Priority : </strong>
                 <Badge bg="warning">
-                    {ticketById.priority}
+                    {props.ticket.priority}
                 </Badge>
             </p>
             <p>
                 <strong>Status : </strong>
                 <Badge bg="primary">
-                    {ticketById.status}
+                    {props.ticket.status}
                 </Badge>
 
             </p>

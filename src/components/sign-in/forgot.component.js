@@ -3,15 +3,17 @@ import Form from "react-validation/build/form";
 import Input from "react-validation/build/input";
 import {useDispatch, useSelector} from "react-redux";
 import {postEmail} from "../../redux/actions/user";
-import {selectFailPasswordSendFlag, selectSuccessfulPasswordSendFlag} from "../../redux/selectors/flag";
+import {selectFailPasswordSendFlag} from "../../redux/selectors/flag";
+import {useHistory} from "react-router-dom";
 
 
 const Forgot = () => {
 
     const [email, setEmail] = useState("");
+    const [message, setMessage] = useState("");
     const dispatch = useDispatch();
-    const successfulPasswordSend = useSelector(selectSuccessfulPasswordSendFlag);
     const failPasswordSend = useSelector(selectFailPasswordSendFlag);
+    const history = useHistory();
 
     const required = (value) => {
         if (!value) {
@@ -30,11 +32,11 @@ const Forgot = () => {
             toEmail: email
         }
 
-        dispatch(postEmail(emailData))
+        dispatch(postEmail(emailData, history))
 
     }
 
-    return (<div style={{display: 'flex',  justifyContent:'center', alignItems:'center'}}>
+    return (<div style={{display: 'flex', justifyContent: 'center', alignItems: 'center', marginTop: 100}}>
 
             <div className="card card-container">
                 <h3> Forgot password </h3>
@@ -42,6 +44,15 @@ const Forgot = () => {
                 <Form onSubmit={handleSubmit}>
 
                     <div>
+
+                        {failPasswordSend && (
+                            <div className="form-group">
+                                <div className="alert alert-danger" role="alert">
+                                    Something went wrong ! Enter your email again and click resend.
+                                </div>
+                            </div>
+                        )}
+
                         <div className="form-group">
                             <label htmlFor="email">Email</label>
                             <Input
@@ -55,31 +66,23 @@ const Forgot = () => {
                         </div>
                         <div className="form-group">
                             <button className="primary_button btn-block">
-                                <span>Submit</span>
+                                <span>Send</span>
                             </button>
                         </div>
 
                     </div>
 
-                    {failPasswordSend && (
+                    {message && (
                         <div className="form-group">
                             <div className="alert alert-danger" role="alert">
-                                This email does not exists !
-                            </div>
-                        </div>
-                    )}
-
-                    {successfulPasswordSend && (
-                        <div className="form-group">
-                            <div className="alert alert-success" role="alert">
-                                Your temporary password was sent to your email !
+                                {message}
                             </div>
                         </div>
                     )}
                 </Form>
 
-                </div>
             </div>
+        </div>
     );
 }
 

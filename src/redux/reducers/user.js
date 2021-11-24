@@ -1,4 +1,5 @@
-import {userActions} from "../actions/user";
+import { userActions } from "../actions/user";
+import { selectRolesFetching } from "../selectors/user";
 
 const initialState = {
   userId: {},
@@ -17,49 +18,50 @@ const initialState = {
 export const user = (state = initialState, action) => {
     switch (action.type) {
         case userActions.GET_USER_LIST:
+            const userList = action.payload
             return {
                 ...state,
-                userList: action.payload,
-                isFetching: false,
-            };
+                userList: userList,
+                isFetching: false
+            }
         case userActions.SET_USER_ID:
             return {
                 ...state,
-                userId: action.payload,
+                userId: action.payload
             };
         case userActions.GET_USER_BY_ID:
-            const userById = action.payload;
+            const userById = action.payload
             return {
                 ...state,
-                userById: userById,
+                userById: userById
             };
         case userActions.CREATE_USER_SUCCESS:
             return {
                 ...state,
-                createdUser: action.payload,
+                createdUser: action.payload
             };
         case userActions.DELETE_USER_BY_ID:
-            console.log(action.payload + " action.payload for delete");
+            console.log(action.payload + " action.payload for delete")
             return {
                 ...state,
                 //userId: action.payload,
                 //userById: action.payload,
                 //userList: userList,
-                isDeleted: true,
+                isDeleted: true
             };
         case userActions.GET_SPECIALTIES:
             return {
                 ...state,
                 specialties: action.payload,
-                specialtiesFetching: false,
+                specialtiesFetching: false
             };
         case userActions.GET_ROLES:
             return {
                 ...state,
                 roles: action.payload,
-                rolesFetching: false,
+                rolesFetching: false
             };
         default:
             return state;
     }
-};
+}

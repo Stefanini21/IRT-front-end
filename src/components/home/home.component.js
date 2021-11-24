@@ -1,45 +1,54 @@
-import React, {Component} from "react";
+import React, { Component } from "react";
 import "./css/home.component.css";
 import homephoto from "./homepage.png";
-import Image from 'react-image-resizer';
+import Image from "react-image-resizer";
 
-
-const element = <h1>“If a task is once begun,
-    never leave it ‘till it’s done.
-    Be the labor great or small,
-    do it well or not at all.”</h1>;
+const element = (
+  <h1>
+    “If a task is once begun, never leave it ‘till it’s done. Be the labor great
+    or small, do it well or not at all.”
+  </h1>
+);
 
 export default class Home extends Component {
-    constructor(props) {
-        super(props);
+  constructor(props) {
+    super(props);
+  }
 
-    }
+  componentDidMount() {}
 
-    componentDidMount() {
-    }
+  render() {
+    return (
+      <div>
+          <h4
+            style={{
+              fontFamily: "fantasy",
+              fontWeight: 500,
+              color: "#3f4a70",
+              fontStyle: "oblique",
+              fontSize: "40px",
+              width: "75%",
+              textAlign: "center",
+              margin: " 0 auto",
+              fontSize: "2rem",
+              paddingTop: 22
+            }}
+          >
+            “If a task is once begun, never leave it ‘till it’s done. Be the
+            labor great or small, do it well or not at all.”
+          </h4>
 
-
-    render() {
-        return (
-            <div>
-                <h1 style={{
-                    'font-family': 'Goergia',
-                    'font-weight': ' bold',
-                    'color': '#3f4a70',
-                    'font-style': ' oblique',
-                    'font-size': ' 40px'
-                }}>“If a task is once begun,
-                    never leave it ‘till it’s done.
-                    Be the labor great or small,
-                    do it well or not at all.”</h1>,
-                <div className="centerimage">
-                    <Image
-                        img src={homephoto} alt="homephoto" class="centerimage"
-                        width={600}
-                        height={650}
-                    />
-                </div>
-            </div>
-        );
-    }
+        <div className="centerimage">
+          <Image
+            img
+            src={homephoto}
+            alt="homephoto"
+            class="centerimage"
+            width={600}
+            height={650}
+          />
+        </div>
+      </div>
+    );
+  }
 }

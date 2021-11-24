@@ -6,15 +6,16 @@ import {user} from "./user";
 import { ticket } from "./ticket";
 import {message} from "./message";
 import {flipFlag} from "./flag";
+import {kanbanFilter} from "./kanbanFilter";
 
 
 
 const persistConfig = {
   key: "root",
   storage,
-  whitelist: ["auth", "user", "ticket"],
+  whitelist: ["auth", "user", "ticket", "kanbanFilter"],
 };
 
-const rootReducer = combineReducers({auth, user, ticket, message, flipFlag});
+const rootReducer = combineReducers({auth, user, ticket, message, flipFlag, kanbanFilter});
 
 export default persistReducer(persistConfig, rootReducer);

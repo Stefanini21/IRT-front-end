@@ -4,15 +4,17 @@ import {Col, Container, Row} from "react-bootstrap";
 
 
 const footerStyle = {
-    'margin-top': '310px',
-    'padding': '1rem',
-    'bottom': '0',
-    'left': '0',
-    'width': '100%',
-    'textAlign': 'center',
-    'font-size': '20px',
-    'background-image': 'linear-gradient(to bottom right, #3b6a9a, #80a9d1)'
-
+    marginTop: 250,
+    marginBottom: 0,
+    padding: 15,
+    bottom: 0,
+    width: '100%',
+    textAlign: 'center',
+    fontSize: '20px',
+    backgroundImage: 'linear-gradient(to bottom right, #0c0032, #5c7de3',
+    backgroundColor: '#4e83b9 !important',
+    // position: "fixed",
+    color: "white"
 }
 
 const Footer = () => {

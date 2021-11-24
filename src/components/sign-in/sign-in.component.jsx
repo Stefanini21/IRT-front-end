@@ -38,14 +38,9 @@ const SignIn = () => {
         );
     }
 
-    return (<div style={{display: 'flex',  justifyContent:'center', alignItems:'center'}}>
+    return (<div style={{display: 'flex',  justifyContent:'center', alignItems:'center', marginTop: 100}}>
 
-            <div className="card card-container">
-                <img
-                    src="//ssl.gstatic.com/accounts/ui/avatar_2x.png"
-                    alt="profile-img"
-                    className="profile-img-card"
-                />
+            <div style={{width: "27%"}} className={"card card-container"}>
 
                 <Form onSubmit={handleSubmit}>
 
@@ -75,7 +70,7 @@ const SignIn = () => {
                         </div>
 
                         <div className="form-group">
-                            <button className="primary_button btn-block">
+                            <button className="primary_button btn-block" style={{backgroundColor: "#475bb3"}}>
                                 <span>Login</span>
                             </button>
                         </div>
@@ -92,7 +87,7 @@ const SignIn = () => {
 
                 </Form>
 
-                <p className="forgot-password text-right">
+                <p className="forgot-password text-right" style={{color: "#475bb3"}}>
                     <Link to={'/forgot'}>Forgot password ?</Link>
                 </p>
 

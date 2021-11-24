@@ -2,8 +2,13 @@ import axios from 'axios';
 import authHeader from './auth-header';
 
 const API_URL = 'http://localhost:8080/api/users';
+const API_URL_TICKETS = 'http://localhost:8080/api/tickets';
 
 class UserService {
+
+    getTicketsFor(id) {
+        return axios.get(API_URL_TICKETS + "/user-tickets/" + id, {headers: authHeader()});
+    }
 
     postEmail(toEmail) {
         return axios.post(API_URL + "/" + toEmail + "/emails/reset-password", {headers: authHeader()});
@@ -13,6 +18,16 @@ class UserService {
         return axios
             .post(API_URL + "/" + userId + "/change-password", {
                 currentPassword,
+                newPassword,
+                newPasswordConfirmation
+            }, {headers: authHeader()});
+    }
+
+    changeForgottenPassword(email, verificationCode, newPassword, newPasswordConfirmation) {
+        return axios
+            .post(API_URL + "/change-forgotten-password", {
+                email,
+                verificationCode,
                 newPassword,
                 newPasswordConfirmation
             }, {headers: authHeader()});

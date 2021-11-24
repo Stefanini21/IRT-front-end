@@ -13,48 +13,36 @@ import {
   SET_TICKET_ID,
   ASSIGN_TICKET_TO_USER,
   UPDATE_TICKET_BY_ID,
-  RECEIVE_DUPLICATE_TITLE, GET_STATUSES, GET_PRIORITIES,
-
+  RECEIVE_DUPLICATE_TITLE,
+  GET_STATUSES,
+  GET_PRIORITIES,
+  CHANGE_TICKET_DEVELOPER
+  // GET_ALL_TICKETS_CREATORS,
+  // GET_ALL_TICKETS_DEVELOPERS
 } from "./types";
 import {userActions as ticketActions} from "./user";
 
 export const createTicket = (newTicket) => (dispatch) => {
   const url = routes.BASIC_URL + routes.BASIC_PATH + routes.CREATE_TICKET;
-  return HttpService.post(url, newTicket).then(
+  return HttpService.post(url, newTicket)
+  .then(
     (response) => {
-      dispatch({
-        type: CREATE_TICKET_SUCCESS,
-        payload: response.data,
-      });
-
-      dispatch({
-        type: ticketActions.SET_MESSAGE,
-        payload: response.data.message,
-      });
-
-      return Promise.resolve();
-    },
-    (error) => {
-      const message =
-        (error.response &&
-          error.response.data &&
-          error.response.data.message) ||
-        error.message ||
-        error.toString();
-
-      dispatch({
-        type: CREATE_TICKET_FAIL,
-      });
-
-      dispatch({
-        type: SET_MESSAGE,
-        payload: message,
-      });
-
-      return Promise.reject();
-    }
-  );
-};
+      if (typeof response === 'object' && response !== null ) {
+        console.log("respose: " + response);
+        dispatch({
+          type: CREATE_TICKET_SUCCESS,
+          payload: response.data,
+        });
+        return "Ticket created successefully"
+      } else {
+         console.log("in error: " + response);
+         dispatch({
+           type: CREATE_TICKET_FAIL,
+           payload: response,
+         });
+         return "Ticket is not created";
+      }
+})};
 
 export const getAllUsersBySpecialty = (specialty) => (dispatch) => {
   const url = routes.BASIC_URL + routes.BASIC_PATH + routes.USERS_BY_SPECIALTY;
@@ -62,7 +50,7 @@ export const getAllUsersBySpecialty = (specialty) => (dispatch) => {
   return HttpService.get(url + "/" + specialty, {}).then((response) => {
     return dispatch({
       type: SELECTED_SPECIALTY,
-      payload: response,
+      payload: ["NOT SET",...response],
     });
   });
 };
@@ -111,8 +99,7 @@ export const deleteTicketById = (ticketId) => (dispatch) => {
 };
 
 export const getTicketListForKanban = () => (dispatch) => {
-  const url =
-    routes.BASIC_URL + routes.BASIC_PATH + routes.ALL_TICKETS_FOR_KANBAN;
+  const url = routes.BASIC_URL + routes.BASIC_PATH + routes.ALL_TICKETS_FOR_KANBAN;
   return HttpService.get(url, {}).then((response) => {
     return dispatch({
       type: GET_ALL_TICKETS_FOR_KANBAN,
@@ -133,14 +120,15 @@ export const changeTicketStatus = (id, status) => (dispatch) => {
   });
 };
 
-export const assigneTicketToUser = (ticket, id) => (dispatch) => {
+export const changeTicketDeveloper = (id, developer) => (dispatch) => {
   const url =
-    routes.BASIC_URL + routes.BASIC_PATH + routes.ASSIGN_TICKET_TO_USER;
-    console.log("url: " + url)
-  return HttpService.put(url + ticket + "/" + id, {}).then((response) => {
+    routes.BASIC_URL + routes.BASIC_PATH + routes.CHANGE_TICKET_DEVELOPER;
+    console.log("url: " + url);
+    console.log("i changeTicketDeveloper, developer: " + developer);
+  return HttpService.put(url + "add/" + id + "/" + developer, {}).then((response) => {
     console.log("in action assigneTicketToUser response: " + response.status);
     return dispatch({
-      type: ASSIGN_TICKET_TO_USER,
+      type: CHANGE_TICKET_DEVELOPER,
       payload: response,
     });
   });
@@ -175,6 +163,7 @@ export const getStatuses = () => (dispatch) => {
         })
       })
 }
+
 export const getPriorities = () => (dispatch) => {
   const url = routes.BASIC_URL + routes.BASIC_PATH + routes.TICKETS + routes.PRIORITIES
 

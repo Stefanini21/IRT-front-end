@@ -8,8 +8,14 @@ import {
   GET_TICKET_BY_ID,
   GET_TICKET_LIST,
   DELETE_TICKET_BY_ID,
-  SET_TICKET_ID, GET_STATUSES, GET_PRIORITIES
+  SET_TICKET_ID,
+  GET_STATUSES,
+  GET_PRIORITIES,
+  CHANGE_TICKET_DEVELOPER
+  // GET_ALL_TICKETS_CREATORS,
+  // GET_ALL_TICKETS_DEVELOPERS
 } from "../actions/types";
+import {userActions} from "../actions/user";
 
 const initialState = {
   message: null,
@@ -17,10 +23,14 @@ const initialState = {
   ticketId: {},
   ticketById: {},
   ticketList: {},
+  ticketListForKanban: {},
   isFetching: true,
   isDeleted: false,
   statuses: {},
   priorities: {},
+  ticketListFor: {},
+  allTicketCreators: {},
+  allTicketDevelopers: {}
 };
 
 
@@ -55,7 +65,12 @@ export const ticket = (state = initialState, action) => {
       case GET_ALL_TICKETS_FOR_KANBAN:
       return {
         ...state,
-        ticketList: action.payload,
+        ticketListForKanban: action.payload,
+      };
+      case CHANGE_TICKET_DEVELOPER:
+      return {
+        ...state,
+        ticketListForKanban: action.payload,
       };
     case CHANGE_TICKET_STATUS:
       return {

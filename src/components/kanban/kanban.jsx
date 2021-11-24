@@ -207,7 +207,8 @@ const Kanban = () => {
           >
             <Select
               id="my_select2"
-              options={backlogFirstFilterValue.map((v) => ({
+              options={backlogFirstFilterValue && backlogFirstFilterValue.length &&
+              backlogFirstFilterValue.map((v) => ({
                 label: v,
                 value: v,
               }))}

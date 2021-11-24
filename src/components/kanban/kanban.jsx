@@ -5,58 +5,26 @@ import { selectTicketListForKanban } from "../../redux/selectors/ticket";
 import {
   changeTicketStatus,
   changeTicketDeveloper,
-  getTicketListForKanban,
+  getTicketListForKanban
 } from "../../redux/actions/ticket";
 import { selectUserById } from "../../redux/selectors/user";
 import Select from "react-select";
 import {
   selectBacklogFirstFilterValue,
-  selectFilteredTickets,
-  selectIsFilterActive,
+  selectFilteredTickets
 } from "../../redux/selectors/kanban";
 import {
   setBacklogFirstFilterValue,
   setFilteredTickets,
-  resetFilteredTickets,
+  resetFilteredTickets
 } from "../../redux/actions/kanbanFilter";
 
 const Kanban = () => {
-  const filterBacklogOptions = [
+  const filterOptions = [
     { value: "CREATOR", label: "Creator" },
     { value: "DEVELOPER", label: "Developer" },
     { value: "SPECIALTY", label: "Specialty" },
     { value: "PRIORITY", label: "Priority" },
-    { value: "CREATED_BEFORE_DATE", label: "Created before date" },
-    { value: "CREATED_AFTER_DATE", label: "Created after date" },
-  ];
-
-  const filterInProgressOptions = [
-    { value: "CREATOR", label: "Creator" },
-    { value: "DEVELOPER", label: "Developer" },
-    { value: "SPECIALTY", label: "Specialty" },
-    { value: "PRIORITY", label: "Priority" },
-    { value: "CREATED_BEFORE_DATE", label: "Created before date" },
-    { value: "CREATED_AFTER_DATE", label: "Created after date" },
-  ];
-
-  const filterFinishedOptions = [
-    { value: "CREATOR", label: "Creator" },
-    { value: "DEVELOPER", label: "Developer" },
-    { value: "SPECIALTY", label: "Specialty" },
-    { value: "PRIORITY", label: "Priority" },
-    { value: "CREATED_BEFORE_DATE", label: "Created before date" },
-    { value: "CREATED_AFTER_DATE", label: "Created after date" },
-  ];
-
-  const filterClosedOptions = [
-    { value: "CREATOR", label: "Creator" },
-    { value: "DEVELOPER", label: "Developer" },
-    { value: "SPECIALTY", label: "Specialty" },
-    { value: "PRIORITY", label: "Priority" },
-    { value: "CREATED_BEFORE_DATE", label: "Created before date" },
-    { value: "CREATED_AFTER_DATE", label: "Created after date" },
-    { value: "FINISHED_BEFORE_DATE", label: "Finished before date" },
-    { value: "FINISHED_AFTER_DATE", label: "Finished after date" },
   ];
 
   const dispatch = useDispatch();
@@ -108,41 +76,31 @@ const Kanban = () => {
       }
       case "SPECIALTY": {
         setFirstFilterArgument("specialty");
-        dispatch(setBacklogFirstFilterValue([]));
-        console.log("SPECIALTY");
+        const specialities = [];
+        tickets.forEach((ticket) => {
+          if (!specialities.includes(ticket.specialty)) {
+            specialities.push(ticket.specialty);
+          }
+        });
+        dispatch(setBacklogFirstFilterValue(specialities));
+        console.log("backlogFirstFilterValue: " + backlogFirstFilterValue);
         break;
       }
       case "PRIORITY": {
         setFirstFilterArgument("priority");
-        dispatch(setBacklogFirstFilterValue([]));
-        console.log("PRIORITY");
-        break;
-      }
-      case "CREATED_BEFORE_DATE": {
-        setFirstFilterArgument("createdBeforeDate");
-        dispatch(setBacklogFirstFilterValue([]));
-        console.log("CREATED_BEFORE_DATE");
-        break;
-      }
-      case "CREATED_AFTER_DATE": {
-        setFirstFilterArgument("createdAfterDate");
-        dispatch(setBacklogFirstFilterValue([]));
-        console.log("CREATED_AFTER_DATE");
-        break;
-      }
-      case "FINISHED_BEFORE_DATE": {
-        dispatch(setBacklogFirstFilterValue([]));
-        console.log("FINISHED_BEFORE_DATE");
-        break;
-      }
-      case "FINISHED_AFTER_DATE": {
-        dispatch(setBacklogFirstFilterValue([]));
-        console.log("FINISHED_AFTER_DATE");
+        const priorities = [];
+        tickets.forEach((ticket) => {
+          if (!priorities.includes(ticket.priority)) {
+            priorities.push(ticket.priority);
+          }
+        });
+        dispatch(setBacklogFirstFilterValue(priorities));
+        console.log("backlogFirstFilterValue: " + backlogFirstFilterValue);
         break;
       }
       default:
         dispatch(setBacklogFirstFilterValue([]));
-      setOptions2(null);
+        setOptions2(null);
     }
   };
 
@@ -152,13 +110,14 @@ const Kanban = () => {
     console.log("secondFilterArgument: " + e.value);
     dispatch(setFilteredTickets(firstFilterArgument, e.value));
     setIsFilterActive(true);
-    alert("Filter is active!");
   };
 
   const resetAllFilters = () => {
     setIsFilterActive(false);
     setIsSelectedFirstFilter(false);
     dispatch(resetFilteredTickets());
+    // let sel2 = document.getElementById("my_select2");
+    // sel2.value = null
   };
 
   return (
@@ -171,61 +130,73 @@ const Kanban = () => {
             paddingRight: "0 10px",
           }}
         >
-          <label
-            htmlFor="filter"
-            style={{
-              paddingLeft: 4,
-              margin: 0,
-              fontWeight: 500,
-              flexGrow: 3,
-            }}
-          >
-            <h4
+            <label
+              htmlFor="filter"
               style={{
+                paddingLeft: 4,
+                margin: 0,
                 fontWeight: 500,
-                textAlign: "center",
-                fontSize: "20px",
-                // paddingBottom: -10,
-                marginBottom: 4,
+                flexGrow: 3,
+                paddingTop: 6,
+                display: "inline-block"
               }}
             >
-              <span style={{ fontWeight: 300 }}>"Kanban"</span> filter
-            </h4>
-          </label>
-          <div style={{ top: -5, height: 45, flexGrow: 4, margin: "0 10px" }}>
-            <Select
-              id="my_select1"
-              options={filterBacklogOptions}
-              type="text"
-              name="filter1"
-              onChange={setBacklogFilterOne}
-              style={{ width: "20%", padding: 4, marginBottom: 4 }}
-            />
-          </div>
-          <div
-            style={{ display: "inline-block", flexGrow: 4, margin: "0 10px" }}
-          >
-            <Select
-              id="my_select2"
-              options={backlogFirstFilterValue.map((v) => ({
-                label: v,
-                value: v,
-              }))}
-              type="text"
-              name="filter2"
-              onChange={setBacklogFilterTwo}
-              style={{ width: "20%", padding: 4 }}
-              isDisabled={!isSelectedFirstFilter}
-            />
-          </div>
-          <div className="form-group" style={{ flexGrow: 3 }}>
-            <button
-              className="secondary_button"
-              disabled={!isFilterActive}
-              onClick={() => resetAllFilters()}
+              <h4
+                style={{
+                  fontWeight: 500,
+                  textAlign: "center",
+                  fontSize: "20px",
+                  // paddingBottom: -10,
+                  marginBottom: 4,
+                  textAlign: "right",
+                }}
+              >
+                <span style={{ fontWeight: 300 }}>Filter by:</span>
+              </h4>
+            </label>
+            <div style={{ top: -5, height: 45, flexGrow: 4, margin: "0 10px", display: "inline-block" }}>
+              <Select
+                id="my_select1"
+                options={filterOptions}
+                type="text"
+                name="filter1"
+                onChange={setBacklogFilterOne}
+                style={{ width: "20%", padding: 4, marginBottom: 4 }}
+              />
+            </div>
+            <div
+              style={{ display: "inline-block", flexGrow: 4, margin: "0 10px" }}
             >
-              Retet filter
-            </button>
+              <Select
+                id="my_select2"
+                options={
+                  backlogFirstFilterValue &&
+                  backlogFirstFilterValue.length &&
+                  backlogFirstFilterValue.map((v) => ({
+                    label: v,
+                    value: v,
+                  }))
+                }
+                type="text"
+                name="filter2"
+                onChange={setBacklogFilterTwo}
+                style={{ width: "20%", padding: 4 }}
+                isDisabled={!isSelectedFirstFilter}
+                value={backlogFirstFilterValue.value}
+              />
+            </div>
+            <div className="form-group" style={{ flexGrow: 4 }}>
+              <button
+                className="secondary_button"
+                disabled={!isFilterActive}
+                onClick={() => resetAllFilters()}
+                style={{
+                  visibility: isFilterActive === true ? "visible" : "hidden",
+                }}
+              >
+                Reset filter
+              </button>
+            </div>
           </div>
         </div>
         <div
@@ -243,7 +214,6 @@ const Kanban = () => {
             filteredTickets={filteredTickets}
           />
         </div>
-      </div>
     </div>
   );
 };
@@ -271,11 +241,11 @@ const KanbanBoard = (props) => {
   useEffect(() => {
     // console.log("tickets" + tickets);
     // console.log("isFilterActive: " + isFilterActive);
-    console.log("filteredTickets: " + filteredTickets);
+    console.log("filteredTickets in KanbanBoard: " + filteredTickets);
     if (isFilterActive) {
-      setProjects(filteredTickets)
+      setProjects(filteredTickets);
     } else {
-      setProjects(tickets)
+      setProjects(tickets);
     }
 
     // setProjects(filteredTickets)
@@ -441,6 +411,7 @@ const KanbanColumn = (props) => {
     textAlign: "center",
     backgroundColor: mouseIsHovering ? "#8f92a1" : "#a1a4b5",
     transition: "mouseIsHovering 1",
+    borderBottom: "8px solid #a1a4b5",
   };
 
   return (
@@ -466,7 +437,7 @@ const KanbanColumn = (props) => {
           padding: 8,
           color: "white",
           margin: "1px 3",
-          marginBottom: 5,
+          margin: "2px 5px 4px",
         }}
       >
         {props.title}{" "}

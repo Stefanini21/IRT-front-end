@@ -21,6 +21,27 @@ export const setFilteredTickets = (firstArg, seconArg) => (dispatch) => {
           }
       });
     }
+    if (firstArg === "developer") {
+      tickets.forEach((ticket) => {
+          if (ticket.developer === seconArg) {
+            filteredTickets.push(ticket);
+          }
+      });
+    }
+    if (firstArg === "specialty") {
+      tickets.forEach((ticket) => {
+          if (ticket.specialty === seconArg) {
+            filteredTickets.push(ticket);
+          }
+      });
+    }
+    if (firstArg === "priority") {
+      tickets.forEach((ticket) => {
+          if (ticket.priority === seconArg) {
+            filteredTickets.push(ticket);
+          }
+      });
+    }
     return dispatch({
       type: SET_FILTERED_TICKETS,
       payload: filteredTickets,

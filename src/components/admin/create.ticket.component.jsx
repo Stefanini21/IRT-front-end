@@ -9,12 +9,12 @@ import {
   createTicket,
   getAllUsersBySpecialty,
   getTicketList,
-  checkIfTicketTitleExist
+  checkIfTicketTitleExist,
 } from "../../redux/actions/ticket";
 import {
   getUserListBySpecialty,
   selectPriorities,
-  isDuplicateTicketTitle
+  isDuplicateTicketTitle,
 } from "../../redux/selectors/ticket";
 import { selectSpecialties } from "../../redux/selectors/user";
 import { getUserData } from "../../redux/selectors/auth";
@@ -38,7 +38,6 @@ const vtitle = (value) => {
     );
   }
 };
-
 
 const vdescription = (value) => {
   if (value.length < 3) {

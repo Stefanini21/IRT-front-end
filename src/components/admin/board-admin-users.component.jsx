@@ -1,12 +1,12 @@
 import React, {useEffect, useState} from "react";
-import {Button, Modal} from "react-bootstrap";
+import {Modal} from "react-bootstrap";
 import CreateUserModal from "./create.user.component";
 import ViewUser from "./view.user.component";
 import DataTable from "react-data-table-component";
 import {useDispatch, useSelector} from "react-redux";
 import {deleteUserById, getRoles, getSpecialties, getUserList, setUserId} from "../../redux/actions/user";
 import EditUserModal from "./edit.user.component";
-import {selectIsFetching, selectRoles, selectSpecialties, selectUserList} from "../../redux/selectors/user";
+import {selectIsFetching, selectUserList} from "../../redux/selectors/user";
 import Loader from "react-loader-spinner";
 import { selectUserWithTasksFlag } from "../../redux/selectors/flag";
 
@@ -89,7 +89,7 @@ const AdminUserList = () => {
     const handleCloseCreateUserModal = () => {
 
         setShowCreateUserModal(false)
-        window.location.reload()
+        // window.location.reload()
     }
 
     const handleShowViewUserModal = (userToView) => {
@@ -163,90 +163,82 @@ const AdminUserList = () => {
                            width={50}
             /> :
             (<div>
-                    <Modal show={showCreateUserModal} onHide={handleCloseCreateUserModal}>
-                        <Modal.Header closeButton>
-                            <Modal.Title>Create User</Modal.Title>
-                        </Modal.Header>
-                        <Modal.Body>
-                            <CreateUserModal handleCloseCreateUserModal={handleCloseCreateUserModal}/>
-                        </Modal.Body>
-                    </Modal>
+                <Modal show={showCreateUserModal} onHide={handleCloseCreateUserModal}>
+                    <Modal.Header closeButton>
+                        <Modal.Title>Create User</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
+                        <CreateUserModal handleCloseCreateUserModal={handleCloseCreateUserModal}/>
+                    </Modal.Body>
+                </Modal>
 
-            <Modal show={showViewUserModal} onHide={handleCloseViewUserModal}>
-                <Modal.Header closeButton>
-                    <Modal.Title>View User</Modal.Title>
-                </Modal.Header>
-                <Modal.Body>
-                    <ViewUser currentUser={userToView}/>
-                </Modal.Body>
-                <Modal.Footer>
-                    <Button variant="secondary" onClick={handleCloseViewUserModal}>
-                        Close
-                    </Button>
-                </Modal.Footer>
-            </Modal>
+                <Modal show={showViewUserModal} onHide={handleCloseViewUserModal}>
+                    <Modal.Header closeButton>
+                        <Modal.Title>View User</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
+                        <ViewUser currentUser={userToView}/>
+                    </Modal.Body>
+                </Modal>
 
-            <Modal show={showEditUserModal} onHide={handleCloseEditUserModal}>
-                <Modal.Header closeButton>
-                    <Modal.Title className="modal_header">Edit User</Modal.Title>
-                </Modal.Header>
-                <Modal.Body>
-                    <EditUserModal handleCloseEditUserModal={handleCloseEditUserModal}/>
-                </Modal.Body>
-            </Modal>
+                <Modal show={showEditUserModal} onHide={handleCloseEditUserModal}>
+                    <Modal.Header closeButton>
+                        <Modal.Title className="modal_header">Edit User</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
+                        <EditUserModal handleCloseEditUserModal={handleCloseEditUserModal}/>
+                    </Modal.Body>
+                </Modal>
 
-            <Modal show={showDeleteUserModal} onHide={handleCloseDeleteUserModal}>
-                <Modal.Header closeButton="close_button">
-                    <Modal.Title>Delete User</Modal.Title>
-                </Modal.Header>
-                <Modal.Body>
-
-                    <div className="card card-container">
-                        <div className="jumbotron">
-                            <h4>Delete: <strong>{userNameToDelete}</strong> ?</h4>
-                        </div>
-                   
-                    <button className="primary_button btn-block" onClick={handleCloseDeleteUserModal}>
-                        No
-                    </button>
-                    <button className="primary_button btn-block" onClick={handleDeleteUser}>
-                        Yes
-                    </button>
-                    </div>
-
-                    {!isUserWithTasks && (
-                        <div className="card card-container">
-                            <div className={"alert alert-danger"} role="alert">
-                                User deleted!
+                <Modal show={showDeleteUserModal} onHide={handleCloseDeleteUserModal}>
+                    <Modal.Header closeButton>
+                        <Modal.Title>Delete User</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
+                        <div className="container">
+                            <div className="jumbotron">
+                                <h4>Delete: <strong>{userNameToDelete}</strong> ?</h4>
                             </div>
                             <button className="primary_button btn-block" onClick={handleCloseDeleteUserModal}>
-                                OK
+                                No
+                            </button>
+                            <button className="primary_button btn-block" onClick={handleDeleteUser}>
+                                Yes
                             </button>
                         </div>
-                    )}
+
+                        {!isUserWithTasks && (
+                            <div className="card card-container">
+                                <div className={"alert alert-danger"} role="alert">
+                                    User deleted!
+                                </div>
+                                <button className="primary_button btn-block" onClick={handleCloseDeleteUserModal}>
+                                    OK
+                                </button>
+                            </div>
+                        )}
                     
-                    {isUserWithTasks && (
-                        <div className="card card-container">
-                            <div className={"alert alert-danger"} role="alert">
-                                Please, unassign tasks from this user before delete!
+                        {isUserWithTasks && (
+                            <div className="card card-container">
+                                <div className={"alert alert-danger"} role="alert">
+                                    Please, unassign tasks from this user before delete!
+                                </div>
+                                <button className="primary_button btn-block" onClick={handleCloseDeleteUserModal}>
+                                    OK
+                                </button>
                             </div>
-                            <button className="primary_button btn-block" onClick={handleCloseDeleteUserModal}>
-                                OK
-                            </button>
-                        </div>
-                    )}
+                        )}
 
-                </Modal.Body>
-                
-            </Modal>
+                    </Modal.Body>
+                </Modal>
 
-                    <header className="jumbotron">
-                        {error && <h3>{error}</h3>}
-                        <div style={{margin: 10}}>
-                            <button className="primary_button" onClick={handleShowCreateUserModal}>
-                                Create User
-                            </button>
-                        </div>
+                <header className="jumbotron">
+                    {error && <h3>{error}</h3>}
+                    <div style={{margin: 10}}>
+                        <button className="primary_button" onClick={handleShowCreateUserModal}>
+                            Create User
+                        </button>
+                    </div>
                     <DataTable
                         paginationPerPage={10}
                         paginationRowsPerPageOptions={[10, 25, 50]}
@@ -255,9 +247,9 @@ const AdminUserList = () => {
                         data={users}
                         pagination={true}/>
                 </header>
-            </div>)
-        }</>
-
+            </div>
+        )}
+    </>
 }
 
 export default AdminUserList

@@ -2,6 +2,7 @@ import React, {useEffect} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {resetDeleteUserFlags} from "../../redux/actions/flag";
 import {deleteUserById, getUserList} from "../../redux/actions/user";
+import {getUserData} from "../../redux/selectors/auth";
 import {selectIsDeletedFlag, selectWithTicketsFlag} from "../../redux/selectors/flag";
 import {selectUserById} from "../../redux/selectors/user";
 
@@ -12,6 +13,7 @@ const DeleteUserModal = (props) => {
     const userById = useSelector(selectUserById);
     const isDeleted = useSelector(selectIsDeletedFlag)
     const isUserWithTickets = useSelector(selectWithTicketsFlag);
+    const userData = useSelector(getUserData);
         
     useEffect(() => {
         dispatch(resetDeleteUserFlags())
@@ -32,7 +34,18 @@ const DeleteUserModal = (props) => {
                     className="profile-img-card"
                 />
                 
-                {!isDeleted && !isUserWithTickets && (
+                {userData.id === userById.id && (
+                    <div>
+                        <div className={"alert alert-danger"} role="alert">
+                            <strong> You can't delete yourself! </strong>
+                        </div>
+                        <button className="primary_button btn-block" onClick={props.handleCloseDeleteUserModal}>
+                            OK
+                        </button>
+                    </div>
+                )}
+
+                {userData.id !== userById.id && !isDeleted && !isUserWithTickets && (
                     <div>
                         <div className="jumbotron">
                             <h4>Delete: <strong>{userById.username}</strong> ?</h4>

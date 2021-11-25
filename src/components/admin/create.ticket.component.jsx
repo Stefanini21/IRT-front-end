@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, {useEffect, useState} from "react";
 import Form from "react-validation/build/form";
 import Input from "react-validation/build/input";
 import Select from "react-select";
@@ -6,7 +6,7 @@ import { selectButtonPressedCreatedTicketFlag } from "../../redux/selectors/flag
 import { useDispatch, useSelector } from "react-redux";
 import {
   createTicket,
-  getAllUsersBySpecialty,
+  getAllUsersBySpecialty, getPriorities, getStatuses, getTicketList,
 } from "../../redux/actions/ticket";
 import {
   getUserListBySpecialty,
@@ -14,6 +14,7 @@ import {
 } from "../../redux/selectors/ticket";
 import { selectSpecialties } from "../../redux/selectors/user";
 import { getUserData } from "../../redux/selectors/auth";
+import {getSpecialties} from "../../redux/actions/user";
 
 const required = (value) => {
   if (!value) {
@@ -49,7 +50,7 @@ const CreateTicketModal = () => {
 
   const handleCloseCreateTicketModal = () => {
     setShowCreateTicketModal(false);
-    window.location.reload();
+    // window.location.reload();
   };
 
   const onChangeTitle = (e) => {

@@ -1,12 +1,12 @@
 import React, {useEffect, useState} from "react";
-import {Button, Modal} from "react-bootstrap";
+import {Modal} from "react-bootstrap";
 import CreateUserModal from "./create.user.component";
 import ViewUser from "./view.user.component";
 import DataTable from "react-data-table-component";
 import {useDispatch, useSelector} from "react-redux";
 import {deleteUserById, getRoles, getSpecialties, getUserList, setUserId} from "../../redux/actions/user";
 import EditUserModal from "./edit.user.component";
-import {selectIsFetching, selectRoles, selectSpecialties, selectUserList} from "../../redux/selectors/user";
+import {selectIsFetching, selectUserList} from "../../redux/selectors/user";
 import Loader from "react-loader-spinner";
 
 const AdminUserList = () => {
@@ -87,7 +87,7 @@ const AdminUserList = () => {
     const handleCloseCreateUserModal = () => {
 
         setShowCreateUserModal(false)
-        window.location.reload()
+        // window.location.reload()
     }
 
     const handleShowViewUserModal = (userToView) => {
@@ -177,11 +177,6 @@ const AdminUserList = () => {
                     <Modal.Body>
                         <ViewUser currentUser={userToView}/>
                     </Modal.Body>
-                    <Modal.Footer>
-                        <Button variant="secondary" onClick={handleCloseViewUserModal}>
-                            Close
-                        </Button>
-                    </Modal.Footer>
                 </Modal>
 
                 <Modal show={showEditUserModal} onHide={handleCloseEditUserModal}>

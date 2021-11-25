@@ -107,7 +107,7 @@ const TicketList = () => {
 
   const handleCloseCreateTicketModal = () => {
     setShowCreateTicketModal(false);
-    window.location.reload();
+    // window.location.reload();
   };
 
 

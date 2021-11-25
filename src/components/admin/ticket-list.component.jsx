@@ -4,11 +4,12 @@ import CreateTicketModal from "./create.ticket.component.jsx";
 import DataTable from "react-data-table-component";
 import ViewTicket from "./view.ticket.component";
 import {useDispatch, useSelector} from "react-redux";
-import {deleteTicketById, getPriorities, getStatuses, getTicketList, setTicketId} from "../../redux/actions/ticket";
+import {getPriorities, getStatuses, getTicketList, setTicketId, getTicketById} from "../../redux/actions/ticket";
 import {selectIsFetching, selectTicketList} from "../../redux/selectors/ticket";
 import Loader from "react-loader-spinner";
 import {getSpecialties} from "../../redux/actions/user";
 import EditTicketComponent from "./edit.ticket.component";
+import DeleteTicketModal from "./delete.ticket.component.js";
 
 
 const TicketList = () => {
@@ -21,8 +22,6 @@ const TicketList = () => {
     const [showEditTicketModal, setShowEditTicketModal] = useState(false);
     const [tickets, setTickets] = useState([]);
     const [error, setError] = useState("");
-    const [ticketIdToDelete, setTicketIdToDelete] = useState("");
-    const [ticketTitleToDelete, setTicketTitleToDelete] = useState("");
     const [ticketToView, setTicketToView] = useState([]);
     const [loading, setLoading] = useState(true);
 
@@ -68,36 +67,34 @@ const TicketList = () => {
 
         {
             name: "View Ticket",
-            cell: (row) => (
-                <button className="secondary_button" onClick={() => handleShowViewTicketModal(row)}>
-                    View
-                </button>
-            ),
-            grow: 0.3,
+            cell: (row) =>
+                <button className="secondary_button"
+                        onClick={() => handleShowViewTicketModal(row)}>View</button>,
+            grow: 0.3
         },
         {
             name: "Edit Ticket",
-            cell: (row) => <button className="secondary_button"
-                                   onClick={() => handleEditTicketModal(row)}>Edit</button>,
+            cell: (row) =>
+                <button className="secondary_button"
+                        onClick={() => handleEditTicketModal(row)}>Edit</button>,
             grow: 0.3
         },
         {
             name: "Delete Ticket",
-            cell: (row) => <button className="secondary_button"
-                                   onClick={() => handleShowDeleteTicketModal(row.id, row.title)}>Delete</button>,
+            cell: (row) => 
+                <button className="secondary_button"
+                        onClick={() => handleShowDeleteTicketModal(row)}>Delete</button>,
             grow: 1
         }
-    ];
+    ]
 
     const handleEditTicketModal = (ticketToEdit) => {
-
         dispatch(setTicketId(ticketToEdit.id))
         setShowEditTicketModal(true)
         setTicketToView(ticketToEdit)
     }
 
     const handleCloseEditTicketModal = () => {
-
         setShowEditTicketModal(false)
         dispatch(getTicketList())
     };
@@ -123,22 +120,15 @@ const TicketList = () => {
         setShowViewTicketModal(false);
     };
 
-    const handleShowDeleteTicketModal = (ticketId, ticketTitle) => {
-        setTicketIdToDelete(ticketId);
-        setTicketTitleToDelete(ticketTitle);
-        setShowDeleteTicketModal(true);
+    const handleShowDeleteTicketModal = (ticketToDelete) => {
+        dispatch(getTicketById(ticketToDelete.id))
+        .then(() => {
+            setShowDeleteTicketModal(true)})
     };
 
     const handleCloseDeleteTicketModal = () => {
-        setShowDeleteTicketModal(false);
-    };
-
-    const handleDeleteTicket = () => {
-        dispatch(deleteTicketById(ticketIdToDelete))
-            .then(() => {
-                dispatch(getTicketList())
-            })
         setShowDeleteTicketModal(false)
+        dispatch(getTicketList())
     };
 
     useEffect(() => {
@@ -167,9 +157,7 @@ const TicketList = () => {
                         <Modal.Title>Create Ticket</Modal.Title>
                     </Modal.Header>
                     <Modal.Body>
-                        <CreateTicketModal
-                            handleCloseCreateTicketModal={handleCloseCreateTicketModal}
-                        />
+                        <CreateTicketModal handleCloseCreateTicketModal={handleCloseCreateTicketModal} />
                     </Modal.Body>
                 </Modal>
 
@@ -201,18 +189,8 @@ const TicketList = () => {
                         <Modal.Title>Delete Ticket</Modal.Title>
                     </Modal.Header>
                     <Modal.Body>
-                        <div className="jumbotron">
-                            <h4>Delete: <strong>{ticketTitleToDelete}</strong>?</h4>
-                        </div>
+                        <DeleteTicketModal handleCloseDeleteTicketModal={handleCloseDeleteTicketModal}/>                 
                     </Modal.Body>
-                    <Modal.Footer>
-                        <button className="tertiary_button" onClick={handleCloseDeleteTicketModal}>
-                            No
-                        </button>
-                        <button className="secondary_button" onClick={handleDeleteTicket}>
-                            Yes
-                        </button>
-                    </Modal.Footer>
                 </Modal>
 
                 <header className="jumbotron">
@@ -229,12 +207,11 @@ const TicketList = () => {
                         columns={columns}
                         data={tickets}
                         pagination={true}
-                        noDataComponent={" "}
-                    />
+                        noDataComponent={" "} />
                 </header>
             </div>)
-        }</>
+        }
+    </>
 }
-
 
 export default TicketList;

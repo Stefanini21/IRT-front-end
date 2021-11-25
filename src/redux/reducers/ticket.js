@@ -7,7 +7,6 @@ import {
   SET_MESSAGE,
   GET_TICKET_BY_ID,
   GET_TICKET_LIST,
-  DELETE_TICKET_BY_ID,
   SET_TICKET_ID,
   GET_STATUSES,
   GET_PRIORITIES,
@@ -25,7 +24,6 @@ const initialState = {
   ticketList: {},
   ticketListForKanban: {},
   isFetching: true,
-  isDeleted: false,
   statuses: {},
   priorities: {},
   ticketListFor: {},
@@ -76,11 +74,6 @@ export const ticket = (state = initialState, action) => {
       return {
         ...state,
         ticketList: action.payload,
-      };
-    case DELETE_TICKET_BY_ID:
-      return {
-        ...state,
-        isDeleted: true,
       };
     case GET_STATUSES:
       return {

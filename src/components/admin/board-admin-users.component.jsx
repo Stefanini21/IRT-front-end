@@ -190,10 +190,11 @@ const AdminUserList = () => {
                         title={'Users'}
                         columns={columns}
                         data={users}
-                        pagination={true}/>
+                        pagination={true} />
                 </header>
             </div>)
-        }</>
+        }
+    </>
 }
 
 export default AdminUserList

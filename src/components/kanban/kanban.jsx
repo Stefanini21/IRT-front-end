@@ -281,7 +281,8 @@ const KanbanBoard = (props) => {
 
     // setProjects(filteredTickets)
 
-    tickets.forEach((element) => {
+    for (var element of tickets) {
+    //tickets.forEach((element) => {
       switch (element.status) {
         case "BACKLOG": {
           element.project_stage = 1;
@@ -302,7 +303,7 @@ const KanbanBoard = (props) => {
         default:
           element.project_stage = 1;
       }
-    });
+    };
   }, [setDraggedOverCol]);
 
   //this is called when a Kanban card is dragged over a column (called by column)

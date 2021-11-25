@@ -6,14 +6,13 @@ const initialState = {
   userById: {},
   updatedUser: {},
   createdUser: {},
-  isDeleted: false,
-  withTasks: false,
   userList: {},
   specialties: {},
   specialtiesFetching: true,
   roles: {},
   rolesFetching: true,
   isFetching: true,
+
 };
 
 export const user = (state = initialState, action) => {
@@ -40,26 +39,6 @@ export const user = (state = initialState, action) => {
         ...state,
         createdUser: action.payload,
       };
-    case userActions.DELETE_USER_BY_ID:
-      console.log(action.payload + " action.payload for delete");
-      return {
-        ...state,
-        //userId: action.payload,
-        //userById: action.payload,
-        //userList: userList,
-        isDeleted: true,
-      };
-    case userActions.RECEIVE_USER_WITH_TASKS:
-      return {
-        ...state,
-        withTasks: true
-      };
-    case userActions.RESET_DELETE_USER_STATE:
-      return {
-        ...state,
-        isDeleted: false,
-        withTasks: false
-      }
     case userActions.GET_SPECIALTIES:
       return {
         ...state,

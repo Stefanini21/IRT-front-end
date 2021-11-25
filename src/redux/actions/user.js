@@ -22,8 +22,7 @@ export const userActions = {
     GET_ROLES: "GET_ROLES",
     UPDATE_FORGOTTEN_PASSWORD_SUCCESS: "UPDATE_FORGOTTEN_PASSWORD_SUCCESS",
     FAIL_FORGOTTEN_PASSWORD_UPDATE: "FAIL_FORGOTTEN_PASSWORD_UPDATE",
-    RECEIVE_USER_WITH_TASKS: "RECEIVE_USER_WITH_TASKS",
-    RESET_DELETE_USER_STATE: "RESET_DELETE_USER_STATE",
+    RECEIVE_USER_WITH_TICKETS: "RECEIVE_USER_WITH_TICKETS",
     
 }
 
@@ -249,14 +248,12 @@ export const updateUserById = (userData, userId) => (dispatch) => {
 
 export const deleteUserById = (userId) => (dispatch) => {
     const url = routes.BASIC_URL + routes.BASIC_PATH + routes.USER_BY_ID + userId;
-    console.log(userId + " this is id inside delete function")
-    console.log(url + " this is url inside delete function")
 
     return HttpService.delete(url)
         .then(response => {
             if (response === 400) {
                 return dispatch({
-                    type: userActions.RECEIVE_USER_WITH_TASKS
+                    type: userActions.RECEIVE_USER_WITH_TICKETS
                 })
             } else {
                 return dispatch({
@@ -265,10 +262,4 @@ export const deleteUserById = (userId) => (dispatch) => {
                 })
             }
         })
-}
-
-export const resetDeleteUserState = () => (dispatch) => {
-    return dispatch({
-        type: userActions.RESET_DELETE_USER_STATE,
-    })
 }

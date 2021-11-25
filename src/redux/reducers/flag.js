@@ -14,7 +14,10 @@ const initialState = {
     ticketDataUpdated: false,
     isDuplicatedTitle: false,
     successfulForgotPasswordUpdated: false,
-    failForgotPasswordUpdate: false
+    failForgotPasswordUpdate: false,
+    isDeleted: false,
+    withTickets: false,
+
 }
 
 export const flipFlag = (state = initialState, action, history) => {
@@ -101,6 +104,22 @@ export const flipFlag = (state = initialState, action, history) => {
                 ...state,
                 ticketDataUpdated: false,
                 isDuplicatedTitle: false,
+            };
+        case userActions.DELETE_USER_BY_ID:
+            return {
+                ...state,
+                isDeleted: true,
+            };
+        case userActions.RECEIVE_USER_WITH_TICKETS:
+            return {
+                ...state,
+                withTickets: true
+            };
+        case flagActions.RESET_DELETE_USER_FLAGS:
+            return {
+                ...state,
+                isDeleted: false,
+                withTickets: false
             };
         default:
             return state;

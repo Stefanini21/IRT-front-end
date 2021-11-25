@@ -1,18 +1,20 @@
 import React, {useEffect} from "react";
 import {useDispatch, useSelector} from "react-redux";
-import {deleteUserById, getUserList, resetDeleteUserState} from "../../redux/actions/user";
-import {selectUserById, selectIsDeleted, selectUserWithTasksFlag} from "../../redux/selectors/user";
+import {resetDeleteUserFlags} from "../../redux/actions/flag";
+import {deleteUserById, getUserList} from "../../redux/actions/user";
+import {selectIsDeletedFlag, selectWithTicketsFlag} from "../../redux/selectors/flag";
+import {selectUserById} from "../../redux/selectors/user";
 
 const DeleteUserModal = (props) => {
     
     const dispatch = useDispatch();
     
     const userById = useSelector(selectUserById);
-    const isDeleted = useSelector(selectIsDeleted)
-    const isUserWithTasks = useSelector(selectUserWithTasksFlag);
+    const isDeleted = useSelector(selectIsDeletedFlag)
+    const isUserWithTickets = useSelector(selectWithTicketsFlag);
         
     useEffect(() => {
-        dispatch(resetDeleteUserState())
+        dispatch(resetDeleteUserFlags())
     }, [])
 
     const handleDeleteUser = () => {      
@@ -30,7 +32,7 @@ const DeleteUserModal = (props) => {
                     className="profile-img-card"
                 />
                 
-                {!isDeleted && !isUserWithTasks && (
+                {!isDeleted && !isUserWithTickets && (
                     <div>
                         <div className="jumbotron">
                             <h4>Delete: <strong>{userById.username}</strong> ?</h4>
@@ -44,7 +46,7 @@ const DeleteUserModal = (props) => {
                     </div>
                 )}
 
-                {!isDeleted && isUserWithTasks && (
+                {!isDeleted && isUserWithTickets && (
                     <div>
                         <div className={"alert alert-danger"} role="alert">
                             Please, unassign tasks from this user before delete!

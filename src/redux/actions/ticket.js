@@ -63,7 +63,7 @@ export const setTicketId = (ticketId) => (dispatch) => {
 };
 
 export const getTicketById = (ticketId) => (dispatch) => {
-  const url = routes.BASIC_URL + routes.BASIC_PATH + routes.TICKETS + ticketId;
+  const url = routes.BASIC_URL + routes.BASIC_PATH + routes.TICKETS + "dto/" + ticketId;
   return HttpService.get(url, ticketId).then((response) => {
     return dispatch({
       type: GET_TICKET_BY_ID,
@@ -73,7 +73,7 @@ export const getTicketById = (ticketId) => (dispatch) => {
 };
 
 export const getTicketList = () => (dispatch) => {
-  const url = routes.BASIC_URL + routes.BASIC_PATH + routes.TICKETS;
+  const url = routes.BASIC_URL + routes.BASIC_PATH + routes.ALL_TICKETS_FOR_KANBAN;
 
   return HttpService.get(url).then((response) => {
     return dispatch({

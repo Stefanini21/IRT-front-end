@@ -1,4 +1,10 @@
 .dropdown-menu {
-    height: 300px;
+    height: 250px;
     overflow-y: scroll;
+    /*width: 320px;*/
+}
+
+.btn-primary {
+    background-color: #5c7de3;
+    border-color: #5c7de3;
 }

@@ -10,6 +10,10 @@ label {
   border: 0px;
 }
 
+.col-lg-6 {
+  max-width: 50%;
+}
+
 .card {
   background-color: #f7f7f7;
   padding: 20px 25px 30px;

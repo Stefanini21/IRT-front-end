@@ -13,14 +13,7 @@ const DeleteUserModal = (props) => {
         
     useEffect(() => {
         dispatch(resetDeleteUserState())
-        console.log(isDeleted)
-        console.log(isUserWithTasks)
-        console.log(userById)
     }, [])
-
-    /*useEffect(() => {
-        dispatch(getUserList());
-    }, [])   */
 
     const handleDeleteUser = () => {      
         dispatch(deleteUserById(userById.id))
@@ -37,7 +30,7 @@ const DeleteUserModal = (props) => {
                     className="profile-img-card"
                 />
                 
-                {!isDeleted && (
+                {!isDeleted && !isUserWithTasks && (
                     <div>
                         <div className="jumbotron">
                             <h4>Delete: <strong>{userById.username}</strong> ?</h4>
@@ -47,6 +40,17 @@ const DeleteUserModal = (props) => {
                         </button>
                         <button className="primary_button btn-block" onClick={handleDeleteUser}>
                             Yes
+                        </button>
+                    </div>
+                )}
+
+                {!isDeleted && isUserWithTasks && (
+                    <div>
+                        <div className={"alert alert-danger"} role="alert">
+                            Please, unassign tasks from this user before delete!
+                        </div>
+                        <button className="primary_button btn-block" onClick={props.handleCloseDeleteUserModal}>
+                            OK
                         </button>
                     </div>
                 )}
@@ -61,24 +65,9 @@ const DeleteUserModal = (props) => {
                         </button>
                     </div>
                 )}
-
-                    {/*     {isUserWithTasks && (
-                            <div>
-                                <div className={"alert alert-danger"} role="alert">
-                                    Please, unassign tasks from this user before delete!
-                                </div>
-                                <button className="primary_button btn-block" onClick={handleCloseDeleteUserModal}>
-                                    OK
-                                </button>
-                            </div>
-                            )}
-
-                       
-                */
-}
-                        </div>
-                    </div>   
-            </>
+            </div>
+        </div>   
+    </>
 }
 
 export default DeleteUserModal

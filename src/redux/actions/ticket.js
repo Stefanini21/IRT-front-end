@@ -69,12 +69,13 @@ export const setTicketId = (ticketId) => (dispatch) => {
 };
 
 export const getTicketById = (ticketId) => (dispatch) => {
-    const url = routes.BASIC_URL + routes.BASIC_PATH + routes.TICKETS + "dto/" + ticketId;
-    return HttpService.get(url, ticketId).then((response) => {
-        return dispatch({
-            type: GET_TICKET_BY_ID,
-            payload: response,
-        });
+  const url = routes.BASIC_URL + routes.BASIC_PATH + routes.TICKETS + "dto/" + ticketId;
+  
+  return HttpService.get(url, ticketId).then((response) => {
+      return dispatch({
+        type: GET_TICKET_BY_ID,
+        payload: response,
+      });
     });
 };
 
@@ -90,11 +91,7 @@ export const getTicketList = () => (dispatch) => {
 };
 
 export const deleteTicketById = (ticketId) => (dispatch) => {
-    const url =
-        routes.BASIC_URL + routes.BASIC_PATH + routes.TICKET_BY_ID + ticketId;
-
-    console.log(ticketId + " this is id inside delete function");
-    console.log(url + " this is url inside delete function");
+  const url = routes.BASIC_URL + routes.BASIC_PATH + routes.TICKET_BY_ID + ticketId;
 
     return HttpService.delete(url).then((response) => {
         return dispatch({

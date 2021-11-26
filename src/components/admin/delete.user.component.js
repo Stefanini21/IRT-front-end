@@ -1,107 +1,31 @@
-import React, {useEffect, useState} from "react";
-import Form from "react-validation/build/form";
-import Input from "react-validation/build/input";
-import {isEmail} from "validator";
+import React, {useEffect} from "react";
 import {useDispatch, useSelector} from "react-redux";
-import {createUser} from "../../redux/actions/user";
-import {selectDuplicatedEntryFlag, selectSuccessfulCreatedUserFlag} from "../../redux/selectors/flag";
-import UserService from "../../services/user.service";
+import {resetDeleteUserFlags} from "../../redux/actions/flag";
+import {deleteUserById, getUserList} from "../../redux/actions/user";
+import {getUserData} from "../../redux/selectors/auth";
+import {selectIsDeletedFlag, selectWithTicketsFlag} from "../../redux/selectors/flag";
+import {selectUserById} from "../../redux/selectors/user";
 
-const DeleteUserModal = () => {
-
+const DeleteUserModal = (props) => {
+    
     const dispatch = useDispatch();
-
-    const [username, setUsername] = useState("");
-    const [firstname, setFirstName] = useState("");
-    const [lastname, setLastName] = useState("");
-    const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
-    const [role, setRole] = useState("");
-    const [message, setMessage] = useState("");
-    const [specialtyForm, setSpecialty] = useState("");
-    const duplicatedEntryFlag = useSelector(selectDuplicatedEntryFlag);
-    const successfulCreatedUser = useSelector(selectSuccessfulCreatedUserFlag);
-
-    const [roles, setRoles] = useState([]);
-    const [specialties, setSpecialties] = useState([]);
-    const [showCreateUserModal, setShowCreateUserModal] = useState(false);
-
-
-    const handleCloseCreateUserModal = () => {
-
-        setShowCreateUserModal(false)
-        window.location.reload()
-    }
-
-    const onChangeUsername = (e) => {
-        setUsername(e.target.value)
-    }
-
-    const onChangeFirstName = (e) => {
-        setFirstName(e.target.value)
-    }
-
-    const onChangeLastName = (e) => {
-        setLastName(e.target.value)
-    }
-
-    const onChangeSpecialty = (e) => {
-        setSpecialty(e.target.value)
-    }
-
-    const onChangeEmail = (e) => {
-        setEmail(e.target.value)
-    }
-
-    const onChangePassword = (e) => {
-        setPassword(e.target.value)
-    }
-
-    const onChangeRole = (e) => {
-        setRole(e.target.value)
-    }
-
-
-    const handleCreateUser = (e) => {
-        e.preventDefault();
-
-        const newUser = {
-            firstName: firstname,
-            lastName: lastname,
-            username: username,
-            email: email,
-            role: role,
-            specialty: specialtyForm,
-            password: password
-        }
-
-        dispatch(createUser(newUser))
-            .then(() => {
-
-                setMessage(username + ' successfully registered!')
-            })
-
-
-    }
-
-
+    
+    const userById = useSelector(selectUserById);
+    const isDeleted = useSelector(selectIsDeletedFlag)
+    const isUserWithTickets = useSelector(selectWithTicketsFlag);
+    const userData = useSelector(getUserData);
+        
     useEffect(() => {
-        UserService.getRoles().then(
-            response => {
-                setRoles(response.data)
-            },
-        );
-
-        UserService.getSpecialties().then(
-            response => {
-                setSpecialties(response.data)
-            },
-        );
-
+        dispatch(resetDeleteUserFlags())
     }, [])
 
+    const handleDeleteUser = () => {      
+        dispatch(deleteUserById(userById.id))
+        .then(() => {
+        dispatch(getUserList())})
+    }
 
-    return (
+    return <>
         <div className="col-md-12">
             <div className="card card-container">
                 <img
@@ -109,135 +33,56 @@ const DeleteUserModal = () => {
                     alt="profile-img"
                     className="profile-img-card"
                 />
-
-                <Form
-                    onSubmit={handleCreateUser}
-                >
-                    {!successfulCreatedUser &&
+                
+                {userData.id === userById.id && (
                     <div>
-                        <div className="form-group">
-                            <label htmlFor="username">Username</label>
-                            <Input
-                                type="text"
-                                className="form-control"
-                                name="username"
-                                value={username}
-                                onChange={onChangeUsername}
-                                validations={[required, vusername]}
-                            />
+                        <div className={"alert alert-danger"} role="alert">
+                            <strong> You can't delete yourself! </strong>
                         </div>
-
-                        <div className="form-group">
-                            <label htmlFor="firstname">First name</label>
-                            <Input
-                                type="text"
-                                className="form-control"
-                                name="firstname"
-                                value={firstname}
-                                onChange={onChangeFirstName}
-                                validations={[required]}
-                            />
-                        </div>
-
-                        <div className="form-group">
-                            <label htmlFor="lastname">Last name</label>
-                            <Input
-                                type="text"
-                                className="form-control"
-                                name="lastname"
-                                value={lastname}
-                                onChange={onChangeLastName}
-                                validations={[required]}
-                            />
-                        </div>
-
-                        <div className="form-group">
-                            <label htmlFor="email">Email</label>
-                            <Input
-                                type="text"
-                                className="form-control"
-                                name="email"
-                                value={email}
-                                onChange={onChangeEmail}
-                                validations={[required, vemail]}
-                            />
-                        </div>
-
-                        <div className="form-group">
-                            <label htmlFor="specialty">Specialty</label>
-                            <select
-                                className="form-control"
-                                name="specialty"
-                                defaultValue={specialtyForm}
-                                value={specialtyForm}
-                                onChange={onChangeSpecialty}>
-                                validations={[required]}
-                                {specialties.map((specialty, i) =>
-                                    <option value={specialty}>{specialty}</option>
-                                )}
-                            </select>
-                        </div>
-
-                        <div className="form-group">
-                            <label htmlFor="role">Role</label>
-                            <select
-                                className="form-control"
-                                name="role"
-                                defaultValue={role}
-                                value={role}
-                                onChange={onChangeRole}>
-                                validations={[required]}
-                                {roles.map((role, i) =>
-                                    <option value={role}>{role}</option>
-                                )}
-                            </select>
-                        </div>
-
-                        <div className="form-group">
-                            <label htmlFor="password">Password</label>
-                            <Input
-                                type="password"
-                                className="form-control"
-                                name="password"
-                                value={password}
-                                onChange={onChangePassword}
-                                validations={[required, vpassword]}
-                            />
-                        </div>
-
-                        <div className="form-group">
-                            <button className="primary_button btn-block">Sign Up</button>
-                        </div>
+                        <button className="primary_button btn-block" onClick={props.handleCloseDeleteUserModal}>
+                            OK
+                        </button>
                     </div>
-                    }
+                )}
 
-                    {duplicatedEntryFlag && (
-                        <div className="form-group">
-                            <div className="alert alert-danger" role="alert">
-                                Username or Email are already taken.
-                            </div>
+                {userData.id !== userById.id && !isDeleted && !isUserWithTickets && (
+                    <div>
+                        <div className="jumbotron">
+                            <h4>Delete: <strong>{userById.username}</strong> ?</h4>
                         </div>
-                    )}
+                        <button className="primary_button btn-block" onClick={props.handleCloseDeleteUserModal}>
+                            No
+                        </button>
+                        <button className="primary_button btn-block" onClick={handleDeleteUser}>
+                            Yes
+                        </button>
+                    </div>
+                )}
 
-                    {successfulCreatedUser && (
-                        <div className="form-group">
-                            <div className={"alert alert-success"}
-                                 role="alert">
-                                {message}
-                            </div>
-                            <button className="primary_button btn-block" onClick={handleCloseCreateUserModal}>
-                                OK
-                            </button>
+                {!isDeleted && isUserWithTickets && (
+                    <div>
+                        <div className={"alert alert-danger"} role="alert">
+                            Please, unassign tasks from this user before delete!
                         </div>
-                    )}
+                        <button className="primary_button btn-block" onClick={props.handleCloseDeleteUserModal}>
+                            OK
+                        </button>
+                    </div>
+                )}
 
-
-                </Form>
+                {isDeleted && (
+                    <div>
+                        <div className={"alert alert-danger"} role="alert">
+                            User <strong> {userById.username} </strong> deleted!
+                        </div>
+                        <button className="primary_button btn-block" onClick={props.handleCloseDeleteUserModal}>
+                            OK
+                        </button>
+                    </div>
+                )}
             </div>
-        </div>
-    );
-
+        </div>   
+    </>
 }
 
-
-export default CreateUserModal
+export default DeleteUserModal

@@ -1,6 +1,12 @@
 import {userActions} from "../actions/user";
 import {flagActions} from "../actions/flag";
-import {CREATE_TICKET_FAIL, CREATE_TICKET_SUCCESS, RECEIVE_DUPLICATE_TITLE, UPDATE_TICKET_BY_ID} from "../actions/types"
+import {
+    CREATE_TICKET_FAIL, 
+    CREATE_TICKET_SUCCESS, 
+    RECEIVE_DUPLICATE_TITLE, 
+    UPDATE_TICKET_BY_ID, 
+    DELETE_TICKET_BY_ID,
+} from "../actions/types"
 
 const initialState = {
     userDataLoaded: false,
@@ -15,7 +21,8 @@ const initialState = {
     isDuplicatedTitle: false,
     successfulForgotPasswordUpdated: false,
     failForgotPasswordUpdate: false,
-    withTasks: false,
+    isDeleted: false,
+    withTickets: false,
 
 }
 
@@ -104,10 +111,26 @@ export const flipFlag = (state = initialState, action, history) => {
                 ticketDataUpdated: false,
                 isDuplicatedTitle: false,
             };
-        case userActions.RECEIVE_USER_WITH_TASKS:
+        case DELETE_TICKET_BY_ID:
             return {
-                ...initialState,
-                withTasks: true
+                ...state,
+                isDeleted: true,
+            };
+        case userActions.DELETE_USER_BY_ID:
+            return {
+                ...state,
+                isDeleted: true,
+            };
+        case userActions.RECEIVE_USER_WITH_TICKETS:
+            return {
+                ...state,
+                withTickets: true
+            };
+        case flagActions.RESET_DELETE_USER_FLAGS:
+            return {
+                ...state,
+                isDeleted: false,
+                withTickets: false
             };
         default:
             return state;

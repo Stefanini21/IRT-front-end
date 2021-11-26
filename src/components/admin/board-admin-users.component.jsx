@@ -25,7 +25,7 @@ const AdminUserList = () => {
    
     const userList = useSelector(selectUserList);
     const fetching = useSelector(selectIsFetching);
-
+    
     const columns = [
         {
             name: 'First Name',

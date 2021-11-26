@@ -26,11 +26,13 @@ const initialState = {
   ticketListForKanban: {},
   isFetching: true,
   isDeleted: false,
+  usersBySpecialtyFetched: false,
   statuses: {},
   priorities: {},
   ticketListFor: {},
   allTicketCreators: {},
-  allTicketDevelopers: {}
+  allTicketDevelopers: {},
+  usersList: {}
 };
 
 
@@ -45,6 +47,7 @@ export const ticket = (state = initialState, action) => {
       return {
         ...state,
         usersList: action.payload,
+        usersBySpecialtyFetched: true
       };
     case SET_TICKET_ID:
       return {

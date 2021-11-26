@@ -50,7 +50,7 @@ export const getAllUsersBySpecialty = (specialty) => (dispatch) => {
   return HttpService.get(url + "/" + specialty, {}).then((response) => {
     return dispatch({
       type: SELECTED_SPECIALTY,
-      payload: ["NOT SET",...response],
+      payload: response
     });
   });
 };

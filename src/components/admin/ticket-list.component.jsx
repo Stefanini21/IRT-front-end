@@ -4,7 +4,14 @@ import CreateTicketModal from "./create.ticket.component.jsx";
 import DataTable from "react-data-table-component";
 import ViewTicket from "./view.ticket.component";
 import {useDispatch, useSelector} from "react-redux";
-import {getTicketList, setTicketId, deleteTicketById, getStatuses, getPriorities} from "../../redux/actions/ticket";
+import {
+  getTicketList,
+  setTicketId,
+  deleteTicketById,
+  getStatuses,
+  getPriorities,
+  getAllUsersBySpecialty
+} from "../../redux/actions/ticket";
 import {selectTicketList, selectIsFetching} from "../../redux/selectors/ticket";
 import Loader from "react-loader-spinner";
 import {getRoles, getSpecialties} from "../../redux/actions/user";
@@ -89,7 +96,6 @@ const TicketList = () => {
   ];
 
   const handleEditTicketModal = (ticketToEdit) => {
-
     dispatch(setTicketId(ticketToEdit.id))
     setShowEditTicketModal(true)
     setTicketToView(ticketToEdit)
@@ -149,7 +155,8 @@ const TicketList = () => {
     dispatch(getSpecialties());
     dispatch(getStatuses());
     dispatch(getPriorities());
-    //dispatch(getDevelopers());
+    dispatch(getAllUsersBySpecialty("NONE"))
+
   }, [])
 
     return <>

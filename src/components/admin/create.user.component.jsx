@@ -254,9 +254,28 @@ const CreateUserModal = () => {
                             />
                         </div>
 
-                        <div className="form-group">
-                            <button className="primary_button btn-block">Sign Up</button>
-                        </div>
+                        {username.length > 2 &&
+                        firstname.length > 2 &&
+                        lastname.length > 2 &&
+                        email &&
+                        specialties &&
+                        roles &&
+                        password.length > 6    ? (
+
+                            <div className="form-group">
+                                <button  className="primary_button btn-block">
+                                    Sign Up
+                                </button>
+                            </div>
+                        ) : (
+                            <div className="form-group">
+                                <button disabled className="primary_button btn-block">
+                                    Sign Up
+                                </button>
+                            </div>
+                        )}
+
+
                     </div>
                     }
 
@@ -274,7 +293,8 @@ const CreateUserModal = () => {
                                  role="alert">
                                 {message}
                             </div>
-                            <button className="primary_button btn-block" onClick={handleCloseCreateUserModal}>
+                            <button className="primary_button btn-block"
+                                    onClick={handleCloseCreateUserModal}>
                                 OK
                             </button>
                         </div>

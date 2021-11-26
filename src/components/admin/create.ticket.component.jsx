@@ -89,7 +89,7 @@ const CreateTicketModal = () => {
   const handleCloseCreateTicketModal = () => {
     setShowCreateTicketModal(false);
     dispatch(getTicketList());
-    //window.location.reload();
+    window.location.reload();
   };
 
   const onChangeTitle = (e) => {
@@ -270,19 +270,6 @@ const CreateTicketModal = () => {
               </button>
             </div>
           )}
-
-          {/* {message && (
-            <div className="form-group">
-              <div
-                className={
-                  successful ? "alert alert-success" : "alert alert-danger"
-                }
-                role="alert"
-              >
-                {message}
-              </div>
-            </div>
-          )} */}
         </Form>
       </div>
     </div>

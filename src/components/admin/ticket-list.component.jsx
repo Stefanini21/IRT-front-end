@@ -207,7 +207,8 @@ const TicketList = () => {
                         columns={columns}
                         data={tickets}
                         pagination={true}
-                        noDataComponent={" "} />
+                       // noDataComponent={" "} 
+                        />
                 </header>
             </div>)
         }

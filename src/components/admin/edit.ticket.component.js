@@ -81,8 +81,7 @@ const EditTicketComponent = () => {
         setStatus(ticketById.status);
         if (ticketById.developer) {
             setDeveloper(ticketById.developer);
-        }
-        else {
+        } else {
             setDeveloper("NOT SET")
         }
         dispatch(getAllUsersBySpecialty(ticketById.specialty));
@@ -219,7 +218,7 @@ const EditTicketComponent = () => {
                                     onChange={onChangeDeveloper}>
                                     {(userListBySpecialty === ["NOT SET"]) ?
                                         <option value={"NOT SET"}>{"NOT SET"}</option>
-                                     : (userListBySpecialty.map((s, i) =>
+                                        : (userListBySpecialty.map((s, i) =>
                                             <option value={s}>{s}</option>))
                                     }
                                 </select>

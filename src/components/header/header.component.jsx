@@ -1,5 +1,5 @@
 import React, {useEffect} from "react";
-import {NavLink, Link, useHistory} from "react-router-dom";
+import {NavLink, useHistory} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
 import {getUserData, getUserLoaded} from "../../redux/selectors/auth"; // addUserData
 import {signOutUser} from "../../redux/actions/auth";

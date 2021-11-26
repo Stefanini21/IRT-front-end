@@ -3,11 +3,11 @@ services:
   mysqldb:
     image: mysql:latest
     environment:build:
-    - MYSQL_ROOT_HOST=%
-    - MYSQL_ROOT_PASSWORD=admin
-    - MYSQL_USER=root
-    - MYSQL_PASWORD=admin
-    - MYSQL_DATABASE=taskmanager
+      - MYSQL_ROOT_HOST=%
+      - MYSQL_ROOT_PASSWORD=admin
+      - MYSQL_USER=root
+      - MYSQL_PASWORD=admin
+      - MYSQL_DATABASE=taskmanager
   expose:
     - "3306"
   ports:
@@ -15,28 +15,28 @@ services:
   volumes:
     - db:/var/lib/taskmanager
   healthcheck:
-    test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+    test: [ "CMD", "mysqladmin", "ping", "-h", "localhost" ]
     interval: 2s
     timeout: 30s
     retries: 5
   backend:
-      build: .
-      depends_on:
-        - mysqldb
-      image: ______________
-      environment:
-        - SPRING_DATASOURCE_USERNAME=${DB_USERNAME}
-        - SPRING_DATASOURCE_PASSWORD=${DB_PASSWORD}
-        - SPRING_FLYWAY_USER=${DB_USERNAME}
-        - SPRING_FLYWAY_PASSWORD=${DB_PASSWORD}
-      restart: on-failure
-      expose:
-        - "8080"
-      ports:
-        - "8080:8080" 
+    build: .
+    depends_on:
+      - mysqldb
+    image: ______________
+    environment:
+      - SPRING_DATASOURCE_USERNAME=${DB_USERNAME}
+      - SPRING_DATASOURCE_PASSWORD=${DB_PASSWORD}
+      - SPRING_FLYWAY_USER=${DB_USERNAME}
+      - SPRING_FLYWAY_PASSWORD=${DB_PASSWORD}
+    restart: on-failure
+    expose:
+      - "8080"
+    ports:
+      - "8080:8080"
   frontend:
     image: ___________________
-    ports: 
+    ports:
       - "80:3000"
     expose:
       - "3000"

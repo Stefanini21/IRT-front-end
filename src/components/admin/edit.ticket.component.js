@@ -216,11 +216,15 @@ const EditTicketComponent = () => {
                                     defaultValue={developerForm}
                                     value={developerForm}
                                     onChange={onChangeDeveloper}>
-                                    {(userListBySpecialty === ["NOT SET"]) ?
+                                    {userListBySpecialty === ["NOT SET"] ? (
                                         <option value={"NOT SET"}>{"NOT SET"}</option>
-                                        : (userListBySpecialty.map((s, i) =>
-                                            <option value={s}>{s}</option>))
-                                    }
+                                    ) : (
+                                        userListBySpecialty &&
+                                        userListBySpecialty.length &&
+                                        userListBySpecialty.map((s, i) => (
+                                            <option value={s}>{s}</option>
+                                        ))
+                                    )}
                                 </select>
                                 <br/>
                             </div>

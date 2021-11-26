@@ -1,10 +1,16 @@
 import {useDispatch, useSelector} from "react-redux";
-import {selectPriorities, selectStatuses, selectTicketById, selectTicketId} from "../../redux/selectors/ticket";
+import {
+    getUserListBySpecialty,
+    selectPriorities,
+    selectStatuses,
+    selectTicketById,
+    selectTicketId
+} from "../../redux/selectors/ticket";
 import {selectDuplicatedTitleFlag, selectTicketUpdatedFlag,} from "../../redux/selectors/flag";
 import {selectSpecialties} from "../../redux/selectors/user";
 import React, {useEffect, useState} from "react";
 import {resetEditTicketFlags} from "../../redux/actions/flag";
-import {getTicketById, updateTicketById} from "../../redux/actions/ticket";
+import {getAllUsersBySpecialty, getTicketById, updateTicketById} from "../../redux/actions/ticket";
 import Loader from "react-loader-spinner";
 import Form from "react-validation/build/form";
 import Input from "react-validation/build/input";
@@ -49,6 +55,7 @@ const EditTicketComponent = () => {
     const specialties = useSelector(selectSpecialties);
     const statuses = useSelector(selectStatuses);
     const priorities = useSelector(selectPriorities);
+    const userListBySpecialty = useSelector(getUserListBySpecialty);
 
     const [titleForm, setTitle] = useState(" ");
     const [descriptionForm, setDescription] = useState("");
@@ -57,6 +64,8 @@ const EditTicketComponent = () => {
     const [statusForm, setStatus] = useState("");
     const [developerForm, setDeveloper] = useState("");
     const [message, setMessage] = useState("");
+    const [usersBySpecialty, setUsersBySpecialty] = useState(["NOT SET"]);
+    const [usersBySpecialtyLoaded, setUsersBySpecialtyLoaded] = useState(false)
 
 
     useEffect(() => {
@@ -70,7 +79,14 @@ const EditTicketComponent = () => {
         setPriority(ticketById.priority);
         setSpecialty(ticketById.specialty);
         setStatus(ticketById.status);
-        setDeveloper(ticketById.developer);
+        if (ticketById.developer) {
+            setDeveloper(ticketById.developer);
+        } else {
+            setDeveloper("NOT SET")
+        }
+        dispatch(getAllUsersBySpecialty(ticketById.specialty));
+        //setUsersBySpecialty(userListBySpecialty);
+
     }, [ticketById])
 
     const onChangeTitle = (e) => {
@@ -88,6 +104,8 @@ const EditTicketComponent = () => {
 
     const onChangeSpecialty = (e) => {
         setSpecialty(e.target.value)
+        dispatch(getAllUsersBySpecialty(e.target.value));
+        setUsersBySpecialty(userListBySpecialty);
     }
 
     const onChangeStatus = (e) => {
@@ -118,7 +136,7 @@ const EditTicketComponent = () => {
     }
 
     return <>
-        {(titleForm && descriptionForm) ?
+        {(priorityForm) ?
             <div className="col-md-12">
                 <div className="card card-container">
                     <Form onSubmit={handleSubmit}>
@@ -184,13 +202,11 @@ const EditTicketComponent = () => {
                                     defaultValue={specialtyForm}
                                     value={specialtyForm}
                                     onChange={onChangeSpecialty}>
-                                    validations={[required]}
                                     {specialties.map((s, i) =>
                                         <option value={s}>{s}</option>
                                     )}
                                 </select>
                             </div>
-
 
                             <div className="form-group">
                                 <label htmlFor="developer">Developer</label>
@@ -200,9 +216,14 @@ const EditTicketComponent = () => {
                                     defaultValue={developerForm}
                                     value={developerForm}
                                     onChange={onChangeDeveloper}>
-                                    validations={[required]}
-                                    {specialties.map((s, i) =>
-                                        <option value={s}>{s}</option>
+                                    {userListBySpecialty === ["NOT SET"] ? (
+                                        <option value={"NOT SET"}>{"NOT SET"}</option>
+                                    ) : (
+                                        userListBySpecialty &&
+                                        userListBySpecialty.length &&
+                                        userListBySpecialty.map((s, i) => (
+                                            <option value={s}>{s}</option>
+                                        ))
                                     )}
                                 </select>
                                 <br/>

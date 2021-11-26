@@ -38,7 +38,7 @@ const SignIn = () => {
         );
     }
 
-    return (<div style={{display: 'flex',  justifyContent:'center', alignItems:'center', marginTop: 100}}>
+    return (<div style={{display: 'flex', justifyContent: 'center', alignItems: 'center', marginTop: 100}}>
 
             <div style={{width: "27%"}} className={"card card-container"}>
 

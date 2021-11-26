@@ -65,8 +65,6 @@ const EditTicketComponent = () => {
     const [developerForm, setDeveloper] = useState("");
     const [message, setMessage] = useState("");
     const [usersBySpecialty, setUsersBySpecialty] = useState(["NOT SET"]);
-    const [usersBySpecialtyLoaded, setUsersBySpecialtyLoaded] = useState(false)
-
 
     useEffect(() => {
         dispatch(resetEditTicketFlags())
@@ -216,11 +214,15 @@ const EditTicketComponent = () => {
                                     defaultValue={developerForm}
                                     value={developerForm}
                                     onChange={onChangeDeveloper}>
-                                    {(userListBySpecialty === ["NOT SET"]) ?
+                                    {userListBySpecialty === ["NOT SET"] ? (
                                         <option value={"NOT SET"}>{"NOT SET"}</option>
-                                        : (userListBySpecialty.map((s, i) =>
-                                            <option value={s}>{s}</option>))
-                                    }
+                                    ) : (
+                                        userListBySpecialty &&
+                                        userListBySpecialty.length &&
+                                        userListBySpecialty.map((s, i) => (
+                                            <option value={s}>{s}</option>
+                                        ))
+                                    )}
                                 </select>
                                 <br/>
                             </div>

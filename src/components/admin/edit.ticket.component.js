@@ -57,7 +57,6 @@ const EditTicketComponent = () => {
     const priorities = useSelector(selectPriorities);
     const userListBySpecialty = useSelector(getUserListBySpecialty);
 
-
     const [titleForm, setTitle] = useState(" ");
     const [descriptionForm, setDescription] = useState("");
     const [priorityForm, setPriority] = useState("");
@@ -65,6 +64,8 @@ const EditTicketComponent = () => {
     const [statusForm, setStatus] = useState("");
     const [developerForm, setDeveloper] = useState("");
     const [message, setMessage] = useState("");
+    const [usersBySpecialty, setUsersBySpecialty] = useState(["NOT SET"]);
+    const [usersBySpecialtyLoaded, setUsersBySpecialtyLoaded] = useState(false)
 
 
     useEffect(() => {
@@ -80,11 +81,12 @@ const EditTicketComponent = () => {
         setStatus(ticketById.status);
         if (ticketById.developer) {
             setDeveloper(ticketById.developer);
-        }
-        else {
+        } else {
             setDeveloper("NOT SET")
         }
         dispatch(getAllUsersBySpecialty(ticketById.specialty));
+        //setUsersBySpecialty(userListBySpecialty);
+
     }, [ticketById])
 
     const onChangeTitle = (e) => {
@@ -103,6 +105,7 @@ const EditTicketComponent = () => {
     const onChangeSpecialty = (e) => {
         setSpecialty(e.target.value)
         dispatch(getAllUsersBySpecialty(e.target.value));
+        setUsersBySpecialty(userListBySpecialty);
     }
 
     const onChangeStatus = (e) => {
@@ -133,7 +136,7 @@ const EditTicketComponent = () => {
     }
 
     return <>
-        {statusForm ?
+        {(priorityForm) ?
             <div className="col-md-12">
                 <div className="card card-container">
                     <Form onSubmit={handleSubmit}>
@@ -205,7 +208,6 @@ const EditTicketComponent = () => {
                                 </select>
                             </div>
 
-
                             <div className="form-group">
                                 <label htmlFor="developer">Developer</label>
                                 <select
@@ -214,9 +216,11 @@ const EditTicketComponent = () => {
                                     defaultValue={developerForm}
                                     value={developerForm}
                                     onChange={onChangeDeveloper}>
-                                    {userListBySpecialty.map((s, i) =>
-                                        <option value={s}>{s}</option>
-                                    )}
+                                    {(userListBySpecialty === ["NOT SET"]) ?
+                                        <option value={"NOT SET"}>{"NOT SET"}</option>
+                                        : (userListBySpecialty.map((s, i) =>
+                                            <option value={s}>{s}</option>))
+                                    }
                                 </select>
                                 <br/>
                             </div>

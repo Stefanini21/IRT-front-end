@@ -4,7 +4,14 @@ import CreateTicketModal from "./create.ticket.component.jsx";
 import DataTable from "react-data-table-component";
 import ViewTicket from "./view.ticket.component";
 import {useDispatch, useSelector} from "react-redux";
-import {deleteTicketById, getPriorities, getStatuses, getTicketList, setTicketId} from "../../redux/actions/ticket";
+import {
+  deleteTicketById,
+  getAllUsersBySpecialty,
+  getPriorities,
+  getStatuses,
+  getTicketList,
+  setTicketId
+} from "../../redux/actions/ticket";
 import {selectIsFetching, selectTicketList} from "../../redux/selectors/ticket";
 import Loader from "react-loader-spinner";
 import {getSpecialties} from "../../redux/actions/user";
@@ -90,7 +97,6 @@ const TicketList = () => {
     ];
 
     const handleEditTicketModal = (ticketToEdit) => {
-
         dispatch(setTicketId(ticketToEdit.id))
         setShowEditTicketModal(true)
         setTicketToView(ticketToEdit)
@@ -108,7 +114,7 @@ const TicketList = () => {
 
     const handleCloseCreateTicketModal = () => {
         setShowCreateTicketModal(false);
-        // window.location.reload();
+        window.location.reload();
     };
 
 
@@ -151,7 +157,8 @@ const TicketList = () => {
         dispatch(getSpecialties());
         dispatch(getStatuses());
         dispatch(getPriorities());
-        //dispatch(getDevelopers());
+        dispatch(getAllUsersBySpecialty("NONE"))
+
     }, [])
 
     return <>

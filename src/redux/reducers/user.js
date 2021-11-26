@@ -1,18 +1,17 @@
-import { userActions } from "../actions/user";
-import { selectRolesFetching } from "../selectors/user";
+import {userActions} from "../actions/user";
 
 const initialState = {
-  userId: {},
-  userById: {},
-  updatedUser: {},
-  createdUser: {},
-  isDeleted: false,
-  userList: {},
-  specialties: {},
-  specialtiesFetching: true,
-  roles: {},
-  rolesFetching: true,
-  isFetching: true,
+    userId: {},
+    userById: {},
+    updatedUser: {},
+    createdUser: {},
+    isDeleted: false,
+    userList: {},
+    specialties: {},
+    specialtiesFetching: true,
+    roles: {},
+    rolesFetching: true,
+    isFetching: true,
 };
 
 export const user = (state = initialState, action) => {

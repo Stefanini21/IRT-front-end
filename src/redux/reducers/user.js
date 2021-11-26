@@ -1,5 +1,4 @@
-import { userActions } from "../actions/user";
-import { selectRolesFetching } from "../selectors/user";
+import {userActions} from "../actions/user";
 
 const initialState = {
   userId: {},

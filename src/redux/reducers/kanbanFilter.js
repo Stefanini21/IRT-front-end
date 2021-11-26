@@ -1,4 +1,4 @@
-import {SET_BACKLOG_FIRST_FILTER_VALUE, SET_FILTERED_TICKETS, RESET_FILTERED_TICKETS} from '../actions/types'
+import {RESET_FILTERED_TICKETS, SET_BACKLOG_FIRST_FILTER_VALUE, SET_FILTERED_TICKETS} from '../actions/types'
 
 const initialState = {
     backlogFirstFilterValue: {},

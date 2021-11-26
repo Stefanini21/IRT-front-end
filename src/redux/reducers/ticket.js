@@ -1,6 +1,6 @@
 import {
+  CHANGE_TICKET_DEVELOPER,
   CHANGE_TICKET_STATUS,
-  GET_ALL_TICKETS_FOR_KANBAN,
   CREATE_TICKET_SUCCESS,
   SELECTED_SPECIALTY,
   CREATE_TICKET_FAIL,
@@ -9,12 +9,16 @@ import {
   GET_TICKET_LIST,
   SET_TICKET_ID,
   GET_STATUSES,
+  DELETE_TICKET_BY_ID,
+  GET_ALL_TICKETS_FOR_KANBAN,
   GET_PRIORITIES,
-  CHANGE_TICKET_DEVELOPER
-  // GET_ALL_TICKETS_CREATORS,
-  // GET_ALL_TICKETS_DEVELOPERS
+  GET_STATUSES,
+  GET_TICKET_BY_ID,
+  GET_TICKET_LIST,
+  IS_DUPLICATE_TICKET_TITLE,
+  SELECTED_SPECIALTY,
+  SET_TICKET_ID
 } from "../actions/types";
-import {userActions} from "../actions/user";
 
 const initialState = {
   message: null,
@@ -28,7 +32,8 @@ const initialState = {
   priorities: {},
   ticketListFor: {},
   allTicketCreators: {},
-  allTicketDevelopers: {}
+  allTicketDevelopers: {},
+  isDuplicateTitle: false,
 };
 
 
@@ -53,6 +58,11 @@ export const ticket = (state = initialState, action) => {
       return {
         ...state,
         ticketById: action.payload,
+      };
+    case IS_DUPLICATE_TICKET_TITLE:
+      return {
+        ...state,
+        isDuplicateTitle: action.payload
       };
     case GET_TICKET_LIST:
       return {

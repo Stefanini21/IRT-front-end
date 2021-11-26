@@ -14,7 +14,7 @@ class UserService {
         return axios.post(API_URL + "/" + toEmail + "/emails/reset-password", {headers: authHeader()});
     }
 
-    changePassword(userId,currentPassword, newPassword, newPasswordConfirmation) {
+    changePassword(userId, currentPassword, newPassword, newPasswordConfirmation) {
         return axios
             .post(API_URL + "/" + userId + "/change-password", {
                 currentPassword,

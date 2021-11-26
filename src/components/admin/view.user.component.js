@@ -47,7 +47,7 @@ const ViewUser = (props) => {
 
     return (
         <div>
-            {isVisibleViewTicketModal !== true ?
+            {!isVisibleViewTicketModal ?
                 <div>
 
                     <div className="container">
@@ -80,7 +80,7 @@ const ViewUser = (props) => {
                         </p>
 
                         <p>
-                            <DropdownButton title={"User Tickets Titles"} style={{marginTop: 15}}>
+                            <DropdownButton title={"User's Tickets Titles"} style={{marginTop: 15}}>
                                 {tickets.map((ticket) => (
                                     <div>
                                         <Dropdown.Item onClick={() => handleShowViewTicketModal(ticket)}>

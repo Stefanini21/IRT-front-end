@@ -11,6 +11,7 @@ import {
   SET_TICKET_ID,
   GET_STATUSES,
   GET_PRIORITIES,
+  IS_DUPLICATE_TICKET_TITLE,
   CHANGE_TICKET_DEVELOPER
   // GET_ALL_TICKETS_CREATORS,
   // GET_ALL_TICKETS_DEVELOPERS
@@ -30,7 +31,8 @@ const initialState = {
   priorities: {},
   ticketListFor: {},
   allTicketCreators: {},
-  allTicketDevelopers: {}
+  allTicketDevelopers: {},
+  isDuplicateTitle: false
 };
 
 
@@ -56,6 +58,11 @@ export const ticket = (state = initialState, action) => {
         ...state,
         ticketById: action.payload,
       };
+    case IS_DUPLICATE_TICKET_TITLE:
+        return {
+          ...state,
+          isDuplicateTitle: action.payload
+        };
     case GET_TICKET_LIST:
       return {
         ...state,

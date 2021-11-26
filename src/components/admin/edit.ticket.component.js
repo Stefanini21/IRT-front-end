@@ -4,7 +4,7 @@ import {
     selectPriorities,
     selectStatuses,
     selectTicketById,
-    selectTicketId, selectUsersFetching
+    selectTicketId
 } from "../../redux/selectors/ticket";
 import {selectDuplicatedTitleFlag, selectTicketUpdatedFlag,} from "../../redux/selectors/flag";
 import {selectSpecialties} from "../../redux/selectors/user";
@@ -56,7 +56,6 @@ const EditTicketComponent = () => {
     const statuses = useSelector(selectStatuses);
     const priorities = useSelector(selectPriorities);
     const userListBySpecialty = useSelector(getUserListBySpecialty);
-    const userListBySpecialtyLoaded = useSelector(selectUsersFetching);
 
     const [titleForm, setTitle] = useState(" ");
     const [descriptionForm, setDescription] = useState("");

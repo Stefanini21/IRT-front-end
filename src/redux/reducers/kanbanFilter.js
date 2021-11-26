@@ -2,6 +2,7 @@ import {RESET_FILTERED_TICKETS, SET_BACKLOG_FIRST_FILTER_VALUE, SET_FILTERED_TIC
 
 const initialState = {
     backlogFirstFilterValue: {},
+    firstFilterValue: {},
     filteredTickets: {},
     isFilterActive: false
 };
@@ -23,6 +24,7 @@ export const kanbanFilter = (state = initialState, action) => {
             return {
                 ...state,
                 filteredTickets: {},
+                backlogFirstFilterValue: {},
                 isFilterActive: false
             }
         default:

@@ -17,5 +17,6 @@ export const routes = {
     ALL_TICKETS_FOR_KANBAN: "tickets/kanban",
     CHANGE_TICKET_STATUS: "tickets/",
     CHANGE_TICKET_DEVELOPER: "tickets/",
+    SET_JWT_TOKEN: "token/",
     CHECK_IF_TICKET_TITLE_EXIST: "tickets/exist-title"
 };

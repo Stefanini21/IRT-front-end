@@ -1,4 +1,8 @@
 import {store} from "../store";
+import { useDispatch } from "react-redux";
+import { useHistory } from "react-router";
+import { signOutUser } from "../redux/actions/auth";
+
 
 const CREDENTIALS = {
     credentials: "same-origin"
@@ -68,6 +72,9 @@ async function request(url, method = "GET", requestParams, withoutResult = false
         CREDENTIALS,
     };
 
+    // const dispatch = useDispatch();
+    // const history = useHistory();
+
     let HEADERS = {
         "Content-Type": "application/json",
         Accept: "application/json",
@@ -91,8 +98,12 @@ async function request(url, method = "GET", requestParams, withoutResult = false
     const response = await fetch(url, config);
 
     if (!response.ok) {
+        // const dispatch = useDispatch();
+        // const history = useHistory();
+        // dispatch(signOutUser(history));
+        // window.location = '/login#/login';
         return response.status;
-    } //flag
+    } 
 
     return !withoutResult ? await response.json() : null;
 }

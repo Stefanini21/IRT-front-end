@@ -1,7 +1,7 @@
 .dropdown-menu {
     height: 250px;
     overflow-y: scroll;
-    /*width: 320px;*/
+    width: 320px;
 }
 
 .btn-primary {

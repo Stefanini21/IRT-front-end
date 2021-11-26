@@ -12,7 +12,8 @@ import {
   DELETE_TICKET_BY_ID,
   GET_ALL_TICKETS_FOR_KANBAN,
   GET_PRIORITIES,
-  IS_DUPLICATE_TICKET_TITLE,
+  CHANGE_TICKET_DEVELOPER,
+  IS_DUPLICATE_TICKET_TITLE
 } from "../actions/types";
 
 const initialState = {
@@ -78,7 +79,7 @@ export const ticket = (state = initialState, action) => {
     case CHANGE_TICKET_STATUS:
       return {
         ...state,
-        ticketList: action.payload,
+        ticketListForKanban: action.payload,
       };
     case GET_STATUSES:
       return {

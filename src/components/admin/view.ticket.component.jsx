@@ -1,35 +1,19 @@
-import React, {useEffect} from "react";
-import {useDispatch, useSelector} from "react-redux";
-import {selectTicketById, selectTicketId} from "../../redux/selectors/ticket";
-import {getTicketById} from "../../redux/actions/ticket";
+import React from "react";
 import {Badge} from "react-bootstrap";
 
 
 const ViewTicket = (props) => {
 
-    const ticketId = useSelector(selectTicketId);
-    const ticketById = useSelector(selectTicketById);
-
-    const dispatch = useDispatch();
-
-    useEffect(() => {
-        // dispatch(getTicketById(ticketId));
-        dispatch(getTicketById(props.ticket.id));
-
-        console.log("ticketId: " + props.ticket.id);
-
-    }, [])
-
     return (
         <div className="container">
             <header className="jumbotron">
-                <h3>
+                <h3 style={{overflow: 'hidden'}}>
                     Ticket Title <strong>{props.ticket.title}</strong>
                 </h3>
             </header>
-            <p>
+            <div style={{overflow: 'hidden'}}>
                 <strong>Description : </strong> {props.ticket.description}
-            </p>
+            </div>
             <p>
                 <strong>Specialty : </strong>
                 <Badge bg="dark" text="light">
@@ -50,7 +34,6 @@ const ViewTicket = (props) => {
 
             </p>
             <p>
-                {/*<strong>Developer : </strong> {ticketById.developer}*/}
             </p>
         </div>
     );

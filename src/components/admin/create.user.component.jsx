@@ -6,6 +6,9 @@ import {useDispatch, useSelector} from "react-redux";
 import {createUser} from "../../redux/actions/user";
 import {selectDuplicatedEntryFlag, selectSuccessfulCreatedUserFlag} from "../../redux/selectors/flag";
 import UserService from "../../services/user.service";
+import Select from "react-select";
+import {selectRoles, selectSpecialties} from "../../redux/selectors/user";
+import {getAllUsersBySpecialty} from "../../redux/actions/ticket";
 
 
 const required = (value) => {
@@ -63,6 +66,10 @@ const CreateUserModal = () => {
     const duplicatedEntryFlag = useSelector(selectDuplicatedEntryFlag);
     const successfulCreatedUser = useSelector(selectSuccessfulCreatedUserFlag);
 
+    const specialtyOptions = useSelector(selectSpecialties);
+    const roleOptions = useSelector(selectRoles);
+
+
     const [roles, setRoles] = useState([]);
     const [specialties, setSpecialties] = useState([]);
     const [showCreateUserModal, setShowCreateUserModal] = useState(false);
@@ -87,8 +94,9 @@ const CreateUserModal = () => {
     }
 
     const onChangeSpecialty = (e) => {
-        setSpecialty(e.target.value)
-    }
+        setSpecialty(e.value);
+        dispatch(getAllUsersBySpecialty(e.value));
+    };
 
     const onChangeEmail = (e) => {
         setEmail(e.target.value)
@@ -99,7 +107,7 @@ const CreateUserModal = () => {
     }
 
     const onChangeRole = (e) => {
-        setRole(e.target.value)
+        setRole(e.value)
     }
 
 
@@ -206,32 +214,32 @@ const CreateUserModal = () => {
 
                         <div className="form-group">
                             <label htmlFor="specialty">Specialty</label>
-                            <select
-                                className="form-control"
+                            <Select
+                                options={specialtyOptions.map((t) => ({
+                                    value: t,
+                                    label: t,
+                                }))}
+                                type="text"
                                 name="specialty"
-                                defaultValue={specialtyForm}
-                                value={specialtyForm}
-                                onChange={onChangeSpecialty}>
+                                onChange={onChangeSpecialty}
                                 validations={[required]}
-                                {specialties.map((specialty, i) =>
-                                    <option value={specialty}>{specialty}</option>
-                                )}
-                            </select>
+                            />
                         </div>
 
                         <div className="form-group">
                             <label htmlFor="role">Role</label>
-                            <select
-                                className="form-control"
+                            <Select
+                                options={roleOptions.map((t) => ({
+                                    value: t,
+                                    label: t
+                                }))}
                                 name="role"
-                                defaultValue={role}
-                                value={role}
+                                type="text"
                                 onChange={onChangeRole}>
                                 validations={[required]}
-                                {roles.map((role, i) =>
-                                    <option value={role}>{role}</option>
-                                )}
-                            </select>
+
+
+                            </Select>
                         </div>
 
                         <div className="form-group">

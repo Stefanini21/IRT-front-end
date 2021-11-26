@@ -1,16 +1,20 @@
 import React, { useState } from "react";
 import Form from "react-validation/build/form";
 import Input from "react-validation/build/input";
+import { resetEditTicketFlags } from "../../redux/actions/flag";
 import Select from "react-select";
 import { selectButtonPressedCreatedTicketFlag } from "../../redux/selectors/flag";
 import { useDispatch, useSelector } from "react-redux";
 import {
   createTicket,
   getAllUsersBySpecialty,
+  getTicketList,
+  checkIfTicketTitleExist,
 } from "../../redux/actions/ticket";
 import {
   getUserListBySpecialty,
   selectPriorities,
+  isDuplicateTicketTitle,
 } from "../../redux/selectors/ticket";
 import { selectSpecialties } from "../../redux/selectors/user";
 import { getUserData } from "../../redux/selectors/auth";
@@ -20,6 +24,26 @@ const required = (value) => {
     return (
       <div className="alert alert-danger" role="alert">
         This field is required!
+      </div>
+    );
+  }
+};
+
+const vtitle = (value) => {
+  if (value.length < 3 || value.length > 30) {
+    return (
+      <div className="alert alert-danger" role="alert">
+        Title must be between 3 and 30 characters.
+      </div>
+    );
+  }
+};
+
+const vdescription = (value) => {
+  if (value.length < 3) {
+    return (
+      <div className="alert alert-danger" role="alert">
+        Description must be more than 3 characters.
       </div>
     );
   }
@@ -37,23 +61,40 @@ const CreateTicketModal = () => {
 
   const priorityOptions = useSelector(selectPriorities);
 
+  const createTicketButtonPressed = useSelector(
+    selectButtonPressedCreatedTicketFlag
+  );
+
+  const isDuplicateTitle = useSelector(isDuplicateTicketTitle);
+
+  // const vtitleNotRepeat = () => {
+  //   console.log("isDuplicate: " + isDuplicateTitle);
+  //   if (isDuplicateTitle) {
+  //     return (
+  //       <div className="alert alert-danger" role="alert">
+  //         There is another ticket with this title.
+  //       </div>
+  //     );
+  //   }
+  // };
+
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [priority, setPriority] = useState("");
   const [specialty, setSpecialty] = useState("");
   const [developer, setDeveloper] = useState("");
   const [message, setMessage] = useState("");
-  const createTicketButtonPressed = useSelector(selectButtonPressedCreatedTicketFlag);
   const [showCreateTicketModal, setShowCreateTicketModal] = useState(false);
-
 
   const handleCloseCreateTicketModal = () => {
     setShowCreateTicketModal(false);
+    dispatch(getTicketList());
     window.location.reload();
   };
 
   const onChangeTitle = (e) => {
     setTitle(e.target.value);
+    dispatch(checkIfTicketTitleExist(e.target.value));
   };
 
   const onChangeDescription = (e) => {
@@ -69,20 +110,17 @@ const CreateTicketModal = () => {
     setSpecialty(e.value);
 
     dispatch(getAllUsersBySpecialty(e.value));
-
   };
-
 
   const onChangeDeveloper = (e) => {
     setDeveloper(e.value);
   };
 
   const handleSetStatus = () => {
-    
     if (developer === "NOT SET") {
-      return "BACKLOG"
+      return "BACKLOG";
     } else {
-      return "ASSIGNED"
+      return "ASSIGNED";
     }
   };
 
@@ -92,15 +130,12 @@ const CreateTicketModal = () => {
     } else {
       return developer;
     }
-  }
+  };
 
   const handleCreateTicket = (e) => {
     e.preventDefault();
 
     setMessage("");
-
-    handleSetStatus();
-
 
     const newTicket = {
       title: title,
@@ -112,17 +147,16 @@ const CreateTicketModal = () => {
       creator: admin_username,
     };
 
-    dispatch(createTicket(newTicket))
-      .then((response) => {
-        setMessage(response);
-      })
+    dispatch(createTicket(newTicket)).then((response) => {
+      setMessage(response);
+    });
   };
 
   return (
     <div className="col-md-12">
       <div className="card card-container">
         <Form onSubmit={handleCreateTicket}>
-          {!createTicketButtonPressed  && (
+          {!createTicketButtonPressed && (
             <div>
               <div className="form-group">
                 <label htmlFor="username">Title</label>
@@ -132,7 +166,7 @@ const CreateTicketModal = () => {
                   name="title"
                   value={title}
                   onChange={onChangeTitle}
-                  validations={[required]}
+                  validations={[required, vtitle]}
                 />
               </div>
 
@@ -144,6 +178,7 @@ const CreateTicketModal = () => {
                   name="description"
                   value={description}
                   onChange={onChangeDescription}
+                  validations={[required, vdescription]}
                 />
               </div>
 
@@ -157,6 +192,7 @@ const CreateTicketModal = () => {
                   type="text"
                   name="priority"
                   onChange={onChangePriority}
+                  validations={[required]}
                 />
               </div>
 
@@ -170,6 +206,7 @@ const CreateTicketModal = () => {
                   type="text"
                   name="specialty"
                   onChange={onChangeSpecialty}
+                  validations={[required]}
                 />
               </div>
 
@@ -187,14 +224,35 @@ const CreateTicketModal = () => {
                   type="text"
                   name="developer"
                   onChange={onChangeDeveloper}
-                  // validations={[required, vpassword]}
+                  validations={[required]}
                 />
               </div>
 
-              <div className="form-group">
-                <button className="primary_button btn-block">
-                  Create ticket
-                </button>
+              {title.length > 2 &&
+              title.length < 31 &&
+              description.length > 2 &&
+              priority &&
+              specialty &&
+              developer ? (
+                <div className="form-group">
+                  <button className="primary_button btn-block">
+                    Create ticket
+                  </button>
+                </div>
+              ) : (
+                <div className="form-group">
+                  <button disabled className="primary_button btn-block">
+                    Create ticket
+                  </button>
+                </div>
+              )}
+            </div>
+          )}
+
+          {isDuplicateTitle && (
+            <div className="form-group">
+              <div className="alert alert-danger" role="alert">
+                There is another ticket with this title.
               </div>
             </div>
           )}
@@ -206,24 +264,12 @@ const CreateTicketModal = () => {
               </div>
               <button
                 className="primary_button btn-block"
-                onClick={handleCloseCreateTicketModal}>
+                onClick={handleCloseCreateTicketModal}
+              >
                 OK
               </button>
             </div>
           )}
-
-          {/* {message && (
-            <div className="form-group">
-              <div
-                className={
-                  successful ? "alert alert-success" : "alert alert-danger"
-                }
-                role="alert"
-              >
-                {message}
-              </div>
-            </div>
-          )} */}
         </Form>
       </div>
     </div>

@@ -16,9 +16,9 @@ import {
   RECEIVE_DUPLICATE_TITLE,
   GET_STATUSES,
   GET_PRIORITIES,
-  CHANGE_TICKET_DEVELOPER
-  // GET_ALL_TICKETS_CREATORS,
-  // GET_ALL_TICKETS_DEVELOPERS
+  CHANGE_TICKET_DEVELOPER,
+  IS_DUPLICATE_TICKET_TITLE
+
 } from "./types";
 import {userActions as ticketActions} from "./user";
 
@@ -28,14 +28,12 @@ export const createTicket = (newTicket) => (dispatch) => {
   .then(
     (response) => {
       if (typeof response === 'object' && response !== null ) {
-        console.log("respose: " + response);
         dispatch({
           type: CREATE_TICKET_SUCCESS,
           payload: response.data,
         });
         return "Ticket created successefully"
       } else {
-         console.log("in error: " + response);
          dispatch({
            type: CREATE_TICKET_FAIL,
            payload: response,
@@ -54,6 +52,17 @@ export const getAllUsersBySpecialty = (specialty) => (dispatch) => {
     });
   });
 };
+
+export const checkIfTicketTitleExist = (title) => (dispatch) => {
+  const url = routes.BASIC_URL + routes.BASIC_PATH + routes.CHECK_IF_TICKET_TITLE_EXIST;
+
+  return HttpService.get(url + "/" + title, {}).then((response) => {
+    return dispatch({
+      type: IS_DUPLICATE_TICKET_TITLE,
+      payload: response
+    })
+  })
+}
 
 export const setTicketId = (ticketId) => (dispatch) => {
   return dispatch({

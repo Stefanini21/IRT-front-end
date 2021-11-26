@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Redirect } from "react-router-dom";
 import { getUserData, getUserLoaded } from "../../redux/selectors/auth";
@@ -63,7 +63,10 @@ const Profile = () => {
 
   return (
     <div>
-      <div className={"jumbotron container-color col-lg-12"} style={{marginTop: 30}}>
+      <div
+        className={"jumbotron container-color col-lg-12"}
+        style={{ marginTop: 30 }}
+      >
         <img
           src="//ssl.gstatic.com/accounts/ui/avatar_2x.png"
           alt="profile-img"
@@ -80,8 +83,8 @@ const Profile = () => {
         </h3>
       </div>
 
-      <div style={{display: "flex", justifyContent: "space-between"}}>
-        <div className="jumbotron col-lg-6" style={{width: "90%"}}>
+      <div style={{ display: "flex", justifyContent: "space-between" }}>
+        <div className="jumbotron col-lg-6" style={{ width: "90%" }}>
           <p>
             <strong>First Name : </strong> {currentUserData.firstName}
           </p>
@@ -99,12 +102,15 @@ const Profile = () => {
           </p>
         </div>
 
-        <div className="col-lg-6" style={{width: "90%", float: "right", paddingRight: 0}}>
+        <div
+          className="col-lg-6"
+          style={{ width: "90%", float: "right", paddingRight: 0 }}
+        >
           <div className="jumbotron container-color">
             <Form onSubmit={handleChangePassword}>
               <div className="form-group">
                 <label htmlFor="temporaryPassword">Current Password</label>
-                <Input 
+                <Input
                   type="password"
                   className="form-control"
                   name="temporaryPassword"

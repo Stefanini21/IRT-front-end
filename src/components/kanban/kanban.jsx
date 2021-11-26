@@ -22,17 +22,18 @@ const Kanban = () => {
   const dispatch = useDispatch();
   const tickets = useSelector(selectTicketListForKanban);
   const [isFilterActive, setIsFilterActive] = useState(false);
-  const [filteredTickets, setFilteredTickets] = useState(tickets)
+  const [filteredTickets, setFilteredTickets] = useState(tickets);
   const [firstFilterArgument, setFirstFilterArgument] = useState("");
   const [isSelectedFirstFilter, setIsSelectedFirstFilter] = useState(false);
   const [firstFilterValues, setFirstFilterValues] = useState([]);
-  const[isFiltersWasReseted, setIsFilterWasReseted] = useState(false);
-  const[firstOptionsValue, setFirstOptionsValue] = useState("");
-  const[optionOneWasChanged, setOptionOneWasChanged] = useState(false);
+  const [isFiltersWasReseted, setIsFilterWasReseted] = useState(false);
+  const [firstOptionsValue, setFirstOptionsValue] = useState("");
+  const [optionOneWasChanged, setOptionOneWasChanged] = useState(false);
 
   useEffect(() => {
     dispatch(getTicketListForKanban());
-  }, []);
+    setFilteredTickets(tickets);
+  }, [isFiltersWasReseted]);
 
   const setFilterOne = (e) => {
     setIsSelectedFirstFilter(true);
@@ -97,28 +98,28 @@ const Kanban = () => {
 
     if (firstFilterArgument === "creator") {
       filteredTickets.forEach((ticket) => {
-          if (ticket.creator === e.value) {
-            filteredTicketsByOptions.push(ticket); 
-          } 
-      }); 
+        if (ticket.creator === e.value) {
+          filteredTicketsByOptions.push(ticket);
+        }
+      });
     } else if (firstFilterArgument === "developer") {
       filteredTickets.forEach((ticket) => {
-          if (ticket.developer === e.value) {
-            filteredTicketsByOptions.push(ticket); 
-          } 
-      }); 
+        if (ticket.developer === e.value) {
+          filteredTicketsByOptions.push(ticket);
+        }
+      });
     } else if (firstFilterArgument === "specialty") {
       filteredTickets.forEach((ticket) => {
-          if (ticket.specialty === e.value) {
-            filteredTicketsByOptions.push(ticket); 
-          } 
-      }); 
+        if (ticket.specialty === e.value) {
+          filteredTicketsByOptions.push(ticket);
+        }
+      });
     } else if (firstFilterArgument === "priority") {
       filteredTickets.forEach((ticket) => {
-          if (ticket.priority === e.value) {
-            filteredTicketsByOptions.push(ticket); 
-          } 
-      }); 
+        if (ticket.priority === e.value) {
+          filteredTicketsByOptions.push(ticket);
+        }
+      });
     }
     setFilteredTickets(filteredTicketsByOptions);
     setIsFilterActive(true);
@@ -126,7 +127,7 @@ const Kanban = () => {
 
   const doFilters = () => {
     setFilteredTickets([...filteredTickets]);
-  }
+  };
 
   const resetAllFilters = () => {
     setIsFilterActive(false);
@@ -146,7 +147,10 @@ const Kanban = () => {
             paddingRight: "0 10px",
           }}
         >
-          <div className={"col-lg-6"} style={{display: "flex", justifyContent: "flex-end", padding: 0}}>
+          <div
+            className={"col-lg-6"}
+            style={{ display: "flex", justifyContent: "flex-end", padding: 0 }}
+          >
             <label
               htmlFor="filter"
               style={{
@@ -190,18 +194,23 @@ const Kanban = () => {
               />
             </div>
           </div>
-          <div className={"col-lg-6"} style={{display: "flex", justifyContent: "flex-start", padding: 0}}>
+          <div
+            className={"col-lg-6"}
+            style={{
+              display: "flex",
+              justifyContent: "flex-start",
+              padding: 0,
+            }}
+          >
             <div
               style={{ display: "inline-block", flexGrow: 4, margin: "0 10px" }}
             >
               <Select
                 id={"select2"}
-                options={
-                  firstFilterValues.map((v) => ({
-                    label: v,
-                    value: v,
-                  }))
-                }
+                options={firstFilterValues.map((v) => ({
+                  label: v,
+                  value: v,
+                }))}
                 type="text"
                 name="filter2"
                 onChange={setFilterTwo}
@@ -215,7 +224,8 @@ const Kanban = () => {
                 disabled={!isFilterActive}
                 onClick={() => resetAllFilters()}
                 style={{
-                  visibility: isFilterActive === true ? "visible" : "hidden", marginRight: 90
+                  visibility: isFilterActive === true ? "visible" : "hidden",
+                  marginRight: 90,
                 }}
               >
                 Reset filter
@@ -235,7 +245,6 @@ const Kanban = () => {
       >
         <KanbanBoard
           isFilterActive={isFilterActive}
-          tickets={tickets}
           filteredTickets={filteredTickets}
           isFiltersWasReseted={isFiltersWasReseted}
         />
@@ -263,38 +272,6 @@ const KanbanBoard = (props) => {
     { name: "Finished", stage: 3 },
     { name: "Closed", stage: 4 },
   ];
-
-  useEffect(() => {
-    // console.log("tickets" + tickets);
-    // console.log("isFilterActive: " + isFilterActive);
-    console.log("filteredTickets in KanbanBoard: " + filteredTickets);
-    setProjects(filteredTickets);
-
-    // setProjects(filteredTickets)
-
-    tickets.forEach((element) => {
-      switch (element.status) {
-        case "BACKLOG": {
-          element.project_stage = 1;
-          break;
-        }
-        case "ASSIGNED": {
-          element.project_stage = 2;
-          break;
-        }
-        case "FINISHED": {
-          element.project_stage = 3;
-          break;
-        }
-        case "CLOSED": {
-          element.project_stage = 4;
-          break;
-        }
-        default:
-          element.project_stage = 1;
-      }
-    });
-  }, [setDraggedOverCol, props.filteredTickets, isFiltersWasReseted]);
 
   //this is called when a Kanban card is dragged over a column (called by column)
   const handleOnDragEnter = (e, stageValue) => {
@@ -373,6 +350,43 @@ const KanbanBoard = (props) => {
     setDraggedOverCol(project.project_stage);
   };
 
+  useEffect(() => {
+    // console.log("tickets" + tickets);
+    // console.log("isFilterActive: " + isFilterActive);
+    console.log("filteredTickets in KanbanBoard: " + filteredTickets);
+    setProjects(filteredTickets);
+
+    // setProjects(filteredTickets)
+
+    tickets.forEach((element) => {
+      switch (element.status) {
+        case "BACKLOG": {
+          element.project_stage = 1;
+          break;
+        }
+        case "ASSIGNED": {
+          element.project_stage = 2;
+          break;
+        }
+        case "FINISHED": {
+          element.project_stage = 3;
+          break;
+        }
+        case "CLOSED": {
+          element.project_stage = 4;
+          break;
+        }
+        default:
+          element.project_stage = 1;
+      }
+    });
+  }, [
+    setDraggedOverCol,
+    filteredTickets,
+    isFiltersWasReseted,
+    handleOnDragEnd,
+  ]);
+
   return (
     <div style={{ display: "flex", justifyContent: "space-between" }}>
       {columns.map((column) => {
@@ -388,6 +402,9 @@ const KanbanBoard = (props) => {
             key={column.stage}
             userData={userData}
             currentUserData={currentUserData}
+            isFilterActive={isFilterActive}
+            filteredTickets={filteredTickets}
+            isFiltersWasReseted={isFiltersWasReseted}
           />
         );
       })}
@@ -400,16 +417,16 @@ const KanbanBoard = (props) => {
  */
 const KanbanColumn = (props) => {
   const [mouseIsHovering, setMouseIsHovering] = useState(false);
+  const isFilterActive = props.isFilterActive;
+  const filteredTickets = props.filteredTickets;
+  const isFiltersWasReseted = props.isFiltersWasReseted;
 
   useEffect(() => {
     setMouseIsHovering(false);
-  }, [props]);
+  }, [props, isFilterActive, filteredTickets, isFiltersWasReseted]);
 
   const generateKanbanCards = () => {
     return props.projects.slice(0).map((project) => {
-      //!!!!!!!!! ---- must to send project up!!!
-      // console.log("in generateKanbanCards project.title: " + project.title)
-      // console.log("in generateKanbanCards project: " + project)
       return (
         <KanbanCard
           project={project}

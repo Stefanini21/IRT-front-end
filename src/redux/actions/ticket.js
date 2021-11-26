@@ -42,7 +42,8 @@ export const createTicket = (newTicket) => (dispatch) => {
          });
          return "Ticket is not created";
       }
-})};
+})
+};
 
 export const getAllUsersBySpecialty = (specialty) => (dispatch) => {
   const url = routes.BASIC_URL + routes.BASIC_PATH + routes.USERS_BY_SPECIALTY;

@@ -12,8 +12,6 @@ import {
   GET_STATUSES,
   GET_PRIORITIES,
   CHANGE_TICKET_DEVELOPER
-  // GET_ALL_TICKETS_CREATORS,
-  // GET_ALL_TICKETS_DEVELOPERS
 } from "../actions/types";
 import {userActions} from "../actions/user";
 
@@ -75,7 +73,7 @@ export const ticket = (state = initialState, action) => {
     case CHANGE_TICKET_STATUS:
       return {
         ...state,
-        ticketList: action.payload,
+        ticketListForKanban: action.payload,
       };
     case DELETE_TICKET_BY_ID:
       return {

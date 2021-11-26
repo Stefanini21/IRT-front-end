@@ -35,7 +35,8 @@ const Home = () => {
   }
 
   useEffect(() => {
-    dispatch(checkTokenValidity(jwtToken.exp, history));
+    if (currentUserLoaded) {
+    dispatch(checkTokenValidity(jwtToken.exp, history))}
     console.log("isTokenValid? " + isTokenValid);
   }, []);
 

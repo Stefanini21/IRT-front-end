@@ -29,6 +29,35 @@ const Profile = () => {
         return <Redirect to="/login"/>;
     }
 
+    const required = (value) => {
+      if (!value) {
+          return (
+              <div className="alert alert-danger" role="alert">
+                  This field is required!
+              </div>
+          );
+      }
+  };
+
+  const handleChangePassword = (event) => {
+      event.preventDefault();
+
+      const formattedData = {
+          userId: currentUserData.id,
+          currentPassword: currentPassword,
+          newPassword: newPassword,
+          newPasswordConfirmation: newPasswordConfirmation,
+      };
+
+      setMessage(" Wrong current password !");
+
+      {
+          formattedData.newPassword === formattedData.newPasswordConfirmation
+              ? dispatch(changePassword(formattedData))
+              : setMessage(" New and confirmation password do not match !");
+      }
+  };
+  
     return (
       <div>
         <div

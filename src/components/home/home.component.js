@@ -5,13 +5,6 @@ import { useHistory } from "react-router-dom";
 import "./css/home.component.css";
 import homephoto from "./homepage.png";
 import Image from "react-image-resizer";
-import jwt from "jwt-decode";
-import {
-  getUserLoaded,
-  getUserData,
-  getTokenValidity,
-} from "../../redux/selectors/auth";
-import { checkTokenValidity } from "../../redux/actions/auth";
 
 <h1>
   “If a task is once begun, never leave it ‘till it’s done. Be the labor great
@@ -19,25 +12,6 @@ import { checkTokenValidity } from "../../redux/actions/auth";
 </h1>;
 
 const Home = () => {
-  const currentUserLoaded = useSelector(getUserLoaded);
-  const currentUserData = useSelector(getUserData);
-  const isTokenValid = useSelector(getTokenValidity);
-  const history = useHistory();
-  var jwtToken = null;
-  const dispatch = useDispatch(); 
-
-  if (currentUserLoaded) {
-    jwtToken = jwt(currentUserData.accessToken);
-    console.log("jwtToken  : " + jwtToken.exp);
-    console.log("Date.now(): " + Math.ceil(Date.now() / 1000));
-    dispatch(checkTokenValidity(jwtToken.exp, history));
-    console.log("isTokenValid? " + isTokenValid);
-  }
-
-  useEffect(() => {
-    dispatch(checkTokenValidity(jwtToken.exp, history));
-    console.log("isTokenValid? " + isTokenValid);
-  }, []);
 
   return (
     <div>

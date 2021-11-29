@@ -31,26 +31,31 @@ const AdminUserList = () => {
             name: 'First Name',
             selector: row => row.firstName,
             sortable: true,
+            width: '110px'
         },
         {
             name: 'Last Name',
             selector: row => row.lastName,
             sortable: true,
+            width: '110px'
         },
         {
             name: 'Username',
             selector: row => row.username,
             sortable: true,
+            width: '130px'
         },
         {
             name: 'Role',
             selector: row => row.role,
             sortable: true,
+            width: '100px'
         },
         {
             name: 'Email',
             selector: row => row.email,
             sortable: true,
+            width: '190px'
         },
         {
             name: 'Specialty',

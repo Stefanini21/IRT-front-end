@@ -37,39 +37,48 @@ const TicketList = () => {
 
     const columns = [
         {
-            name: "Id",
-            selector: (row) => row.id,
-            sortable: true,
-        },
-        {
             name: "Title",
             selector: (row) => row.title,
             sortable: true,
+            grow: 0.2,
+            width: '200px'
+
         },
         {
             name: "Specialty",
             selector: (row) => row.specialty,
             sortable: true,
+            grow: 0.2,
+            width: '100px'
         },
         {
             name: "Priority",
             selector: (row) => row.priority,
             sortable: true,
+            grow: 0.1,
+            width: '90px'
         },
         {
             name: "Status",
             selector: (row) => row.status,
             sortable: true,
+            grow: 0.1,
+            width: '90px'
         },
         {
             name: "Developer",
             selector: (row) => row.developer,
             sortable: true,
+            grow: 0.1,
+            width: '110px'
         },
         {
             name: "Created date",
             selector: (row) => row.createdDate,
             sortable: true,
+            grow: 0.1,
+            width: '130px'
+
         },
 
         {
@@ -77,21 +86,21 @@ const TicketList = () => {
             cell: (row) =>
                 <button className="secondary_button"
                         onClick={() => handleShowViewTicketModal(row)}>View</button>,
-            grow: 0.3
+            grow: 0.1
         },
         {
             name: "Edit Ticket",
             cell: (row) =>
                 <button className="secondary_button"
                         onClick={() => handleEditTicketModal(row)}>Edit</button>,
-            grow: 0.3
+            grow: 0.1
         },
         {
             name: "Delete Ticket",
             cell: (row) => 
                 <button className="secondary_button"
                         onClick={() => handleShowDeleteTicketModal(row)}>Delete</button>,
-            grow: 1
+            grow: 0.3
         }
     ]
 

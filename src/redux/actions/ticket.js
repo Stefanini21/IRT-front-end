@@ -1,21 +1,21 @@
 import {routes} from "../../config/routes";
 import {HttpService} from "../../services/httpService";
 import {
-  CHANGE_TICKET_DEVELOPER,
-  CHANGE_TICKET_STATUS,
-  CREATE_TICKET_FAIL,
-  CREATE_TICKET_SUCCESS,
-  DELETE_TICKET_BY_ID,
-  GET_ALL_TICKETS_FOR_KANBAN,
-  GET_PRIORITIES,
-  GET_STATUSES,
-  GET_TICKET_BY_ID,
-  GET_TICKET_LIST,
-  IS_DUPLICATE_TICKET_TITLE,
-  RECEIVE_DUPLICATE_TITLE,
-  SELECTED_SPECIALTY,
-  SET_TICKET_ID,
-  UPDATE_TICKET_BY_ID
+    CHANGE_TICKET_DEVELOPER,
+    CHANGE_TICKET_STATUS,
+    CREATE_TICKET_FAIL,
+    CREATE_TICKET_SUCCESS,
+    DELETE_TICKET_BY_ID,
+    GET_ALL_TICKETS_FOR_KANBAN,
+    GET_PRIORITIES,
+    GET_STATUSES,
+    GET_TICKET_BY_ID,
+    GET_TICKET_LIST,
+    IS_DUPLICATE_TICKET_TITLE,
+    RECEIVE_DUPLICATE_TITLE,
+    SELECTED_SPECIALTY,
+    SET_TICKET_ID,
+    UPDATE_TICKET_BY_ID
 } from "./types";
 
 export const createTicket = (newTicket) => (dispatch) => {
@@ -69,13 +69,13 @@ export const setTicketId = (ticketId) => (dispatch) => {
 };
 
 export const getTicketById = (ticketId) => (dispatch) => {
-  const url = routes.BASIC_URL + routes.BASIC_PATH + routes.TICKETS + "dto/" + ticketId;
-  
-  return HttpService.get(url, ticketId).then((response) => {
-      return dispatch({
-        type: GET_TICKET_BY_ID,
-        payload: response,
-      });
+    const url = routes.BASIC_URL + routes.BASIC_PATH + routes.TICKETS + "dto/" + ticketId;
+
+    return HttpService.get(url, ticketId).then((response) => {
+        return dispatch({
+            type: GET_TICKET_BY_ID,
+            payload: response,
+        });
     });
 };
 
@@ -91,7 +91,7 @@ export const getTicketList = () => (dispatch) => {
 };
 
 export const deleteTicketById = (ticketId) => (dispatch) => {
-  const url = routes.BASIC_URL + routes.BASIC_PATH + routes.TICKET_BY_ID + ticketId;
+    const url = routes.BASIC_URL + routes.BASIC_PATH + routes.TICKET_BY_ID + ticketId;
 
     return HttpService.delete(url).then((response) => {
         return dispatch({

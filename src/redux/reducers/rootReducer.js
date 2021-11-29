@@ -11,9 +11,9 @@ import {jwtCounter} from "./jwtCounter";
 
 
 const persistConfig = {
-  key: "root",
-  storage,
-  whitelist: ["auth", "user", "ticket", "kanbanFilter", "jwtCounter"],
+    key: "root",
+    storage,
+    whitelist: ["auth", "user", "ticket", "kanbanFilter", "jwtCounter"],
 };
 
 const rootReducer = combineReducers({auth, user, ticket, message, flipFlag, kanbanFilter, jwtCounter});

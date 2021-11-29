@@ -105,7 +105,7 @@ const EditTicketComponent = () => {
     const onChangeSpecialty = (e) => {
         setSpecialty(e.target.value)
         dispatch(getAllUsersBySpecialty(e.target.value));
-        setUsersBySpecialty(userListBySpecialty);
+        setDeveloper("NOT SET")
     }
 
     const onChangeStatus = (e) => {

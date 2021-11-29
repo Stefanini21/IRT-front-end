@@ -1,4 +1,4 @@
-import { SEND_COUNTER_TOKEN_TO_BACK } from '../actions/types'
+import {SEND_COUNTER_TOKEN_TO_BACK} from '../actions/types'
 
 const initialState = {
     jwtCounterValue: null,

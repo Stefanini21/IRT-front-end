@@ -1,7 +1,4 @@
 import {store} from "../store";
-import { useDispatch } from "react-redux";
-import { useHistory } from "react-router";
-import { signOutUser } from "../redux/actions/auth";
 
 
 const CREDENTIALS = {
@@ -72,8 +69,6 @@ async function request(url, method = "GET", requestParams, withoutResult = false
         CREDENTIALS,
     };
 
-    // const dispatch = useDispatch();
-    // const history = useHistory();
 
     let HEADERS = {
         "Content-Type": "application/json",
@@ -83,7 +78,6 @@ async function request(url, method = "GET", requestParams, withoutResult = false
     const state = store.getState();
     const {userData} = state.auth;
     const token = userData?.accessToken;
-    // const role = userData?.role; //role from state ???
 
     if (token) {
         HEADERS["Authorization"] = "Bearer " + token;
@@ -98,12 +92,8 @@ async function request(url, method = "GET", requestParams, withoutResult = false
     const response = await fetch(url, config);
 
     if (!response.ok) {
-        // const dispatch = useDispatch();
-        // const history = useHistory();
-        // dispatch(signOutUser(history));
-        // window.location = '/login#/login';
         return response.status;
-    } 
+    }
 
     return !withoutResult ? await response.json() : null;
 }

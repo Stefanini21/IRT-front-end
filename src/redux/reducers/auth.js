@@ -1,4 +1,4 @@
-import { CLEAR_MESSAGE, SET_MESSAGE, CHECK_TOKEN_VALIDITY, RECEIVE_USER_AUTH, RECEIVE_USER_SIGNOUT, CHANGE_PASSWORD } from "../actions/types";
+import {CHECK_TOKEN_VALIDITY, RECEIVE_USER_AUTH, RECEIVE_USER_SIGNOUT} from "../actions/types";
 
 const initialState = {
     userData: {},

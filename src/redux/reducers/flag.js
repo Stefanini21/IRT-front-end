@@ -1,11 +1,11 @@
 import {userActions} from "../actions/user";
 import {flagActions} from "../actions/flag";
 import {
-    CREATE_TICKET_FAIL, 
-    CREATE_TICKET_SUCCESS, 
-    RECEIVE_DUPLICATE_TITLE, 
-    UPDATE_TICKET_BY_ID, 
+    CREATE_TICKET_FAIL,
+    CREATE_TICKET_SUCCESS,
     DELETE_TICKET_BY_ID,
+    RECEIVE_DUPLICATE_TITLE,
+    UPDATE_TICKET_BY_ID,
 } from "../actions/types"
 
 const initialState = {

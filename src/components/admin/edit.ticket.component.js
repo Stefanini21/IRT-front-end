@@ -64,8 +64,6 @@ const EditTicketComponent = () => {
     const [statusForm, setStatus] = useState("");
     const [developerForm, setDeveloper] = useState("");
     const [message, setMessage] = useState("");
-    const [usersBySpecialty, setUsersBySpecialty] = useState(["NOT SET"]);
-    const [usersBySpecialtyLoaded, setUsersBySpecialtyLoaded] = useState(false)
 
 
     useEffect(() => {
@@ -85,7 +83,6 @@ const EditTicketComponent = () => {
             setDeveloper("NOT SET")
         }
         dispatch(getAllUsersBySpecialty(ticketById.specialty));
-        //setUsersBySpecialty(userListBySpecialty);
 
     }, [ticketById])
 

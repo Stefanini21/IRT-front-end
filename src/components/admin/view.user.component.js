@@ -13,6 +13,7 @@ const ViewUser = (props) => {
 
     const userId = useSelector(selectUserId);
     const userById = useSelector(selectUserById);
+
     const [tickets, setTickets] = useState([]);
     const [ticketToView, setTicketToView] = useState([]);
     const [showViewTicketModal, setShowViewTicketModal] = useState(false);
@@ -94,16 +95,20 @@ const ViewUser = (props) => {
                                     <div>
                                         <Dropdown.Item onClick={() => handleShowViewTicketModal(ticket)}
                                                        style={{marginTop: 15, borderBottom: '2px solid #4588ba'}}>
+
                                             <div style={{display: "flex"}}>
+
                                                 <div style={{'flex-grow': 1, 'margin-right': 25}}>
                                                     <Badge bg="primary">
                                                         <FaLaptopCode size={15}/>
                                                     </Badge>
                                                 </div>
+
                                                 <div style={{'white-space': 'initial'}}>
                                                     {ticket.title}
                                                 </div>
                                             </div>
+
                                         </Dropdown.Item>
                                     </div>
                                 ))}

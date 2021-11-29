@@ -6,11 +6,11 @@ import ViewTicket from "./view.ticket.component";
 import {useDispatch, useSelector} from "react-redux";
 import {
     getAllUsersBySpecialty,
-    getPriorities, 
-    getStatuses, 
-    getTicketList, 
-    setTicketId, 
-    getTicketById
+    getPriorities,
+    getStatuses,
+    getTicketById,
+    getTicketList,
+    setTicketId
 } from "../../redux/actions/ticket";
 import {selectIsFetching, selectTicketList} from "../../redux/selectors/ticket";
 import Loader from "react-loader-spinner";
@@ -97,7 +97,7 @@ const TicketList = () => {
         },
         {
             name: "Delete Ticket",
-            cell: (row) => 
+            cell: (row) =>
                 <button className="secondary_button"
                         onClick={() => handleShowDeleteTicketModal(row)}>Delete</button>,
             grow: 0.3
@@ -126,7 +126,6 @@ const TicketList = () => {
 
 
     const handleShowViewTicketModal = (ticketToView) => {
-        // setUserId(ticketToView.id)
         dispatch(setTicketId(ticketToView.id));
         setShowViewTicketModal(true);
         setTicketToView(ticketToView);
@@ -138,8 +137,9 @@ const TicketList = () => {
 
     const handleShowDeleteTicketModal = (ticketToDelete) => {
         dispatch(getTicketById(ticketToDelete.id))
-        .then(() => {
-            setShowDeleteTicketModal(true)})
+            .then(() => {
+                setShowDeleteTicketModal(true)
+            })
     };
 
     const handleCloseDeleteTicketModal = () => {
@@ -174,7 +174,7 @@ const TicketList = () => {
                         <Modal.Title>Create Ticket</Modal.Title>
                     </Modal.Header>
                     <Modal.Body>
-                        <CreateTicketModal handleCloseCreateTicketModal={handleCloseCreateTicketModal} />
+                        <CreateTicketModal handleCloseCreateTicketModal={handleCloseCreateTicketModal}/>
                     </Modal.Body>
                 </Modal>
 
@@ -206,7 +206,7 @@ const TicketList = () => {
                         <Modal.Title>Delete Ticket</Modal.Title>
                     </Modal.Header>
                     <Modal.Body>
-                        <DeleteTicketModal handleCloseDeleteTicketModal={handleCloseDeleteTicketModal}/>                 
+                        <DeleteTicketModal handleCloseDeleteTicketModal={handleCloseDeleteTicketModal}/>
                     </Modal.Body>
                 </Modal>
 
@@ -224,8 +224,8 @@ const TicketList = () => {
                         columns={columns}
                         data={tickets}
                         pagination={true}
-                        noDataComponent={" "} 
-                        />
+                        noDataComponent={" "}
+                    />
                 </header>
             </div>)
         }

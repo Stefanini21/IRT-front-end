@@ -5,478 +5,474 @@ import {selectTicketListForKanban} from "../../redux/selectors/ticket";
 import {changeTicketDeveloper, changeTicketStatus, getTicketListForKanban,} from "../../redux/actions/ticket";
 import {selectUserById} from "../../redux/selectors/user";
 import Select from "react-select";
-import { filter } from "dom-helpers";
 
 const Kanban = () => {
-  const filterOptions = [
-    { value: "CREATOR", label: "Creator" },
-    { value: "DEVELOPER", label: "Developer" },
-    { value: "SPECIALTY", label: "Specialty" },
-    { value: "PRIORITY", label: "Priority" },
-  ];
+    const filterOptions = [
+        {value: "CREATOR", label: "Creator"},
+        {value: "DEVELOPER", label: "Developer"},
+        {value: "SPECIALTY", label: "Specialty"},
+        {value: "PRIORITY", label: "Priority"},
+    ];
 
-  const dispatch = useDispatch();
-  const tickets = useSelector(selectTicketListForKanban);
-  const [isFilterActive, setIsFilterActive] = useState(false);
-  const [filteredTickets, setFilteredTickets] = useState(tickets);
-  const [firstFilterArgument, setFirstFilterArgument] = useState("");
-  const [isSelectedFirstFilter, setIsSelectedFirstFilter] = useState(false);
-  const [firstFilterValues, setFirstFilterValues] = useState([]);
-  const [isFiltersWasReseted, setIsFilterWasReseted] = useState(false);
-  const [firstOptionsValue, setFirstOptionsValue] = useState("");
-  const [optionOneWasChanged, setOptionOneWasChanged] = useState(false);
+    const dispatch = useDispatch();
+    const tickets = useSelector(selectTicketListForKanban);
+    const [isFilterActive, setIsFilterActive] = useState(false);
+    const [filteredTickets, setFilteredTickets] = useState(tickets);
+    const [firstFilterArgument, setFirstFilterArgument] = useState("");
+    const [isSelectedFirstFilter, setIsSelectedFirstFilter] = useState(false);
+    const [firstFilterValues, setFirstFilterValues] = useState([]);
+    const [isFiltersWasReseted, setIsFilterWasReseted] = useState(false);
+    const [firstOptionsValue, setFirstOptionsValue] = useState("");
 
-  useEffect(() => {
-    dispatch(getTicketListForKanban());
-    setFilteredTickets(tickets);
-  }, [isFiltersWasReseted]);
+    useEffect(() => {
+        dispatch(getTicketListForKanban());
+        setFilteredTickets(tickets);
+    }, [isFiltersWasReseted]);
 
-  const setFilterOne = (e) => {
-    setIsSelectedFirstFilter(true);
-    switch (e.value) {
-      case "CREATOR": {
-        setFirstFilterArgument("creator");
-        const authors = [];
-        tickets.forEach((ticket) => {
-          if (!authors.includes(ticket.creator)) {
-            authors.push(ticket.creator);
-          }
-        });
-        setFirstFilterValues(authors);
-        console.log("authors: " + authors);
-        break;
-      }
-      case "DEVELOPER": {
-        setFirstFilterArgument("developer");
-        const developers = [];
-        tickets.forEach((ticket) => {
-          if (!developers.includes(ticket.developer)) {
-            developers.push(ticket.developer);
-          }
-        });
-        setFirstFilterValues(developers);
-        console.log("developers: " + developers);
-        break;
-      }
-      case "SPECIALTY": {
-        setFirstFilterArgument("specialty");
-        const specialties = [];
-        tickets.forEach((ticket) => {
-          if (!specialties.includes(ticket.specialty)) {
-            specialties.push(ticket.specialty);
-          }
-        });
-        setFirstFilterValues(specialties);
-        console.log("developers: " + specialties);
-        break;
-      }
-      case "PRIORITY": {
-        setFirstFilterArgument("priority");
-        const priorities = [];
-        tickets.forEach((ticket) => {
-          if (!priorities.includes(ticket.priority)) {
-            priorities.push(ticket.priority);
-          }
-        });
-        setFirstFilterValues(priorities);
-        console.log("developers: " + priorities);
-        break;
-      }
-      default:
-        setFirstFilterValues([]);
-    }
-  };
-
-  const setFilterTwo = (e) => {
-    console.log("firstFilterArgument: " + firstFilterArgument);
-    console.log("secondFilterArgument: " + e.value);
-    const filteredTicketsByOptions = [];
-
-    if (firstFilterArgument === "creator") {
-      filteredTickets.forEach((ticket) => {
-        if (ticket.creator === e.value) {
-          filteredTicketsByOptions.push(ticket);
+    const setFilterOne = (e) => {
+        setIsSelectedFirstFilter(true);
+        switch (e.value) {
+            case "CREATOR": {
+                setFirstFilterArgument("creator");
+                const authors = [];
+                tickets.forEach((ticket) => {
+                    if (!authors.includes(ticket.creator)) {
+                        authors.push(ticket.creator);
+                    }
+                });
+                setFirstFilterValues(authors);
+                console.log("authors: " + authors);
+                break;
+            }
+            case "DEVELOPER": {
+                setFirstFilterArgument("developer");
+                const developers = [];
+                tickets.forEach((ticket) => {
+                    if (!developers.includes(ticket.developer)) {
+                        developers.push(ticket.developer);
+                    }
+                });
+                setFirstFilterValues(developers);
+                console.log("developers: " + developers);
+                break;
+            }
+            case "SPECIALTY": {
+                setFirstFilterArgument("specialty");
+                const specialties = [];
+                tickets.forEach((ticket) => {
+                    if (!specialties.includes(ticket.specialty)) {
+                        specialties.push(ticket.specialty);
+                    }
+                });
+                setFirstFilterValues(specialties);
+                console.log("developers: " + specialties);
+                break;
+            }
+            case "PRIORITY": {
+                setFirstFilterArgument("priority");
+                const priorities = [];
+                tickets.forEach((ticket) => {
+                    if (!priorities.includes(ticket.priority)) {
+                        priorities.push(ticket.priority);
+                    }
+                });
+                setFirstFilterValues(priorities);
+                console.log("developers: " + priorities);
+                break;
+            }
+            default:
+                setFirstFilterValues([]);
         }
-      });
-    } else if (firstFilterArgument === "developer") {
-      filteredTickets.forEach((ticket) => {
-        if (ticket.developer === e.value) {
-          filteredTicketsByOptions.push(ticket);
-        }
-      });
-    } else if (firstFilterArgument === "specialty") {
-      filteredTickets.forEach((ticket) => {
-        if (ticket.specialty === e.value) {
-          filteredTicketsByOptions.push(ticket);
-        }
-      });
-    } else if (firstFilterArgument === "priority") {
-      filteredTickets.forEach((ticket) => {
-        if (ticket.priority === e.value) {
-          filteredTicketsByOptions.push(ticket);
-        }
-      });
-    }
-    setFilteredTickets(filteredTicketsByOptions);
-    setIsFilterActive(true);
-  };
+    };
 
-  const doFilters = () => {
-    setFilteredTickets([...filteredTickets]);
-  };
+    const setFilterTwo = (e) => {
+        console.log("firstFilterArgument: " + firstFilterArgument);
+        console.log("secondFilterArgument: " + e.value);
+        const filteredTicketsByOptions = [];
 
-  const resetAllFilters = () => {
-    setIsFilterActive(false);
-    setIsSelectedFirstFilter(false);
-    setFilteredTickets(tickets);
-    setIsFilterWasReseted(true);
-    setFirstOptionsValue("");
-  };
+        if (firstFilterArgument === "creator") {
+            filteredTickets.forEach((ticket) => {
+                if (ticket.creator === e.value) {
+                    filteredTicketsByOptions.push(ticket);
+                }
+            });
+        } else if (firstFilterArgument === "developer") {
+            filteredTickets.forEach((ticket) => {
+                if (ticket.developer === e.value) {
+                    filteredTicketsByOptions.push(ticket);
+                }
+            });
+        } else if (firstFilterArgument === "specialty") {
+            filteredTickets.forEach((ticket) => {
+                if (ticket.specialty === e.value) {
+                    filteredTicketsByOptions.push(ticket);
+                }
+            });
+        } else if (firstFilterArgument === "priority") {
+            filteredTickets.forEach((ticket) => {
+                if (ticket.priority === e.value) {
+                    filteredTicketsByOptions.push(ticket);
+                }
+            });
+        }
+        setFilteredTickets(filteredTicketsByOptions);
+        setIsFilterActive(true);
+    };
 
-  return (
-    <div className={"col-lg-12"}>
-      <div>
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "space-between",
-            paddingRight: "0 10px",
-          }}
-        >
-          <div
-            className={"col-lg-6"}
-            style={{ display: "flex", justifyContent: "flex-end", padding: 0 }}
-          >
-            <label
-              htmlFor="filter"
-              style={{
-                paddingLeft: 4,
-                margin: 0,
-                fontWeight: 500,
-                flexGrow: 3,
-                paddingTop: 6,
-                display: "inline-block",
-              }}
-            >
-              <h4
-                style={{
-                  fontWeight: 500,
-                  textAlign: "center",
-                  fontSize: "20px",
-                  marginBottom: 4,
-                  textAlign: "right",
-                }}
-              >
-                <span style={{ fontWeight: 300 }}>Filter by:</span>
-              </h4>
-            </label>
+    const doFilters = () => {
+        setFilteredTickets([...filteredTickets]);
+    };
+
+    const resetAllFilters = () => {
+        setIsFilterActive(false);
+        setIsSelectedFirstFilter(false);
+        setFilteredTickets(tickets);
+        setIsFilterWasReseted(true);
+        setFirstOptionsValue("");
+    };
+
+    return (
+        <div className={"col-lg-12"}>
+            <div>
+                <div
+                    style={{
+                        display: "flex",
+                        justifyContent: "space-between",
+                        paddingRight: "0 10px",
+                    }}
+                >
+                    <div
+                        className={"col-lg-6"}
+                        style={{display: "flex", justifyContent: "flex-end", padding: 0}}
+                    >
+                        <label
+                            htmlFor="filter"
+                            style={{
+                                paddingLeft: 4,
+                                margin: 0,
+                                fontWeight: 500,
+                                flexGrow: 3,
+                                paddingTop: 6,
+                                display: "inline-block",
+                            }}
+                        >
+                            <h4
+                                style={{
+                                    fontWeight: 500,
+                                    fontSize: "20px",
+                                    marginBottom: 4,
+                                    textAlign: "right",
+                                }}
+                            >
+                                <span style={{fontWeight: 300}}>Filter by:</span>
+                            </h4>
+                        </label>
+                        <div
+                            style={{
+                                top: -5,
+                                height: 45,
+                                flexGrow: 4,
+                                margin: "0 10px",
+                                display: "inline-block",
+                            }}
+                        >
+                            <Select
+                                id={"select1"}
+                                options={filterOptions}
+                                type="text"
+                                name="filter1"
+                                onChange={setFilterOne}
+                                style={{width: "20%", padding: 4, marginBottom: 4}}
+                                isDisabled={isFilterActive}
+                            />
+                        </div>
+                    </div>
+                    <div
+                        className={"col-lg-6"}
+                        style={{
+                            display: "flex",
+                            justifyContent: "flex-start",
+                            padding: 0,
+                        }}
+                    >
+                        <div
+                            style={{display: "inline-block", flexGrow: 4, margin: "0 10px"}}
+                        >
+                            <Select
+                                id={"select2"}
+                                options={firstFilterValues.map((v) => ({
+                                    label: v,
+                                    value: v,
+                                }))}
+                                type="text"
+                                name="filter2"
+                                onChange={setFilterTwo}
+                                style={{width: "20%", padding: 4}}
+                                isDisabled={!isSelectedFirstFilter || isFilterActive}
+                            />
+                        </div>
+                        <div className="form-group" style={{marginLeft: 10}}>
+                            <button
+                                className="secondary_button"
+                                disabled={!isFilterActive}
+                                onClick={() => resetAllFilters()}
+                                style={{
+                                    visibility: isFilterActive === true ? "visible" : "hidden",
+                                    marginRight: 90,
+                                }}
+                            >
+                                Reset filter
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
             <div
-              style={{
-                top: -5,
-                height: 45,
-                flexGrow: 4,
-                margin: "0 10px",
-                display: "inline-block",
-              }}
-            >
-              <Select
-                id={"select1"}
-                options={filterOptions}
-                type="text"
-                name="filter1"
-                onChange={setFilterOne}
-                style={{ width: "20%", padding: 4, marginBottom: 4 }}
-                isDisabled={isFilterActive}
-              />
-            </div>
-          </div>
-          <div
-            className={"col-lg-6"}
-            style={{
-              display: "flex",
-              justifyContent: "flex-start",
-              padding: 0,
-            }}
-          >
-            <div
-              style={{ display: "inline-block", flexGrow: 4, margin: "0 10px" }}
-            >
-              <Select
-                id={"select2"}
-                options={firstFilterValues.map((v) => ({
-                  label: v,
-                  value: v,
-                }))}
-                type="text"
-                name="filter2"
-                onChange={setFilterTwo}
-                style={{ width: "20%", padding: 4 }}
-                isDisabled={!isSelectedFirstFilter || isFilterActive}
-              />
-            </div>
-            <div className="form-group" style={{ marginLeft: 10 }}>
-              <button
-                className="secondary_button"
-                disabled={!isFilterActive}
-                onClick={() => resetAllFilters()}
+                className={"col-lg-12"}
                 style={{
-                  visibility: isFilterActive === true ? "visible" : "hidden",
-                  marginRight: 90,
+                    justifyContent: "space-between",
+                    padding: "0 auto",
+                    flexGrow: 3,
+                    right: 0,
                 }}
-              >
-                Reset filter
-              </button>
+            >
+                <KanbanBoard
+                    isFilterActive={isFilterActive}
+                    filteredTickets={filteredTickets}
+                    isFiltersWasReseted={isFiltersWasReseted}
+                />
             </div>
-          </div>
         </div>
-      </div>
-      <div
-        className={"col-lg-12"}
-        style={{
-          justifyContent: "space-between",
-          padding: "0 auto",
-          flexGrow: 3,
-          right: 0,
-        }}
-      >
-        <KanbanBoard
-          isFilterActive={isFilterActive}
-          filteredTickets={filteredTickets}
-          isFiltersWasReseted={isFiltersWasReseted}
-        />
-      </div>
-    </div>
-  );
+    );
 };
 
 const KanbanBoard = (props) => {
-  const [projects, setProjects] = useState([]);
-  const [draggedOverCol, setDraggedOverCol] = useState(0);
-  const userData = useSelector(getUserData);
-  const currentUserData = useSelector(getUserData);
-  const tickets = useSelector(selectTicketListForKanban);
-  // const tickets = props.tickets;
-  const [status, setStatus] = useState("");
-  const dispatch = useDispatch();
-  const filteredTickets = props.filteredTickets;
-  const isFilterActive = props.isFilterActive;
-  const isFiltersWasReseted = props.isFiltersWasReseted;
+    const [projects, setProjects] = useState([]);
+    const [draggedOverCol, setDraggedOverCol] = useState(0);
+    const userData = useSelector(getUserData);
+    const currentUserData = useSelector(getUserData);
+    const tickets = useSelector(selectTicketListForKanban);
+    // const tickets = props.tickets;
+    const [status, setStatus] = useState("");
+    const dispatch = useDispatch();
+    const filteredTickets = props.filteredTickets;
+    const isFilterActive = props.isFilterActive;
+    const isFiltersWasReseted = props.isFiltersWasReseted;
 
-  const columns = [
-    { name: "BackLog", stage: 1 },
-    { name: "In progress...", stage: 2 },
-    { name: "Finished", stage: 3 },
-    { name: "Closed", stage: 4 },
-  ];
+    const columns = [
+        {name: "BackLog", stage: 1},
+        {name: "In progress...", stage: 2},
+        {name: "Finished", stage: 3},
+        {name: "Closed", stage: 4},
+    ];
 
-  //this is called when a Kanban card is dragged over a column (called by column)
-  const handleOnDragEnter = (e, stageValue) => {
-    setDraggedOverCol(stageValue);
+    //this is called when a Kanban card is dragged over a column (called by column)
+    const handleOnDragEnter = (e, stageValue) => {
+        setDraggedOverCol(stageValue);
 
-    switch (stageValue) {
-      case 1:
-        console.log("case 1 draggedOverCol: " + stageValue);
-        setStatus("BACKLOG");
-        break;
-      case 2:
-        console.log("case 2 draggedOverCol: " + stageValue);
-        setStatus("ASSIGNED");
-        break;
-      case 3:
-        console.log("case 3 draggedOverCol: " + stageValue);
-        setStatus("FINISHED");
-        break;
-      case 4:
-        console.log("case 4 draggedOverCol: " + stageValue);
-        setStatus("CLOSED");
-        break;
-      default:
-        setStatus("");
-    }
-  };
-
-  //this is called when a Kanban card dropped over a column (called by card)
-  const handleOnDragEnd = (e, project) => {
-    const updatedProjects = projects.slice(0);
-    const dOc = updatedProjects.find((projectObject) => {
-      if (
-        project.developer === null &&
-        currentUserData.role === "USER" &&
-        project.specialty === currentUserData.specialty &&
-        project.project_stage === 1 &&
-        draggedOverCol === 2
-      ) {
-        project.developer === currentUserData.username;
-        dispatch(changeTicketDeveloper(project.id, currentUserData.username));
-        return projectObject.title === project.title;
-      } else if (
-        currentUserData.username === project.developer ||
-        currentUserData.username === project.creator
-      ) {
-        if (
-          currentUserData.role === "ADMIN" &&
-          project.project_stage === 3 &&
-          draggedOverCol === 1 &&
-          currentUserData.creator === project.author
-        ) {
-          return projectObject.title === project.title;
-        } else if (
-          currentUserData.role === "ADMIN" &&
-          project.project_stage === 3 &&
-          draggedOverCol === 4
-        ) {
-          return projectObject.title === project.title;
-        } else if (
-          (currentUserData.role === "USER" &&
-            project.project_stage === 1 &&
-            draggedOverCol === 2) ||
-          (currentUserData.role === "USER" &&
-            project.project_stage === 2 &&
-            draggedOverCol === 3)
-        ) {
-          return projectObject.title === project.title;
+        switch (stageValue) {
+            case 1:
+                console.log("case 1 draggedOverCol: " + stageValue);
+                setStatus("BACKLOG");
+                break;
+            case 2:
+                console.log("case 2 draggedOverCol: " + stageValue);
+                setStatus("ASSIGNED");
+                break;
+            case 3:
+                console.log("case 3 draggedOverCol: " + stageValue);
+                setStatus("FINISHED");
+                break;
+            case 4:
+                console.log("case 4 draggedOverCol: " + stageValue);
+                setStatus("CLOSED");
+                break;
+            default:
+                setStatus("");
         }
-      }
-    });
-    if (dOc !== undefined) {
-      dispatch(changeTicketStatus(project.id, status));
-      dOc.project_stage = draggedOverCol;
-      setProjects(updatedProjects);
-    }
-    setDraggedOverCol(project.project_stage);
-  };
+    };
 
-  useEffect(() => {
-    // console.log("tickets" + tickets);
-    // console.log("isFilterActive: " + isFilterActive);
-    console.log("filteredTickets in KanbanBoard: " + filteredTickets);
-    setProjects(filteredTickets);
+    //this is called when a Kanban card dropped over a column (called by card)
+    const handleOnDragEnd = (e, project) => {
+        const updatedProjects = projects.slice(0);
+        const dOc = updatedProjects.find((projectObject) => {
+            if (
+                project.developer === null &&
+                currentUserData.role === "USER" &&
+                project.specialty === currentUserData.specialty &&
+                project.project_stage === 1 &&
+                draggedOverCol === 2
+            ) {
+                project.developer === currentUserData.username;
+                dispatch(changeTicketDeveloper(project.id, currentUserData.username));
+                return projectObject.title === project.title;
+            } else if (
+                currentUserData.username === project.developer ||
+                currentUserData.username === project.creator
+            ) {
+                if (
+                    currentUserData.role === "ADMIN" &&
+                    project.project_stage === 3 &&
+                    draggedOverCol === 1 &&
+                    currentUserData.creator === project.author
+                ) {
+                    return projectObject.title === project.title;
+                } else if (
+                    currentUserData.role === "ADMIN" &&
+                    project.project_stage === 3 &&
+                    draggedOverCol === 4
+                ) {
+                    return projectObject.title === project.title;
+                } else if (
+                    (currentUserData.role === "USER" &&
+                        project.project_stage === 1 &&
+                        draggedOverCol === 2) ||
+                    (currentUserData.role === "USER" &&
+                        project.project_stage === 2 &&
+                        draggedOverCol === 3)
+                ) {
+                    return projectObject.title === project.title;
+                }
+            }
+        });
+        if (dOc !== undefined) {
+            dispatch(changeTicketStatus(project.id, status));
+            dOc.project_stage = draggedOverCol;
+            setProjects(updatedProjects);
+        }
+        setDraggedOverCol(project.project_stage);
+    };
 
-    // setProjects(filteredTickets)
+    useEffect(() => {
+        // console.log("tickets" + tickets);
+        // console.log("isFilterActive: " + isFilterActive);
+        console.log("filteredTickets in KanbanBoard: " + filteredTickets);
+        setProjects(filteredTickets);
 
-    tickets.forEach((element) => {
-      switch (element.status) {
-        case "BACKLOG": {
-          element.project_stage = 1;
-          break;
-        }
-        case "ASSIGNED": {
-          element.project_stage = 2;
-          break;
-        }
-        case "FINISHED": {
-          element.project_stage = 3;
-          break;
-        }
-        case "CLOSED": {
-          element.project_stage = 4;
-          break;
-        }
-        default:
-          element.project_stage = 1;
-      }
-    });
-  }, [
-    setDraggedOverCol,
-    filteredTickets,
-    isFiltersWasReseted,
-    handleOnDragEnd,
-  ]);
+        // setProjects(filteredTickets)
 
-  return (
-    <div style={{ display: "flex", justifyContent: "space-between" }}>
-      {columns.map((column) => {
-        return (
-          <KanbanColumn
-            title={column.name}
-            stage={column.stage}
-            projects={projects.filter((project) => {
-              return parseInt(project.project_stage, 10) === column.stage;
+        tickets.forEach((element) => {
+            switch (element.status) {
+                case "BACKLOG": {
+                    element.project_stage = 1;
+                    break;
+                }
+                case "ASSIGNED": {
+                    element.project_stage = 2;
+                    break;
+                }
+                case "FINISHED": {
+                    element.project_stage = 3;
+                    break;
+                }
+                case "CLOSED": {
+                    element.project_stage = 4;
+                    break;
+                }
+                default:
+                    element.project_stage = 1;
+            }
+        });
+    }, [
+        setDraggedOverCol,
+        filteredTickets,
+        isFiltersWasReseted,
+        handleOnDragEnd,
+    ]);
+
+    return (
+        <div style={{display: "flex", justifyContent: "space-between"}}>
+            {columns.map((column) => {
+                return (
+                    <KanbanColumn
+                        title={column.name}
+                        stage={column.stage}
+                        projects={projects.filter((project) => {
+                            return parseInt(project.project_stage, 10) === column.stage;
+                        })}
+                        onDragEnter={handleOnDragEnter}
+                        onDragEnd={handleOnDragEnd}
+                        key={column.stage}
+                        userData={userData}
+                        currentUserData={currentUserData}
+                        isFilterActive={isFilterActive}
+                        filteredTickets={filteredTickets}
+                        isFiltersWasReseted={isFiltersWasReseted}
+                    />
+                );
             })}
-            onDragEnter={handleOnDragEnter}
-            onDragEnd={handleOnDragEnd}
-            key={column.stage}
-            userData={userData}
-            currentUserData={currentUserData}
-            isFilterActive={isFilterActive}
-            filteredTickets={filteredTickets}
-            isFiltersWasReseted={isFiltersWasReseted}
-          />
-        );
-      })}
-    </div>
-  );
+        </div>
+    );
 };
 
 /*
  * The Kanban Board Column React component
  */
 const KanbanColumn = (props) => {
-  const [mouseIsHovering, setMouseIsHovering] = useState(false);
-  const isFilterActive = props.isFilterActive;
-  const filteredTickets = props.filteredTickets;
-  const isFiltersWasReseted = props.isFiltersWasReseted;
+    const [mouseIsHovering, setMouseIsHovering] = useState(false);
+    const isFilterActive = props.isFilterActive;
+    const filteredTickets = props.filteredTickets;
+    const isFiltersWasReseted = props.isFiltersWasReseted;
 
-  useEffect(() => {
-    setMouseIsHovering(false);
-  }, [props, isFilterActive, filteredTickets, isFiltersWasReseted]);
+    useEffect(() => {
+        setMouseIsHovering(false);
+    }, [props, isFilterActive, filteredTickets, isFiltersWasReseted]);
 
-  const generateKanbanCards = () => {
-    return props.projects.slice(0).map((project) => {
-      return (
-        <KanbanCard
-          project={project}
-          key={project.id}
-          onDragEnd={props.onDragEnd}
-          currentUserData={props.currentUserData}
-        />
-      );
-    });
-  };
+    const generateKanbanCards = () => {
+        return props.projects.slice(0).map((project) => {
+            return (
+                <KanbanCard
+                    project={project}
+                    key={project.id}
+                    onDragEnd={props.onDragEnd}
+                    currentUserData={props.currentUserData}
+                />
+            );
+        });
+    };
 
-  const columnStyle = {
-    display: "inline-block",
-    verticalAlign: "top",
-    marginBottom: "2px",
-    margin: 3,
-    paddingLeft: "1px",
-    paddingTop: "3px",
-    paddingRight: "1px",
-    width: "25%",
-    textAlign: "center",
-    backgroundColor: mouseIsHovering ? "#8f92a1" : "#a1a4b5",
-    transition: "mouseIsHovering 1",
-    borderBottom: "8px solid #a1a4b5",
-  };
+    const columnStyle = {
+        display: "inline-block",
+        verticalAlign: "top",
+        marginBottom: "2px",
+        margin: 3,
+        paddingLeft: "1px",
+        paddingTop: "3px",
+        paddingRight: "1px",
+        width: "25%",
+        textAlign: "center",
+        backgroundColor: mouseIsHovering ? "#8f92a1" : "#a1a4b5",
+        transition: "mouseIsHovering 1",
+        borderBottom: "8px solid #a1a4b5",
+    };
 
-  return (
-    <div
-      style={columnStyle}
-      onDragEnter={(e) => {
-        setMouseIsHovering(true);
-        setTimeout(() => {
-          setMouseIsHovering(false);
-        }, 900);
+    return (
+        <div
+            style={columnStyle}
+            onDragEnter={(e) => {
+                setMouseIsHovering(true);
+                setTimeout(() => {
+                    setMouseIsHovering(false);
+                }, 900);
 
-        props.onDragEnter(e, props.stage);
-      }}
-      onDragExit={(e) => {
-        setTimeout(() => {
-          setMouseIsHovering(false);
-        }, 1200);
-      }}
-    >
-      <h5
-        style={{
-          backgroundColor: "#0C0032",
-          padding: 8,
-          color: "white",
-          margin: "1px 3",
-          margin: "2px 5px 4px",
-        }}
-      >
-        {props.title}{" "}
-        <span style={{ fontWeight: 300, fontSize: "1rem" }}>
+                props.onDragEnter(e, props.stage);
+            }}
+            onDragExit={(e) => {
+                setTimeout(() => {
+                    setMouseIsHovering(false);
+                }, 1200);
+            }}
+        >
+            <h5
+                style={{
+                    backgroundColor: "#0C0032",
+                    padding: 8,
+                    color: "white",
+                    margin: "1px 3",
+                }}
+            >
+                {props.title}{" "}
+                <span style={{fontWeight: 300, fontSize: "1rem"}}>
 
           ({props.projects.length})
         </span>
@@ -492,12 +488,6 @@ const KanbanCard = (props) => {
     const [collapsed, setCollapsed] = useState(true);
     const userById = useSelector(selectUserById);
     const dispatch = useDispatch();
-
-    // const userNameByUserId = (id) => {
-    //   dispatch(getUserById(id));
-    //   const username = userById.username;
-    //   return username;
-    // };
 
     const changeCollapse = () => {
         setCollapsed(!collapsed);
@@ -517,15 +507,9 @@ const KanbanCard = (props) => {
     const developer = props.project.developer;
     const currentUserData = props.currentUserData;
 
-    // console.log('========================')
-    // console.log("priority: " + priority);
-    // console.log("specialty: " + specialty);
-    // console.log("author: " + author);
-    // console.log("developer: " + developer);
 
     const descriptionStyle = {
         menu: {
-            // overflow: "hidden",
             width: "auto",
             padding: 7,
             transition: "250ms ease-in, 250ms ease-out",
@@ -604,7 +588,6 @@ const KanbanCard = (props) => {
             <div>
                 <div
                     style={{
-                        // color: "brown",
                         backgroundColor: "#97ACED",
                         position: "relative",
                     }}
@@ -688,7 +671,6 @@ const KanbanCard = (props) => {
                 </div>
                 <div
                     style={{
-                        // color: "brown",
                         backgroundColor: "#D5DDF8",
                     }}
                 >

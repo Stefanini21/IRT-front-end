@@ -1,4 +1,3 @@
-
 import React from "react";
 
 
@@ -16,7 +15,7 @@ const ViewTicket = (props) => {
                 <strong>Description : </strong> {props.ticket.description}
             </div>
             <p>
-                <div className="row"  style={{marginTop: 30}}>
+                <div className="row" style={{marginTop: 30}}>
                     <div className="col-sm-6"><strong>Specialty:</strong></div>
                     <div className="row-cols-sm-6">{props.ticket.specialty}</div>
                 </div>

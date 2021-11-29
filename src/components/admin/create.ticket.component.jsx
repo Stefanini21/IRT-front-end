@@ -5,10 +5,10 @@ import Select from "react-select";
 import {selectButtonPressedCreatedTicketFlag} from "../../redux/selectors/flag";
 import {useDispatch, useSelector} from "react-redux";
 import {
-  checkIfTicketTitleExist,
-  createTicket,
-  getAllUsersBySpecialty,
-  getTicketList,
+    checkIfTicketTitleExist,
+    createTicket,
+    getAllUsersBySpecialty,
+    getTicketList,
 } from "../../redux/actions/ticket";
 import {getUserListBySpecialty, isDuplicateTicketTitle, selectPriorities,} from "../../redux/selectors/ticket";
 import {selectSpecialties} from "../../redux/selectors/user";
@@ -61,17 +61,6 @@ const CreateTicketModal = () => {
     );
 
     const isDuplicateTitle = useSelector(isDuplicateTicketTitle);
-
-    // const vtitleNotRepeat = () => {
-    //   console.log("isDuplicate: " + isDuplicateTitle);
-    //   if (isDuplicateTitle) {
-    //     return (
-    //       <div className="alert alert-danger" role="alert">
-    //         There is another ticket with this title.
-    //       </div>
-    //     );
-    //   }
-    // };
 
     const [title, setTitle] = useState("");
     const [description, setDescription] = useState("");

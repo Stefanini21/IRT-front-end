@@ -62,7 +62,6 @@ class UserService {
         return axios
             .get(url + JSON.stringify(userId), {headers: authHeader()})
             .then((response) => {
-                // console.log(response.data)
                 return response.data;
             });
     }

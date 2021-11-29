@@ -5,7 +5,7 @@ import {Badge, Dropdown, DropdownButton, Modal} from "react-bootstrap";
 import UserService from "../../services/user.service";
 import {getUserById} from "../../redux/actions/user";
 import "./css/view.user.component.css";
-
+import {FaLaptopCode} from "react-icons/fa";
 import ViewTicket from "./view.ticket.component";
 
 
@@ -17,7 +17,6 @@ const ViewUser = (props) => {
     const [ticketToView, setTicketToView] = useState([]);
     const [showViewTicketModal, setShowViewTicketModal] = useState(false);
     const [isVisibleViewTicketModal, setIsVisibleViewTicketModal] = useState(false);
-
 
     const dispatch = useDispatch();
 
@@ -58,43 +57,54 @@ const ViewUser = (props) => {
                             </h3>
                         </header>
                         <p>
-                            <strong>First Name : </strong> {userById.firstName}
+                            <div className="row">
+                                <div className="col-sm-6"><strong>First Name:</strong></div>
+                                <div className="row-cols-sm-6">{userById.firstName}</div>
+                            </div>
                         </p>
                         <p>
-                            <strong>Last Name : </strong> {userById.lastName}
+                            <div className="row">
+                                <div className="col-sm-6"><strong>Last Name:</strong></div>
+                                <div className="row-cols-sm-6">{userById.lastName}</div>
+                            </div>
                         </p>
                         <p>
-                            <strong>Email : </strong> {userById.email}
+                            <div className="row" style={{'white-space': 'initial'}}>
+                                <div className="col-sm-6"><strong>Email:</strong></div>
+                                <div className="row-cols-sm-6">{userById.email}</div>
+                            </div>
                         </p>
                         <p>
-                            <strong>Specialty : </strong>
-                            <Badge bg="dark" text="light">
-                                {userById.specialty}
-                            </Badge>
+                            <div className="row">
+                                <div className="col-sm-6"><strong>Specialty:</strong></div>
+                                <div className="row-cols-sm-6">{userById.specialty}</div>
+                            </div>
                         </p>
                         <p>
-                            <strong>Role : </strong>
-                            <Badge bg="success" text="light">
-                                {userById.role}
-                            </Badge>
+                            <div className="row">
+                                <div className="col-sm-6"><strong>Role:</strong></div>
+                                <div className="row-cols-sm-6">{userById.role}</div>
+                            </div>
                         </p>
 
                         <p>
-                            <DropdownButton title={"User's Tickets Titles"} style={{marginTop: 15}}>
+
+                            <DropdownButton title={"User's Tickets"} style={{marginTop: 30}}>
                                 {tickets.map((ticket) => (
                                     <div>
-                                        <Dropdown.Item onClick={() => handleShowViewTicketModal(ticket)}>
-                                            {ticket.title}
+                                        <Dropdown.Item onClick={() => handleShowViewTicketModal(ticket)}
+                                                       style={{marginTop: 15, borderBottom: '2px solid #4588ba'}}>
+                                            <div style={{display: "flex"}}>
+                                                <div style={{'flex-grow': 1, 'margin-right': 25}}>
+                                                    <Badge bg="primary">
+                                                        <FaLaptopCode size={15}/>
+                                                    </Badge>
+                                                </div>
+                                                <div style={{'white-space': 'initial'}}>
+                                                    {ticket.title}
+                                                </div>
+                                            </div>
                                         </Dropdown.Item>
-
-                                        {/*<Modal show={showViewTicketModal} onHide={handleCloseViewTicketModal}>*/}
-                                        {/*    <Modal.Header closeButton>*/}
-                                        {/*        <Modal.Title>View Ticket</Modal.Title>*/}
-                                        {/*    </Modal.Header>*/}
-                                        {/*    <Modal.Body style={{height: 400}}>*/}
-                                        {/*        <ViewTicket ticket={ticketToView}/>*/}
-                                        {/*    </Modal.Body>*/}
-                                        {/*</Modal>*/}
                                     </div>
                                 ))}
                             </DropdownButton>
@@ -115,3 +125,4 @@ const ViewUser = (props) => {
 }
 
 export default ViewUser
+

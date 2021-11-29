@@ -50,7 +50,6 @@ const Home = () => {
             fontWeight: 500,
             color: "#3f4a70",
             fontStyle: "oblique",
-            fontSize: "40px",
             width: "75%",
             textAlign: "center",
             margin: " 0 auto",

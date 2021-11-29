@@ -1,5 +1,5 @@
+
 import React from "react";
-import {Badge} from "react-bootstrap";
 
 
 const ViewTicket = (props) => {
@@ -8,30 +8,30 @@ const ViewTicket = (props) => {
         <div className="container">
             <header className="jumbotron">
                 <h3 style={{overflow: 'hidden'}}>
-                    Ticket Title <strong>{props.ticket.title}</strong>
+                    <p>Ticket Title</p>
+                    <p><strong>{props.ticket.title}</strong></p>
                 </h3>
             </header>
             <div style={{overflow: 'hidden'}}>
                 <strong>Description : </strong> {props.ticket.description}
             </div>
             <p>
-                <strong>Specialty : </strong>
-                <Badge bg="dark" text="light">
-                    {props.ticket.specialty}
-                </Badge>
+                <div className="row"  style={{marginTop: 30}}>
+                    <div className="col-sm-6"><strong>Specialty:</strong></div>
+                    <div className="row-cols-sm-6">{props.ticket.specialty}</div>
+                </div>
             </p>
             <p>
-                <strong>Priority : </strong>
-                <Badge bg="warning">
-                    {props.ticket.priority}
-                </Badge>
+                <div className="row">
+                    <div className="col-sm-6"><strong>Priority:</strong></div>
+                    <div className="row-cols-sm-6">{props.ticket.priority}</div>
+                </div>
             </p>
             <p>
-                <strong>Status : </strong>
-                <Badge bg="primary">
-                    {props.ticket.status}
-                </Badge>
-
+                <div className="row">
+                    <div className="col-sm-6"><strong>Status:</strong></div>
+                    <div className="row-cols-sm-6">{props.ticket.status}</div>
+                </div>
             </p>
             <p>
             </p>
@@ -40,3 +40,10 @@ const ViewTicket = (props) => {
 }
 
 export default ViewTicket
+
+
+
+
+
+
+

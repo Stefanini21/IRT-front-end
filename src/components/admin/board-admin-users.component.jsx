@@ -43,13 +43,13 @@ const AdminUserList = () => {
             sortable: true,
         },
         {
-            name: 'Role',
-            selector: row => row.role,
+            name: 'Email',
+            selector: row => row.email,
             sortable: true,
         },
         {
-            name: 'Email',
-            selector: row => row.email,
+            name: 'Role',
+            selector: row => row.role,
             sortable: true,
         },
         {
@@ -176,7 +176,7 @@ const AdminUserList = () => {
                         <DeleteUserModal handleCloseDeleteUserModal={handleCloseDeleteUserModal}/>                 
                     </Modal.Body>                
                 </Modal>
-
+                
                 <header className="jumbotron">
                     {error && <h3>{error}</h3>}
                     <div style={{margin: 10}}>

@@ -10,7 +10,7 @@ import {selectIsFetching, selectUserList} from "../../redux/selectors/user";
 import Loader from "react-loader-spinner";
 import DeleteUserModal from "./delete.user.component";
 
-const AdminUserList = () => {
+const AdminUserList = (props) => {
 
     const dispatch = useDispatch();
 
@@ -25,6 +25,10 @@ const AdminUserList = () => {
 
     const userList = useSelector(selectUserList);
     const fetching = useSelector(selectIsFetching);
+
+    const filteredUsers = props.filteredUsers;
+    const isFilterActive = props.isFilterActive;
+    const isFiltersWasReseted = props.isFiltersWasReseted;
 
     const columns = [
         {
@@ -136,7 +140,7 @@ const AdminUserList = () => {
         dispatch(getUserList());
         dispatch(getSpecialties());
         dispatch(getRoles());
-    }, [])
+    }, [/*props, isFilterActive, filteredUsers, isFiltersWasReseted*/])
 
     return <>
         {loading ? <Loader className="loader-spinner"

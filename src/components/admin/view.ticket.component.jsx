@@ -11,6 +11,12 @@ const ViewTicket = (props) => {
                     <p><strong>{props.ticket.title}</strong></p>
                 </h3>
             </header>
+            <p>
+                <div className="row">
+                    <div className="col-sm-6"><strong>Ticket's ID:</strong></div>
+                    <div className="row-cols-sm-6">{props.ticket.id}</div>
+                </div>
+            </p>
             <div style={{overflow: 'hidden'}}>
                 <strong>Description : </strong> {props.ticket.description}
             </div>

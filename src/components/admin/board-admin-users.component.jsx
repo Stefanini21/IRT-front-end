@@ -312,9 +312,6 @@ const AdminUserList = () => {
         }
         setUsers(filteredUsersByOptions);
         setIsFilterActive(true);
-        console.log(isSelectedFirstFilter);
-        console.log(isFilterActive);
-        console.log(isFiltersWasReseted);
     };
 
     const resetAllFilters = () => {
@@ -323,9 +320,6 @@ const AdminUserList = () => {
         setIsFilterWasReseted(true);
         setFilteredUsersByOptions([]);
         dispatch(getUserList());
-        console.log(isSelectedFirstFilter);
-        console.log(isFilterActive);
-        console.log(isFiltersWasReseted);
     };
 
     return <>

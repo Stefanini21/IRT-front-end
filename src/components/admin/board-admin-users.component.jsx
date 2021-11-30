@@ -146,9 +146,6 @@ const AdminUserList = () => {
     useEffect(() => {
         setUsers(userList)
         setLoading(fetching)
-        console.log(isSelectedFirstFilter);
-        console.log(isFilterActive);
-        console.log(isFiltersWasReseted);
     }, [userList])
 
 
@@ -156,9 +153,6 @@ const AdminUserList = () => {
         dispatch(getUserList());
         dispatch(getSpecialties());
         dispatch(getRoles());
-        console.log(isSelectedFirstFilter);
-        console.log(isFilterActive);
-        console.log(isFiltersWasReseted);
     }, [])
 
     const setFilterOne = (e) => {

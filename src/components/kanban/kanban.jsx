@@ -5,6 +5,7 @@ import {selectTicketListForKanban} from "../../redux/selectors/ticket";
 import {changeTicketDeveloper, changeTicketStatus, getTicketListForKanban,} from "../../redux/actions/ticket";
 import {selectUserById} from "../../redux/selectors/user";
 import Select from "react-select";
+import SessionExpirationModal from "../SessionExpirationModal.tsx";
 
 const Kanban = () => {
     const filterOptions = [
@@ -132,117 +133,121 @@ const Kanban = () => {
     };
 
     return (
-        <div className={"col-lg-12"}>
-            <div>
-                <div
-                    style={{
-                        display: "flex",
-                        justifyContent: "space-between",
-                        paddingRight: "0 10px",
-                    }}
-                >
+        <>
+            <SessionExpirationModal/>
+            <div className={"col-lg-12"}>
+                <div>
                     <div
-                        className={"col-lg-6"}
-                        style={{display: "flex", justifyContent: "flex-end", padding: 0}}
-                    >
-                        <label
-                            htmlFor="filter"
-                            style={{
-                                paddingLeft: 4,
-                                margin: 0,
-                                fontWeight: 500,
-                                flexGrow: 3,
-                                paddingTop: 6,
-                                display: "inline-block",
-                            }}
-                        >
-                            <h4
-                                style={{
-                                    fontWeight: 500,
-                                    fontSize: "20px",
-                                    marginBottom: 4,
-                                    textAlign: "right",
-                                }}
-                            >
-                                <span style={{fontWeight: 300}}>Filter by:</span>
-                            </h4>
-                        </label>
-                        <div
-                            style={{
-                                top: -5,
-                                height: 45,
-                                flexGrow: 4,
-                                margin: "0 10px",
-                                display: "inline-block",
-                            }}
-                        >
-                            <Select
-                                id={"select1"}
-                                options={filterOptions}
-                                type="text"
-                                name="filter1"
-                                onChange={setFilterOne}
-                                style={{width: "20%", padding: 4, marginBottom: 4}}
-                                isDisabled={isFilterActive}
-                            />
-                        </div>
-                    </div>
-                    <div
-                        className={"col-lg-6"}
                         style={{
                             display: "flex",
-                            justifyContent: "flex-start",
-                            padding: 0,
+                            justifyContent: "space-between",
+                            paddingRight: "0 10px",
                         }}
                     >
                         <div
-                            style={{display: "inline-block", flexGrow: 4, margin: "0 10px"}}
+                            className={"col-lg-6"}
+                            style={{display: "flex", justifyContent: "flex-end", padding: 0}}
                         >
-                            <Select
-                                id={"select2"}
-                                options={firstFilterValues.map((v) => ({
-                                    label: v,
-                                    value: v,
-                                }))}
-                                type="text"
-                                name="filter2"
-                                onChange={setFilterTwo}
-                                style={{width: "20%", padding: 4}}
-                                isDisabled={!isSelectedFirstFilter || isFilterActive}
-                            />
-                        </div>
-                        <div className="form-group" style={{marginLeft: 10}}>
-                            <button
-                                className="secondary_button"
-                                disabled={!isFilterActive}
-                                onClick={() => resetAllFilters()}
+                            <label
+                                htmlFor="filter"
                                 style={{
-                                    visibility: isFilterActive === true ? "visible" : "hidden",
-                                    marginRight: 90,
+                                    paddingLeft: 4,
+                                    margin: 0,
+                                    fontWeight: 500,
+                                    flexGrow: 3,
+                                    paddingTop: 6,
+                                    display: "inline-block",
                                 }}
                             >
-                                Reset filter
-                            </button>
+                                <h4
+                                    style={{
+                                        fontWeight: 500,
+                                        fontSize: "20px",
+                                        marginBottom: 4,
+                                        textAlign: "right",
+                                    }}
+                                >
+                                    <span style={{fontWeight: 300}}>Filter by:</span>
+                                </h4>
+                            </label>
+                            <div
+                                style={{
+                                    top: -5,
+                                    height: 45,
+                                    flexGrow: 4,
+                                    margin: "0 10px",
+                                    display: "inline-block",
+                                }}
+                            >
+                                <Select
+                                    id={"select1"}
+                                    options={filterOptions}
+                                    type="text"
+                                    name="filter1"
+                                    onChange={setFilterOne}
+                                    style={{width: "20%", padding: 4, marginBottom: 4}}
+                                    isDisabled={isFilterActive}
+                                />
+                            </div>
+                        </div>
+                        <div
+                            className={"col-lg-6"}
+                            style={{
+                                display: "flex",
+                                justifyContent: "flex-start",
+                                padding: 0,
+                            }}
+                        >
+                            <div
+                                style={{display: "inline-block", flexGrow: 4, margin: "0 10px"}}
+                            >
+                                <Select
+                                    id={"select2"}
+                                    options={firstFilterValues.map((v) => ({
+                                        label: v,
+                                        value: v,
+                                    }))}
+                                    type="text"
+                                    name="filter2"
+                                    onChange={setFilterTwo}
+                                    style={{width: "20%", padding: 4}}
+                                    isDisabled={!isSelectedFirstFilter || isFilterActive}
+                                />
+                            </div>
+                            <div className="form-group" style={{marginLeft: 10}}>
+                                <button
+                                    className="secondary_button"
+                                    disabled={!isFilterActive}
+                                    onClick={() => resetAllFilters()}
+                                    style={{
+                                        visibility: isFilterActive === true ? "visible" : "hidden",
+                                        marginRight: 90,
+                                    }}
+                                >
+                                    Reset filter
+                                </button>
+                            </div>
                         </div>
                     </div>
                 </div>
+
+                <div
+                    className={"col-lg-12"}
+                    style={{
+                        justifyContent: "space-between",
+                        padding: "0 auto",
+                        flexGrow: 3,
+                        right: 0,
+                    }}
+                >
+                    <KanbanBoard
+                        isFilterActive={isFilterActive}
+                        filteredTickets={filteredTickets}
+                        isFiltersWasReseted={isFiltersWasReseted}
+                    />
+                </div>
             </div>
-            <div
-                className={"col-lg-12"}
-                style={{
-                    justifyContent: "space-between",
-                    padding: "0 auto",
-                    flexGrow: 3,
-                    right: 0,
-                }}
-            >
-                <KanbanBoard
-                    isFilterActive={isFilterActive}
-                    filteredTickets={filteredTickets}
-                    isFiltersWasReseted={isFiltersWasReseted}
-                />
-            </div>
-        </div>
+        </>
     );
 };
 
@@ -510,6 +515,7 @@ const KanbanCard = (props) => {
 
     const descriptionStyle = {
         menu: {
+            // overflow: "hidden",
             width: "auto",
             padding: 7,
             transition: "250ms ease-in, 250ms ease-out",

@@ -54,5 +54,3 @@ export const resetFilteredTickets = () => (dispatch) => {
         type: RESET_FILTERED_TICKETS
     });
 };
-
-

@@ -63,38 +63,57 @@ const Profile = () => {
         <>
             <SessionExpirationModal/>
             <div>
-                <div
-                    className={"jumbotron container-color col-lg-12"}
-                    style={{marginTop: 30}}
-                >
-                    <img
-                        src="//ssl.gstatic.com/accounts/ui/avatar_2x.png"
-                        alt="profile-img"
-                        className="profile-img-card"
-                    />
-                    <h3 style={{display: "flex", alignItems: "center", justifyContent: "center",}}>
-                        <strong>{currentUserData.username} </strong> Profile
-                    </h3>
+      <div>
+            <div
+                className={"jumbotron container-color col-lg-12"}
+                style={{marginTop: 30}}
+            >
+                <img
+                    src="//ssl.gstatic.com/accounts/ui/avatar_2x.png"
+                    alt="profile-img"
+                    className="profile-img-card"
+                />
+                <h3 style={{display: "flex",  justifyContent: "center",}}>
+                    Profile of <strong style={{paddingLeft: 10}}>  {currentUserData.username} </strong>
+                </h3>
+            </div>
+
+            <div style={{display: "flex", justifyContent: "space-between"}}>
+                <div className="jumbotron col-lg-6" style={{width: "90%"}}>
+                    <p>
+                        <div className="row" style={{marginTop: 30}}>
+                            <div className="col-sm-4"><strong>First Name : </strong></div>
+                            <div className="row-cols-sm-8">{currentUserData.firstName}</div>
+                        </div>
+                    </p>
+                    <p>
+                        <div className="row" style={{marginTop: 30}}>
+                            <div className="col-sm-4"><strong>Last Name : </strong></div>
+                            <div className="row-cols-sm-8">{currentUserData.lastName}</div>
+                        </div>
+
+                    </p>
+                    <p>
+                        <div className="row" style={{marginTop: 30}}>
+                            <div className="col-sm-4"><strong>Email : </strong></div>
+                            <div className="row-cols-sm-8">{currentUserData.email}</div>
+                        </div>
+                    </p>
+                    <p>
+                        <div className="row" style={{marginTop: 30}}>
+                            <div className="col-sm-4"><strong>Specialty : </strong></div>
+                            <div className="row-cols-sm-8">{currentUserData.specialty}</div>
+                        </div>
+                    </p>
+                    <p>
+                        <div className="row" style={{marginTop: 30}}>
+                            <div className="col-sm-4"><strong>Role : </strong></div>
+                            <div className="row-cols-sm-8">{currentUserData.role}</div>
+                        </div>
+                    </p>
                 </div>
 
-                <div style={{display: "flex", justifyContent: "space-between"}}>
-                    <div className="jumbotron col-lg-6" style={{width: "90%"}}>
-                        <p>
-                            <strong>First Name : </strong> {currentUserData.firstName}
-                        </p>
-                        <p>
-                            <strong>Last Name : </strong> {currentUserData.lastName}
-                        </p>
-                        <p>
-                            <strong>Email : </strong> {currentUserData.email}
-                        </p>
-                        <p>
-                            <strong>Specialty : </strong> {currentUserData.specialty}
-                        </p>
-                        <p>
-                            <strong>Role : </strong> {currentUserData.role}
-                        </p>
-                    </div>
+               
 
                     <div
                         className="col-lg-6"

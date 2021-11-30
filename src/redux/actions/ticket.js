@@ -80,7 +80,8 @@ export const getTicketById = (ticketId) => (dispatch) => {
 };
 
 export const getTicketList = () => (dispatch) => {
-    const url = routes.BASIC_URL + routes.BASIC_PATH + routes.ALL_TICKETS_FOR_KANBAN;
+    const url =
+      routes.BASIC_URL + routes.BASIC_PATH + routes.ALL_TICKETS_FOR_KANBAN;
 
     return HttpService.get(url).then((response) => {
         return dispatch({

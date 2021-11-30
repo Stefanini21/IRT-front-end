@@ -7,108 +7,6 @@ import {selectUserById} from "../../redux/selectors/user";
 import Select from "react-select";
 
 const Kanban = () => {
-<<<<<<< HEAD
-  const filterOptions = [
-    { value: "CREATOR", label: "Creator" },
-    { value: "DEVELOPER", label: "Developer" },
-    { value: "SPECIALTY", label: "Specialty" },
-    { value: "PRIORITY", label: "Priority" },
-  ];
-
-  const dispatch = useDispatch();
-  const tickets = useSelector(selectTicketListForKanban);
-  const [isFilterActive, setIsFilterActive] = useState(false);
-  const [filteredTickets, setFilteredTickets] = useState(tickets);
-  const [firstFilterArgument, setFirstFilterArgument] = useState("");
-  const [isSelectedFirstFilter, setIsSelectedFirstFilter] = useState(false);
-  const [firstFilterValues, setFirstFilterValues] = useState([]);
-  const [isFiltersWasReseted, setIsFilterWasReseted] = useState(false);
-  const [firstOptionsValue, setFirstOptionsValue] = useState("");
-  const [optionOneWasChanged, setOptionOneWasChanged] = useState(false);
-
-  useEffect(() => {
-    dispatch(getTicketListForKanban());
-    setFilteredTickets(tickets);
-  }, [filteredTicketsByOptions]);
-
-  const setFilterOne = (e) => {
-    setIsSelectedFirstFilter(true);
-    switch (e.value) {
-      case "CREATOR": {
-        setFirstFilterArgument("creator");
-        const authors = [];
-        tickets.forEach((ticket) => {
-          if (!authors.includes(ticket.creator)) {
-            authors.push(ticket.creator);
-          }
-        });
-        setFirstFilterValues(authors);
-        console.log("authors: " + authors);
-        break;
-      }
-      case "DEVELOPER": {
-        setFirstFilterArgument("developer");
-        const developers = [];
-        tickets.forEach((ticket) => {
-          if (!developers.includes(ticket.developer)) {
-            developers.push(ticket.developer);
-          }
-        });
-        setFirstFilterValues(developers);
-        console.log("developers: " + developers);
-        break;
-      }
-      case "SPECIALTY": {
-        setFirstFilterArgument("specialty");
-        const specialties = [];
-        tickets.forEach((ticket) => {
-          if (!specialties.includes(ticket.specialty)) {
-            specialties.push(ticket.specialty);
-          }
-        });
-        setFirstFilterValues(specialties);
-        console.log("developers: " + specialties);
-        break;
-      }
-      case "PRIORITY": {
-        setFirstFilterArgument("priority");
-        const priorities = [];
-        tickets.forEach((ticket) => {
-          if (!priorities.includes(ticket.priority)) {
-            priorities.push(ticket.priority);
-          }
-        });
-        setFirstFilterValues(priorities);
-        console.log("developers: " + priorities);
-        break;
-      }
-      default:
-        setFirstFilterValues([]);
-    }
-  };
-
-  const setFilterTwo = (e) => {
-    console.log("firstFilterArgument: " + firstFilterArgument);
-    console.log("secondFilterArgument: " + e.value);
-    const filteredTicketsByOptions = [];
-
-    if (firstFilterArgument === "creator") {
-      filteredTickets.forEach((ticket) => {
-        if (ticket.creator === e.value) {
-          filteredTicketsByOptions.push(ticket);
-        }
-      });
-    } else if (firstFilterArgument === "developer") {
-      filteredTickets.forEach((ticket) => {
-        if (ticket.developer === e.value) {
-          filteredTicketsByOptions.push(ticket);
-        }
-      });
-    } else if (firstFilterArgument === "specialty") {
-      filteredTickets.forEach((ticket) => {
-        if (ticket.specialty === e.value) {
-          filteredTicketsByOptions.push(ticket);
-=======
     const filterOptions = [
         {value: "CREATOR", label: "Creator"},
         {value: "DEVELOPER", label: "Developer"},
@@ -184,7 +82,6 @@ const Kanban = () => {
             }
             default:
                 setFirstFilterValues([]);
->>>>>>> 0310c572855f75294dc9d3f3faf4d9ae3b11724c
         }
     };
 

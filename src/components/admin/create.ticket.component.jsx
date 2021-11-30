@@ -216,7 +216,7 @@ const CreateTicketModal = () => {
                             title.length < 31 &&
                             description.length > 2 &&
                             priority &&
-                            specialty &&
+                            specialty && !isDuplicateTitle &&
                             developer ? (
                                 <div className="form-group">
                                     <button className="primary_button btn-block">

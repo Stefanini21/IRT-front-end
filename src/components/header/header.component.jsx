@@ -23,17 +23,10 @@ const Header = () => {
         setIsSetedTokenJWT(false);
     };
 
-<<<<<<< HEAD
-  const handleLogIn = () => {
-    setIsSetedTokenJWT(false);
-     history.push("/login");
-  };
-=======
     const handleLogIn = () => {
         setIsSetedTokenJWT(false);
         history.push("/login");
     };
->>>>>>> 0310c572855f75294dc9d3f3faf4d9ae3b11724c
 
     const handleJWTtoken = (e) => {
         setCounterJWT(e.target.value);

@@ -140,7 +140,7 @@ const AdminUserList = (props) => {
         dispatch(getUserList());
         dispatch(getSpecialties());
         dispatch(getRoles());
-    }, [/*props, isFilterActive, filteredUsers, isFiltersWasReseted*/])
+    }, [/*props, isFilterActive,*/ filteredUsers, /*isFiltersWasReseted*/])
 
     return <>
         {loading ? <Loader className="loader-spinner"
@@ -198,7 +198,7 @@ const AdminUserList = (props) => {
                         paginationRowsPerPageOptions={[10, 25, 50]}
                         title={'Users'}
                         columns={columns}
-                        data={users}
+                        data={props.filteredUsers/*users*/}
                         pagination={true}/>
                 </header>
             </div>)

@@ -1,12 +1,6 @@
 import React, {useEffect, useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
-import {getUserData} from "../../redux/selectors/auth";
-import {selectTicketListForKanban} from "../../redux/selectors/ticket";
-import {changeTicketDeveloper, changeTicketStatus, getTicketListForKanban,} from "../../redux/actions/ticket";
-import {selectUserById} from "../../redux/selectors/user";
 import Select from "react-select";
-import { filter } from "dom-helpers";
-import DataTable from "react-data-table-component";
 import {getRoles, getSpecialties, getUserList, setUserId, getUserById} from "../../redux/actions/user";
 import {selectIsFetching, selectUserList} from "../../redux/selectors/user";
 import Loader from "react-loader-spinner";

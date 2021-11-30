@@ -8,6 +8,7 @@ import Input from "react-validation/build/input";
 import {changePassword} from "../../redux/actions/user";
 import "./profile.component.css";
 import {selectFailPasswordUpdateFlag, selectSuccessfulPasswordUpdateFlag,} from "../../redux/selectors/flag";
+import SessionExpirationModal from "../SessionExpirationModal.tsx";
 
 const Profile = () => {
     const currentUserLoaded = useSelector(getUserLoaded);
@@ -59,7 +60,10 @@ const Profile = () => {
     };
 
     return (
-        <div>
+        <>
+            <SessionExpirationModal/>
+            <div>
+      <div>
             <div
                 className={"jumbotron container-color col-lg-12"}
                 style={{marginTop: 30}}
@@ -109,86 +113,89 @@ const Profile = () => {
                     </p>
                 </div>
 
-                <div
-                    className="col-lg-6"
-                    style={{width: "90%", float: "right", paddingRight: 0}}
-                >
-                    <div className="jumbotron container-color">
-                        <Form onSubmit={handleChangePassword}>
-                            <div className="form-group">
-                                <label htmlFor="temporaryPassword">Current Password</label>
-                                <Input
-                                    type="password"
-                                    className="form-control"
-                                    name="temporaryPassword"
-                                    value={currentPassword}
-                                    onChange={(e) => setCurrentPassword(e.target.value)}
-                                    validations={[required]}
-                                />
-                            </div>
+               
 
-                            <div className="form-group">
-                                <label htmlFor="newPassword">New Password</label>
-                                <Input
-                                    type="password"
-                                    className="form-control"
-                                    name="newPassword"
-                                    value={newPassword}
-                                    onChange={(e) => setNewPassword(e.target.value)}
-                                    validations={[required]}
-                                />
-                            </div>
-
-                            <div className="form-group">
-                                <label htmlFor="newPasswordConfirmation">Confirm New Password</label>
-                                <Input
-                                    type="password"
-                                    className="form-control"
-                                    name="newPasswordConfirmation"
-                                    value={newPasswordConfirmation}
-                                    onChange={(e) => setNewPasswordConfirmation(e.target.value)}
-                                    validations={[required]}
-                                />
-                            </div>
-
-                            <Button
-                                type="submit"
-                                size="lg"
-                                block
-                                color="success"
-                                className="primary_button btn-block"
-                            >
-                                Change Password
-                            </Button>
-
-                            {failPasswordUpdate && (
+                    <div
+                        className="col-lg-6"
+                        style={{width: "90%", float: "right", paddingRight: 0}}
+                    >
+                        <div className="jumbotron container-color">
+                            <Form onSubmit={handleChangePassword}>
                                 <div className="form-group">
-                                    <div
-                                        className="alert alert-danger"
-                                        role="alert"
-                                        style={{"margin-top": 15}}
-                                    >
-                                        {message}
-                                    </div>
+                                    <label htmlFor="temporaryPassword">Current Password</label>
+                                    <Input
+                                        type="password"
+                                        className="form-control"
+                                        name="temporaryPassword"
+                                        value={currentPassword}
+                                        onChange={(e) => setCurrentPassword(e.target.value)}
+                                        validations={[required]}
+                                    />
                                 </div>
-                            )}
 
-                            {successfulPasswordUpdate && (
                                 <div className="form-group">
-                                    <div
-                                        className={"alert alert-success"}
-                                        role="alert"
-                                        style={{"margin-top": 15}}
-                                    >
-                                        Password successfully updated !
-                                    </div>
+                                    <label htmlFor="newPassword">New Password</label>
+                                    <Input
+                                        type="password"
+                                        className="form-control"
+                                        name="newPassword"
+                                        value={newPassword}
+                                        onChange={(e) => setNewPassword(e.target.value)}
+                                        validations={[required]}
+                                    />
                                 </div>
-                            )}
-                        </Form>
+
+                                <div className="form-group">
+                                    <label htmlFor="newPasswordConfirmation">Confirm New Password</label>
+                                    <Input
+                                        type="password"
+                                        className="form-control"
+                                        name="newPasswordConfirmation"
+                                        value={newPasswordConfirmation}
+                                        onChange={(e) => setNewPasswordConfirmation(e.target.value)}
+                                        validations={[required]}
+                                    />
+                                </div>
+
+                                <Button
+                                    type="submit"
+                                    size="lg"
+                                    block
+                                    color="success"
+                                    className="primary_button btn-block"
+                                >
+                                    Change Password
+                                </Button>
+
+                                {failPasswordUpdate && (
+                                    <div className="form-group">
+                                        <div
+                                            className="alert alert-danger"
+                                            role="alert"
+                                            style={{"margin-top": 15}}
+                                        >
+                                            {message}
+                                        </div>
+                                    </div>
+                                )}
+
+                                {successfulPasswordUpdate && (
+                                    <div className="form-group">
+                                        <div
+                                            className={"alert alert-success"}
+                                            role="alert"
+                                            style={{"margin-top": 15}}
+                                        >
+                                            Password successfully updated !
+                                        </div>
+                                    </div>
+                                )}
+                            </Form>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
+        </>
     );
 };
 

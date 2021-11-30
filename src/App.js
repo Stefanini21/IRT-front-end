@@ -13,7 +13,6 @@ import Header from "./components/header/header.component";
 import SignIn from "./components/sign-in/sign-in.component";
 import Profile from "./components/profile/profile.component";
 import AdminUserList from "./components/admin/board-admin-users.component";
-import AdminUserListFilter from "./components/admin/filter.board-admin-users.component";
 import TicketList from "./components/admin/ticket-list.component";
 import Forgot from "./components/sign-in/forgot.component";
 import ChangePassword from "./components/sign-in/change-password.component";
@@ -32,7 +31,7 @@ const App = () => {
                                     <Route exact path={["/", "/home"]} component={Home}/>
                                     <Route exact path="/login" component={SignIn}/>
                                     <Route exact path="/profile" component={Profile}/>
-                                    <Route path="/admin/users" component={AdminUserListFilter}/>
+                                    <Route path="/admin/users" component={AdminUserList}/>
                                     <Route path="/admin/tickets" component={TicketList}/>
                                     <Route path="/admin/tickets-board" component={User}/>
                                     <Route path="/user" component={User}/>

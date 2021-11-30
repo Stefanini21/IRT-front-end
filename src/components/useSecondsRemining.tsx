@@ -1,4 +1,4 @@
-import {getToken} from './utils.ts';
+import {getToken} from './utils';
 
 export type UseSecondsRemaining = [number];
 

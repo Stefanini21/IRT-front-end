@@ -4,8 +4,8 @@ import {useDispatch} from "react-redux";
 import {Button, Modal, ModalHeader} from 'reactstrap';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {faSpinner} from '@fortawesome/free-solid-svg-icons';
-import {getSecondsRemaining} from './useSecondsRemining.tsx';
-import {signOut} from './utils.ts';
+import {getSecondsRemaining} from './useSecondsRemining';
+import {signOut} from './utils';
 import {signOutUser} from "../redux/actions/auth";
 
 const SessionExpirationModal: React.FC = () => {

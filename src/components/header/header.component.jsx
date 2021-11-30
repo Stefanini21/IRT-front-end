@@ -33,7 +33,7 @@ const Header = () => {
 
   const handleLogIn = () => {
     setIsSetedTokenJWT(false);
-    // history.push("/login");
+     history.push("/login");
   };
 
   const handleJWTtoken = (e) => {

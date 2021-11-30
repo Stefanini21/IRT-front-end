@@ -244,7 +244,7 @@ const CreateTicketModal = () => {
                         </div>
                     )}
 
-                    {isDuplicateTitle && (
+                    {isDuplicateTitle && title !== "" && (
                         <div className="form-group">
                             <div className="alert alert-danger" role="alert">
                                 There is another ticket with this title.

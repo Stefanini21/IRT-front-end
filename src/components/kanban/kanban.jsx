@@ -29,7 +29,7 @@ const Kanban = () => {
   useEffect(() => {
     dispatch(getTicketListForKanban());
     setFilteredTickets(tickets);
-  }, [isFiltersWasReseted]);
+  }, [filteredTicketsByOptions]);
 
   const setFilterOne = (e) => {
     setIsSelectedFirstFilter(true);

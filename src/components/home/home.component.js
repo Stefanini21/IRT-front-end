@@ -1,21 +1,14 @@
-
-import React, { useState, useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { useHistory } from "react-router-dom";
+import React from "react";
 import "./css/home.component.css";
 import homephoto from "./homepage.png";
 import Image from "react-image-resizer";
-
-<h1>
-  “If a task is once begun, never leave it ‘till it’s done. Be the labor great
-  or small, do it well or not at all.”
-</h1>;
+import SessionExpirationModal from "../SessionExpirationModal";
 
 const Home = () => {
-
   return (
+    <>
+    <SessionExpirationModal />
     <div>
-      {/* {isTokenValid == true ?  */}
       <div>
         <h4
           style={{
@@ -46,10 +39,9 @@ const Home = () => {
           />
         </div>
       </div>
-      {/* // : history.push("/logout")} */}
     </div>
+    </>
   );
 };
 
 export default Home;
-

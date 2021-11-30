@@ -13,6 +13,7 @@ import {
 import {getUserListBySpecialty, isDuplicateTicketTitle, selectPriorities,} from "../../redux/selectors/ticket";
 import {selectSpecialties} from "../../redux/selectors/user";
 import {getUserData} from "../../redux/selectors/auth";
+import { TextArea } from "semantic-ui-react";
 
 const required = (value) => {
     if (!value) {
@@ -167,7 +168,7 @@ const CreateTicketModal = () => {
 
                             <div className="form-group">
                                 <label htmlFor="description">Description</label>
-                                <Input
+                                <TextArea
                                     type="text"
                                     className="form-control"
                                     name="description"

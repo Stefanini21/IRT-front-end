@@ -9,6 +9,7 @@ import EditUserModal from "./edit.user.component";
 import {selectIsFetching, selectUserList} from "../../redux/selectors/user";
 import Loader from "react-loader-spinner";
 import DeleteUserModal from "./delete.user.component";
+import SessionExpirationModal from "../SessionExpirationModal";
 
 const AdminUserList = () => {
 
@@ -134,6 +135,7 @@ const AdminUserList = () => {
     }, [])
 
     return <>
+        <SessionExpirationModal />
         {loading ? <Loader className="loader-spinner"
                            type="TailSpin"
                            color="#4f677f"

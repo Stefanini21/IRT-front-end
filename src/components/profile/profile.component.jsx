@@ -8,6 +8,7 @@ import Input from "react-validation/build/input";
 import {changePassword} from "../../redux/actions/user";
 import "./profile.component.css";
 import {selectFailPasswordUpdateFlag, selectSuccessfulPasswordUpdateFlag,} from "../../redux/selectors/flag";
+import SessionExpirationModal from "../SessionExpirationModal";
 
 const Profile = () => {
     const currentUserLoaded = useSelector(getUserLoaded);
@@ -59,6 +60,8 @@ const Profile = () => {
   };
   
     return (
+      <>
+      <SessionExpirationModal />
       <div>
         <div
           className={"jumbotron container-color col-lg-12"}
@@ -173,6 +176,7 @@ const Profile = () => {
           </div>
         </div>
       </div>
+      </>
     );
 };
 

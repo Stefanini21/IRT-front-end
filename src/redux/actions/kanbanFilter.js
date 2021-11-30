@@ -46,7 +46,8 @@ export const setFilteredTickets = (firstArg, seconArg) => (dispatch) => {
       type: SET_FILTERED_TICKETS,
       payload: filteredTickets,
     });
-};
+});
+}
 export const resetFilteredTickets = () => (dispatch) => {
     return dispatch({
         type: RESET_FILTERED_TICKETS

@@ -17,6 +17,7 @@ import Loader from "react-loader-spinner";
 import {getSpecialties} from "../../redux/actions/user";
 import EditTicketComponent from "./edit.ticket.component";
 import DeleteTicketModal from "./delete.ticket.component.js";
+import SessionExpirationModal from "../SessionExpirationModal";
 
 
 const TicketList = () => {
@@ -117,7 +118,6 @@ const TicketList = () => {
 
 
     const handleShowViewTicketModal = (ticketToView) => {
-        // setUserId(ticketToView.id)
         dispatch(setTicketId(ticketToView.id));
         setShowViewTicketModal(true);
         setTicketToView(ticketToView);
@@ -153,6 +153,7 @@ const TicketList = () => {
     }, [])
 
     return <>
+        <SessionExpirationModal />
         {loading ? <Loader className="loader-spinner"
                            type="TailSpin"
                            color="#4f677f"

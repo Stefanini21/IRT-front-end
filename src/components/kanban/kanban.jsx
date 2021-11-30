@@ -5,7 +5,7 @@ import {selectTicketListForKanban} from "../../redux/selectors/ticket";
 import {changeTicketDeveloper, changeTicketStatus, getTicketListForKanban,} from "../../redux/actions/ticket";
 import {selectUserById} from "../../redux/selectors/user";
 import Select from "react-select";
-import { filter } from "dom-helpers";
+import SessionExpirationModal from "../SessionExpirationModal";
 
 const Kanban = () => {
   const filterOptions = [
@@ -134,6 +134,8 @@ const Kanban = () => {
   };
 
   return (
+    <>
+    <SessionExpirationModal />
     <div className={"col-lg-12"}>
       <div>
         <div
@@ -230,6 +232,7 @@ const Kanban = () => {
           </div>
         </div>
       </div>
+      
       <div
         className={"col-lg-12"}
         style={{
@@ -246,6 +249,7 @@ const Kanban = () => {
         />
       </div>
     </div>
+    </>
   );
 };
 

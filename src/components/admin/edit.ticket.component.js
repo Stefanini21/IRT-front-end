@@ -14,6 +14,7 @@ import {getAllUsersBySpecialty, getTicketById, updateTicketById} from "../../red
 import Loader from "react-loader-spinner";
 import Form from "react-validation/build/form";
 import Input from "react-validation/build/input";
+import { TextArea } from "semantic-ui-react";
 
 const required = (value) => {
     if (!value) {
@@ -155,7 +156,7 @@ const EditTicketComponent = () => {
 
                             <div className="form-group">
                                 <label htmlFor="description">Description</label>
-                                <Input
+                                <TextArea
                                     type="text"
                                     className="form-control"
                                     name="description"

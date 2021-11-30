@@ -37,6 +37,16 @@ const ChangePassword = () => {
         }
     };
 
+    const vpassword = (value) => {
+        if (value.length < 5 || value.length > 20) {
+            return (
+                <div className="alert alert-danger" role="alert">
+                    The password must be between 5 and 20 characters.
+                </div>
+            );
+        }
+    };
+
     const handleChangePassword = (event) => {
         event.preventDefault();
 
@@ -104,7 +114,7 @@ const ChangePassword = () => {
                                 name="newPassword"
                                 value={newPassword}
                                 onChange={(e) => setNewPassword(e.target.value)}
-                                validations={[required]}
+                                validations={[required, vpassword]}
                             />
                         </div>
 
@@ -120,6 +130,9 @@ const ChangePassword = () => {
                             />
                         </div>
 
+                        {
+                        newPassword.length > 5 ? (
+
                         <Button type="submit"
                                 size="lg"
                                 block
@@ -128,6 +141,17 @@ const ChangePassword = () => {
                         >
                             Change Password
                         </Button>
+                            ) : (
+                            <Button disabled
+                                    type="submit"
+                                    size="lg"
+                                    block
+                                    color="success"
+                                    className="primary_button btn-block"
+                            >
+                                Change Password
+                            </Button>
+                        )}
 
                         {failForgotPasswordUpdate && (
                             <div className="form-group">

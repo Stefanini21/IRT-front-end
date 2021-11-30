@@ -11,9 +11,9 @@ import {decrementTime} from "./jtwToken"
 
 
 const persistConfig = {
-  key: "root",
-  storage,
-  whitelist: ["auth", "user", "ticket", "kanbanFilter", 'decrementTime'],
+    key: "root",
+    storage,
+    whitelist: ["auth", "user", "ticket", "kanbanFilter", 'decrementTime'],
 };
 
 const rootReducer = combineReducers({auth, user, ticket, message, flipFlag, kanbanFilter, decrementTime});

@@ -1,4 +1,4 @@
-import { SET_DECREMENT_TIME, DECREMENT_TIME } from "./types";
+import {DECREMENT_TIME, SET_DECREMENT_TIME} from "./types";
 
 export const setDecrementTime = (value) => (dispatch) => {
     return dispatch({

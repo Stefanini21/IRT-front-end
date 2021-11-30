@@ -13,7 +13,7 @@ import {
 import {getUserListBySpecialty, isDuplicateTicketTitle, selectPriorities,} from "../../redux/selectors/ticket";
 import {selectSpecialties} from "../../redux/selectors/user";
 import {getUserData} from "../../redux/selectors/auth";
-import { TextArea } from "semantic-ui-react";
+import {TextArea} from "semantic-ui-react";
 
 const required = (value) => {
     if (!value) {

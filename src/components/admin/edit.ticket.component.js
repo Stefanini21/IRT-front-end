@@ -14,7 +14,7 @@ import {getAllUsersBySpecialty, getTicketById, updateTicketById} from "../../red
 import Loader from "react-loader-spinner";
 import Form from "react-validation/build/form";
 import Input from "react-validation/build/input";
-import { TextArea } from "semantic-ui-react";
+import {TextArea} from "semantic-ui-react";
 
 const required = (value) => {
     if (!value) {

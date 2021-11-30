@@ -5,7 +5,7 @@ import {selectTicketListForKanban} from "../../redux/selectors/ticket";
 import {changeTicketDeveloper, changeTicketStatus, getTicketListForKanban,} from "../../redux/actions/ticket";
 import {selectUserById} from "../../redux/selectors/user";
 import Select from "react-select";
-import SessionExpirationModal from "../SessionExpirationModal";
+import SessionExpirationModal from "../SessionExpirationModal.tsx";
 
 const Kanban = () => {
     const filterOptions = [
@@ -132,124 +132,123 @@ const Kanban = () => {
         setFirstOptionsValue("");
     };
 
-  return (
-    <>
-    <SessionExpirationModal />
-    <div className={"col-lg-12"}>
-      <div>
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "space-between",
-            paddingRight: "0 10px",
-          }}
-        >
-          <div
-            className={"col-lg-6"}
-            style={{ display: "flex", justifyContent: "flex-end", padding: 0 }}
-          >
-            <label
-              htmlFor="filter"
-              style={{
-                paddingLeft: 4,
-                margin: 0,
-                fontWeight: 500,
-                flexGrow: 3,
-                paddingTop: 6,
-                display: "inline-block",
-              }}
-            >
-              <h4
-                style={{
-                  fontWeight: 500,
-                  textAlign: "center",
-                  fontSize: "20px",
-                  marginBottom: 4,
-                  textAlign: "right",
-                }}
-              >
-                <span style={{ fontWeight: 300 }}>Filter by:</span>
-              </h4>
-            </label>
-            <div
-              style={{
-                top: -5,
-                height: 45,
-                flexGrow: 4,
-                margin: "0 10px",
-                display: "inline-block",
-              }}
-            >
-              <Select
-                id={"select1"}
-                options={filterOptions}
-                type="text"
-                name="filter1"
-                onChange={setFilterOne}
-                style={{ width: "20%", padding: 4, marginBottom: 4 }}
-                isDisabled={isFilterActive}
-              />
+    return (
+        <>
+            <SessionExpirationModal/>
+            <div className={"col-lg-12"}>
+                <div>
+                    <div
+                        style={{
+                            display: "flex",
+                            justifyContent: "space-between",
+                            paddingRight: "0 10px",
+                        }}
+                    >
+                        <div
+                            className={"col-lg-6"}
+                            style={{display: "flex", justifyContent: "flex-end", padding: 0}}
+                        >
+                            <label
+                                htmlFor="filter"
+                                style={{
+                                    paddingLeft: 4,
+                                    margin: 0,
+                                    fontWeight: 500,
+                                    flexGrow: 3,
+                                    paddingTop: 6,
+                                    display: "inline-block",
+                                }}
+                            >
+                                <h4
+                                    style={{
+                                        fontWeight: 500,
+                                        fontSize: "20px",
+                                        marginBottom: 4,
+                                        textAlign: "right",
+                                    }}
+                                >
+                                    <span style={{fontWeight: 300}}>Filter by:</span>
+                                </h4>
+                            </label>
+                            <div
+                                style={{
+                                    top: -5,
+                                    height: 45,
+                                    flexGrow: 4,
+                                    margin: "0 10px",
+                                    display: "inline-block",
+                                }}
+                            >
+                                <Select
+                                    id={"select1"}
+                                    options={filterOptions}
+                                    type="text"
+                                    name="filter1"
+                                    onChange={setFilterOne}
+                                    style={{width: "20%", padding: 4, marginBottom: 4}}
+                                    isDisabled={isFilterActive}
+                                />
+                            </div>
+                        </div>
+                        <div
+                            className={"col-lg-6"}
+                            style={{
+                                display: "flex",
+                                justifyContent: "flex-start",
+                                padding: 0,
+                            }}
+                        >
+                            <div
+                                style={{display: "inline-block", flexGrow: 4, margin: "0 10px"}}
+                            >
+                                <Select
+                                    id={"select2"}
+                                    options={firstFilterValues.map((v) => ({
+                                        label: v,
+                                        value: v,
+                                    }))}
+                                    type="text"
+                                    name="filter2"
+                                    onChange={setFilterTwo}
+                                    style={{width: "20%", padding: 4}}
+                                    isDisabled={!isSelectedFirstFilter || isFilterActive}
+                                />
+                            </div>
+                            <div className="form-group" style={{marginLeft: 10}}>
+                                <button
+                                    className="secondary_button"
+                                    disabled={!isFilterActive}
+                                    onClick={() => resetAllFilters()}
+                                    style={{
+                                        visibility: isFilterActive === true ? "visible" : "hidden",
+                                        marginRight: 90,
+                                    }}
+                                >
+                                    Reset filter
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div
+                    className={"col-lg-12"}
+                    style={{
+                        justifyContent: "space-between",
+                        padding: "0 auto",
+                        flexGrow: 3,
+                        right: 0,
+                    }}
+                >
+                    <KanbanBoard
+                        isFilterActive={isFilterActive}
+                        filteredTickets={filteredTickets}
+                        isFiltersWasReseted={isFiltersWasReseted}
+                    />
+                </div>
             </div>
-          </div>
-          <div
-            className={"col-lg-6"}
-            style={{
-              display: "flex",
-              justifyContent: "flex-start",
-              padding: 0,
-            }}
-          >
-            <div
-              style={{ display: "inline-block", flexGrow: 4, margin: "0 10px" }}
-            >
-              <Select
-                id={"select2"}
-                options={firstFilterValues.map((v) => ({
-                  label: v,
-                  value: v,
-                }))}
-                type="text"
-                name="filter2"
-                onChange={setFilterTwo}
-                style={{ width: "20%", padding: 4 }}
-                isDisabled={!isSelectedFirstFilter || isFilterActive}
-              />
-            </div>
-            <div className="form-group" style={{ marginLeft: 10 }}>
-              <button
-                className="secondary_button"
-                disabled={!isFilterActive}
-                onClick={() => resetAllFilters()}
-                style={{
-                  visibility: isFilterActive === true ? "visible" : "hidden",
-                  marginRight: 90,
-                }}
-              >
-                Reset filter
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
-      
-      <div
-        className={"col-lg-12"}
-        style={{
-          justifyContent: "space-between",
-          padding: "0 auto",
-          flexGrow: 3,
-          right: 0,
-        }}
-      >
-        <KanbanBoard
-          isFilterActive={isFilterActive}
-          filteredTickets={filteredTickets}
-          isFiltersWasReseted={isFiltersWasReseted}
-        />
-      </div>
-    </div>
-    </>
-  );
+        </>
+    );
 };
 
 const KanbanBoard = (props) => {
@@ -349,76 +348,76 @@ const KanbanBoard = (props) => {
         setDraggedOverCol(project.project_stage);
     };
 
-  useEffect(() => {
-    // console.log("tickets" + tickets);
-    // console.log("isFilterActive: " + isFilterActive);
-    console.log("filteredTickets in KanbanBoard: " + filteredTickets);
-    setProjects(filteredTickets);
+    useEffect(() => {
+        // console.log("tickets" + tickets);
+        // console.log("isFilterActive: " + isFilterActive);
+        console.log("filteredTickets in KanbanBoard: " + filteredTickets);
+        setProjects(filteredTickets);
 
-    // setProjects(filteredTickets)
+        // setProjects(filteredTickets)
 
-    tickets.forEach((element) => {
-      switch (element.status) {
-        case "BACKLOG": {
-          element.project_stage = 1;
-          break;
-        }
-        case "ASSIGNED": {
-          element.project_stage = 2;
-          break;
-        }
-        case "FINISHED": {
-          element.project_stage = 3;
-          break;
-        }
-        case "CLOSED": {
-          element.project_stage = 4;
-          break;
-        }
-        default:
-          element.project_stage = 1;
-      }
-    });
-  }, [
-    setDraggedOverCol,
-    filteredTickets,
-    isFiltersWasReseted,
-    handleOnDragEnd,
-  ]);
+        tickets.forEach((element) => {
+            switch (element.status) {
+                case "BACKLOG": {
+                    element.project_stage = 1;
+                    break;
+                }
+                case "ASSIGNED": {
+                    element.project_stage = 2;
+                    break;
+                }
+                case "FINISHED": {
+                    element.project_stage = 3;
+                    break;
+                }
+                case "CLOSED": {
+                    element.project_stage = 4;
+                    break;
+                }
+                default:
+                    element.project_stage = 1;
+            }
+        });
+    }, [
+        setDraggedOverCol,
+        filteredTickets,
+        isFiltersWasReseted,
+        handleOnDragEnd,
+    ]);
 
-  return (
-    <div style={{ display: "flex", justifyContent: "space-between" }}>
-      {columns.map((column) => {
-        return (
-          <KanbanColumn
-            title={column.name}
-            stage={column.stage}
-            projects={projects.filter((project) => {
-              return parseInt(project.project_stage, 10) === column.stage;
+    return (
+        <div style={{display: "flex", justifyContent: "space-between"}}>
+            {columns.map((column) => {
+                return (
+                    <KanbanColumn
+                        title={column.name}
+                        stage={column.stage}
+                        projects={projects.filter((project) => {
+                            return parseInt(project.project_stage, 10) === column.stage;
+                        })}
+                        onDragEnter={handleOnDragEnter}
+                        onDragEnd={handleOnDragEnd}
+                        key={column.stage}
+                        userData={userData}
+                        currentUserData={currentUserData}
+                        isFilterActive={isFilterActive}
+                        filteredTickets={filteredTickets}
+                        isFiltersWasReseted={isFiltersWasReseted}
+                    />
+                );
             })}
-            onDragEnter={handleOnDragEnter}
-            onDragEnd={handleOnDragEnd}
-            key={column.stage}
-            userData={userData}
-            currentUserData={currentUserData}
-            isFilterActive={isFilterActive}
-            filteredTickets={filteredTickets}
-            isFiltersWasReseted={isFiltersWasReseted}
-          />
-        );
-      })}
-    </div>
-  );
+        </div>
+    );
 };
 
 /*
  * The Kanban Board Column React component
  */
 const KanbanColumn = (props) => {
-  const [mouseIsHovering, setMouseIsHovering] = useState(false);
-  const isFilterActive = props.isFilterActive;
-  const filteredTickets = props.filteredTickets;
-  const isFiltersWasReseted = props.isFiltersWasReseted;
+    const [mouseIsHovering, setMouseIsHovering] = useState(false);
+    const isFilterActive = props.isFilterActive;
+    const filteredTickets = props.filteredTickets;
+    const isFiltersWasReseted = props.isFiltersWasReseted;
 
     useEffect(() => {
         setMouseIsHovering(false);

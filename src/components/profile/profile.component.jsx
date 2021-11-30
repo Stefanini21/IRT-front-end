@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { Redirect } from "react-router-dom";
-import { getUserData, getUserLoaded } from "../../redux/selectors/auth";
-import { Button } from "react-bootstrap";
+import React, {useState} from "react";
+import {useDispatch, useSelector} from "react-redux";
+import {Redirect} from "react-router-dom";
+import {getUserData, getUserLoaded} from "../../redux/selectors/auth";
+import {Button} from "react-bootstrap";
 import Form from "react-validation/build/form";
 import Input from "react-validation/build/input";
 import {changePassword} from "../../redux/actions/user";
@@ -58,7 +58,7 @@ const Profile = () => {
               : setMessage(" New and confirmation password do not match !");
       }
   };
-  
+
     return (
       <>
       <SessionExpirationModal />

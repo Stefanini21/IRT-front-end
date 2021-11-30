@@ -129,8 +129,6 @@ const CreateUserModal = () => {
 
                 setMessage(username + ' successfully registered!')
             })
-
-
     }
 
 
@@ -260,10 +258,10 @@ const CreateUserModal = () => {
                         email &&
                         specialties &&
                         roles &&
-                        password.length > 6    ? (
+                        password.length > 6 ? (
 
                             <div className="form-group">
-                                <button  className="primary_button btn-block">
+                                <button className="primary_button btn-block">
                                     Sign Up
                                 </button>
                             </div>
@@ -274,7 +272,6 @@ const CreateUserModal = () => {
                                 </button>
                             </div>
                         )}
-
 
                     </div>
                     }
@@ -299,7 +296,6 @@ const CreateUserModal = () => {
                             </button>
                         </div>
                     )}
-
 
                 </Form>
             </div>

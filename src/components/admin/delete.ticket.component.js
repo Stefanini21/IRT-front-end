@@ -6,20 +6,21 @@ import {selectIsDeletedFlag} from "../../redux/selectors/flag";
 import {selectTicketById} from "../../redux/selectors/ticket";
 
 const DeleteTicketModal = (props) => {
-    
+
     const dispatch = useDispatch();
-    
+
     const ticketById = useSelector(selectTicketById);
     const isDeleted = useSelector(selectIsDeletedFlag)
-        
+
     useEffect(() => {
         dispatch(resetDeleteUserFlags())
     }, [])
 
-    const handleDeleteTicket = () => {      
+    const handleDeleteTicket = () => {
         dispatch(deleteTicketById(ticketById.id))
-        .then(() => {
-        dispatch(getTicketList())})
+            .then(() => {
+                dispatch(getTicketList())
+            })
     }
 
     return <>
@@ -30,7 +31,7 @@ const DeleteTicketModal = (props) => {
                     alt="profile-img"
                     className="profile-img-card"
                 />
-                
+
                 {!isDeleted && (
                     <div>
                         <div className="jumbotron">
@@ -56,7 +57,7 @@ const DeleteTicketModal = (props) => {
                     </div>
                 )}
             </div>
-        </div>   
+        </div>
     </>
 }
 

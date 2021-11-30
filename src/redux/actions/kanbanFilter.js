@@ -10,44 +10,45 @@ export const setBacklogFirstFilterValue = (filterValue) => (dispatch) => {
 };
 
 export const setFilteredTickets = (firstArg, seconArg) => (dispatch) => {
-  const url = routes.BASIC_URL + routes.BASIC_PATH + routes.ALL_TICKETS_FOR_KANBAN;
-  HttpService.get(url, {}).then((response) => {
-    const filteredTickets = [];
-    const tickets = response;
-    if (firstArg === "creator") {
-      tickets.forEach((ticket) => {
-          if (ticket.creator === seconArg) {
-            filteredTickets.push(ticket);
-          }
-      });
-    }
-    if (firstArg === "developer") {
-      tickets.forEach((ticket) => {
-          if (ticket.developer === seconArg) {
-            filteredTickets.push(ticket);
-          }
-      });
-    }
-    if (firstArg === "specialty") {
-      tickets.forEach((ticket) => {
-          if (ticket.specialty === seconArg) {
-            filteredTickets.push(ticket);
-          }
-      });
-    }
-    if (firstArg === "priority") {
-      tickets.forEach((ticket) => {
-          if (ticket.priority === seconArg) {
-            filteredTickets.push(ticket);
-          }
-      });
-    }
-    return dispatch({
-      type: SET_FILTERED_TICKETS,
-      payload: filteredTickets,
+    const url = routes.BASIC_URL + routes.BASIC_PATH + routes.ALL_TICKETS_FOR_KANBAN;
+    HttpService.get(url, {}).then((response) => {
+        const filteredTickets = [];
+        const tickets = response;
+        if (firstArg === "creator") {
+            tickets.forEach((ticket) => {
+                if (ticket.creator === seconArg) {
+                    filteredTickets.push(ticket);
+                }
+            });
+        }
+        if (firstArg === "developer") {
+            tickets.forEach((ticket) => {
+                if (ticket.developer === seconArg) {
+                    filteredTickets.push(ticket);
+                }
+            });
+        }
+        if (firstArg === "specialty") {
+            tickets.forEach((ticket) => {
+                if (ticket.specialty === seconArg) {
+                    filteredTickets.push(ticket);
+                }
+            });
+        }
+        if (firstArg === "priority") {
+            tickets.forEach((ticket) => {
+                if (ticket.priority === seconArg) {
+                    filteredTickets.push(ticket);
+                }
+            });
+        }
+        return dispatch({
+            type: SET_FILTERED_TICKETS,
+            payload: filteredTickets,
+        });
     });
-});
 }
+
 export const resetFilteredTickets = () => (dispatch) => {
     return dispatch({
         type: RESET_FILTERED_TICKETS

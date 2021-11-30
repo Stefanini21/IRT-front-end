@@ -77,9 +77,7 @@ const EditUserModal = () => {
     const [emailForm, setEmail] = useState("");
     const [specialtyForm, setSpecialty] = useState("");
     const [roleForm, setRole] = useState("");
-    const [successful, setSuccessful] = useState(false);
     const [message, setMessage] = useState("");
-    const [show, setShow] = useState(true);
 
     useEffect(() => {
         dispatch(resetEditUserFlags())

@@ -4,7 +4,7 @@ import CreateUserModal from "./create.user.component";
 import ViewUser from "./view.user.component";
 import DataTable from "react-data-table-component";
 import {useDispatch, useSelector} from "react-redux";
-import {getRoles, getSpecialties, getUserList, setUserId, getUserById} from "../../redux/actions/user";
+import {getRoles, getSpecialties, getUserById, getUserList, setUserId} from "../../redux/actions/user";
 import EditUserModal from "./edit.user.component";
 import {selectIsFetching, selectUserList} from "../../redux/selectors/user";
 import Loader from "react-loader-spinner";
@@ -22,35 +22,40 @@ const AdminUserList = () => {
     const [error, setError] = useState("");
     const [userToView, setUserToView] = useState([]);
     const [loading, setLoading] = useState(true);
-   
+
     const userList = useSelector(selectUserList);
     const fetching = useSelector(selectIsFetching);
-    
+
     const columns = [
         {
             name: 'First Name',
             selector: row => row.firstName,
             sortable: true,
+            width: '110px'
         },
         {
             name: 'Last Name',
             selector: row => row.lastName,
             sortable: true,
+            width: '110px'
         },
         {
             name: 'Username',
             selector: row => row.username,
             sortable: true,
+            width: '130px'
         },
         {
             name: 'Role',
             selector: row => row.role,
             sortable: true,
+            width: '100px'
         },
         {
             name: 'Email',
             selector: row => row.email,
             sortable: true,
+            width: '190px'
         },
         {
             name: 'Specialty',
@@ -66,14 +71,14 @@ const AdminUserList = () => {
         },
         {
             name: "Edit User",
-            cell: (row) => 
+            cell: (row) =>
                 <button className="secondary_button"
                         onClick={() => handleEditUserModal(row)}>Edit</button>,
             grow: 0.3
         },
         {
             name: "Delete User",
-            cell: (row) => 
+            cell: (row) =>
                 <button className="secondary_button"
                         onClick={() => handleShowDeleteUserModal(row)}>Delete</button>,
             grow: 1
@@ -86,7 +91,6 @@ const AdminUserList = () => {
 
     const handleCloseCreateUserModal = () => {
         setShowCreateUserModal(false)
-        // window.location.reload()
     }
 
     const handleShowViewUserModal = (userToView) => {
@@ -101,7 +105,7 @@ const AdminUserList = () => {
         setUserToView(userToEdit)
     }
 
-    const handleCloseViewUserModal = () => {       
+    const handleCloseViewUserModal = () => {
         setShowViewUserModal(false)
     }
 
@@ -112,8 +116,9 @@ const AdminUserList = () => {
 
     const handleShowDeleteUserModal = (userToDelete) => {
         dispatch(getUserById(userToDelete.id))
-        .then(() => {
-        setShowDeleteUserModal(true)})
+            .then(() => {
+                setShowDeleteUserModal(true)
+            })
     }
 
     const handleCloseDeleteUserModal = () => {
@@ -173,8 +178,8 @@ const AdminUserList = () => {
                         <Modal.Title>Delete User</Modal.Title>
                     </Modal.Header>
                     <Modal.Body>
-                        <DeleteUserModal handleCloseDeleteUserModal={handleCloseDeleteUserModal}/>                 
-                    </Modal.Body>                
+                        <DeleteUserModal handleCloseDeleteUserModal={handleCloseDeleteUserModal}/>
+                    </Modal.Body>
                 </Modal>
 
                 <header className="jumbotron">
@@ -190,7 +195,7 @@ const AdminUserList = () => {
                         title={'Users'}
                         columns={columns}
                         data={users}
-                        pagination={true} />
+                        pagination={true}/>
                 </header>
             </div>)
         }

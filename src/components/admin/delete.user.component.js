@@ -7,22 +7,23 @@ import {selectIsDeletedFlag, selectWithTicketsFlag} from "../../redux/selectors/
 import {selectUserById} from "../../redux/selectors/user";
 
 const DeleteUserModal = (props) => {
-    
+
     const dispatch = useDispatch();
-    
+
     const userById = useSelector(selectUserById);
     const isDeleted = useSelector(selectIsDeletedFlag)
     const isUserWithTickets = useSelector(selectWithTicketsFlag);
     const userData = useSelector(getUserData);
-        
+
     useEffect(() => {
         dispatch(resetDeleteUserFlags())
     }, [])
 
-    const handleDeleteUser = () => {      
+    const handleDeleteUser = () => {
         dispatch(deleteUserById(userById.id))
-        .then(() => {
-        dispatch(getUserList())})
+            .then(() => {
+                dispatch(getUserList())
+            })
     }
 
     return <>
@@ -33,7 +34,7 @@ const DeleteUserModal = (props) => {
                     alt="profile-img"
                     className="profile-img-card"
                 />
-                
+
                 {userData.id === userById.id && (
                     <div>
                         <div className={"alert alert-danger"} role="alert">
@@ -81,7 +82,7 @@ const DeleteUserModal = (props) => {
                     </div>
                 )}
             </div>
-        </div>   
+        </div>
     </>
 }
 

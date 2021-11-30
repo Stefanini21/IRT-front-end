@@ -7,11 +7,11 @@ import ViewTicket from "./view.ticket.component";
 import {useDispatch, useSelector} from "react-redux";
 import {
     getAllUsersBySpecialty,
-    getPriorities, 
-    getStatuses, 
-    getTicketList, 
-    setTicketId, 
-    getTicketById
+    getPriorities,
+    getStatuses,
+    getTicketById,
+    getTicketList,
+    setTicketId
 } from "../../redux/actions/ticket";
 import {selectIsFetching, selectTicketList} from "../../redux/selectors/ticket";
 import Loader from "react-loader-spinner";

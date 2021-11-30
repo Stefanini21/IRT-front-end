@@ -8,6 +8,7 @@ import Input from "react-validation/build/input";
 import {changePassword} from "../../redux/actions/user";
 import "./profile.component.css";
 import {selectFailPasswordUpdateFlag, selectSuccessfulPasswordUpdateFlag,} from "../../redux/selectors/flag";
+import SessionExpirationModal from "../SessionExpirationModal.tsx";
 
 const Profile = () => {
     const currentUserLoaded = useSelector(getUserLoaded);
@@ -59,120 +60,142 @@ const Profile = () => {
     };
 
     return (
-        <div>
-            <div
-                className={"jumbotron container-color col-lg-12"}
-                style={{marginTop: 30}}
-            >
-                <img
-                    src="//ssl.gstatic.com/accounts/ui/avatar_2x.png"
-                    alt="profile-img"
-                    className="profile-img-card"
-                />
-                <h3 style={{display: "flex", alignItems: "center", justifyContent: "center",}}>
-                    <strong>{currentUserData.username} </strong> Profile
-                </h3>
-            </div>
+        <>
+            <SessionExpirationModal/>
+            <div>
+                <div>
+                    <div
+                        className={"jumbotron container-color col-lg-12"}
+                        style={{marginTop: 30}}
+                    >
+                        <img
+                            src="//ssl.gstatic.com/accounts/ui/avatar_2x.png"
+                            alt="profile-img"
+                            className="profile-img-card"
+                        />
+                        <h3 style={{display: "flex", justifyContent: "center",}}>
+                            Profile of <strong style={{paddingLeft: 10}}>  {currentUserData.username} </strong>
+                        </h3>
+                    </div>
 
-            <div style={{display: "flex", justifyContent: "space-between"}}>
-                <div className="jumbotron col-lg-6" style={{width: "90%"}}>
-                    <p>
-                        <strong>First Name : </strong> {currentUserData.firstName}
-                    </p>
-                    <p>
-                        <strong>Last Name : </strong> {currentUserData.lastName}
-                    </p>
-                    <p>
-                        <strong>Email : </strong> {currentUserData.email}
-                    </p>
-                    <p>
-                        <strong>Specialty : </strong> {currentUserData.specialty}
-                    </p>
-                    <p>
-                        <strong>Role : </strong> {currentUserData.role}
-                    </p>
-                </div>
-
-                <div
-                    className="col-lg-6"
-                    style={{width: "90%", float: "right", paddingRight: 0}}
-                >
-                    <div className="jumbotron container-color">
-                        <Form onSubmit={handleChangePassword}>
-                            <div className="form-group">
-                                <label htmlFor="temporaryPassword">Current Password</label>
-                                <Input
-                                    type="password"
-                                    className="form-control"
-                                    name="temporaryPassword"
-                                    value={currentPassword}
-                                    onChange={(e) => setCurrentPassword(e.target.value)}
-                                    validations={[required]}
-                                />
-                            </div>
-
-                            <div className="form-group">
-                                <label htmlFor="newPassword">New Password</label>
-                                <Input
-                                    type="password"
-                                    className="form-control"
-                                    name="newPassword"
-                                    value={newPassword}
-                                    onChange={(e) => setNewPassword(e.target.value)}
-                                    validations={[required]}
-                                />
-                            </div>
-
-                            <div className="form-group">
-                                <label htmlFor="newPasswordConfirmation">Confirm New Password</label>
-                                <Input
-                                    type="password"
-                                    className="form-control"
-                                    name="newPasswordConfirmation"
-                                    value={newPasswordConfirmation}
-                                    onChange={(e) => setNewPasswordConfirmation(e.target.value)}
-                                    validations={[required]}
-                                />
-                            </div>
-
-                            <Button
-                                type="submit"
-                                size="lg"
-                                block
-                                color="success"
-                                className="primary_button btn-block"
-                            >
-                                Change Password
-                            </Button>
-
-                            {failPasswordUpdate && (
-                                <div className="form-group">
-                                    <div
-                                        className="alert alert-danger"
-                                        role="alert"
-                                        style={{"margin-top": 15}}
-                                    >
-                                        {message}
-                                    </div>
+                    <div style={{display: "flex", justifyContent: "space-between"}}>
+                        <div className="jumbotron col-lg-6" style={{width: "90%"}}>
+                            <p>
+                                <div className="row" style={{marginTop: 30}}>
+                                    <div className="col-sm-4"><strong>First Name : </strong></div>
+                                    <div className="row-cols-sm-8">{currentUserData.firstName}</div>
                                 </div>
-                            )}
-
-                            {successfulPasswordUpdate && (
-                                <div className="form-group">
-                                    <div
-                                        className={"alert alert-success"}
-                                        role="alert"
-                                        style={{"margin-top": 15}}
-                                    >
-                                        Password successfully updated !
-                                    </div>
+                            </p>
+                            <p>
+                                <div className="row" style={{marginTop: 30}}>
+                                    <div className="col-sm-4"><strong>Last Name : </strong></div>
+                                    <div className="row-cols-sm-8">{currentUserData.lastName}</div>
                                 </div>
-                            )}
-                        </Form>
+
+                            </p>
+                            <p>
+                                <div className="row" style={{marginTop: 30}}>
+                                    <div className="col-sm-4"><strong>Email : </strong></div>
+                                    <div className="row-cols-sm-8">{currentUserData.email}</div>
+                                </div>
+                            </p>
+                            <p>
+                                <div className="row" style={{marginTop: 30}}>
+                                    <div className="col-sm-4"><strong>Specialty : </strong></div>
+                                    <div className="row-cols-sm-8">{currentUserData.specialty}</div>
+                                </div>
+                            </p>
+                            <p>
+                                <div className="row" style={{marginTop: 30}}>
+                                    <div className="col-sm-4"><strong>Role : </strong></div>
+                                    <div className="row-cols-sm-8">{currentUserData.role}</div>
+                                </div>
+                            </p>
+                        </div>
+
+
+                        <div
+                            className="col-lg-6"
+                            style={{width: "90%", float: "right", paddingRight: 0}}
+                        >
+                            <div className="jumbotron container-color">
+                                <Form onSubmit={handleChangePassword}>
+                                    <div className="form-group">
+                                        <label htmlFor="temporaryPassword">Current Password</label>
+                                        <Input
+                                            type="password"
+                                            className="form-control"
+                                            name="temporaryPassword"
+                                            value={currentPassword}
+                                            onChange={(e) => setCurrentPassword(e.target.value)}
+                                            validations={[required]}
+                                        />
+                                    </div>
+
+                                    <div className="form-group">
+                                        <label htmlFor="newPassword">New Password</label>
+                                        <Input
+                                            type="password"
+                                            className="form-control"
+                                            name="newPassword"
+                                            value={newPassword}
+                                            onChange={(e) => setNewPassword(e.target.value)}
+                                            validations={[required]}
+                                        />
+                                    </div>
+
+                                    <div className="form-group">
+                                        <label htmlFor="newPasswordConfirmation">Confirm New Password</label>
+                                        <Input
+                                            type="password"
+                                            className="form-control"
+                                            name="newPasswordConfirmation"
+                                            value={newPasswordConfirmation}
+                                            onChange={(e) => setNewPasswordConfirmation(e.target.value)}
+                                            validations={[required]}
+                                        />
+                                    </div>
+
+                                    <Button
+                                        type="submit"
+                                        size="lg"
+                                        block
+                                        color="success"
+                                        className="primary_button btn-block"
+                                    >
+                                        Change Password
+                                    </Button>
+
+                                    {failPasswordUpdate && (
+                                        <div className="form-group">
+                                            <div
+                                                className="alert alert-danger"
+                                                role="alert"
+                                                style={{"margin-top": 15}}
+                                            >
+                                                {message}
+                                            </div>
+                                        </div>
+                                    )}
+
+                                    {successfulPasswordUpdate && (
+                                        <div className="form-group">
+                                            <div
+                                                className={"alert alert-success"}
+                                                role="alert"
+                                                style={{"margin-top": 15}}
+                                            >
+                                                Password successfully updated !
+                                            </div>
+                                        </div>
+                                    )}
+                                </Form>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
+        </>
     );
 };
 

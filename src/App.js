@@ -1,12 +1,11 @@
 import React from "react";
-import {Provider} from "react-redux";
 import {HashRouter as Router, Route, Switch,} from "react-router-dom";
 
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./App.css";
 import Home from "./components/home/home.component";
 import User from "./components/board-user.component";
-import {persistor, store} from "./store";
+import {persistor} from "./store";
 import {PersistGate} from "redux-persist/integration/react";
 import Footer from "./components/footer/footer.component";
 import Header from "./components/header/header.component";
@@ -20,11 +19,11 @@ import ChangePassword from "./components/sign-in/change-password.component";
 const App = () => {
 
     return (
-        <Provider store={store}>
-            <Router>
-                <PersistGate persistor={persistor}>
-                    <div style={{margin: 0}}>
-                        <Header/>
+        <Router>
+            <PersistGate persistor={persistor}>
+                <div style={{margin: 0}}>
+                    <Header/>
+                    <div>
                         <div className="container mt-3">
                             <Switch>
                                 <div>
@@ -40,11 +39,11 @@ const App = () => {
                                 </div>
                             </Switch>
                         </div>
-                        <Footer/>
                     </div>
-                </PersistGate>
-            </Router>
-        </Provider>
+                    <Footer/>
+                </div>
+            </PersistGate>
+        </Router>
     );
 };
 

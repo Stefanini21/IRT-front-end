@@ -10,6 +10,7 @@ import EditUserModal from "./edit.user.component";
 import {selectIsFetching, selectUserList} from "../../redux/selectors/user";
 import Loader from "react-loader-spinner";
 import DeleteUserModal from "./delete.user.component";
+import SessionExpirationModal from "../SessionExpirationModal.tsx";
 
 const AdminUserList = () => {
     const filterOptions = [
@@ -323,6 +324,7 @@ const AdminUserList = () => {
     };
 
     return <>
+        <SessionExpirationModal/>
         <div className={"col-lg-12"}>
             <div>
                 <div style={{ display: "flex", justifyContent: "space-between", paddingRight: "0 10px", }}>

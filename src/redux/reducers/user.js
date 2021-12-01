@@ -1,17 +1,17 @@
 import {userActions} from "../actions/user";
 
 const initialState = {
-    userId: {},
-    userById: {},
-    updatedUser: {},
-    createdUser: {},
-    userList: {},
-    specialties: {},
-    specialtiesFetching: true,
-    roles: {},
-    rolesFetching: true,
-    isFetching: true,
-
+  userId: {},
+  userById: {},
+  updatedUser: {},
+  createdUser: {},
+  userList: {},
+  specialties: {},
+  specialtiesFetching: true,
+  roles: {},
+  rolesFetching: true,
+  isFetching: true,
+  usernamesByRole: {}
 };
 
 export const user = (state = initialState, action) => {
@@ -43,6 +43,11 @@ export const user = (state = initialState, action) => {
                 ...state,
                 specialties: action.payload,
                 specialtiesFetching: false,
+            };
+        case userActions.GET_ALL_USERNAMES_BY_ROLE:
+            return {
+                ...state,
+                usernamesByRole: action.payload
             };
         case userActions.GET_ROLES:
             return {

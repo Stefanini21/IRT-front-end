@@ -1,29 +1,38 @@
-import React, {useEffect, useState} from "react";
-import {Modal} from "react-bootstrap";
+import React, { useEffect, useState } from "react";
+import { Modal } from "react-bootstrap";
 import CreateTicketModal from "./create.ticket.component.jsx";
 import DataTable from "react-data-table-component";
 import Select from "react-select";
 import ViewTicket from "./view.ticket.component";
-import {useDispatch, useSelector} from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import {
-    getAllUsersBySpecialty,
-    getPriorities, 
-    getStatuses, 
-    getTicketList, 
-    setTicketId, 
-    getTicketById
+  getAllUsersBySpecialty,
+  getPriorities,
+  getStatuses,
+  getTicketList,
+  setTicketId,
+  getTicketById,
 } from "../../redux/actions/ticket";
-import {selectIsFetching, selectTicketList} from "../../redux/selectors/ticket";
+import {
+  selectIsFetching,
+  selectTicketList,
+  selectPriorities,
+} from "../../redux/selectors/ticket";
 import Loader from "react-loader-spinner";
-import {getSpecialties} from "../../redux/actions/user";
+import {
+  getSpecialties,
+  getAllUsernamesByRole,
+} from "../../redux/actions/user";
 import EditTicketComponent from "./edit.ticket.component";
 import DeleteTicketModal from "./delete.ticket.component.js";
-import SessionExpirationModal from "../SessionExpirationModal.tsx";
-
+import {
+  selectSpecialties,
+  usernamesFetchedByRole,
+} from "../../redux/selectors/user";
 
 const TicketList = () => {
   const filterOptions = [
-    { value: "CREATOR", label: "Creator" },
+    { value: "ADMIN", label: "Creator" },
     { value: "DEVELOPER", label: "Developer" },
     { value: "SPECIALTY", label: "Specialty" },
     { value: "PRIORITY", label: "Priority" },
@@ -47,88 +56,54 @@ const TicketList = () => {
   const [firstFilterValues, setFirstFilterValues] = useState([]);
   const [isFiltersWasReseted, setIsFilterWasReseted] = useState(false);
 
-//set ticket list
-  const [ticketList, setTicketList] = useState([])
-  //useSelector(selectTicketList);
+  const specialties = useSelector(selectSpecialties);
+  const priorities = useSelector(selectPriorities);
+  const usersByRole = useSelector(usernamesFetchedByRole);
+
+  const [ticketList, setTicketList] = useState([]);
   const ticketsFromSelector = useSelector(selectTicketList);
-
-  useEffect(() => {
-    // dispatch(getTicketListForKanban());
-    //setFilteredTickets(tickets);
-    setTicketList(ticketsFromSelector);
-  }, [ticketsFromSelector]);
-
 
   const fetching = useSelector(selectIsFetching);
 
   useEffect(() => {
-    // dispatch(getTicketListForKanban());
-    //setFilteredTickets(tickets);
+    console.log("setting ticket list...")
+    setTicketList(ticketsFromSelector);
+  }, [ticketsFromSelector]);
+
+  useEffect(() => {
     setTickets(ticketsFromSelector);
-    
   }, [isFiltersWasReseted]);
 
+  useEffect(() => {
+    console.log(usersByRole);
+    setFirstFilterValues(usersByRole);
+  }, [usersByRole]);
 
-    // dispatch(getTicketListForKanban());
-  
-
-
-  //filteredTicketsByOptions - error
-
-  //1111111
   const setFilterOne = (e) => {
     setIsSelectedFirstFilter(true);
     switch (e.value) {
-      case "CREATOR": {
+      case "ADMIN": {
         setFirstFilterArgument("creator");
-        const authors = [];
-        tickets.forEach((ticket) => {
-          if (!authors.includes(ticket.creator)) {
-            authors.push(ticket.creator);
-          }
-        });
-        setFirstFilterValues(authors);
-        console.log("authors: " + authors);
+        dispatch(getAllUsernamesByRole(e.value));
         break;
       }
       case "DEVELOPER": {
         setFirstFilterArgument("developer");
-        const developers = [];
-        tickets.forEach((ticket) => {
-          if (!developers.includes(ticket.developer)) {
-            developers.push(ticket.developer);
-          }
-        });
-        setFirstFilterValues(developers);
-        console.log("developers: " + developers);
+        dispatch(getAllUsernamesByRole(e.value));
         break;
       }
       case "SPECIALTY": {
         setFirstFilterArgument("specialty");
-        const specialties = [];
-        tickets.forEach((ticket) => {
-          if (!specialties.includes(ticket.specialty)) {
-            specialties.push(ticket.specialty);
-          }
-        });
         setFirstFilterValues(specialties);
-        console.log("developers: " + specialties);
         break;
       }
       case "PRIORITY": {
         setFirstFilterArgument("priority");
-        const priorities = [];
-        tickets.forEach((ticket) => {
-          if (!priorities.includes(ticket.priority)) {
-            priorities.push(ticket.priority);
-          }
-        });
         setFirstFilterValues(priorities);
-        console.log("developers: " + priorities);
         break;
       }
       default:
-        setFirstFilterValues([]);
+
     }
   };
 
@@ -163,7 +138,6 @@ const TicketList = () => {
       });
     }
     setTicketList(filteredTicketsByOptions);
-    //setTicketList(filteredTickets);
     console.log("filtred ticketsbyOptions: " + filteredTicketsByOptions);
     setIsFilterActive(true);
   };
@@ -177,7 +151,7 @@ const TicketList = () => {
     setIsSelectedFirstFilter(false);
     setFilteredTickets(tickets);
     setIsFilterWasReseted(true);
-    setFirstOptionsValue("");
+    dispatch(getTicketList())
   };
 
   //0000000
@@ -278,7 +252,6 @@ const TicketList = () => {
   };
 
   const handleShowViewTicketModal = (ticketToView) => {
-    // setUserId(ticketToView.id)
     dispatch(setTicketId(ticketToView.id));
     setShowViewTicketModal(true);
     setTicketToView(ticketToView);
@@ -305,7 +278,6 @@ const TicketList = () => {
   }, [ticketList]);
 
   useEffect(() => {
-    dispatch(getTicketList());
     dispatch(getSpecialties());
     dispatch(getStatuses());
     dispatch(getPriorities());
@@ -391,10 +363,22 @@ const TicketList = () => {
               >
                 <Select
                   id={"select2"}
-                  options={firstFilterValues.map((v) => ({
-                    label: v,
-                    value: v,
-                  }))}
+                  options={
+                    // (!firstFilterValues &&
+                    // !firstFilterValues.length) ?
+                    // (firstFilterValues.map((v) => ({
+                    //   label: v,
+                    //   value: v,
+                    // }))) :
+                    // ""
+
+                    firstFilterValues &&
+                    firstFilterValues.length &&
+                    firstFilterValues.map((v) => ({
+                      label: v,
+                      value: v,
+                    }))
+                  }
                   type="text"
                   name="filter2"
                   onChange={setFilterTwo}
@@ -525,6 +509,6 @@ const TicketList = () => {
       )}
     </>
   );
-}
+};
 
 export default TicketList;

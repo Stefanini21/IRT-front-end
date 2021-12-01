@@ -59,6 +59,12 @@ const ViewUser = (props) => {
                         </header>
                         <p>
                             <div className="row">
+                                <div className="col-sm-6"><strong>User's ID:</strong></div>
+                                <div className="row-cols-sm-6">{userById.id}</div>
+                            </div>
+                        </p>
+                        <p>
+                            <div className="row">
                                 <div className="col-sm-6"><strong>First Name:</strong></div>
                                 <div className="row-cols-sm-6">{userById.firstName}</div>
                             </div>

@@ -61,19 +61,19 @@ const AdminUserList = () => {
             name: 'Username',
             selector: row => row.username,
             sortable: true,
-            width: '130px'
-        },
-        {
-            name: 'Email',
-            selector: row => row.email,
-            sortable: true,
-            width: '100px'
+            width: '110px'
         },
         {
             name: 'Role',
             selector: row => row.role,
             sortable: true,
-            width: '190px'
+            width: '90px'
+        },
+        {
+            name: 'Email',
+            selector: row => row.email,
+            sortable: true,
+            width: '180px'
         },
         {
             name: 'Specialty',
@@ -85,21 +85,22 @@ const AdminUserList = () => {
             cell: (row) =>
                 <button className="secondary_button"
                         onClick={() => handleShowViewUserModal(row)}>View</button>,
-            grow: 0.3
+            width: '90px'
         },
         {
             name: "Edit User",
             cell: (row) =>
                 <button className="secondary_button"
                         onClick={() => handleEditUserModal(row)}>Edit</button>,
-            grow: 0.3
+            width: '85px'
+
         },
         {
             name: "Delete User",
             cell: (row) =>
                 <button className="secondary_button"
                         onClick={() => handleShowDeleteUserModal(row)}>Delete</button>,
-            grow: 1
+            width: '105px'
         },
     ]
 

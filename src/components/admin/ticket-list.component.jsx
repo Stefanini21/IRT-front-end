@@ -66,7 +66,7 @@ const TicketList = () => {
   const fetching = useSelector(selectIsFetching);
 
   useEffect(() => {
-    console.log("setting ticket list...")
+    console.log("setting ticket list...");
     setTicketList(ticketsFromSelector);
   }, [ticketsFromSelector]);
 
@@ -76,6 +76,7 @@ const TicketList = () => {
 
   useEffect(() => {
     console.log(usersByRole);
+    console.log("usersByRole");
     setFirstFilterValues(usersByRole);
   }, [usersByRole]);
 
@@ -103,7 +104,6 @@ const TicketList = () => {
         break;
       }
       default:
-
     }
   };
 
@@ -151,10 +151,9 @@ const TicketList = () => {
     setIsSelectedFirstFilter(false);
     setFilteredTickets(tickets);
     setIsFilterWasReseted(true);
-    dispatch(getTicketList())
+    dispatch(getTicketList());
   };
 
-  //0000000
 
   const columns = [
     {
@@ -278,6 +277,7 @@ const TicketList = () => {
   }, [ticketList]);
 
   useEffect(() => {
+    dispatch(getTicketList());
     dispatch(getSpecialties());
     dispatch(getStatuses());
     dispatch(getPriorities());
@@ -372,9 +372,8 @@ const TicketList = () => {
                     // }))) :
                     // ""
 
-                    firstFilterValues &&
-                    firstFilterValues.length &&
-                    firstFilterValues.map((v) => ({
+                   
+                    Array.from(firstFilterValues).map((v) => ({
                       label: v,
                       value: v,
                     }))
@@ -450,14 +449,6 @@ const TicketList = () => {
             <Modal.Body>
               <ViewTicket ticket={ticketToView} />
             </Modal.Body>
-            <Modal.Footer>
-              <button
-                className="tertiary_button"
-                onClick={handleCloseViewTicketModal}
-              >
-                Close
-              </button>
-            </Modal.Footer>
           </Modal>
 
           <Modal show={showEditTicketModal} onHide={handleCloseEditTicketModal}>

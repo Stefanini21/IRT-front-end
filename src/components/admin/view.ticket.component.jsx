@@ -11,11 +11,15 @@ const ViewTicket = (props) => {
                     <p><strong>{props.ticket.title}</strong></p>
                 </h3>
             </header>
-            <div style={{overflow: 'hidden'}}>
-                <strong>Description : </strong> {props.ticket.description}
-            </div>
             <p>
-                <div className="row" style={{marginTop: 30}}>
+                <div className="row">
+                    <div className="col-sm-6"><strong>Ticket's ID:</strong></div>
+                    <div className="row-cols-sm-6">{props.ticket.id}</div>
+                </div>
+            </p>
+
+            <p>
+                <div className="row" >
                     <div className="col-sm-6"><strong>Specialty:</strong></div>
                     <div className="row-cols-sm-6">{props.ticket.specialty}</div>
                 </div>
@@ -31,6 +35,11 @@ const ViewTicket = (props) => {
                     <div className="col-sm-6"><strong>Status:</strong></div>
                     <div className="row-cols-sm-6">{props.ticket.status}</div>
                 </div>
+            </p>
+            <p>
+            <div style={{overflow: 'hidden', marginTop: 30}}>
+                <strong>Description : </strong> {props.ticket.description}
+            </div>
             </p>
             <p>
             </p>

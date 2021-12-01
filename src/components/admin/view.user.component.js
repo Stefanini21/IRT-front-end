@@ -59,38 +59,38 @@ const ViewUser = (props) => {
                         </header>
                         <p>
                             <div className="row">
-                                <div className="col-sm-6"><strong>User's ID:</strong></div>
-                                <div className="row-cols-sm-6">{userById.id}</div>
+                                <div className="col-sm-5"><strong>User's ID:</strong></div>
+                                <div className="row-cols-sm-5">{userById.id}</div>
                             </div>
                         </p>
                         <p>
                             <div className="row">
-                                <div className="col-sm-6"><strong>First Name:</strong></div>
-                                <div className="row-cols-sm-6">{userById.firstName}</div>
+                                <div className="col-sm-5"><strong>First Name:</strong></div>
+                                <div className="row-cols-sm-5">{userById.firstName}</div>
                             </div>
                         </p>
                         <p>
                             <div className="row">
-                                <div className="col-sm-6"><strong>Last Name:</strong></div>
-                                <div className="row-cols-sm-6">{userById.lastName}</div>
+                                <div className="col-sm-5"><strong>Last Name:</strong></div>
+                                <div className="row-cols-sm-5">{userById.lastName}</div>
                             </div>
                         </p>
                         <p>
                             <div className="row" style={{'white-space': 'initial'}}>
-                                <div className="col-sm-6"><strong>Email:</strong></div>
-                                <div className="row-cols-sm-6">{userById.email}</div>
+                                <div className="col-sm-5"><strong>Email:</strong></div>
+                                <div className="row-cols-sm-5">{userById.email}</div>
                             </div>
                         </p>
                         <p>
                             <div className="row">
-                                <div className="col-sm-6"><strong>Specialty:</strong></div>
-                                <div className="row-cols-sm-6">{userById.specialty}</div>
+                                <div className="col-sm-5"><strong>Specialty:</strong></div>
+                                <div className="row-cols-sm-5">{userById.specialty}</div>
                             </div>
                         </p>
                         <p>
                             <div className="row">
-                                <div className="col-sm-6"><strong>Role:</strong></div>
-                                <div className="row-cols-sm-6">{userById.role}</div>
+                                <div className="col-sm-5"><strong>Role:</strong></div>
+                                <div className="row-cols-sm-5">{userById.role}</div>
                             </div>
                         </p>
 
@@ -127,7 +127,7 @@ const ViewUser = (props) => {
                     <Modal.Header closeButton>
                         <Modal.Title>View Ticket</Modal.Title>
                     </Modal.Header>
-                    <Modal.Body style={{height: 400}}>
+                    <Modal.Body>
                         <ViewTicket ticket={ticketToView}/>
                     </Modal.Body>
                 </Modal>}

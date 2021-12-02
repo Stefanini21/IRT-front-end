@@ -72,9 +72,11 @@ const CreateTicketModal = () => {
     const [showCreateTicketModal, setShowCreateTicketModal] = useState(false);
 
     const handleCloseCreateTicketModal = () => {
-        setShowCreateTicketModal(false);
-        dispatch(getTicketList());
-        window.location.reload();
+        console.log("in createTicket close")
+       setShowCreateTicketModal(false);
+       // dispatch(getTicketList());
+       window.location.reload();
+        
     };
 
     const onChangeTitle = (e) => {

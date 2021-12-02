@@ -242,12 +242,13 @@ const TicketList = () => {
   };
 
   const handleShowCreateTicketModal = () => {
+    console.log("in ticket-list close");
     setShowCreateTicketModal(true);
   };
 
   const handleCloseCreateTicketModal = () => {
     setShowCreateTicketModal(false);
-    window.location.reload();
+    //window.location.reload();
   };
 
   const handleShowViewTicketModal = (ticketToView) => {

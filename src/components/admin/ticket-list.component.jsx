@@ -19,16 +19,10 @@ import {
   selectPriorities,
 } from "../../redux/selectors/ticket";
 import Loader from "react-loader-spinner";
-import {
-  getSpecialties,
-  //getAllUsernamesByRole,
-} from "../../redux/actions/user";
+import { getSpecialties } from "../../redux/actions/user";
 import EditTicketComponent from "./edit.ticket.component";
 import DeleteTicketModal from "./delete.ticket.component.js";
-import {
-  selectSpecialties
-  //usernamesFetchedByRole,
-} from "../../redux/selectors/user";
+import { selectSpecialties } from "../../redux/selectors/user";
 
 const TicketList = () => {
   const filterOptions = [
@@ -58,7 +52,6 @@ const TicketList = () => {
 
   const specialties = useSelector(selectSpecialties);
   const priorities = useSelector(selectPriorities);
- // const usersByRole = useSelector(usernamesFetchedByRole);
 
   const [ticketList, setTicketList] = useState([]);
   const ticketsFromSelector = useSelector(selectTicketList);
@@ -73,25 +66,9 @@ const TicketList = () => {
     setTickets(ticketsFromSelector);
   }, [isFiltersWasReseted]);
 
-  // useEffect(() => {
-  //   console.log(usersByRole);
-  //   console.log("usersByRole" + usersByRole);
-  //   setFirstFilterValues(usersByRole);
-  // }, [usersByRole]);
-
   const setFilterOne = (e) => {
     setIsSelectedFirstFilter(true);
     switch (e.value) {
-      // case "ADMIN": {
-      //   setFirstFilterArgument("creator");
-      //   dispatch(getAllUsernamesByRole(e.value));
-      //   break;
-      // }
-      // case "DEVELOPER": {
-      //   setFirstFilterArgument("developer");
-      //   dispatch(getAllUsernamesByRole(e.value));
-      //   break;
-      // }
       case "ADMIN": {
         setFirstFilterArgument("creator");
         const authors = [];
@@ -108,7 +85,9 @@ const TicketList = () => {
         const developers = [];
         tickets.forEach((ticket) => {
           if (!developers.includes(ticket.developer)) {
-            ticket.developer === 'undefined' ? ticket.developer = "" : ticket.developer;
+            ticket.developer === "undefined"
+              ? (ticket.developer = "")
+              : ticket.developer;
             developers.push(ticket.developer);
           }
         });
@@ -176,7 +155,6 @@ const TicketList = () => {
     setIsFilterWasReseted(true);
     dispatch(getTicketList());
   };
-
 
   const columns = [
     {

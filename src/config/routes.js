@@ -18,5 +18,6 @@ export const routes = {
     CHANGE_TICKET_STATUS: "tickets/",
     CHANGE_TICKET_DEVELOPER: "tickets/",
     SET_JWT_TOKEN: "token/",
-    CHECK_IF_TICKET_TITLE_EXIST: "tickets/exist-title"
+    CHECK_IF_TICKET_TITLE_EXIST: "tickets/exist-title",
+    USERS_BY_ROLE: "users/role"
 };

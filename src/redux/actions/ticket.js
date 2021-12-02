@@ -80,7 +80,8 @@ export const getTicketById = (ticketId) => (dispatch) => {
 };
 
 export const getTicketList = () => (dispatch) => {
-    const url = routes.BASIC_URL + routes.BASIC_PATH + routes.ALL_TICKETS_FOR_KANBAN;
+    const url =
+      routes.BASIC_URL + routes.BASIC_PATH + routes.ALL_TICKETS_FOR_KANBAN;
 
     return HttpService.get(url).then((response) => {
         return dispatch({
@@ -126,10 +127,10 @@ export const changeTicketStatus = (id, status) => (dispatch) => {
 export const changeTicketDeveloper = (id, developer) => (dispatch) => {
     const url =
         routes.BASIC_URL + routes.BASIC_PATH + routes.CHANGE_TICKET_DEVELOPER;
-    alert("url: " + url);
-    alert("In changeTicketDeveloper, developer: " + developer);
-    return HttpService.put(url + "add/" + id + "/" + developer, {}).then((response) => {
-        alert("in action assigneTicketToUser response: " + response.status);
+    return HttpService.put(url + "add/" + id + "/" + developer, {})
+    .then((response) => {
+        console.log("In CHANGE_TICKET_DEVELOPER, response: " + response);
+        console.log("In CHANGE_TICKET_DEVELOPER, response.data: " + response.data);
         return dispatch({
             type: CHANGE_TICKET_DEVELOPER,
             payload: response,
@@ -139,7 +140,6 @@ export const changeTicketDeveloper = (id, developer) => (dispatch) => {
 
 export const updateTicketById = (ticketData, ticketId) => (dispatch) => {
     const url = routes.BASIC_URL + routes.BASIC_PATH + routes.TICKET_BY_ID + ticketId;
-
     return HttpService.put(url, ticketData)
         .then(response => {
             if (response === 403) {

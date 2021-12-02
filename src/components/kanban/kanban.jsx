@@ -34,6 +34,11 @@ const Kanban = () => {
 
     const setFilterOne = (e) => {
         setIsSelectedFirstFilter(true);
+        tickets.forEach((ticket) => {
+            if (ticket.developer === null) {
+                ticket.developer = "unassigned"
+            }
+        });
         switch (e.value) {
             case "CREATOR": {
                 setFirstFilterArgument("creator");
@@ -51,6 +56,7 @@ const Kanban = () => {
                 setFirstFilterArgument("developer");
                 const developers = [];
                 tickets.forEach((ticket) => {
+                    console.log("ticket.developer: " + ticket.developer);
                     if (!developers.includes(ticket.developer)) {
                         developers.push(ticket.developer);
                     }
@@ -346,7 +352,6 @@ const KanbanBoard = (props) => {
                     return;
                 }
             } else if (project.developer === null  && currentUserData.role === "USER" && project.specialty === currentUserData.specialty) {
-                alert("Need to assign the task to user!");
                 console.log("In Need to assign the task to user, project.id = " + project.id);
                 console.log("In Need to assign the task to user, currentUserData.username = " + currentUserData.username);
                 projectId = project.id;
@@ -357,7 +362,6 @@ const KanbanBoard = (props) => {
             }
         });
         if (projectId !== null && currentUserDataUserName !== null) {
-            alert(`Ticket with id ${projectId} will be assigned to ${currentUserDataUserName}`);
             dispatch(changeTicketDeveloper(projectId, currentUserDataUserName));
             dOc.project_stage = draggedOverCol;
             setProjects(updatedProjects);

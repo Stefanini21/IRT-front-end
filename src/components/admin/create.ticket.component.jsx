@@ -217,7 +217,7 @@ const CreateTicketModal = () => {
                             title.length < 31 &&
                             description.length > 2 &&
                             priority &&
-                            specialty &&
+                            specialty && !isDuplicateTitle &&
                             developer ? (
                                 <div className="form-group">
                                     <button className="primary_button btn-block">
@@ -234,7 +234,7 @@ const CreateTicketModal = () => {
                         </div>
                     )}
 
-                    {isDuplicateTitle && (
+                    {isDuplicateTitle && title !== "" && (
                         <div className="form-group">
                             <div className="alert alert-danger" role="alert">
                                 There is another ticket with this title.

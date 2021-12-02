@@ -19,16 +19,10 @@ import {
   selectPriorities,
 } from "../../redux/selectors/ticket";
 import Loader from "react-loader-spinner";
-import {
-  getSpecialties,
-  getAllUsernamesByRole,
-} from "../../redux/actions/user";
+import { getSpecialties } from "../../redux/actions/user";
 import EditTicketComponent from "./edit.ticket.component";
 import DeleteTicketModal from "./delete.ticket.component.js";
-import {
-  selectSpecialties,
-  usernamesFetchedByRole,
-} from "../../redux/selectors/user";
+import { selectSpecialties } from "../../redux/selectors/user";
 
 const TicketList = () => {
   const filterOptions = [
@@ -58,7 +52,6 @@ const TicketList = () => {
 
   const specialties = useSelector(selectSpecialties);
   const priorities = useSelector(selectPriorities);
-  const usersByRole = useSelector(usernamesFetchedByRole);
 
   const [ticketList, setTicketList] = useState([]);
   const ticketsFromSelector = useSelector(selectTicketList);
@@ -66,7 +59,6 @@ const TicketList = () => {
   const fetching = useSelector(selectIsFetching);
 
   useEffect(() => {
-    console.log("setting ticket list...");
     setTicketList(ticketsFromSelector);
   }, [ticketsFromSelector]);
 
@@ -74,23 +66,33 @@ const TicketList = () => {
     setTickets(ticketsFromSelector);
   }, [isFiltersWasReseted]);
 
-  useEffect(() => {
-    console.log(usersByRole);
-    console.log("usersByRole");
-    setFirstFilterValues(usersByRole);
-  }, [usersByRole]);
-
   const setFilterOne = (e) => {
     setIsSelectedFirstFilter(true);
     switch (e.value) {
       case "ADMIN": {
         setFirstFilterArgument("creator");
-        dispatch(getAllUsernamesByRole(e.value));
+        const authors = [];
+        tickets.forEach((ticket) => {
+          if (!authors.includes(ticket.creator)) {
+            authors.push(ticket.creator);
+          }
+        });
+        setFirstFilterValues(authors);
         break;
       }
       case "DEVELOPER": {
         setFirstFilterArgument("developer");
-        dispatch(getAllUsernamesByRole(e.value));
+        const developers = [];
+        tickets.forEach((ticket) => {
+          if (!developers.includes(ticket.developer)) {
+            ticket.developer === "undefined"
+              ? (ticket.developer = "")
+              : ticket.developer;
+            developers.push(ticket.developer);
+          }
+        });
+        setFirstFilterValues(developers);
+        console.log("developers: " + developers);
         break;
       }
       case "SPECIALTY": {
@@ -153,7 +155,6 @@ const TicketList = () => {
     setIsFilterWasReseted(true);
     dispatch(getTicketList());
   };
-
 
   const columns = [
     {
@@ -238,7 +239,6 @@ const TicketList = () => {
 
   const handleCloseEditTicketModal = () => {
     setShowEditTicketModal(false);
-    dispatch(getTicketList());
   };
 
   const handleShowCreateTicketModal = () => {
@@ -247,7 +247,6 @@ const TicketList = () => {
 
   const handleCloseCreateTicketModal = () => {
     setShowCreateTicketModal(false);
-    //window.location.reload();
   };
 
   const handleShowViewTicketModal = (ticketToView) => {

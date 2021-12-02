@@ -364,16 +364,9 @@ const TicketList = () => {
                 <Select
                   id={"select2"}
                   options={
-                    // (!firstFilterValues &&
-                    // !firstFilterValues.length) ?
-                    // (firstFilterValues.map((v) => ({
-                    //   label: v,
-                    //   value: v,
-                    // }))) :
-                    // ""
-
-                   
-                    Array.from(firstFilterValues).map((v) => ({
+                    firstFilterValues &&
+                    firstFilterValues.length &&
+                    firstFilterValues.map((v) => ({
                       label: v,
                       value: v,
                     }))

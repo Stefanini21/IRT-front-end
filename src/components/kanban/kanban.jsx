@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {getUserData} from "../../redux/selectors/auth";
+import {selectUserList} from "../../redux/selectors/user";
 import {selectTicketListForKanban} from "../../redux/selectors/ticket";
 import {changeTicketDeveloper, changeTicketStatus, getTicketListForKanban,} from "../../redux/actions/ticket";
 import {selectUserById} from "../../redux/selectors/user";
@@ -24,6 +25,7 @@ const Kanban = () => {
     const [firstFilterValues, setFirstFilterValues] = useState([]);
     const [isFiltersWasReseted, setIsFilterWasReseted] = useState(false);
     const [firstOptionsValue, setFirstOptionsValue] = useState("");
+    const userList = useSelector(selectUserList);
 
     useEffect(() => {
         dispatch(getTicketListForKanban());
@@ -187,6 +189,7 @@ const Kanban = () => {
                                     onChange={setFilterOne}
                                     style={{width: "20%", padding: 4, marginBottom: 4}}
                                     isDisabled={isFilterActive}
+                                    placeholder={""}
                                 />
                             </div>
                         </div>
@@ -212,6 +215,7 @@ const Kanban = () => {
                                     onChange={setFilterTwo}
                                     style={{width: "20%", padding: 4}}
                                     isDisabled={!isSelectedFirstFilter || isFilterActive}
+                                    placeholder={""}
                                 />
                             </div>
                             <div className="form-group" style={{marginLeft: 10}}>
@@ -263,6 +267,11 @@ const KanbanBoard = (props) => {
     const filteredTickets = props.filteredTickets;
     const isFilterActive = props.isFilterActive;
     const isFiltersWasReseted = props.isFiltersWasReseted;
+    // const [isTaskAvailableToAsign, setIsTaskAvailableToAsign] = useState(false);
+    // const [projectId, setProjectId] = useState(null);
+    // const [currentUserDataUserName, setCurrentUserDataUserName] = useState("");
+    let projectId = null;
+    let currentUserDataUserName = null;
 
     const columns = [
         {name: "BackLog", stage: 1},
@@ -301,51 +310,65 @@ const KanbanBoard = (props) => {
     const handleOnDragEnd = (e, project) => {
         const updatedProjects = projects.slice(0);
         const dOc = updatedProjects.find((projectObject) => {
+
             if (
-                project.developer === null &&
-                currentUserData.role === "USER" &&
-                project.specialty === currentUserData.specialty &&
-                project.project_stage === 1 &&
-                draggedOverCol === 2
+                currentUserData.username === project.developer  && currentUserData.role === "USER"
             ) {
-                project.developer === currentUserData.username;
-                dispatch(changeTicketDeveloper(project.id, currentUserData.username));
-                return projectObject.title === project.title;
-            } else if (
-                currentUserData.username === project.developer ||
-                currentUserData.username === project.creator
-            ) {
-                if (
-                    currentUserData.role === "ADMIN" &&
-                    project.project_stage === 3 &&
-                    draggedOverCol === 1 &&
-                    currentUserData.creator === project.author
-                ) {
+                if ( project.project_stage === 1 && draggedOverCol === 2 ) {
+                    console.log("In case 1 + 2, currentUserData.username = " + currentUserData.username);
+                    console.log("In case 1 + 2, project.developer = " + project.developer);
+                    console.log("In case 1 + 2, currentUserData.role = " + currentUserData.role);
                     return projectObject.title === project.title;
                 } else if (
-                    currentUserData.role === "ADMIN" &&
-                    project.project_stage === 3 &&
-                    draggedOverCol === 4
-                ) {
-                    return projectObject.title === project.title;
-                } else if (
-                    (currentUserData.role === "USER" &&
-                        project.project_stage === 1 &&
-                        draggedOverCol === 2) ||
                     (currentUserData.role === "USER" &&
                         project.project_stage === 2 &&
                         draggedOverCol === 3)
                 ) {
+                    console.log("In case 2 + 3, currentUserData.username = " + currentUserData.username);
+                    console.log("In case 2 + 3, project.developer = " + project.developer);
+                    console.log("In case 2 + 3, currentUserData.role = " + currentUserData.role);
                     return projectObject.title === project.title;
+                } else {
+                    return;
                 }
+            } else if ( currentUserData.username === project.creator && currentUserData.role === "ADMIN" ) {
+                if( project.project_stage === 3 && draggedOverCol === 1 ) {
+                    console.log("In case 3 + 1, currentUserData.username = " + currentUserData.username );
+                    console.log("In case 3 + 1, project.creator = " + project.creator);
+                    console.log("In case 3 + 1, currentUserData.role = " + currentUserData.role);
+                    return projectObject.title === project.title;
+                } else if ( project.project_stage === 3 && draggedOverCol === 4 ) {
+                    console.log("In case 3 + 4, currentUserData.username = " + currentUserData.username);
+                    console.log("In case 3 + 4, project.creator = " + project.creator);
+                    console.log("In case 3 + 4, currentUserData.role = " + currentUserData.role);
+                    return projectObject.title === project.title;
+                } else {
+                    return;
+                }
+            } else if (project.developer === null  && currentUserData.role === "USER" && project.specialty === currentUserData.specialty) {
+                alert("Need to assign the task to user!");
+                console.log("In Need to assign the task to user, project.id = " + project.id);
+                console.log("In Need to assign the task to user, currentUserData.username = " + currentUserData.username);
+                projectId = project.id;
+                currentUserDataUserName = currentUserData.username;
+                console.log("In Need to assign the task to user, projectId = " + projectId);
+                console.log("In Need to assign the task to user, currentUserDataUserName = " + currentUserDataUserName);
+                return projectObject.title === project.title;
             }
         });
-        if (dOc !== undefined) {
+        if (projectId !== null && currentUserDataUserName !== null) {
+            alert(`Ticket with id ${projectId} will be assigned to ${currentUserDataUserName}`);
+            dispatch(changeTicketDeveloper(projectId, currentUserDataUserName));
+            dOc.project_stage = draggedOverCol;
+            setProjects(updatedProjects);
+        } else if (dOc !== undefined) {
             dispatch(changeTicketStatus(project.id, status));
             dOc.project_stage = draggedOverCol;
             setProjects(updatedProjects);
         }
         setDraggedOverCol(project.project_stage);
+        projectId = null;
+        currentUserDataUserName = null;
     };
 
     useEffect(() => {
@@ -704,7 +727,7 @@ const KanbanCard = (props) => {
                                 borderLeft: "5px solid white",
                             }}
                         >
-                            developer: <span style={{fontWeight: 400}}>unasigned</span>
+                            developer: <span style={{fontWeight: 400}}>unassigned</span>
                         </h6>
                     )}
                 </div>

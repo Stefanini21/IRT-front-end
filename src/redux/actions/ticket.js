@@ -126,10 +126,10 @@ export const changeTicketStatus = (id, status) => (dispatch) => {
 export const changeTicketDeveloper = (id, developer) => (dispatch) => {
     const url =
         routes.BASIC_URL + routes.BASIC_PATH + routes.CHANGE_TICKET_DEVELOPER;
-    console.log("url: " + url);
-    console.log("i changeTicketDeveloper, developer: " + developer);
+    alert("url: " + url);
+    alert("In changeTicketDeveloper, developer: " + developer);
     return HttpService.put(url + "add/" + id + "/" + developer, {}).then((response) => {
-        console.log("in action assigneTicketToUser response: " + response.status);
+        alert("in action assigneTicketToUser response: " + response.status);
         return dispatch({
             type: CHANGE_TICKET_DEVELOPER,
             payload: response,

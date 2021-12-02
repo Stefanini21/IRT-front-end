@@ -21,25 +21,24 @@ const SessionExpirationModal: React.FC = () => {
 
     useEffect(() => {
         let allSecondsRemaining = setInterval(() => {
-            setSecondsRemaining(getSecondsRemaining());
-
-            // takes about 350 ms for modal to open
-            if (!disableModal && secondsRemaining === 31 && !modalDisplayed) {
-                setShowModal(true);
-            }
-
-            if (disableModal && secondsRemaining === 10) setDisableModal(false);
-            if (!disableModal && secondsRemaining <= 10 && !showModal) {
-                setShowModal(true);
-            }
-            if (secondsRemaining <= 0) {
-                if (!showModal) setShowModal(true);
-                clearInterval(allSecondsRemaining);
-                signOut();
+          setSecondsRemaining(getSecondsRemaining());
+    
+          // takes about 350 ms for modal to open
+        //   if (!disableModal && secondsRemaining === 31 && !modalDisplayed) {
+        //     setShowModal(true);
+        //   }
+    
+          if (disableModal && secondsRemaining === 10) setDisableModal(false);
+          if (!disableModal && secondsRemaining <= 10 && !showModal) {
+            setShowModal(true);
+          }
+          if (secondsRemaining <= 0) {
+            if (!showModal) setShowModal(true);
+    
+            clearInterval(allSecondsRemaining);
+            signOut();
                 return handleLogOut();
             }
-            // Below line will display ongoing countdown
-            // console.log(secondsRemaining);
         }, 1000);
 
         return () => {
@@ -79,7 +78,7 @@ const SessionExpirationModal: React.FC = () => {
     // };
 
     return (
-        <Modal isOpen={showModal} autoFocus={true} toggle={toggle} centered={true}>
+        <Modal isOpen={showModal} autoFocus={true} toggle={toggle} centered={true} style={{top: -60}}>
             {sessionExpired && (
                 <>
                     <ModalHeader toggle={toggle}>Your Session Expired</ModalHeader>
@@ -95,12 +94,12 @@ const SessionExpirationModal: React.FC = () => {
 
             {!sessionExpired && secondsRemaining > 0 && (
                 <>
-                    <ModalHeader toggle={toggle}>Your session will expire in
+                    <ModalHeader toggle={toggle} style={{fontWeight: 300, padding: 20}}>Your session will expire in
                         {` ${secondsRemaining}`} sec.</ModalHeader>
                     <div className='text-center pt-2 pb-2'>
-                        <h6 style={{fontWeight: 300, padding: 25}}>To continue working, please log in</h6>
+                        <h5 style={{fontWeight: 400, padding: "10px 60px 0", margin: 0}}>To continue working, please log in the system</h5>
                         <br/>
-                        <Button color='primary' onClick={() => handleLogOut()}>
+                        <Button color='primary' onClick={() => handleLogOut()} style={{top: -30, marginBottom: 16}}>
                             Login
                         </Button>
                     </div>
@@ -108,8 +107,7 @@ const SessionExpirationModal: React.FC = () => {
             )}
             {!sessionExpired && secondsRemaining < 1 && (
                 <div className='text-center pt-2 pb-2'>
-                    Signing Out...
-                    <br/>
+                    <h5>Signing Out...</h5>
                     <FontAwesomeIcon className='icon' icon={faSpinner} spin size='lg'/>
                 </div>
             )}

@@ -8,9 +8,9 @@ import {
     checkIfTicketTitleExist,
     createTicket,
     getAllUsersBySpecialty,
-    getTicketList,
+    getTicketList
 } from "../../redux/actions/ticket";
-import {getUserListBySpecialty, isDuplicateTicketTitle, selectPriorities,} from "../../redux/selectors/ticket";
+import {getUserListBySpecialty, isDuplicateTicketTitle, selectPriorities} from "../../redux/selectors/ticket";
 import {selectSpecialties} from "../../redux/selectors/user";
 import {getUserData} from "../../redux/selectors/auth";
 import {TextArea} from "semantic-ui-react";

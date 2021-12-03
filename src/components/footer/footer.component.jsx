@@ -4,7 +4,6 @@ import {Col, Container, Row} from "react-bootstrap";
 
 
 const footerStyle = {
-    marginTop: 250,
     marginBottom: 0,
     padding: 15,
     bottom: 0,
@@ -13,7 +12,8 @@ const footerStyle = {
     fontSize: '20px',
     backgroundImage: 'linear-gradient(to bottom right, #0c0032, #5c7de3',
     backgroundColor: '#4e83b9 !important',
-    color: "white"
+    color: "white",
+    position: "fixed"
 }
 
 const Footer = () => {

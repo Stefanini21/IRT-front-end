@@ -38,7 +38,7 @@ const DeleteUserModal = (props) => {
                 {userData.id === userById.id && (
                     <div>
                         <div className={"alert alert-danger"} role="alert">
-                            <strong> You can't delete yourself! </strong>
+                            <strong> Illegal operation: authorized user cannot be deleted. </strong>
                         </div>
                         <button className="primary_button btn-block" onClick={props.handleCloseDeleteUserModal}>
                             OK

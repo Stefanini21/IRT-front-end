@@ -1,32 +1,21 @@
 import jwt from "jwt-decode";
 
-// const timerLength: number = 15;
-
 function getToken() {
 
     const tokenInLocalStorage: string = localStorage.getItem("token") || '';
 
     if (!tokenInLocalStorage) return null;
-    //console.log("tokenInLocalStorage: string: " + tokenInLocalStorage);
     const jwtToken: any = jwt(tokenInLocalStorage);
-    //console.log("token: " + jwtToken);
     try {
-        //console.log("token.exp: " + jwtToken.exp);
-        //console.log("token.iat: " + jwtToken.iat);
-        //const timerLength: number = jwtToken.exp - jwtToken.iat;
-        //console.log("timerLength: " + timerLength);
+        const timerLength: number = jwtToken.exp - jwtToken.iat;
         const issuedSeconds: number = isNaN(jwtToken.issuedSeconds) ? 0 : jwtToken.issuedSeconds; // Convert from string to number
         const secondsSinceSignIn: number = Number(Math.floor(new Date().getTime() / 1000) - issuedSeconds);
-        //console.log("secondsSinceSignIn: " + secondsSinceSignIn);
         const sessionSecondsRemaining: Number = Number(jwtToken.exp - secondsSinceSignIn);
-        //console.log("sessionSecondsRemaining: " + sessionSecondsRemaining);
         jwtToken.sessionSecondsRemaining = sessionSecondsRemaining;
-
         if (sessionSecondsRemaining <= 0) {
             window.localStorage.removeItem('token');
             return null;
         }
-
         return jwtToken;
     } catch (err) {
         // Local storage has been tampered with
@@ -68,7 +57,6 @@ function setToken(jwtToken: any) {
             )
         );
     }
-    console.log("token from setToken: " + localStorage.getItem("token"));
 }
 
 function extendSession(resp: any) {

@@ -7,7 +7,7 @@ import SessionExpirationModal from "../SessionExpirationModal.tsx";
 const Home = () => {
     return (
         <>
-            <SessionExpirationModal/>
+            {/*<SessionExpirationModal/>*/}
             <div>
                 <div>
                     <h4

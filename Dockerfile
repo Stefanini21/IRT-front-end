@@ -1,7 +1,9 @@
-FROM node:14.17.3-buster
+FROM node:alpine
 WORKDIR /code
-COPY package.json package.json
-COPY package-lok.json package-lock.json
+COPY package.json ./
+COPY package-lock.json ./
 RUN npm install
-COPY . .
-CMD ["npm", "run", "start"]
+RUN npm install react-scripts@
+EXPOSE 8081
+COPY . ./
+CMD ["npm", "start"]

@@ -4,21 +4,21 @@ import jwt from "jwt-decode";
 
 function getToken() {
 
-    const tokenInLocalStorage: string = localStorage.getItem("token") || '';
+    const tokenInLocalStorage = localStorage.getItem("token") || '';
 
     if (!tokenInLocalStorage) return null;
     // console.log("tokenInLocalStorage: string: " + tokenInLocalStorage);
-    const jwtToken: any = jwt(tokenInLocalStorage);
+    const jwtToken = jwt(tokenInLocalStorage);
     // console.log("token: " + jwtToken);
     try {
         // console.log("token.exp: " + jwtToken.exp);
         // console.log("token.iat: " + jwtToken.iat);
-        const timerLength: number = jwtToken.exp - jwtToken.iat;
+        const timerLength = jwtToken.exp - jwtToken.iat;
         // console.log("timerLength: " + timerLength);
-        const issuedSeconds: number = isNaN(jwtToken.issuedSeconds) ? 0 : jwtToken.issuedSeconds; // Convert from string to number
-        const secondsSinceSignIn: number = Number(Math.floor(new Date().getTime() / 1000) - issuedSeconds);
+        const issuedSeconds = isNaN(jwtToken.issuedSeconds) ? 0 : jwtToken.issuedSeconds; // Convert from string to number
+        const secondsSinceSignIn = Number(Math.floor(new Date().getTime() / 1000) - issuedSeconds);
         // console.log("secondsSinceSignIn: " + secondsSinceSignIn);
-        const sessionSecondsRemaining: Number = Number(jwtToken.exp - secondsSinceSignIn);
+        const sessionSecondsRemaining = Number(jwtToken.exp - secondsSinceSignIn);
         // console.log("sessionSecondsRemaining: " + sessionSecondsRemaining);
         jwtToken.sessionSecondsRemaining = sessionSecondsRemaining;
 
@@ -35,13 +35,13 @@ function getToken() {
     }
 }
 
-function setToken(jwtToken: any) {
+function setToken(jwtToken) {
     if (jwtToken === null || typeof jwtToken === 'undefined') {
         jwtToken = {};
         return;
     }
 
-    const existingToken: any = getToken();
+    const existingToken = getToken();
     if (jwtToken === null || typeof jwtToken === 'undefined') {
         if (existingToken === null || typeof existingToken === 'undefined') {
             return null;
@@ -71,8 +71,8 @@ function setToken(jwtToken: any) {
     // console.log("token from setToken: " + localStorage.getItem("token"));
 }
 
-function extendSession(resp: any) {
-    const token: string = window.localStorage.getItem('token') || '';
+function extendSession(resp) {
+    const token = window.localStorage.getItem('token') || '';
 
     if (token) {
         window.localStorage.setItem('token', token);
@@ -80,11 +80,11 @@ function extendSession(resp: any) {
 }
 
 const extendSlidingExpiration = () => {
-    const tokenInLocalStorage: any = window.localStorage.getItem('token');
+    const tokenInLocalStorage = window.localStorage.getItem('token');
     if (!tokenInLocalStorage) return 0;
 
     if (tokenInLocalStorage) {
-        const token: any = JSON.parse(tokenInLocalStorage);
+        const token = JSON.parse(tokenInLocalStorage);
         window.localStorage.setItem(
             'token',
             JSON.stringify({
@@ -94,7 +94,7 @@ const extendSlidingExpiration = () => {
             })
         );
     }
-    const jwtToken: any = jwt(tokenInLocalStorage);
+    const jwtToken = jwt(tokenInLocalStorage);
     const timerLength = jwtToken.exp - jwtToken.iat;
 
     return timerLength;
@@ -105,9 +105,9 @@ function signOut() {
 }
 
 function getPage() {
-    let url: string = window.location.href.replace('http://', '').replace('https://', '');
+    let url = window.location.href.replace('http://', '').replace('https://', '');
     if (url.indexOf('/') >= 0) {
-        const tempUrl: string[] = url.split('/');
+        const tempUrl = url.split('/');
         url = '';
         for (let i = 1; i < tempUrl.length; i++) {
             url += `/${tempUrl[i]}`;
@@ -118,15 +118,15 @@ function getPage() {
 }
 
 function getQuery() {
-    let url: string = window.location.href;
-    const query: any = {};
+    let url = window.location.href;
+    const query = {};
     url = url.replace(/[?]+/gi, '?'); // replace multiple consecutive question marks with a single question mark
     url = url.replace(/[=]+/gi, '='); // replace multiple consecutive equals signs with a single question mark
     url = url.replace(/[&]+/gi, '&'); // replace multiple consecutive ampersands with a single question mark
     if (url.indexOf('?') >= 0) {
         if (url.indexOf('&') < 0) url = `${url}&`;
-        const queryString: string[] = url.split('?')[1].split('&');
-        let keyValue: string[];
+        const queryString = url.split('?')[1].split('&');
+        let keyValue;
         queryString.forEach((paramAndValue) => {
             if (paramAndValue !== '') {
                 if (paramAndValue.indexOf('=') >= 0) {
@@ -145,7 +145,7 @@ function getQuery() {
     return query;
 }
 
-function updateToken(token: string) {
+function updateToken(token) {
     return window.localStorage.setItem('token', token);
 }
 

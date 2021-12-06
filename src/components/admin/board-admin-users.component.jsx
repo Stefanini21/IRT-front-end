@@ -366,7 +366,6 @@ const AdminUserList = () => {
                                 onChange={setFilterOne}
                                 style={{ width: "20%", padding: 4, marginBottom: 4 }}
                                 isDisabled={isFilterActive}
-                                placeholder={""}
                                 />
                         </div>
                     </div>
@@ -383,7 +382,6 @@ const AdminUserList = () => {
                                 onChange={setFilterTwo}
                                 style={{ width: "20%", padding: 4 }}
                                 isDisabled={!isSelectedFirstFilter || isFilterActive}
-                                placeholder={""}
                                 />
                         </div>
                         <div className="form-group" style={{ marginLeft: 10 }}>

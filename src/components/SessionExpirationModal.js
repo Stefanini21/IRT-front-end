@@ -6,9 +6,9 @@ import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {faSpinner} from '@fortawesome/free-solid-svg-icons';
 import {getSecondsRemaining} from './useSecondsRemining';
 import {signOut} from './utils';
-import {signOutUser} from "../redux/actions/auth";
+import {signOutUser} from "../redux/actions/auth.js";
 
-const SessionExpirationModal: React.FC = () => {
+const SessionExpirationModal = () => {
     const history = useHistory();
     const dispatch = useDispatch();
 

@@ -8,7 +8,7 @@ import Input from "react-validation/build/input";
 import {changePassword} from "../../redux/actions/user";
 import "./profile.component.css";
 import {selectFailPasswordUpdateFlag, selectSuccessfulPasswordUpdateFlag,} from "../../redux/selectors/flag";
-import SessionExpirationModal from "../SessionExpirationModal.tsx";
+import SessionExpirationModal from "../SessionExpirationModal.js";
 
 const Profile = () => {
     const currentUserLoaded = useSelector(getUserLoaded);

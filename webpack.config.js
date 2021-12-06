@@ -32,11 +32,13 @@ module.exports = {
   output: {
     filename: "[name].js",
     path: path.resolve(__dirname, "dist"),
+    publicPath: "/"
   },
   optimization: optimization(),
   devServer: {
     port: 4200,
     hot: isDev,
+    historyApiFallback: true,
   },
   plugins: [
     new HtmlWebpackPlugin({
@@ -46,14 +48,21 @@ module.exports = {
       },
     }),
     new CleanWebpackPlugin(),
-    // new CopyWebpackPlugin({
-    //     patterns: [
-    //       {
-    //           from: 'src/favicon.ico',
-    //           to: 'dist'
-    //         }
-    //     ],
-    //   }),
+    new CopyWebpackPlugin({
+        patterns: [
+          {
+              from: 'favicon.ico',
+              to: '.'
+            },
+            {
+              from: 'logo512.png',
+              to: '.'
+            },{
+              from: 'logo192.png',
+              to: '.'
+            }
+        ],
+      }),
   ],
   module: {
     rules: [

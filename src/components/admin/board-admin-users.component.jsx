@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from "react";
 import {Modal} from "react-bootstrap";
 import Select from "react-select";
-import CreateUserModal from "./create.user.component";
+import CreateUserModal from "./create.user.component.jsx";
 import ViewUser from "./view.user.component";
 import DataTable from "react-data-table-component";
 import {useDispatch, useSelector} from "react-redux";
@@ -10,7 +10,7 @@ import EditUserModal from "./edit.user.component";
 import {selectIsFetching, selectUserList} from "../../redux/selectors/user";
 import Loader from "react-loader-spinner";
 import DeleteUserModal from "./delete.user.component";
-import SessionExpirationModal from "../SessionExpirationModal.tsx";
+import SessionExpirationModal from "../SessionExpirationModal.js";
 
 const AdminUserList = () => {
     const filterOptions = [

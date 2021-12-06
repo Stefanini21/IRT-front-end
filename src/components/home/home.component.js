@@ -1,13 +1,10 @@
 import React from "react";
 import "./css/home.component.css";
 import homephoto from "./homepage.png";
-import Image from "react-image-resizer";
-import SessionExpirationModal from "../SessionExpirationModal.tsx";
+import SessionExpirationModal from "../SessionExpirationModal.js";
 
 const Home = () => {
     return (
-        <>
-            {/*<SessionExpirationModal/>*/}
             <div>
                 <div>
                     <h4
@@ -28,18 +25,16 @@ const Home = () => {
                     </h4>
 
                     <div className="centerimage">
-                        <Image
-                            img
+                        <img
                             src={homephoto}
                             alt="homephoto"
                             class="centerimage"
                             width={600}
-                            height={650}
+                            height={600}
                         />
                     </div>
                 </div>
             </div>
-        </>
     );
 };
 

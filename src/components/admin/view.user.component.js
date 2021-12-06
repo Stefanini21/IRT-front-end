@@ -6,7 +6,7 @@ import UserService from "../../services/user.service";
 import {getUserById} from "../../redux/actions/user";
 import "./css/view.user.component.css";
 import {FaLaptopCode} from "react-icons/fa";
-import ViewTicket from "./view.ticket.component";
+import ViewTicket from "./view.ticket.component.jsx";
 
 
 const ViewUser = (props) => {

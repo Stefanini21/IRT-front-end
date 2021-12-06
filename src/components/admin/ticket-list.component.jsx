@@ -2,9 +2,9 @@ import React, { useEffect, useState } from "react";
 import { Modal } from "react-bootstrap";
 import CreateTicketModal from "./create.ticket.component.jsx";
 import DataTable from "react-data-table-component";
+import ViewTicket from "./view.ticket.component.jsx";
+import {useDispatch, useSelector} from "react-redux";
 import Select from "react-select";
-import ViewTicket from "./view.ticket.component";
-import { useDispatch, useSelector } from "react-redux";
 import {
     getAllUsersBySpecialty,
     getPriorities,
@@ -22,6 +22,7 @@ import Loader from "react-loader-spinner";
 import { getSpecialties } from "../../redux/actions/user";
 import EditTicketComponent from "./edit.ticket.component";
 import DeleteTicketModal from "./delete.ticket.component.js";
+import SessionExpirationModal from "../SessionExpirationModal.js";
 import { selectSpecialties } from "../../redux/selectors/user";
 
 const TicketList = () => {

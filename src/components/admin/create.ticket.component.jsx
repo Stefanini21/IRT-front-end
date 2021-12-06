@@ -72,9 +72,11 @@ const CreateTicketModal = () => {
     const [showCreateTicketModal, setShowCreateTicketModal] = useState(false);
 
     const handleCloseCreateTicketModal = () => {
-        setShowCreateTicketModal(false);
-        dispatch(getTicketList());
-        window.location.reload();
+        console.log("in createTicket close")
+       setShowCreateTicketModal(false);
+       // dispatch(getTicketList());
+       window.location.reload();
+        
     };
 
     const onChangeTitle = (e) => {
@@ -138,126 +140,133 @@ const CreateTicketModal = () => {
     };
 
     return (
-        <div className="col-md-12">
-            <div className="card card-container">
-                <Form onSubmit={handleCreateTicket}>
-                    {!createTicketButtonPressed && (
-                        <div>
-                            <div className="form-group">
-                                <label htmlFor="username">Title</label>
-                                <Input
-                                    type="text"
-                                    className="form-control"
-                                    name="title"
-                                    value={title}
-                                    onChange={onChangeTitle}
-                                    validations={[required, vtitle]}
-                                />
-                            </div>
+      <div className="col-md-12">
+        <div className="card card-container">
+          <Form onSubmit={handleCreateTicket}>
+            {!createTicketButtonPressed && (
+              <div>
+                <div className="form-group">
+                  <label htmlFor="username">Title</label>
+                  <Input
+                    type="text"
+                    className="form-control"
+                    name="title"
+                    value={title}
+                    onChange={onChangeTitle}
+                    validations={[required, vtitle]}
+                  />
+                </div>
 
-                            <div className="form-group">
-                                <label htmlFor="description">Description</label>
-                                <TextArea
-                                    type="text"
-                                    className="form-control"
-                                    name="description"
-                                    value={description}
-                                    onChange={onChangeDescription}
-                                    validations={[required, vdescription]}
-                                />
-                            </div>
+                <div className="form-group">
+                  <label htmlFor="description">Description</label>
+                  <TextArea
+                    type="text"
+                    className="form-control"
+                    name="description"
+                    value={description}
+                    onChange={onChangeDescription}
+                    validations={[required, vdescription]}
+                  />
+                </div>
 
-                            <div className="form-group">
-                                <label htmlFor="priority">Priority</label>
-                                <Select
-                                    options={priorityOptions.map((t) => ({
-                                        value: t,
-                                        label: t,
-                                    }))}
-                                    type="text"
-                                    name="priority"
-                                    onChange={onChangePriority}
-                                    validations={[required]}
-                                />
-                            </div>
+                <div className="form-group">
+                  <label htmlFor="priority">Priority</label>
+                  <Select
+                    options={priorityOptions.map((t) => ({
+                      value: t,
+                      label: t,
+                    }))}
+                    type="text"
+                    name="priority"
+                    onChange={onChangePriority}
+                    validations={[required]}
+                  />
+                </div>
 
-                            <div className="form-group">
-                                <label htmlFor="specialty">Specialty</label>
-                                <Select
-                                    options={specialtyOptions.map((t) => ({
-                                        value: t,
-                                        label: t,
-                                    }))}
-                                    type="text"
-                                    name="specialty"
-                                    onChange={onChangeSpecialty}
-                                    validations={[required]}
-                                />
-                            </div>
+                <div className="form-group">
+                  <label htmlFor="specialty">Specialty</label>
+                  <Select
+                    options={specialtyOptions.map((t) => ({
+                      value: t,
+                      label: t,
+                    }))}
+                    type="text"
+                    name="specialty"
+                    onChange={onChangeSpecialty}
+                    validations={[required]}
+                  />
+                </div>
 
-                            <div className="form-group">
-                                <label htmlFor="developer">Developer</label>
-                                <Select
-                                    options={
-                                        userListBySpecialty &&
-                                        userListBySpecialty.length &&
-                                        userListBySpecialty.map((t) => ({
-                                            value: t,
-                                            label: t,
-                                        }))
-                                    }
-                                    type="text"
-                                    name="developer"
-                                    onChange={onChangeDeveloper}
-                                    validations={[required]}
-                                />
-                            </div>
+                <div className="form-group">
+                  <label htmlFor="developer">Developer</label>
+                  <Select
+                    options={
+                      userListBySpecialty &&
+                      userListBySpecialty.length &&
+                      userListBySpecialty.map((t) => ({
+                        value: t,
+                        label: t,
+                      }))
+                    }
+                    type="text"
+                    name="developer"
+                    onChange={onChangeDeveloper}
+                    validations={[required]}
+                  />
+                </div>
 
-                            {title.length > 2 &&
-                            title.length < 31 &&
-                            description.length > 2 &&
-                            priority &&
-                            specialty && !isDuplicateTitle &&
-                            developer ? (
-                                <div className="form-group">
-                                    <button className="primary_button btn-block">
-                                        Create ticket
-                                    </button>
-                                </div>
-                            ) : (
-                                <div className="form-group">
-                                    <button disabled className="primary_button btn-block">
-                                        Create ticket
-                                    </button>
-                                </div>
-                            )}
-                        </div>
-                    )}
+                {title.length > 2 &&
+                title.length < 31 &&
+                description.length > 2 &&
+                priority &&
+                specialty &&
+                !isDuplicateTitle &&
+                developer ? (
+                  <div className="form-group">
+                    <button
+                      className="primary_button btn-block"
+                      //onClick={handleCloseCreateTicketModal}
+                    >
+                      Create ticket
+                    </button>
+                    {/* <div className={"alert alert-success"} role="alert">
+                      {message}
+                    </div> */}
+                  </div>
+                ) : (
+                  <div className="form-group">
+                    <button disabled className="primary_button btn-block">
+                      Create ticket
+                    </button>
+                  </div>
+                )}
+              </div>
+            )}
 
-                    {isDuplicateTitle && title !== "" && (
-                        <div className="form-group">
-                            <div className="alert alert-danger" role="alert">
-                                There is another ticket with this title.
-                            </div>
-                        </div>
-                    )}
+            {isDuplicateTitle && title !== "" && (
+              <div className="form-group">
+                <div className="alert alert-danger" role="alert">
+                  There is another ticket with this title.
+                </div>
+              </div>
+            )}
 
-                    {createTicketButtonPressed && (
-                        <div className="form-group">
-                            <div className={"alert alert-success"} role="alert">
-                                {message}
-                            </div>
-                            <button
-                                className="primary_button btn-block"
-                                onClick={handleCloseCreateTicketModal}
-                            >
-                                OK
-                            </button>
-                        </div>
-                    )}
-                </Form>
-            </div>
+            {createTicketButtonPressed && (
+              <div className="form-group">
+                <div className={"alert alert-success"} role="alert">
+                  {message}
+                </div>
+                <button
+                  className="primary_button btn-block"
+                  onClick={handleCloseCreateTicketModal}
+                >
+                  OK
+                </button>
+              </div>
+            )}
+          </Form>
         </div>
+      </div>
     );
 };
 

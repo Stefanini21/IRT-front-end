@@ -34,7 +34,7 @@ export const createTicket = (newTicket) => (dispatch) => {
                         type: CREATE_TICKET_FAIL,
                         payload: response,
                     });
-                    return "Ticket is not created";
+                    return "";
                 }
             })
 };

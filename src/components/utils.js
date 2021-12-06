@@ -1,7 +1,5 @@
 import jwt from "jwt-decode";
 
-// const timerLength: number = 15;
-
 function getToken() {
 
     const tokenInLocalStorage = localStorage.getItem("token") || '';
@@ -21,12 +19,10 @@ function getToken() {
         const sessionSecondsRemaining = Number(jwtToken.exp - secondsSinceSignIn);
         // console.log("sessionSecondsRemaining: " + sessionSecondsRemaining);
         jwtToken.sessionSecondsRemaining = sessionSecondsRemaining;
-
         if (sessionSecondsRemaining <= 0) {
             window.localStorage.removeItem('token');
             return null;
         }
-
         return jwtToken;
     } catch (err) {
         // Local storage has been tampered with
@@ -68,7 +64,6 @@ function setToken(jwtToken) {
             )
         );
     }
-    // console.log("token from setToken: " + localStorage.getItem("token"));
 }
 
 function extendSession(resp) {

@@ -41,7 +41,7 @@ export const signOutUser = (history) => (dispatch) => {
         dispatch({
             type: RECEIVE_USER_SIGNOUT,
         });
-        history.push("/login");
+        history.push("/home");
     });
 };
 

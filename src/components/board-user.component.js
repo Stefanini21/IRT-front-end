@@ -1,5 +1,5 @@
 import React from "react";
-import Kanban from "./kanban/kanban";
+import Kanban from "./kanban/kanban.jsx";
 
 function User(props) {
     return (

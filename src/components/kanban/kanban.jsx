@@ -22,6 +22,7 @@ const Kanban = () => {
         dispatch(getTicketListForKanban());
     }, []);
 
+
     const dispatch = useDispatch();
     const tickets = useSelector(selectTicketListForKanban);
     const [isFilterActive, setIsFilterActive] = useState(false);
@@ -273,7 +274,7 @@ const KanbanBoard = (props) => {
     const columns = [
         {name: "Backlog", stage: 1},
         {name: "In progress...", stage: 2},
-        {name: "For revew", stage: 3},
+        {name: "In review", stage: 3},
         {name: "Closed", stage: 4},
     ];
 
@@ -292,7 +293,7 @@ const KanbanBoard = (props) => {
                 break;
             case 3:
                 console.log("case 3 draggedOverCol: " + stageValue);
-                setStatus("FINISHED");
+                setStatus("IN_REVIEW");
                 break;
             case 4:
                 console.log("case 4 draggedOverCol: " + stageValue);
@@ -387,7 +388,7 @@ const KanbanBoard = (props) => {
                     element.project_stage = 2;
                     break;
                 }
-                case "FINISHED": {
+                case "IN_REVIEW": {
                     element.project_stage = 3;
                     break;
                 }

@@ -26,10 +26,10 @@ const required = (value) => {
 };
 
 const vtitle = (value) => {
-    if (value.length < 3 || value.length > 30) {
+    if (value.length < 3 ) {
         return (
             <div className="alert alert-danger" role="alert">
-                Title must be between 3 and 30 characters.
+                Title must be more than 3 characters.
             </div>
         );
     }
@@ -74,7 +74,6 @@ const CreateTicketModal = () => {
     const handleCloseCreateTicketModal = () => {
         console.log("in createTicket close")
        setShowCreateTicketModal(false);
-       // dispatch(getTicketList());
        window.location.reload();
         
     };
@@ -216,7 +215,6 @@ const CreateTicketModal = () => {
                 </div>
 
                 {title.length > 2 &&
-                title.length < 31 &&
                 description.length > 2 &&
                 priority &&
                 specialty &&
@@ -225,13 +223,9 @@ const CreateTicketModal = () => {
                   <div className="form-group">
                     <button
                       className="primary_button btn-block"
-                      //onClick={handleCloseCreateTicketModal}
                     >
                       Create ticket
                     </button>
-                    {/* <div className={"alert alert-success"} role="alert">
-                      {message}
-                    </div> */}
                   </div>
                 ) : (
                   <div className="form-group">

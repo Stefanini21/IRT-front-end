@@ -10,7 +10,12 @@ import {selectDuplicatedTitleFlag, selectTicketUpdatedFlag,} from "../../redux/s
 import {selectSpecialties} from "../../redux/selectors/user";
 import React, {useEffect, useState} from "react";
 import {resetEditTicketFlags} from "../../redux/actions/flag";
-import {getAllUsersBySpecialty, getTicketById, updateTicketById} from "../../redux/actions/ticket";
+import {
+  getAllUsersBySpecialty,
+  getTicketById,
+  updateTicketById,
+  getTicketListForKanban
+} from "../../redux/actions/ticket";
 import Loader from "react-loader-spinner";
 import Form from "react-validation/build/form";
 import Input from "react-validation/build/input";
@@ -27,10 +32,10 @@ const required = (value) => {
 };
 
 const vtitle = (value) => {
-    if (value.length < 3 || value.length > 30) {
+    if (value.length < 3) {
         return (
             <div className="alert alert-danger" role="alert">
-                Title must be between 3 and 30 characters.
+                Title must be more than 3 characters.
             </div>
         );
     }
@@ -131,6 +136,11 @@ const EditTicketComponent = () => {
             .then(() => {
                 setMessage('Ticket id: ' + ticketId + ' successfully updated!')
             });
+
+            dispatch(getTicketListForKanban);
+            //window.location.reload();
+
+        
     }
 
     return <>
@@ -227,7 +237,7 @@ const EditTicketComponent = () => {
                                 <br/>
                             </div>
 
-                            {titleForm.length > 2 && titleForm.length < 31 &&
+                            {titleForm.length > 2 &&
                             descriptionForm.length > 2 ? (
                                     <div className="form-group">
                                         <button className="primary_button btn-block">Update</button>

@@ -69,11 +69,18 @@ const TicketList = () => {
 
     const setFilterOne = (e) => {
         setIsSelectedFirstFilter(true);
+
+        tickets.forEach((ticket) => {
+        if (ticket.developer === null) {
+            ticket.developer = "unassigned";
+        }
+        });
         switch (e.value) {
             case "ADMIN": {
                 setFirstFilterArgument("creator");
                 const authors = [];
                 tickets.forEach((ticket) => {
+                    
                     if (!authors.includes(ticket.creator)) {
                         authors.push(ticket.creator);
                     }
@@ -158,11 +165,6 @@ const TicketList = () => {
     };
 
     const columns = [
-        {
-            name: "Id",
-            selector: (row) => row.id,
-            sortable: true,
-        },
         {
             name: "Title",
             selector: (row) => row.title,

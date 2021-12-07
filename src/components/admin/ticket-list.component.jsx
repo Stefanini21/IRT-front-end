@@ -27,7 +27,7 @@ import { selectSpecialties } from "../../redux/selectors/user";
 
 const TicketList = () => {
     const filterOptions = [
-        { value: "ADMIN", label: "Creator" },
+        { value: "ADMIN", label: "Author" },
         { value: "DEVELOPER", label: "Developer" },
         { value: "SPECIALTY", label: "Specialty" },
         { value: "PRIORITY", label: "Priority" },

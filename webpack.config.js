@@ -57,9 +57,14 @@ module.exports = {
             {
               from: 'logo512.png',
               to: '.'
-            },{
+            },
+            {
               from: 'logo192.png',
               to: '.'
+            },
+            {
+              from: 'manifest.json',
+              to: './'
             }
         ],
       }),

@@ -17,6 +17,7 @@
     "immutability-helper": "^2.9.1",
     "jwt-decode": "^3.1.2",
     "loaders.css": "^0.1.2",
+    "postcss-loader": "^4.0.4",
     "react": "^16.8.0",
     "react-bootstrap": "^2.0.2",
     "react-data-table-component": "^7.4.5",

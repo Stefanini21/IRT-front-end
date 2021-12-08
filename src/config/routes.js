@@ -1,5 +1,5 @@
 export const routes = {
-    BASIC_URL: "http://34.116.152.149/",
+    BASIC_URL: "http://34.116.152.149:8080/",
     BASIC_PATH: "api/",
     AUTH_URL: "auth/login/",
     LOGOUT_URL: "auth/logout",

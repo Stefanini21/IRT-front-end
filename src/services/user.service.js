@@ -1,8 +1,8 @@
 import axios from 'axios';
 import authHeader from './auth-header';
 
-const API_URL = 'http://34.116.152.149/api/users';
-const API_URL_TICKETS = 'http://34.116.152.149/api/tickets';
+const API_URL = 'http://34.116.152.149:8080/api/users';
+const API_URL_TICKETS = 'http://34.116.152.149:8080/api/tickets';
 
 class UserService {
 

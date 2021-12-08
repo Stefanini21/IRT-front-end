@@ -258,7 +258,7 @@ const CreateUserModal = () => {
                         email &&
                         specialties &&
                         roles &&
-                        password.length > 6 ? (
+                        password.length >= 6 ? (
 
                             <div className="form-group">
                                 <button className="primary_button btn-block">

@@ -10,7 +10,7 @@ import SessionExpirationModal from "../SessionExpirationModal.js";
 
 const Kanban = () => {
     const filterOptions = [
-        {value: "CREATOR", label: "Creator"},
+        {value: "CREATOR", label: "Author"},
         {value: "DEVELOPER", label: "Developer"},
         {value: "SPECIALTY", label: "Specialty"},
         {value: "PRIORITY", label: "Priority"},
@@ -21,6 +21,7 @@ const Kanban = () => {
     useEffect(() => {
         dispatch(getTicketListForKanban());
     }, []);
+
 
     const dispatch = useDispatch();
     const tickets = useSelector(selectTicketListForKanban);
@@ -192,7 +193,6 @@ const Kanban = () => {
                                     onChange={setFilterOne}
                                     style={{width: "20%", padding: 4, marginBottom: 4}}
                                     isDisabled={isFilterActive}
-                                    placeholder={""}
                                 />
                             </div>
                         </div>
@@ -218,7 +218,6 @@ const Kanban = () => {
                                     onChange={setFilterTwo}
                                     style={{width: "20%", padding: 4}}
                                     isDisabled={!isSelectedFirstFilter || isFilterActive}
-                                    placeholder={""}
                                 />
                             </div>
                             <div className="form-group" style={{marginLeft: 10}}>
@@ -275,7 +274,7 @@ const KanbanBoard = (props) => {
     const columns = [
         {name: "Backlog", stage: 1},
         {name: "In progress...", stage: 2},
-        {name: "For revew", stage: 3},
+        {name: "In review", stage: 3},
         {name: "Closed", stage: 4},
     ];
 
@@ -294,7 +293,7 @@ const KanbanBoard = (props) => {
                 break;
             case 3:
                 console.log("case 3 draggedOverCol: " + stageValue);
-                setStatus("FINISHED");
+                setStatus("IN_REVIEW");
                 break;
             case 4:
                 console.log("case 4 draggedOverCol: " + stageValue);
@@ -304,6 +303,20 @@ const KanbanBoard = (props) => {
                 setStatus("");
         }
     };
+
+    function formatDate(date) {
+        var d = new Date(date),
+            month = '' + (d.getMonth() + 1),
+            day = '' + d.getDate(),
+            year = d.getFullYear();
+    
+        if (month.length < 2) 
+            month = '0' + month;
+        if (day.length < 2) 
+            day = '0' + day;
+    
+        return [year, month, day].join('-');
+    }
 
     //this is called when a Kanban card dropped over a column (called by card)
     const handleOnDragEnd = (e, project) => {
@@ -327,6 +340,7 @@ const KanbanBoard = (props) => {
                 if( project.project_stage === 3 && draggedOverCol === 1 ) {
                     return projectObject.title === project.title;
                 } else if ( project.project_stage === 3 && draggedOverCol === 4 ) {
+                    project.closedDate = formatDate(Date.now())
                     return projectObject.title === project.title;
                 } else {
                     return;
@@ -335,6 +349,7 @@ const KanbanBoard = (props) => {
                 && project.specialty === currentUserData.specialty
                 && project.project_stage === 1 && draggedOverCol === 2) {
                 projectId = project.id;
+                project.developer = currentUserData.username;
                 currentUserDataUserName = currentUserData.username;
 
                 return projectObject.title === project.title;
@@ -373,7 +388,7 @@ const KanbanBoard = (props) => {
                     element.project_stage = 2;
                     break;
                 }
-                case "FINISHED": {
+                case "IN_REVIEW": {
                     element.project_stage = 3;
                     break;
                 }
@@ -790,7 +805,7 @@ const KanbanCard = (props) => {
                 }}
                 onClick={changeCollapse}
             >
-                {project.createdDate < project.closedDate ? (
+                {project.closedDate !== null ? (
                     <div>
                         <h6
                             style={{fontSize: "0.7rem", marginBottom: 0, cursor: "pointer"}}

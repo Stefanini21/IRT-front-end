@@ -4,11 +4,20 @@ import rootReducer from "./redux/reducers/rootReducer";
 import {persistStore} from "redux-persist";
 import {createLogger} from "redux-logger";
 
-const middleware = [thunk, createLogger()];
+let middleware
+
+if (process.env.NODE_ENV === "development") {
+	middleware = [
+		thunk,
+		createLogger()
+	];
+} else {
+	middleware = [thunk]
+}
 
 export const store = createStore(
-    rootReducer,
-    compose(applyMiddleware(...middleware))
+	rootReducer,
+	compose(applyMiddleware(...middleware))
 );
 
 export const persistor = persistStore(store);

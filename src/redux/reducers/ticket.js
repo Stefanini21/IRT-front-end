@@ -66,6 +66,7 @@ export const ticket = (state = initialState, action) => {
             return {
                 ...state,
                 ticketListForKanban: action.payload,
+                isFetching: false
             };
         case CHANGE_TICKET_DEVELOPER:
             return {

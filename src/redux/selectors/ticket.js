@@ -8,4 +8,5 @@ export const selectStatuses = (state) => state.ticket.statuses;
 export const selectPriorities = (state) => state.ticket.priorities;
 export const selestBacklogOneValue = (state) => state.kanban.backlogOneValue;
 export const isDuplicateTicketTitle = (state) => state.ticket.isDuplicateTitle;
+export const selectIsTicketsFetching = (state) => state.ticket.isFetching;
 

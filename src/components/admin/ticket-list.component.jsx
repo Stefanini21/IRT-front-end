@@ -164,7 +164,7 @@ const TicketList = () => {
                 }
             });
         }
-        setTicketList(filteredTicketsByOptions);
+        setTickets(filteredTicketsByOptions);
         setIsFilterActive(true);
     };
 
@@ -258,6 +258,7 @@ const TicketList = () => {
 
     const handleCloseEditTicketModal = () => {
         setShowEditTicketModal(false);
+        dispatch(getTicketList());
     };
 
     const handleShowCreateTicketModal = () => {
@@ -293,6 +294,7 @@ const TicketList = () => {
 
     return (
         <>
+            <SessionExpirationModal/>
             <div className={"col-lg-12"}>
                 <div>
                     <div

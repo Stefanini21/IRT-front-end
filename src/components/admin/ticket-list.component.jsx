@@ -43,30 +43,49 @@ const TicketList = () => {
     const [error, setError] = useState("");
     const [ticketToView, setTicketToView] = useState([]);
     const [loading, setLoading] = useState(true);
-
+    // const [ticketList, setTicketList] = useState([]);
     const [isFilterActive, setIsFilterActive] = useState(false);
     const [filteredTickets, setFilteredTickets] = useState();
     const [firstFilterArgument, setFirstFilterArgument] = useState("");
     const [isSelectedFirstFilter, setIsSelectedFirstFilter] = useState(false);
     const [firstFilterValues, setFirstFilterValues] = useState([]);
     const [isFiltersWasReseted, setIsFilterWasReseted] = useState(false);
-
     const specialties = useSelector(selectSpecialties);
     const priorities = useSelector(selectPriorities);
-
-    const [ticketList, setTicketList] = useState([]);
     const ticketsFromSelector = useSelector(selectTicketList);
+    // const fetching = useSelector(selectIsFetching);
 
-    const fetching = useSelector(selectIsFetching);
+
 
     useEffect(() => {
+        console.log(ticketsFromSelector);
+        setTickets(ticketsFromSelector);
+        console.log(tickets);
         setFilteredTickets(ticketsFromSelector);
-        setTicketList(ticketsFromSelector);
+        setLoading(false);
+        console.log(ticketsFromSelector);
+        // setTicketList(ticketsFromSelector);
     }, [ticketsFromSelector]);
 
     useEffect(() => {
         setTickets(ticketsFromSelector);
+        
+        // setLoading(fetching);
     }, [isFiltersWasReseted]);
+
+    // useEffect(() => {
+    //     setTickets(ticketsFromSelector);
+    //     setLoading(fetching);
+    // }, [ticketList]);
+
+    useEffect(() => {
+        console.log(ticketsFromSelector);
+        dispatch(getTicketList());
+        dispatch(getSpecialties());
+        dispatch(getStatuses());
+        dispatch(getPriorities());
+        dispatch(getAllUsersBySpecialty("NONE"));
+    }, []);
 
     const setFilterOne = (e) => {
         setIsSelectedFirstFilter(true);
@@ -270,18 +289,7 @@ const TicketList = () => {
         dispatch(getTicketList());
     };
 
-    useEffect(() => {
-        setTickets(ticketList);
-        setLoading(fetching);
-    }, [ticketList]);
-
-    useEffect(() => {
-        dispatch(getTicketList());
-        dispatch(getSpecialties());
-        dispatch(getStatuses());
-        dispatch(getPriorities());
-        dispatch(getAllUsersBySpecialty("NONE"));
-    }, []);
+  
 
     return (
         <>

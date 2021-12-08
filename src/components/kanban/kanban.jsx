@@ -6,7 +6,7 @@ import { selectTicketListForKanban, selectIsTicketsFetching } from "../../redux/
 import {
   changeTicketDeveloper,
   changeTicketStatus,
-  getTicketListForKanban,
+  getTicketListForKanban
 } from "../../redux/actions/ticket";
 import { selectUserById } from "../../redux/selectors/user";
 import Select from "react-select";
@@ -24,7 +24,7 @@ const Kanban = () => {
   const [isFiltersWasReseted, setIsFilterWasReseted] = useState(false);
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(true);
-  const fetching = useSelector(selectTicketsIsFetching);
+  const fetching = useSelector(selectIsTicketsFetching);
 
   useEffect(() => {
     setLoading(fetching);

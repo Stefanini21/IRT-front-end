@@ -45,7 +45,7 @@ const TicketList = () => {
     const [loading, setLoading] = useState(true);
 
     const [isFilterActive, setIsFilterActive] = useState(false);
-    const [filteredTickets, setFilteredTickets] = useState(tickets);
+    const [filteredTickets, setFilteredTickets] = useState();
     const [firstFilterArgument, setFirstFilterArgument] = useState("");
     const [isSelectedFirstFilter, setIsSelectedFirstFilter] = useState(false);
     const [firstFilterValues, setFirstFilterValues] = useState([]);
@@ -60,6 +60,7 @@ const TicketList = () => {
     const fetching = useSelector(selectIsFetching);
 
     useEffect(() => {
+        setFilteredTickets(ticketsFromSelector);
         setTicketList(ticketsFromSelector);
     }, [ticketsFromSelector]);
 

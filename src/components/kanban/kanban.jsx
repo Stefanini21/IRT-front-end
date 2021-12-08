@@ -26,17 +26,21 @@ const Kanban = () => {
   const [loading, setLoading] = useState(true);
   const fetching = useSelector(selectIsTicketsFetching);
 
-  useEffect(() => {
-    setLoading(fetching);
-    dispatch(getTicketListForKanban());
-  }, []);
-
   const tickets = useSelector(selectTicketListForKanban);
   const [isFilterActive, setIsFilterActive] = useState(false);
-  const [filteredTickets, setFilteredTickets] = useState(tickets);
+  const [filteredTickets, setFilteredTickets] = useState();
   const [firstFilterArgument, setFirstFilterArgument] = useState("");
   const [isSelectedFirstFilter, setIsSelectedFirstFilter] = useState(false);
   const [firstFilterValues, setFirstFilterValues] = useState([]);
+
+  useEffect(() => {
+    dispatch(getTicketListForKanban());
+  }, []);
+
+  useEffect(() => {
+    setLoading(fetching);
+    setFilteredTickets(tickets);
+  }, [tickets])
 
   const resetAllFilters = () => {
     setIsFilterActive(false);

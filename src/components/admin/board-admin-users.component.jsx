@@ -84,8 +84,8 @@ const AdminUserList = () => {
             name: "View User",
             cell: (row) =>
                 <button className="secondary_button"
-                        onClick={() => handleShowViewUserModal(row)}>View</button>,
-            width: '90px'
+                        onClick={() => handleShowViewUserModal(row)}>View</button>
+            // width: '110px'
         },
         {
             name: "Edit User",

@@ -49,7 +49,7 @@ export class HttpService {
 
     static async getSpecialties() {
         try {
-            return await request("http://34.116.152.149:8080/api/users/specialties", "GET", {})
+            return await request("http://34.116.181.108:8080/api/users/specialties", "GET", {})
         } catch (e) {
             throw e;
         }

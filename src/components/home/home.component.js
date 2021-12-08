@@ -1,9 +1,13 @@
 import React from "react";
 import "./css/home.component.css";
 import homephoto from "./homepage.png";
-import SessionExpirationModal from "../SessionExpirationModal.js";
+import {useDispatch} from "react-redux";
 
 const Home = () => {
+    // const dispatch = useDispatch();
+    // useEffect(() => {
+    //     dispatch(getTicketListForKanban());
+    // }, []);
     return (
             <div>
                 <div>

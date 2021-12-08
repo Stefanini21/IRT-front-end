@@ -25,7 +25,7 @@ const optimization = () => {
 
 module.exports = {
   context: path.resolve(__dirname, "src"),
-  mode: "development",
+  mode: "production",
   entry: {
     main: "./index.js"
   },

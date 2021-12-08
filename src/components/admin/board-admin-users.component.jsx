@@ -169,7 +169,6 @@ const AdminUserList = () => {
                     }
                 });
                 setFirstFilterValues(byFirstNames);
-                console.log("byFirstNames: " + byFirstNames);
                 break;
             }
             case "LAST NAME": {
@@ -181,7 +180,6 @@ const AdminUserList = () => {
                     }
                 });
                 setFirstFilterValues(byLastNames);
-                console.log("byLastNames: " + byLastNames);
                 break;
             }
             case "USERNAME": {
@@ -193,7 +191,6 @@ const AdminUserList = () => {
                     }
                 });
                 setFirstFilterValues(byUsernames);
-                console.log("byUsernames: " + byUsernames);
                 break;
             }
             case "EMAIL": {
@@ -205,7 +202,6 @@ const AdminUserList = () => {
                     }
                 });
                 setFirstFilterValues(byEmail);
-                console.log("byEmail: " + byEmail);
                 break;
             }
             case "ROLE": {
@@ -217,7 +213,6 @@ const AdminUserList = () => {
                     }
                 });
                 setFirstFilterValues(byRoles);
-                console.log("byRoles: " + byRoles);
                 break;
             }
             case "SPECIALTY": {
@@ -229,7 +224,6 @@ const AdminUserList = () => {
                     }
                 });
                 setFirstFilterValues(bySpecialties);
-                console.log("bySpecialties: " + bySpecialties);
                 break;
             }
             case "CREATION DATE": {
@@ -241,7 +235,6 @@ const AdminUserList = () => {
                     }
                 });
                 setFirstFilterValues(byCreationDate);
-                console.log("byCreationDate: " + byCreationDate);
                 break;
             }
             default:
@@ -250,9 +243,6 @@ const AdminUserList = () => {
     };
 
     const setFilterTwo = (e) => {
-        console.log("firstFilterArgument: " + firstFilterArgument);
-        console.log("secondFilterArgument: " + e.value);
-
         switch (firstFilterArgument) {
             case "firstName": {
                 users.forEach((user) => {

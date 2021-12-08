@@ -10,7 +10,6 @@ export class HttpService {
         try {
             return await request(url, "GET", requestParams);
         } catch (e) {
-            console.log("Error on GET request: ", e);
             throw e;
         }
     }
@@ -19,7 +18,6 @@ export class HttpService {
         try {
             return await request(url, "POST", requestParams);
         } catch (e) {
-            console.log("Error on POST request: ", e);
             throw e;
         }
 
@@ -29,7 +27,6 @@ export class HttpService {
         try {
             return await request(url, "PUT", requestParams);
         } catch (e) {
-            console.log("Error on PUT request: ", e);
             throw e;
         }
     }
@@ -38,7 +35,6 @@ export class HttpService {
         try {
             return await request(url, "DELETE", requestParams, true);
         } catch (e) {
-            console.log("Error on DELETE request: ", e);
             throw e;
         }
     }
@@ -47,14 +43,13 @@ export class HttpService {
         try {
             return await request(url, "POST", {}, true);
         } catch (e) {
-            console.log("Error on POST request: ", e);
             throw e;
         }
     }
 
     static async getSpecialties() {
         try {
-            return await request("http://localhost:8080/api/users/specialties", "GET", {})
+            return await request("http://34.116.152.149/api/users/specialties", "GET", {})
         } catch (e) {
             throw e;
         }

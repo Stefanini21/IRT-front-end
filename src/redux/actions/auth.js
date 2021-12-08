@@ -46,7 +46,6 @@ export const signOutUser = (history) => (dispatch) => {
 };
 
 export const checkTokenValidity = (token, history) => (dispatch) => {
-    console.log("In checkTokenValidity, token: " + token);
     if (token > Math.ceil(Date.now() / 1000)) {
         dispatch({
             type: CHECK_TOKEN_VALIDITY,

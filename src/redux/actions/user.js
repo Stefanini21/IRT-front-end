@@ -42,7 +42,6 @@ export const getSpecialties = () => (dispatch) => {
 export const getRoles = () => (dispatch) => {
     const url = routes.BASIC_URL + routes.BASIC_PATH + routes.USER_BY_ID + routes.ROLES
 
-    console.log(url)
     return HttpService.get(url)
         .then(response => {
             return dispatch({
@@ -118,7 +117,6 @@ export const postEmail = (email, history) => (dispatch) => {
 
 export const getAllUsernamesByRole = (role) => (dispatch) => {
   const url = routes.BASIC_URL + routes.BASIC_PATH + routes.USERS_BY_ROLE;
-  console.log("url " + url);
 
   return HttpService.get(url + "/" + role, {}).then((response) => {
     return dispatch({

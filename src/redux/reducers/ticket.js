@@ -26,6 +26,7 @@ const initialState = {
     allTicketCreators: {},
     allTicketDevelopers: {},
     isDuplicateTitle: false,
+    kanbanTicketsFetching: true
 };
 
 
@@ -72,6 +73,7 @@ export const ticket = (state = initialState, action) => {
             return {
                 ...state,
                 ticketListForKanban: action.payload,
+                kanbanTicketsFetching: false
             };
         case CHANGE_TICKET_STATUS:
             return {

@@ -5,19 +5,13 @@ function getToken() {
     const tokenInLocalStorage = localStorage.getItem("token") || '';
 
     if (!tokenInLocalStorage) return null;
-    // console.log("tokenInLocalStorage: string: " + tokenInLocalStorage);
     const jwtToken = jwt(tokenInLocalStorage);
-    // console.log("token: " + jwtToken);
     try {
-        // console.log("token.exp: " + jwtToken.exp);
-        // console.log("token.iat: " + jwtToken.iat);
+
         const timerLength = jwtToken.exp - jwtToken.iat;
-        // console.log("timerLength: " + timerLength);
         const issuedSeconds = isNaN(jwtToken.issuedSeconds) ? 0 : jwtToken.issuedSeconds; // Convert from string to number
         const secondsSinceSignIn = Number(Math.floor(new Date().getTime() / 1000) - issuedSeconds);
-        // console.log("secondsSinceSignIn: " + secondsSinceSignIn);
         const sessionSecondsRemaining = Number(jwtToken.exp - secondsSinceSignIn);
-        // console.log("sessionSecondsRemaining: " + sessionSecondsRemaining);
         jwtToken.sessionSecondsRemaining = sessionSecondsRemaining;
         if (sessionSecondsRemaining <= 0) {
             window.localStorage.removeItem('token');
@@ -25,7 +19,6 @@ function getToken() {
         }
         return jwtToken;
     } catch (err) {
-        // Local storage has been tampered with
         window.localStorage.removeItem('token');
         return null;
     }

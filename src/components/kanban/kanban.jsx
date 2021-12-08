@@ -62,20 +62,17 @@ const Kanban = () => {
           }
         });
         setFirstFilterValues(authors);
-        console.log("authors: " + authors);
         break;
       }
       case "DEVELOPER": {
         setFirstFilterArgument("developer");
         const developers = [];
         tickets.forEach((ticket) => {
-          console.log("ticket.developer: " + ticket.developer);
           if (!developers.includes(ticket.developer)) {
             developers.push(ticket.developer);
           }
         });
         setFirstFilterValues(developers);
-        console.log("developers: " + developers);
         break;
       }
       case "SPECIALTY": {
@@ -87,7 +84,6 @@ const Kanban = () => {
           }
         });
         setFirstFilterValues(specialties);
-        console.log("developers: " + specialties);
         break;
       }
       case "PRIORITY": {
@@ -99,7 +95,6 @@ const Kanban = () => {
           }
         });
         setFirstFilterValues(priorities);
-        console.log("developers: " + priorities);
         break;
       }
       default:
@@ -108,8 +103,6 @@ const Kanban = () => {
   };
 
   const setFilterTwo = (e) => {
-    console.log("firstFilterArgument: " + firstFilterArgument);
-    console.log("secondFilterArgument: " + e.value);
     const filteredTicketsByOptions = [];
 
     if (firstFilterArgument === "creator") {
@@ -308,19 +301,15 @@ const KanbanBoard = (props) => {
 
     switch (stageValue) {
       case 1:
-        console.log("case 1 draggedOverCol: " + stageValue);
         setStatus("BACKLOG");
         break;
       case 2:
-        console.log("case 2 draggedOverCol: " + stageValue);
         setStatus("ASSIGNED");
         break;
       case 3:
-        console.log("case 3 draggedOverCol: " + stageValue);
         setStatus("IN_REVIEW");
         break;
       case 4:
-        console.log("case 4 draggedOverCol: " + stageValue);
         setStatus("CLOSED");
         break;
       default:
@@ -572,7 +561,7 @@ const KanbanCard = (props) => {
   };
 
   const openTicketHistory = (id) => {
-    alert("Hitory of ticket with id: " + id + "!!");
+    alert("History of ticket with id: " + id + "!!");
   };
 
   const changeBackgroundOnMouseHover = (e) => {

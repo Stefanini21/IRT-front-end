@@ -1,8 +1,8 @@
 import axios from 'axios';
 import authHeader from './auth-header';
 
-const API_URL = 'http://localhost:8080/api/users';
-const API_URL_TICKETS = 'http://localhost:8080/api/tickets';
+const API_URL = 'http://34.116.152.149/api/users';
+const API_URL_TICKETS = 'http://34.116.152.149/api/tickets';
 
 class UserService {
 
@@ -58,7 +58,6 @@ class UserService {
     }
 
     getUserById(url, userId) {
-        console.log("in get user by id")
         return axios
             .get(url + JSON.stringify(userId), {headers: authHeader()})
             .then((response) => {

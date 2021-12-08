@@ -100,7 +100,6 @@ const TicketList = () => {
                     }
                 });
                 setFirstFilterValues(developers);
-                console.log("developers: " + developers);
                 break;
             }
             case "SPECIALTY": {
@@ -118,8 +117,6 @@ const TicketList = () => {
     };
 
     const setFilterTwo = (e) => {
-        console.log("firstFilterArgument: " + firstFilterArgument);
-        console.log("secondFilterArgument: " + e.value);
         let filteredTicketsByOptions = [];
 
         if (firstFilterArgument === "creator") {
@@ -148,7 +145,6 @@ const TicketList = () => {
             });
         }
         setTicketList(filteredTicketsByOptions);
-        console.log("filtred ticketsbyOptions: " + filteredTicketsByOptions);
         setIsFilterActive(true);
     };
 

@@ -72,7 +72,6 @@ const CreateTicketModal = () => {
     const [showCreateTicketModal, setShowCreateTicketModal] = useState(false);
 
     const handleCloseCreateTicketModal = () => {
-        console.log("in createTicket close")
        setShowCreateTicketModal(false);
        window.location.reload();
         
@@ -92,7 +91,6 @@ const CreateTicketModal = () => {
     };
 
     const onChangeSpecialty = (e) => {
-        console.log("into onChangeSpecialty, e.value:");
         setSpecialty(e.value);
 
         dispatch(getAllUsersBySpecialty(e.value));

@@ -14,17 +14,17 @@ import {
 
 const initialState = {
     message: null,
-    userList: {},
+    userList: [],
     ticketId: {},
     ticketById: {},
-    ticketList: {},
-    ticketListForKanban: {},
+    ticketList: [],
+    ticketListForKanban: [],
     isFetching: true,
-    statuses: {},
-    priorities: {},
-    ticketListFor: {},
-    allTicketCreators: {},
-    allTicketDevelopers: {},
+    statuses: [],
+    priorities: [],
+    ticketListFor: [],
+    allTicketCreators: [],
+    allTicketDevelopers: [],
     isDuplicateTitle: false,
     kanbanTicketsFetching: true
 };
